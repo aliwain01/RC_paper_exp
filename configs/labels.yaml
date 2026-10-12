@@ -1,0 +1,93 @@
+# C3 label configuration (DESIGN §5.3 tiers, §5.4 label rule, §7.3 output columns).
+
+W: 3                          # look-back window, primary (an assumption: fraud onset is unobservable)
+W_sensitivity: [1, 2, 5]      # EXPERIMENT_PLAN S1
+primary_tier: primary
+# Snapshot date that bounds the label horizon. null = as_of of the newest registered `current` LEIE file.
+snapshot_date: null
+
+# Providers excluded under some authority, but not under the tier being labelled. DESIGN §5.4 says
+# "never-excluded providers are unlabelled negatives", so they are not negatives: drop all their rows.
+# (Alternative `negative` exists only for a sensitivity run; changing the default needs a §17 entry.)
+other_excluded_policy: drop
+
+# Canonical authority codes (OIG exclusion-authorities page, verified in design §18).
+tiers:
+  primary:        # fraud-related
+    ["1128(a)(1)", "1128(a)(3)", "1128(b)(1)(A)", "1128(b)(6)", "1128(b)(7)", "1128(b)(16)"]
+  prior_work:     # FAU (Khoshgoftaar group) label set, EXPERIMENT_PLAN S11
+    ["1128(a)(1)", "1128(a)(2)", "1128(a)(3)", "1128(b)(4)", "1128(b)(7)", "1128(c)(3)(G)(i)", "1128(c)(3)(G)(ii)"]
+  broad:          # primary + these, EXPERIMENT_PLAN S2
+    ["1128(a)(1)", "1128(a)(3)", "1128(b)(1)(A)", "1128(b)(6)", "1128(b)(7)", "1128(b)(16)",
+     "1128(b)(2)", "1128(b)(5)", "1128(b)(8)", "1128(b)(15)", "1156", "1128(a)(4)", "1128(b)(3)"]
+# Listed for the record (DESIGN §5.3): neither positive nor negative in the primary analysis.
+removed: ["1128(a)(2)", "1128(b)(4)", "1128(b)(14)", "1128(b)(9)", "1128(b)(10)", "1128(b)(11)",
+          "1128(b)(12)", "1128(b)(13)"]
+
+# Mandatory exclusions carry a 5-year minimum (DESIGN §5.4 point 3); used in the reinstatement-loss report.
+mandatory: ["1128(a)(1)", "1128(a)(2)", "1128(a)(3)", "1128(a)(4)"]
+
+# ---------------------------------------------------------------------------------------------------------
+# LEIE file layout and EXCLTYPE encoding.
+# NOT YET VERIFIED against the OIG record-layout PDF (HANDOFF §7; DESIGN §5.3 "confirmed in Phase 1").
+# Column names and the raw EXCLTYPE strings below are background knowledge. The labeller fails on any
+# EXCLTYPE value that is not listed, so the real file forces this table to be checked before labels exist.
+# After checking: set verified: true and record the PDF in the manifest (kind: record_layout).
+leie_layout:
+  verified: false
+  columns:
+    npi: NPI
+    excltype: EXCLTYPE
+    excldate: EXCLDATE
+    reindate: REINDATE
+    lastname: LASTNAME
+    firstname: FIRSTNAME
+    midname: MIDNAME
+    busname: BUSNAME
+    dob: DOB
+    state: STATE
+    general: GENERAL
+    specialty: SPECIALTY
+  date_format: "%Y%m%d"
+  empty_dates: ["", "00000000"]
+  empty_npi: ["", "0000000000"]
+
+# Raw EXCLTYPE -> canonical authority. Keys are matched after normalisation: whitespace, "(", ")", "§"
+# and "." removed; case kept, because "1128A" (civil monetary penalties) differs from "1128a".
+excltype_map:
+  verified: false
+  map:
+    "1128a1": "1128(a)(1)"
+    "1128a2": "1128(a)(2)"
+    "1128a3": "1128(a)(3)"
+    "1128a4": "1128(a)(4)"
+    "1128b1A": "1128(b)(1)(A)"
+    "1128b1a": "1128(b)(1)(A)"
+    "1128b1B": "1128(b)(1)(B)"
+    "1128b1b": "1128(b)(1)(B)"
+    # If the record layout shows (b)(1) is not split into (A)/(B), decide at G1 whether 1128(b)(1)
+    # joins the primary tier. Until then an unsplit 1128b1 is "other excluded" (rows dropped).
+    "1128b1": "1128(b)(1)"
+    "1128b2": "1128(b)(2)"
+    "1128b3": "1128(b)(3)"
+    "1128b4": "1128(b)(4)"
+    "1128b5": "1128(b)(5)"
+    "1128b6": "1128(b)(6)"
+    "1128b7": "1128(b)(7)"
+    "1128b8": "1128(b)(8)"
+    "1128b9": "1128(b)(9)"
+    "1128b10": "1128(b)(10)"
+    "1128b11": "1128(b)(11)"
+    "1128b12": "1128(b)(12)"
+    "1128b13": "1128(b)(13)"
+    "1128b14": "1128(b)(14)"
+    "1128b15": "1128(b)(15)"
+    "1128b16": "1128(b)(16)"
+    "1128c3Gi": "1128(c)(3)(G)(i)"
+    "1128c3gi": "1128(c)(3)(G)(i)"
+    "1128c3Gii": "1128(c)(3)(G)(ii)"
+    "1128c3gii": "1128(c)(3)(G)(ii)"
+    "1128Aa": "1128A(a)"
+    "1156": "1156"
+    "BRCHCIA": "breach-CIA"
+    "BRCHSA": "breach-SA"

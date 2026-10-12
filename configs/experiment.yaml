@@ -1,0 +1,18 @@
+# Experiment parameters (EXPERIMENT_PLAN; DESIGN §7.2, §7.6, §14).
+# Phase 1 needs only the year layout, the cohort volume rule and the G1 gate threshold. Folds, seeds,
+# k values and the injection grid are added when Phases 2-5 are built, and frozen at gate G2.
+
+years:
+  train: [2018, 2021]          # DESIGN §7.6 / D12
+  test: [2022, 2023]           # accuracy claimed for these (2023 horizon shortfall reported)
+  showcase: 2024               # scored, no accuracy claims
+  flagged: [2020]              # COVID utilisation shock: kept, plus an exclude-2020 sensitivity (S4)
+
+cohort:
+  min_nondrug_services: 50     # DESIGN §7.2: fixed before modelling
+
+gate_g1:
+  # DESIGN §14 first row: if fewer unique positive NPIs over these years, switch the primary tier
+  # and/or extend training back to 2015.
+  window: [2018, 2023]
+  min_unique_positive_npis: 300

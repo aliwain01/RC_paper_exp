@@ -1,0 +1,17 @@
+# Data never goes into git (HANDOFF §4, §8 rule 6)
+data/
+
+# Run outputs are regenerated from data; keep only the Phase 1 status report
+outputs/*
+!outputs/phase1/
+outputs/phase1/*
+!outputs/phase1/STATUS.md
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/

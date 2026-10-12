@@ -1,0 +1,77 @@
+# Phase 1 status: built, data acquisition blocked
+
+12 October 2026 · follows [HANDOFF.md](../../HANDOFF.md) §9 quick start. Gate **G1 not reached**: no data could be downloaded from this environment.
+
+## What exists now
+
+| Item | Where | State |
+|---|---|---|
+| Layout (HANDOFF §4), `.gitignore` excluding `data/` | repo root | done |
+| Environment | `.venv`, `pyproject.toml`, `requirements.lock` (136 pinned packages) | Python 3.13; numpy, pandas, pyarrow, polars, duckdb, scikit-learn, xgboost, lightgbm, interpret-core (EBM), shap, optuna, scipy and matplotlib all install and import |
+| C1 acquisition & manifest | `src/scenario_fraud/acquire.py`, `configs/sources.yaml` | register manual files, fetch URLs, data.gov listing (route A), Wayback CDX + `id_` fetch, SHA-256 manifest, verify, header dumps |
+| C2 schema harmoniser | `src/scenario_fraud/harmonise.py`, `configs/column_maps/_schema.yaml`, `_templates.yaml` | strict maps tied to a file checksum; fails on unmapped, stale, TODO, missing-required, uncastable values and bad NPIs; drafts maps from real headers |
+| C3 LEIE labeller | `src/scenario_fraud/labels.py`, `configs/labels.yaml` | union of current + supplements + snapshots, authority tiers, label rule (§5.4), horizon flags, coverage gaps, reinstatement-loss profile |
+| C16 CLI + run logs | `src/scenario_fraud/cli.py`, `runlog.py` | `scenario-fraud phase1 …`; every run logs git commit, config hashes and package versions to `outputs/phase1/runs/` |
+| G1 report generator | `src/scenario_fraud/g1_report.py` | writes `outputs/phase1/G1_report.md` + `.json`; each section says when its inputs are missing |
+| Tests | `tests/` | 27 pass: C1 (9), C2 (8), C3 (8), end-to-end CLI (2). Fixtures are tiny synthetic CSVs that only exercise the code |
+
+Run the tests with `.venv/bin/python -m pytest`.
+
+## What was executed, and what happened
+
+| Step | Command | Result |
+|---|---|---|
+| Route A (data.gov catalogue) | `phase1 datagov-list medicare-physician-other-practitioners-by-provider-and-service` | **Blocked**: the sandbox proxy refuses `catalog.data.gov` (403 on CONNECT) |
+| LEIE full file | `phase1 fetch … --url https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv` | **Blocked**: `oig.hhs.gov` refused by the proxy |
+| Internet Archive listing | `phase1 wayback-list` | **Blocked**: `web.archive.org` refused by the proxy |
+| data.cms.gov (route B) | probe only | **Blocked**: `data.cms.gov` refused by the proxy |
+| G1 report | `phase1 report` | Generated; every data section reads "not available" |
+
+These 403s come from **this cloud environment's network policy**, not from the sites' bot protection (DESIGN §5.2). Nothing was downloaded, and no data was mocked in place of real files.
+
+## Not done yet, and why
+
+- **No raw files, header dumps, column maps or labels.** C2 maps must be written from the real CSV headers (HANDOFF §7). The `bene_cc_*` names and DMEPOS 2024 stay unverified.
+- **LEIE layout and `EXCLTYPE` encoding are not verified.** `configs/labels.yaml` holds best-knowledge values marked `verified: false`. The labeller stops on any `EXCLTYPE` it doesn't know, so the real file forces a check against the OIG record-layout PDF.
+- **DESIGN §17 and §18 are unchanged.** No claim could be verified or falsified, and there were no design deviations.
+
+## To unblock: pick one
+
+1. **Allow the hosts in this environment's network settings:** `oig.hhs.gov`, `www.oig.hhs.gov`, `catalog.data.gov`, `data.cms.gov`, `archive.org`, `web.archive.org`, plus `download.cms.gov` if NPPES is wanted. Then run the runbook below here.
+   Caveats: the container has **≈ 30 GB of free disk, 4 CPUs and 15 GB RAM, and it is ephemeral**. `data/` is git-ignored, so downloads disappear when the session ends. Seven years of Part B by-Provider-and-Service CSVs ("several GB per year") may not fit alongside their Parquet copies.
+2. **Run Phase 1 on a workstation** (recommended for the full download). Clone, create the venv from `requirements.lock`, then follow the runbook. Files downloaded in a browser are registered with `phase1 register` (route C).
+
+## Runbook once access exists
+
+```bash
+S=.venv/bin/scenario-fraud
+# LEIE: current file, record-layout PDF, monthly supplements, archive snapshots (Q5 approval first)
+$S phase1 fetch --source leie --year 2026 --kind current --route oig --as-of <today> --url <link from download page>
+$S phase1 register --source leie --year 2026 --kind record_layout <layout.pdf>
+$S phase1 register --source leie --year 2025 --kind supplement_rein --as-of 2025-01 <2501REIN.csv>   # each month
+$S phase1 wayback-list && $S phase1 wayback-fetch <timestamp> ...
+# CMS: list per-year distributions, then fetch (or register browser downloads); data + dictionary + methodology
+$S phase1 datagov-list <slug from configs/sources.yaml>
+$S phase1 fetch --source cms_ps --year 2023 --kind data --route datagov --url <distribution url>
+$S phase1 verify && $S phase1 headers
+$S phase1 draft-colmap --dataset cms_ps --year 2023   # then review every line and set reviewed: true
+$S phase1 harmonise && $S phase1 labels && $S phase1 report   # -> outputs/phase1/G1_report.md, then stop at G1
+```
+
+## HANDOFF §5 questions
+
+| # | Status |
+|---|---|
+| Q1 git + layout | Taken as yes from the request to apply the handoff. It was already a git repo; layout and `.gitignore` are created. |
+| Q2 Python | This container: Python 3.13 venv, all packages installed. Confirm the version for the machine that will run the full pipeline. |
+| Q3 compute | Measured here: 4 CPU, 15 GB RAM, ~30 GB free disk, ephemeral. Budget for EBM and coalition tables still open. |
+| Q4 CMS download route | **Open.** All routes blocked from this container (see above). |
+| Q5 Internet Archive snapshots | **Open.** Approval needed, and the host is blocked here. |
+| Q6 years 2018–2024, Part D out | Assumed as in DESIGN D12/D17 (`configs/sources.yaml`). Please confirm. |
+| Q7 DESIGN §19 open questions | **Open.** Needed before the protocol freeze at G2, not for Phase 1. |
+
+## Interpretations to confirm at G1
+
+1. **Excluded under a non-tier authority → rows dropped**, not negatives (`other_excluded_policy: drop`). This follows §5.4: "never-excluded providers are unlabelled negatives". A `negative` option exists for a sensitivity run.
+2. **`1128(b)(1)` not split into (A)/(B)** in the file: an unsplit code is held out of the primary tier until decided (`labels.yaml` comment).
+3. **G1 counts are pre-cohort** (all by-Provider NPI-years). A second column applies the §7.2 ≥ 50 non-drug-services rule wherever `cms_ps` is harmonised. The cohort and peer cells (C4) are Phase 2.
