@@ -17,12 +17,13 @@ uv pip install --python .venv/bin/python -e . --no-deps
 
 | Path | Contents |
 |---|---|
-| `configs/` | `sources.yaml` (C1), `column_maps/` (C2), `labels.yaml` (C3), `experiment.yaml` (cohort, splits, QA, G2), `census_divisions.yaml` (C4), `features.yaml` + `groups.yaml` (C5), `models.yaml` (C8); `experiment.yaml: evaluation` (metrics) |
-| `src/scenario_fraud/` | `acquire` C1 · `harmonise` C2 · `labels` C3 · `g1_report` (gate G1) · `cohort` C4 · `features` + `groups` C5 · `splits` C7 · `qa` + `g2_report` (Phase 2 QA, gate G2) · `provenance` (synthetic / unknown input flags) · `modelmatrix` + `models` + `train` C8 · `metrics` + `g3_report` (gate G3) · `cli`/`runlog`/`config` C16 |
+| `configs/` | `sources.yaml` (C1), `column_maps/` (C2), `labels.yaml` (C3), `experiment.yaml` (cohort, splits, QA, G2), `census_divisions.yaml` (C4), `features.yaml` + `groups.yaml` (C5), `models.yaml` (C8); `experiment.yaml: evaluation` (metrics), `attribution.yaml` (C9–C12) |
+| `src/scenario_fraud/` | `acquire` C1 · `harmonise` C2 · `labels` C3 · `g1_report` (gate G1) · `cohort` C4 · `features` + `groups` C5 · `splits` C7 · `qa` + `g2_report` (Phase 2 QA, gate G2) · `provenance` (synthetic / unknown input flags) · `modelmatrix` + `models` + `train` C8 · `metrics` + `g3_report` (gate G3) · `attribution/` (`background` C9, `coalition` C10, `summed_shap` C11, `glassbox` C12) + `explained_set` + `attribute` + `bench` + `g4_report` (gate G4) · `cli`/`runlog`/`config` C16 |
 | `data/` | raw downloads + `manifest.json`, interim Parquet, processed tables (git-ignored) |
 | `outputs/phase1/` | header dumps, run logs, G1 report |
 | `outputs/phase2/` | run logs, QA report (incl. leakage checklist), G2 report, `G2_freeze.json` (protocol hashes recorded before any Phase 3 output) |
 | `outputs/phase3/` | run logs, G3 report |
+| `outputs/phase4/` | run logs, timing benchmark, diagnostics, G4 report |
 | `tests/` | unit and end-to-end tests; `synth.py` writes synthetic harmonised files for tests only (refuses the checkout and projects with real data) |
 
-Entry points: `scenario-fraud phase1 --help`, `scenario-fraud phase2 --help` (cohort → features → folds → qa → report), `scenario-fraud phase3 --help` (train → score-showcase → report).
+Entry points: `scenario-fraud phase1 --help`, `scenario-fraud phase2 --help` (cohort → features → folds → qa → report), `scenario-fraud phase3 --help` (train → score-showcase → report), `scenario-fraud phase4 --help` (explained-set → explain → diagnostics → bench → report).

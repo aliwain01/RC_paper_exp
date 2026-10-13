@@ -199,7 +199,7 @@ def lr_design(f: Fitted, X: np.ndarray, paths: Paths | None = None) -> tuple[np.
     if f.family != "lr":
         raise ModelError("lr_design needs an lr model")
     ct = f.model.named_steps["design"]
-    Z = ct.transform(X)
+    Z = ct.transform(np.asarray(X, dtype=np.float64))
     names = list(ct.get_feature_names_out())
     grp = groups.feature_groups(f.columns, paths=paths)
     out_names, out_groups = [], []
@@ -226,6 +226,8 @@ def margin(f: Fitted, X: np.ndarray, batch: int = BATCH) -> np.ndarray:
             out[a:a + batch] = f.model.inplace_predict(b, predict_type="margin")
         elif f.family.startswith("lgbm"):
             out[a:a + batch] = f.model.predict(b, raw_score=True)
+        elif f.family == "lr":   # float64: scikit-learn keeps float32 input in float32 (method D additivity, C12)
+            out[a:a + batch] = f.model.decision_function(b.astype(np.float64))
         else:
             out[a:a + batch] = f.model.decision_function(b)
     return out

@@ -20,6 +20,8 @@
     scenario-fraud phase3 train [--design primary] [--family xgb ...] [--fold 0 ...] [--seeds N] [--trials N]
     scenario-fraud phase3 score-showcase [--family xgb ...]
     scenario-fraud phase3 report
+    scenario-fraud phase4 explained-set | explain [--family F ...] [--baseline peer|global] [--fold K ...] [--limit N]
+    scenario-fraud phase4 diagnostics | bench [--family F ...] | report
 """
 
 from __future__ import annotations
@@ -32,7 +34,7 @@ from pathlib import Path
 import polars as pl
 
 from . import (acquire, cohort, features, g1_report, g2_report, g3_report, harmonise, labels, provenance, qa, splits,
-               train)
+               train, attribute, bench, explained_set, g4_report)
 from .paths import Paths
 from .runlog import run_log
 
@@ -198,6 +200,37 @@ def _run_phase3(paths: Paths, a: argparse.Namespace) -> dict:
     raise SystemExit(f"unknown command {a.cmd}")
 
 
+def _p4(sub: argparse._SubParsersAction) -> None:
+    p4 = sub.add_parser("phase4", help="Phase 4: attribution (C9-C12), timing benchmark and the G4 report")
+    s = p4.add_subparsers(dest="cmd", required=True)
+    s.add_parser("explained-set", help="top GBM scores + stratified random sample per test year")
+    e = s.add_parser("explain", help="methods A-E for the explained set -> data/processed/attributions/")
+    e.add_argument("--family", action="append", default=None)
+    e.add_argument("--baseline", action="append", default=None, choices=["peer", "global"])
+    e.add_argument("--fold", type=int, action="append", default=None)
+    e.add_argument("--limit", type=int, default=None, help="explain at most N providers per fold and year")
+    s.add_parser("diagnostics", help="path-dependent TreeSHAP diagnostics on a subsample (DESIGN §9.4)")
+    b = s.add_parser("bench", help="timing benchmark -> outputs/phase4/bench.json")
+    b.add_argument("--family", action="append", default=None)
+    s.add_parser("report", help="write outputs/phase4/G4_report.md")
+
+
+def _run_phase4(paths: Paths, a: argparse.Namespace) -> dict:
+    if a.cmd == "explained-set":
+        es = explained_set.build_explained_set(paths)
+        return {"explained": paths.rel(explained_set.explained_path(paths)),
+                "per_year": {str(y): n for y, n in es.group_by("year").len().sort("year").iter_rows()}}
+    if a.cmd == "explain":
+        return attribute.explain(paths, families=a.family, baselines=a.baseline, folds=a.fold, limit=a.limit)
+    if a.cmd == "diagnostics":
+        return attribute.diagnostics(paths)
+    if a.cmd == "bench":
+        return bench.benchmark(paths, a.family)
+    if a.cmd == "report":
+        return {"report": paths.rel(g4_report.build_report(paths))}
+    raise SystemExit(f"unknown command {a.cmd}")
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="scenario-fraud", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -205,12 +238,14 @@ def main(argv: list[str] | None = None) -> int:
     _p1(sub)
     _p2(sub)
     _p3(sub)
+    _p4(sub)
     a = ap.parse_args(argv)
     paths = Paths.discover()
     args = {k: v for k, v in vars(a).items() if k not in ("phase", "cmd")}
     with run_log(paths, a.phase, a.cmd, args) as result:
-        result.update({"phase1": _run_phase1, "phase2": _run_phase2, "phase3": _run_phase3}[a.phase](paths, a))
-        if a.phase in ("phase2", "phase3"):     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
+        result.update({"phase1": _run_phase1, "phase2": _run_phase2, "phase3": _run_phase3,
+                       "phase4": _run_phase4}[a.phase](paths, a))
+        if a.phase in ("phase2", "phase3", "phase4"):     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
             result["synthetic_inputs"] = provenance.inputs_synthetic(provenance.interim_files(paths.interim))
     print(json.dumps(result, indent=2, default=str))
     return 0

@@ -261,3 +261,35 @@ label-horizon counts; calibration in the top 5 %; the showcase row count; the sy
 (`qa.provenance_lines`). It states which DESIGN §10.8 row the detection numbers are consistent with; the human decides.
 CLI: `scenario-fraud phase3 train [--design D] [--family F …] [--fold K …] [--seeds N] [--trials N] |
 score-showcase [--family F …] | report`, each inside `run_log(paths, "phase3", …)`.
+
+## 4. Phase 4: attribution (C9–C12)
+
+Parameters: `configs/attribution.yaml`. DESIGN §17 D82–D89. Groups are the 8 of `groups.GROUP_ORDER` (context = bit 0).
+
+- `explained_set.py`: `build_explained_set(paths, injected=None)` → `data/processed/attributions/explained_set.parquet`
+  (`npi`, `year`, `fold`, `top`, `random`, `injected`, `score_family`): per test year of `explained.design`, top
+  `top_frac` by the best GBM's seed-0 margin, ∪ `random_n` stratified by specialty, ∪ injected rows (Phase 5).
+- `attribution/background.py` (C9): `peer_backgrounds(explained, candidates, cfg, fold, year)` → (assignment `npi`,
+  `bg_key` = `"{level}={cell}"`, `bg_level` ∈ peer_cell / cell_spec_ent / cell_ent / year, `bg_n`; members `bg_key`,
+  `npi`), `global_background(candidates, cfg, fold, year)` → NPIs. Candidates = in-cohort feature rows of NPIs not in
+  fold k in that year.
+- `attribution/coalition.py` (C10): `coalition_values(predict, X, Xb, col_group, m, batch_rows)` → V (n × 2^m; bit g
+  set = group g from the provider), `shapley(V)` (B), `interaction_matrix(V, phi)` (C), `counterfactual(V)` (E: log-odds,
+  probability), `deletion_curve`, `deletion_score`, `order_by`, `random_deletion_score`.
+- `attribution/summed_shap.py` (C11): `feature_shap(fitted, X, Xb)` (interventional, raw margin, `Independent` masker
+  of size |B|), `group_sums`, `path_dependent(fitted, X, col_group, m)` (diagnostics).
+- `attribution/glassbox.py` (C12): `lr_contrib`, `lr_feature_contrib`, `ebm_contrib` (group vector with ½-splits,
+  pair matrix in method C's convention, per-column contributions).
+- `attribute.py`: `explain(paths, *, families, baselines, folds, limit)` → `data/processed/attributions/{family}/
+  {baseline}/fold{k}.parquet` with `npi`, `year`, `fold`, `bg_key`, `bg_level`, `bg_n`, list columns `v` (256), `B`,
+  `E`, `E_prob`, `A`, `D` (8), `C`, `D_pair` (64, row-major m × m), `A_feat`, `D_feat` (per model column, order in
+  `{family}/columns.json` with `col_group` and `groups`), scalars `margin` (= v(N) = f(x)), `base` (= v(∅)),
+  `del_{B,A,D,E}`, `del_{…}_reverse`, `del_random`; memberships in `attributions/backgrounds/{year}_fold{k}.parquet`
+  (`bg_key`, `npi`, `year`, `fold`). `load_attributions(paths, family, baseline)`. `diagnostics(paths)` →
+  `outputs/phase4/diagnostics.json` (path-dependent A vs interventional A; feature-level interactions vs C).
+- `bench.py`: `benchmark(paths, families)` → `outputs/phase4/bench.json` (predictions/s, SHAP s/provider, projected
+  hours per |B| option and global baseline, budget).
+- `g4_report.py`: `build_report(paths)` → `outputs/phase4/G4_report.md` (+ `.json`): explained set, benchmark and
+  projections, background levels, EXPERIMENT_PLAN §4 additivity on the store (B, C, D 1e-6; A 1e-4), diagnostics.
+- CLI: `scenario-fraud phase4 explained-set | explain [--family F …] [--baseline peer|global] [--fold K …]
+  [--limit N] | diagnostics | bench [--family F …] | report`. `explain` refuses after a protocol change (D73).

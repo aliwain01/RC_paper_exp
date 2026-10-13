@@ -2,6 +2,15 @@
 
 12 October 2026 · follows [HANDOFF.md](../../HANDOFF.md) §9 quick start. Gate **G1 not reached**: no data could be downloaded from this environment.
 
+## Phase 4 (13 October 2026): code built, tested on synthetic data only
+
+Built: `attribution/background.py` (C9), `attribution/coalition.py` (C10: methods B, C, E and deletion curves from one exact 256-subset coalition table), `attribution/summed_shap.py` (C11, method A), `attribution/glassbox.py` (C12, method D), `explained_set.py`, `attribute.py`, `bench.py`, `g4_report.py`, and `scenario-fraud phase4 explained-set | explain | diagnostics | bench | report`.
+
+- **EXPERIMENT_PLAN §4 unit tests pass.** Additivity holds to 1e-6. A planted pairwise interaction is recovered exactly. B equals D for LR and EBM, and A equals B for depth-1 trees. The G4 report re-checks additivity on the stored attributions.
+- **Library catch (D87).** shap's default masker quietly subsamples the background to 100 rows, which breaks method A's additivity. The code passes a full-size masker.
+- **Decisions for G4:** |B| and the explained-set size from the benchmark, plus D82–D89 (proposed).
+- **Tests only, no results.** Benchmark numbers in tests describe synthetic data and small models.
+
 ## Phase 3 (13 October 2026): code built, tested on synthetic data only
 
 Built: `modelmatrix.py`, `models.py` (LR with splines, EBM, GA²M, XGBoost and LightGBM, each GBM with and without monotone constraints), `train.py` (tuning, final fits, isotonic calibration, out-of-fold scores, showcase scoring), `metrics.py` (precision/recall/lift@k, PR-AUC, ROC-AUC, Brier, reliability, NPI bootstrap, Holm), `g3_report.py`, and `scenario-fraud phase3 train | score-showcase | report`.

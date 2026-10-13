@@ -109,6 +109,16 @@ DESIGN §17 D73–D81 hold the reasons; parameters live in `configs/models.yaml`
 
 **Unit test (C11):** \|Σ φ − (*f*(*x*) − mean_B *f*)\| < 1e-4.
 
+### Implementation notes (Phase 4, C9–C12)
+
+DESIGN §17 D82–D89; parameters in `configs/attribution.yaml`.
+
+- **Backgrounds:** a peer cell is used while it has ≥ 50 training-fold providers; up to 200 are drawn in a seeded order, else the next level up (D82–D83). The global baseline is 1,000 providers stratified by specialty (D84). Memberships are stored for provenance.
+- **Explained set:** top 2 % of the best GBM's seed-0 margins ∪ a stratified random 5,000 per test year ∪ injected test providers (D85).
+- **Methods:** coalition tables for every family (B, C, E, deletion), A for tree families, D for glass boxes, both baselines (D89). Method A needs a full-size `Independent` masker (D87).
+- **Unit tests:** all three tests above pass to 1e-6 or better (`tests/test_attribution_engine.py`). D equals B exactly for LR and EBM without pairs, and A equals B for depth-1 trees. `phase4 report` re-checks additivity on the stored attributions.
+- **Deletion:** groups removed by decreasing signed attribution; trapezoid area / 8; defined for providers above their baseline (D86).
+
 ---
 
 ## 5. Explanation metrics
