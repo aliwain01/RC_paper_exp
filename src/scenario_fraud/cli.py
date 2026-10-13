@@ -11,6 +11,12 @@
     scenario-fraud phase1 harmonise [--dataset cms_ps --year 2023]
     scenario-fraud phase1 labels
     scenario-fraud phase1 report
+
+    scenario-fraud phase2 cohort [--year 2022 ...]
+    scenario-fraud phase2 features [--year 2022 ...]
+    scenario-fraud phase2 folds
+    scenario-fraud phase2 qa [--no-rebuild] [--rebuild-year 2018]
+    scenario-fraud phase2 report
 """
 
 from __future__ import annotations
@@ -20,7 +26,9 @@ import json
 import sys
 from pathlib import Path
 
-from . import acquire, g1_report, harmonise, labels
+import polars as pl
+
+from . import acquire, cohort, features, g1_report, g2_report, harmonise, labels, provenance, qa, splits
 from .paths import Paths
 from .runlog import run_log
 
@@ -119,16 +127,58 @@ def _run_phase1(paths: Paths, a: argparse.Namespace) -> dict:
     raise SystemExit(f"unknown command {a.cmd}")
 
 
+def _p2(sub: argparse._SubParsersAction) -> None:
+    p2 = sub.add_parser("phase2", help="Phase 2: cohort (C4), features (C5), folds (C7), QA and the G2 report")
+    s = p2.add_subparsers(dest="cmd", required=True)
+    c = s.add_parser("cohort", help="cohort + peer cells -> data/processed/cohort.parquet")
+    c.add_argument("--year", type=int, action="append", default=None, help="repeatable; default: every year")
+    f = s.add_parser("features", help="features + peer statistics -> data/processed/{features,peer}/")
+    f.add_argument("--year", type=int, action="append", default=None, help="repeatable; default: every cohort year")
+    s.add_parser("folds", help="stratified provider folds -> data/processed/folds.parquet")
+    q = s.add_parser("qa", help="write outputs/phase2/QA_report.md (incl. the leakage checklist)")
+    q.add_argument("--no-rebuild", action="store_true", help="skip the label-free feature rebuild (checklist L1)")
+    q.add_argument("--rebuild-year", type=int, default=None)
+    s.add_parser("report", help="write outputs/phase2/G2_report.md")
+
+
+def _run_phase2(paths: Paths, a: argparse.Namespace) -> dict:
+    if a.cmd == "cohort":
+        df = cohort.build_cohort(paths, a.year)
+        per = df.group_by("year").agg(pl.len().alias("rows"), pl.col("in_cohort").sum().alias("in_cohort")).sort("year")
+        return {"cohort": paths.rel(paths.processed / "cohort.parquet"),
+                "per_year": {str(r["year"]): {"rows": r["rows"], "in_cohort": r["in_cohort"]} for r in per.to_dicts()}}
+    if a.cmd == "features":
+        out = features.build_features(paths, a.year)
+        return {"features": {str(y): {"rows": m["rows"], "model_columns": len(m["model_columns"]),
+                                      "seconds": m["seconds"]} for y, m in out.items()}}
+    if a.cmd == "folds":
+        folds = splits.assign_folds(paths)
+        bal = splits.fold_balance(folds, splits.SplitConfig.load(paths).n_folds)
+        return {"folds": paths.rel(paths.processed / "folds.parquet"), "npis": bal["npis"],
+                "per_fold": bal["per_fold"], "max_stratum_spread": bal["max_stratum_spread"]}
+    if a.cmd == "qa":
+        out = qa.phase2_qa(paths, rebuild=False if a.no_rebuild else None, rebuild_year=a.rebuild_year)
+        rep = json.loads(out.with_suffix(".json").read_text(encoding="utf-8"))
+        return {"report": paths.rel(out), "synthetic_inputs": rep["provenance"]["synthetic"],
+                "leakage_checklist": {i["id"]: i["status"] for i in rep["leakage_checklist"]}}
+    if a.cmd == "report":
+        return {"report": paths.rel(g2_report.build_report(paths))}
+    raise SystemExit(f"unknown command {a.cmd}")
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="scenario-fraud", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="phase", required=True)
     _p1(sub)
+    _p2(sub)
     a = ap.parse_args(argv)
     paths = Paths.discover()
     args = {k: v for k, v in vars(a).items() if k not in ("phase", "cmd")}
     with run_log(paths, a.phase, a.cmd, args) as result:
-        result.update(_run_phase1(paths, a))
+        result.update({"phase1": _run_phase1, "phase2": _run_phase2}[a.phase](paths, a))
+        if a.phase == "phase2":     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
+            result["synthetic_inputs"] = provenance.inputs_synthetic(provenance.interim_files(paths.interim))
     print(json.dumps(result, indent=2, default=str))
     return 0
 

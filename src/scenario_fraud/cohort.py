@@ -16,12 +16,14 @@ Rows outside the cohort get the cell their attributes map to, so they can be fea
 
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import dataclass
 from typing import Iterable
 
 import polars as pl
 
+from . import provenance
 from .config import load_config, load_yaml
 from .paths import Paths
 
@@ -222,13 +224,26 @@ def cohort_year(ps: pl.LazyFrame | pl.DataFrame, prov: pl.LazyFrame | pl.DataFra
     return df, _summary(df, cfg, conflicts)
 
 
+def counted(df: pl.DataFrame | pl.LazyFrame) -> pl.Expr:
+    """Rows that count toward peer-cell sizes: in-cohort and, if the frame has an `injected` column (C6, Phase 5),
+    not injected. Injected providers get the cell their attributes map to but never enlarge or re-level it
+    (DESIGN §7.7 step 5)."""
+    names = df.collect_schema().names()
+    return pl.col("in_cohort") & (~pl.col("injected") if "injected" in names else pl.lit(True))
+
+
 def assign_peer_cells(df: pl.DataFrame, cfg: CohortConfig) -> pl.DataFrame:
-    """Add n_cell_* (in-cohort providers per cell) and the chosen peer_cell / peer_level (DESIGN §7.2)."""
+    """(Re)compute n_cell_* (counted providers per cell: in-cohort, not injected) and the chosen peer_cell /
+    peer_level (DESIGN §7.2). Re-running it on a cohort frame replaces the previous assignment."""
+    if "injected" in df.columns and (df.schema["injected"] != pl.Boolean or df["injected"].null_count()):
+        raise CohortError("cohort column `injected` must be boolean without nulls")
+    order = df.columns
+    df = df.drop("peer_cell", "peer_level", strict=False)
     for lvl in ("ent", "spec_ent", "spec_ent_div"):
         cell = f"cell_{lvl}"
-        counts = df.filter(pl.col("in_cohort") & pl.col(cell).is_not_null()).group_by(cell).agg(
+        counts = df.filter(counted(df) & pl.col(cell).is_not_null()).group_by(cell).agg(
             pl.len().cast(pl.Int64).alias(f"n_{cell}"))
-        df = df.drop(f"n_{cell}", strict=False).join(counts, on=cell, how="left").with_columns(
+        df = df.drop(f"n_{cell}", strict=False).join(counts, on=cell, how="left", maintain_order="left").with_columns(
             pl.when(pl.col(cell).is_not_null()).then(pl.col(f"n_{cell}").fill_null(0)).alias(f"n_{cell}"))
     pick = (
         pl.when(pl.col("n_cell_spec_ent_div") >= cfg.refine_min).then(pl.struct(
@@ -238,7 +253,8 @@ def assign_peer_cells(df: pl.DataFrame, cfg: CohortConfig) -> pl.DataFrame:
         .when(pl.col("cell_ent").is_not_null()).then(pl.struct(
             peer_cell=pl.col("cell_ent"), peer_level=pl.lit("ent")))
     )
-    return df.with_columns(pick.alias("_pick")).unnest("_pick")
+    out = df.with_columns(pick.alias("_pick")).unnest("_pick")
+    return out.select(*[c for c in order if c in out.columns], *[c for c in out.columns if c not in order])
 
 
 def _summary(df: pl.DataFrame, cfg: CohortConfig, conflicts: dict) -> dict:
@@ -271,32 +287,58 @@ def available_years(paths: Paths) -> list[int]:
     return sorted(found["cms_ps"])
 
 
+def config_record(cfg: CohortConfig) -> dict:
+    """The cohort configuration as stored in cohort.meta.json (JSON-normalised, for comparisons)."""
+    divisions = json.dumps(sorted(cfg.divisions.items()) + [("other", cfg.other)])
+    rec = {"min_nondrug_services": cfg.min_nondrug_services, "refine_min": cfg.refine_min, "min_cell": cfg.min_cell,
+           "ruca_classes": cfg.ruca_classes, "census_divisions_sha256": hashlib.sha256(divisions.encode()).hexdigest()}
+    return json.loads(json.dumps(rec))
+
+
 def build_cohort(paths: Paths, years: Iterable[int] | None = None) -> pl.DataFrame:
-    """C4 for the given years (default: every harmonised year), one year at a time. Writes exactly those
-    years to data/processed/cohort.parquet and a summary to cohort.meta.json; returns the frame."""
+    """C4, one year at a time, for every harmonised year (default; rewrites data/processed/cohort.parquet) or for
+    the given years, which replace those years in an existing cohort.parquet and keep the others. Keeping other
+    years requires that they were built under the same cohort config (cohort.meta.json), else CohortError: a
+    cohort never mixes configs and never loses years silently. Writes cohort.meta.json; returns the whole frame."""
     cfg = CohortConfig.load(paths)
+    explicit = years is not None
     years = available_years(paths) if years is None else sorted({int(y) for y in years})
     if not years:
         raise CohortError("no harmonised Part B years found under data/interim/{cms_ps,cms_prov}")
+    path = paths.processed / "cohort.parquet"
+    meta_path = path.with_name("cohort.meta.json")
+    record = config_record(cfg)
+    kept, kept_summary = [], {}
+    if explicit and path.is_file():
+        others = sorted(set(pl.scan_parquet(path).select(pl.col("year").unique()).collect()["year"]) - set(years))
+        if others:
+            meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.is_file() else {}
+            if meta.get("config") != record:
+                raise CohortError(
+                    f"cohort.parquet also holds years {others}, built under a different or unrecorded cohort config; "
+                    "rebuild every year (`scenario-fraud phase2 cohort` without --year) rather than mixing configs")
+            kept = [pl.scan_parquet(path).filter(pl.col("year").is_in(others)).collect()]
+            kept_summary = {str(y): meta["per_year"][str(y)] for y in others}
     parts, summary = [], {}
     for y in years:
         f_ps, f_prov = (paths.interim / ds / f"{y}.parquet" for ds in ("cms_ps", "cms_prov"))
         missing = [paths.rel(f) for f in (f_ps, f_prov) if not f.is_file()]
         if missing:
             raise CohortError(f"{y}: harmonised files missing: {missing}")
-        df, summary[y] = cohort_year(pl.scan_parquet(f_ps), pl.scan_parquet(f_prov), y, cfg)
+        df, summary[str(y)] = cohort_year(pl.scan_parquet(f_ps), pl.scan_parquet(f_prov), y, cfg)
         parts.append(df)
-    out = pl.concat(parts)
-    path = paths.processed / "cohort.parquet"
+    out = pl.concat([*kept, *parts]).sort("year", "npi")
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(".parquet.tmp")
     out.write_parquet(tmp)
     tmp.replace(path)
+    per_year = {**kept_summary, **summary}
     meta = {
-        "years": years,
-        "config": {"min_nondrug_services": cfg.min_nondrug_services, "refine_min": cfg.refine_min,
-                   "min_cell": cfg.min_cell, "ruca_classes": cfg.ruca_classes},
-        "per_year": {str(y): s for y, s in summary.items()},
+        "years": sorted(int(y) for y in per_year),
+        "config": record,
+        "synthetic_inputs": provenance.inputs_synthetic(
+            [paths.interim / ds / f"{y}.parquet" for y in years for ds in ("cms_ps", "cms_prov")]),
+        "per_year": {y: per_year[y] for y in sorted(per_year)},
     }
-    path.with_name("cohort.meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
     return out

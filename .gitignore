@@ -6,6 +6,10 @@ outputs/*
 !outputs/phase1/
 outputs/phase1/*
 !outputs/phase1/STATUS.md
+# The G2 protocol freeze record (hashes only, no data) must survive for leakage checklist item 6
+!outputs/phase2/
+outputs/phase2/*
+!outputs/phase2/G2_freeze.json
 
 # Python
 .venv/

@@ -276,12 +276,53 @@ def test_build_cohort_on_synthetic_world(proj):
     meta = json.loads((proj.processed / "cohort.meta.json").read_text())
     assert meta["config"]["min_cell"] == 100 and meta["per_year"]["2022"]["rows"] == out.filter(pl.col("year") == 2022).height
     assert sum(meta["per_year"]["2022"]["peer_level_mix"].values()) == meta["per_year"]["2022"]["in_cohort"]
-    # determinism, and a run for a subset of years writes exactly that subset
+    assert meta["synthetic_inputs"] is True
+    # determinism, and a run for a subset of years replaces those years and keeps the others
     assert cohort.build_cohort(proj).equals(out)
     sub = cohort.build_cohort(proj, years=[2022])
-    assert sub.equals(out.filter(pl.col("year") == 2022))
-    assert pl.read_parquet(proj.processed / "cohort.parquet")["year"].unique().to_list() == [2022]
+    assert sub.equals(out) and pl.read_parquet(proj.processed / "cohort.parquet").equals(out)
+    assert json.loads((proj.processed / "cohort.meta.json").read_text()) == meta
     assert truth["n_npi"] == 800
+
+
+def test_rebuilding_some_years_never_drops_or_mixes_the_others(proj):
+    """Review finding: `phase2 cohort --year Y` used to delete every other year. Other years are kept when they were
+    built under the same cohort config, and the rebuild is refused (nothing written) when the config changed."""
+    make_synthetic(proj, n_npi=300, years=[2021, 2022], seed=3)
+    full = cohort.build_cohort(proj)
+    f = proj.configs / "experiment.yaml"
+    doc = yaml.safe_load(f.read_text(encoding="utf-8"))
+    doc["cohort"]["min_nondrug_services"] = 60
+    f.write_text(yaml.safe_dump(doc, sort_keys=False), encoding="utf-8")
+    with pytest.raises(CohortError, match=r"also holds years \[2021\].*different"):
+        cohort.build_cohort(proj, years=[2022])
+    assert pl.read_parquet(proj.processed / "cohort.parquet").equals(full)
+    new = cohort.build_cohort(proj)                                   # every year under the new config
+    assert sorted(new["year"].unique().to_list()) == [2021, 2022]
+    assert json.loads((proj.processed / "cohort.meta.json").read_text())["config"]["min_nondrug_services"] == 60
+    (proj.processed / "cohort.meta.json").unlink()                     # unrecorded config: refused as well
+    with pytest.raises(CohortError, match="unrecorded"):
+        cohort.build_cohort(proj, years=[2021])
+
+
+def test_injected_rows_never_change_real_providers_cells(cfg):
+    """Review finding (DESIGN §7.7 step 5): injected providers get the cell their attributes map to but never count
+    toward cell sizes, so they cannot move real providers to another peer level or cell. Re-running
+    assign_peer_cells on a cohort frame replaces the previous assignment."""
+    rows = [P(f"R{i:03d}", spec="Hand Surgery") for i in range(95)] + [P(f"C{i:03d}") for i in range(150)]
+    df, _ = cohort.cohort_year(*frames(rows), Y, cfg)
+    real = df.filter(pl.col("prvdr_type") == "Hand Surgery")
+    assert set(real["peer_level"]) == {"ent"} and set(real["n_cell_spec_ent"]) == {95}
+    inj = real.head(10).with_columns(pl.format("INJ{}", pl.col("npi")).alias("npi"))
+    aug = pl.concat([df.with_columns(pl.lit(False).alias("injected")), inj.with_columns(pl.lit(True).alias("injected"))])
+    out = cohort.assign_peer_cells(aug, cfg)
+    assert out.columns == aug.columns
+    assert out.filter(~pl.col("injected")).drop("injected").equals(df)
+    assert set(out.filter(pl.col("injected"))["peer_cell"]) == {f"{Y}|I"}      # the cell their attributes map to
+    leaky = cohort.assign_peer_cells(aug.drop("injected"), cfg)               # without the flag they would count
+    assert set(leaky.filter(pl.col("prvdr_type") == "Hand Surgery")["peer_level"]) == {"spec_ent"}
+    with pytest.raises(CohortError, match="injected"):
+        cohort.assign_peer_cells(aug.with_columns(pl.lit(None, pl.Boolean).alias("injected")), cfg)
 
 
 def test_peer_refinement_happens_at_scale(proj):

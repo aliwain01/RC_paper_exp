@@ -38,10 +38,12 @@ from typing import Iterable
 import numpy as np
 import polars as pl
 
-from scenario_fraud import acquire, labels
+from scenario_fraud import acquire, labels, provenance
 from scenario_fraud.harmonise import DTYPES, _target_spec, load_schema
 from scenario_fraud.paths import Paths
 from tests.test_labels import HDR
+
+CHECKOUT = Path(__file__).resolve().parents[1]     # the repository this generator ships in
 
 AS_OF = "2026-10-12"
 SUPPRESS_MAX = 10                  # CMS: records from <= 10 beneficiaries are not published (DESIGN §5.2)
@@ -875,7 +877,7 @@ def _conform(df: pl.DataFrame, schema_ds: dict, year: int) -> pl.DataFrame:
 def _write(paths: Paths, dataset: str, year: int, df: pl.DataFrame, seed: int) -> Path:
     out = paths.interim / dataset / f"{year}.parquet"
     out.parent.mkdir(parents=True, exist_ok=True)
-    df.write_parquet(out)
+    df.write_parquet(out, metadata={provenance.SYNTHETIC_KEY: "true"})   # survives copying without the sidecar
     meta = {"dataset": dataset, "year": year, "synthetic": True, "generator": "tests/synth.py", "seed": seed,
             "n_rows": df.height, "note": "synthetic test data; not CMS data; never a result"}
     out.with_suffix(".meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
@@ -930,6 +932,24 @@ def _leie_csv(rng, plan: _Plan, path: Path) -> Path:
 
 # ------------------------------------------------------------------------------------------- entry point
 
+def _refuse_real_project(proj: Paths) -> None:
+    """CONTRACTS §0: synthetic data only ever land in throw-away project roots. Refuse the checkout itself (or any
+    folder inside it), and any root that already holds non-synthetic harmonised files or registered raw files,
+    before anything is written."""
+    root = Path(proj.root).resolve()
+    if root == CHECKOUT or CHECKOUT in root.parents:
+        raise ValueError(f"make_synthetic refuses to write inside the repository checkout ({root}); pass a "
+                         "throw-away project root (the pytest `proj` fixture or a temporary directory)")
+    real = [f for f in provenance.interim_files(proj.interim) if provenance.file_provenance(f) != provenance.SYNTHETIC]
+    if real:
+        raise ValueError(f"make_synthetic refuses to overwrite a project with non-synthetic harmonised files, e.g. "
+                         f"{proj.rel(real[0])}")
+    if proj.manifest.is_file():
+        reg = [e.path for e in acquire.load_manifest(proj) if "synthetic" not in (e.notes or "").lower()]
+        if reg:
+            raise ValueError(f"make_synthetic refuses a project with registered non-synthetic raw files, e.g. {reg[0]}")
+
+
 def make_synthetic(proj: Paths, *, n_npi: int = 1200, years: Iterable[int] = range(2018, 2025), seed: int = 0,
                    excluded_frac: float = 0.04) -> dict:
     """Write synthetic harmonised interim files + LEIE (registered) under `proj`, run labels, return the truth.
@@ -941,6 +961,7 @@ def make_synthetic(proj: Paths, *, n_npi: int = 1200, years: Iterable[int] = ran
     years = sorted(int(y) for y in years)
     if n_npi < 50 or not years:
         raise ValueError("need n_npi >= 50 and at least one year")
+    _refuse_real_project(proj)
     rng = np.random.default_rng([seed, 0])
     cfg = labels.LabelConfig.load(proj)
     n_dme_only, n_leie_only = max(2, round(0.02 * n_npi)), max(2, round(0.003 * n_npi))

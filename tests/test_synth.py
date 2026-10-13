@@ -239,3 +239,42 @@ def test_scales_to_benchmark_size(tmp_path):
     assert prov.height > 0.75 * 20_000 and ps.height > 5 * prov.height
     assert len(truth["npis"]) == 20_000
     assert elapsed < 30, f"20k NPIs x 1 year took {elapsed:.1f}s"
+
+
+def _snapshot(root):
+    d = root / "data"
+    return sorted((str(p), p.stat().st_mtime_ns) for p in d.rglob("*")) if d.is_dir() else []
+
+
+def test_refuses_the_checkout_and_projects_with_real_data(tmp_path):
+    """CONTRACTS §0 (review finding): synthetic files only ever land in throw-away roots. The checkout (or a folder
+    inside it) and any root holding non-synthetic harmonised or registered files are refused before any write."""
+    before = _snapshot(REPO)
+    for root in (REPO, REPO / "tests" / "scratch"):
+        with pytest.raises(ValueError, match="inside the repository checkout"):
+            make_synthetic(Paths(root), n_npi=60, years=[2022])
+    assert _snapshot(REPO) == before and not (REPO / "synthetic_src").exists() and not (REPO / "tests" / "scratch").exists()
+
+    proj = _new_proj(tmp_path / "a")
+    real = proj.interim / "cms_ps" / "2022.parquet"
+    real.parent.mkdir(parents=True)
+    pl.DataFrame({"npi": ["1234567893"]}).write_parquet(real)
+    real.with_suffix(".meta.json").write_text(json.dumps({"dataset": "cms_ps", "year": 2022}))   # phase1 harmonise
+    with pytest.raises(ValueError, match="non-synthetic harmonised files"):
+        make_synthetic(proj, n_npi=60, years=[2022])
+    assert pl.read_parquet(real).height == 1 and not (proj.interim / "cms_prov").exists()
+
+    proj = _new_proj(tmp_path / "b")
+    from scenario_fraud import acquire
+    acquire.save_manifest(proj, [acquire.Entry(
+        path="data/raw/leie/2026/UPDATED.csv", source="leie", year=2026, kind="current", route="oig", source_page="",
+        file_url="manual", download_date="2026-10-12", size_bytes=1, sha256="0" * 64, as_of="2026-10-12")])
+    with pytest.raises(ValueError, match="registered non-synthetic raw files"):
+        make_synthetic(proj, n_npi=60, years=[2022])
+
+    proj = _new_proj(tmp_path / "c")                           # a synthetic project can be regenerated
+    make_synthetic(proj, n_npi=60, years=[2022])
+    f = proj.interim / "cms_ps" / "2022.parquet"
+    f.with_suffix(".meta.json").unlink()                        # Parquet metadata alone still marks it synthetic
+    from scenario_fraud import provenance
+    assert provenance.file_provenance(f) == provenance.SYNTHETIC

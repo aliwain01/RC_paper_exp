@@ -2,6 +2,21 @@
 
 12 October 2026 · follows [HANDOFF.md](../../HANDOFF.md) §9 quick start. Gate **G1 not reached**: no data could be downloaded from this environment.
 
+## Phase 2 (13 October 2026): code built, tested on synthetic data only
+
+The following are built, reviewed and fixed: C4 `cohort.py`, C5 `features.py` + `groups.py`, C7 `splits.py`, the QA report (`qa.py`, including the leakage checklist), the G2 report (`g2_report.py`), and `scenario-fraud phase2 cohort | features | folds | qa | report`.
+
+- **Tests only, no results.** Every test runs on synthetic files from `tests/synth.py` inside pytest temp directories. No number from them describes Medicare providers.
+- **No real artefacts yet.** The real cohort, features and folds can only be built after Phase 1 data exist.
+- **Gate G2 not reached.** It needs real data and the human decisions listed by `phase2 report`:
+  - the §17 rows D19–D70 marked proposed or open;
+  - the high-risk DME list;
+  - pruning;
+  - peer granularity (§19 Q2);
+  - the final-fit and calibration rows (D59);
+  - CX7 / NPPES;
+  - the open §19 questions.
+
 ## What exists now
 
 | Item | Where | State |

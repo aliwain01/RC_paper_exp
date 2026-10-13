@@ -46,8 +46,9 @@ def fig4():
     x = 0.35 + 3 * (cw + gx)
     card(ax, x, ytops[1], cw, "Context  (input, never a reason)",
          ["!defines the peer group; absorbs structural", "!differences so scheme features stay clean", "",
-          "· specialty (provider type)", "· entity type (individual / organisation)", "· Census division · RUCA (urban–rural)",
-          "· practice size · tenure (NPPES, opt.)", "· data coverage (share surviving suppression)", "", "matched traits: attribution = 0 (peer baseline)"], C["gray"], fs=8.4, tfs=10.5, h=2.75, dashed=True)
+          "· specialty · entity type (individual / org.)", "· Census division · RUCA (urban–rural)",
+          "· Medicare participation · practice size", "· tenure (NPPES, opt.) · data coverage", "  (share surviving suppression)",
+          "", "matched traits: attribution = 0 (peer baseline)"], C["gray"], fs=8.4, tfs=10.5, h=2.75, dashed=True)
     ax.text(0.35, 0.95, "Direction: higher = more suspicious for most scheme features (monotone candidates; exceptions in catalog). All features are peer-relative (robust z within specialty × entity × year, × region if ≥200 peers), using label-free per-year statistics.",
             fontsize=8.6, color=INK)
     ax.text(0.35, 0.55, "Orange = Part B-derived scheme groups; blue = DMEPOS-derived. Feature list is the v1.1 proposal — see FEATURE_CATALOG.md for formulas, data fields and rationale.",

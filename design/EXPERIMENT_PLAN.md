@@ -32,6 +32,24 @@ Freeze this protocol before any test result is seen. Changes after Phase 3 start
 - **Showcase:** 2024, scored by the primary models (no accuracy claims).
 - **Negative subsampling (training only):** all positives + a random 15 % of negatives (fixed seed, identical for every model family), weighted 1/0.15. Test data are never subsampled.
 
+### Implementation notes (Phase 2, C7)
+
+How `src/scenario_fraud/splits.py` and `configs/experiment.yaml: splits` resolve what this section leaves open. Each choice is a DESIGN §17 row; D54–D58 and D60–D63 are proposed (confirm at G2), and D59 is open. Built and tested on synthetic data only.
+
+- **Folds** (D54–D56). Folds cover the NPIs with at least one in-cohort year. The specialty stratum is the NPI's modal `prvdr_type` over those years; a tie goes to the latest tied year. "Ever-positive" means an exclusion under any `labels.yaml` tier, at any date. Strata are laid end to end and NPIs are ordered by a seeded hash, so fold sizes, positives per fold and every stratum's count per fold differ by at most 1.
+- **Tuning hold-out** (D57). H_k is exactly ⌊0.2 N⌋ of the N NPIs outside fold k, stratified the same way. It differs per fold and is the same for every design.
+- **Roles** (D58), for train years [a, b] and test years [c, e]:
+  - `test`: fold-k NPIs in years [c, e].
+  - `tune_valid`: H_k NPIs in year b ("validate on their 2021 rows").
+  - `tune_train`: the other non-k NPIs in years [a, b − 1] ("train on 2018–2020").
+  - `train`: the remaining non-k rows of years [a, b].
+- **Final model and calibration (open, D59).** The training set is every non-k row of the train years. This section says the final model trains on all of it, while DESIGN §7.8 says "calibration on the validation slice". The two cannot both hold without calibrating on the final model's own training rows. Phase 3 must choose one of these options, and the choice is listed as a G2 decision:
+  - (i) the final model on all training rows, with a calibrator fitted on the tuning model's held-out scores or on cross-fitted scores;
+  - (ii) the final model on `train` + `tune_train`, with the calibrator fitted on its `tune_valid` scores.
+- **Rolling origins and 2020** (D60). O1's last train year is 2020, so O1 validates on the flagged COVID year. For sensitivity S4, `split_rows(..., exclude_years=[2020])` gives 2020 rows the role `none` and validates on the last remaining train year (O1: 2019).
+- **Showcase** (D61). Fold-k NPIs' 2024 rows are scored by their own fold's primary-design model.
+- **Negative subsampling** (D63). Each negative (npi, year) is kept independently when its seeded hash falls below the rate, so the sample is about 15 % rather than an exact count. Kept negatives get weight 1/rate. The sample is the same for every model family, fold and design, and the 15 % sample is nested in the 30 % one (S12).
+
 ---
 
 ## 3. Detection metrics (E1)
