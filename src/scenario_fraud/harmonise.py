@@ -207,6 +207,7 @@ def draft_column_map(paths: Paths, dataset: str, year: int, force: bool = False)
     lower = {k.lower(): v for k, v in exact.items()}
     prefixes = tmpl.get("prefix", {}) or {}
     drops = {d.lower() for d in tmpl.get("drop", [])}
+    drop_prefixes = tuple(tmpl.get("drop_prefixes", []) or [])
 
     lines = []
     for col in dump["columns"]:
@@ -220,6 +221,8 @@ def draft_column_map(paths: Paths, dataset: str, year: int, force: bool = False)
             how = "template prefix (check name and meaning)"
         elif col.lower() in drops:
             target, how = None, "template drop (identifying / unused)"
+        elif drop_prefixes and col.startswith(drop_prefixes):
+            target, how = None, "template drop prefix (column family unused)"
         else:
             target, how = TODO, "not in template: map or drop by hand"
         value = "null" if target is None else target

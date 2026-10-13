@@ -47,14 +47,19 @@ sources:
   leie:
     title: HHS-OIG List of Excluded Individuals and Entities
     landing_page: https://oig.hhs.gov/exclusions/exclusions_list.asp
-    current_file_url: https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv   # unconfirmed for 2026
-    supplement_archive: https://www.oig.hhs.gov/exclusions/supplement_archive.asp
-    authorities_page: https://oig.hhs.gov/exclusions/authorities.asp
+    current_file_url: https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv   # live 2026-08 per third-party captures (Phase 0)
+    # Phase 0: the supplement page and file pattern below come from search results and third-party
+    # downloaders (2024-2026); the older .asp pages may redirect. Only ~12 months are kept online.
+    supplement_archive: https://www.oig.hhs.gov/exclusions/leie-database-supplement-downloads/
+    supplement_url_pattern: https://oig.hhs.gov/exclusions/downloadables/{yyyy}/{yymm}{kind}.csv   # kind = excl | rein
+    authorities_page: https://oig.hhs.gov/exclusions/background-information-exclusion-authorities/
+    record_layout_pdf: https://oig.hhs.gov/exclusions/files/leie_record_layout.pdf
     # current          = full file of exclusions in effect (as_of = download date)
     # supplement_excl  = monthly new-exclusions supplement (as_of = YYYY-MM)
     # supplement_rein  = monthly reinstatements supplement (as_of = YYYY-MM)
     # snapshot         = Internet Archive copy of the full file (as_of = snapshot date)
-    # record_layout    = OIG record-layout PDF (defines EXCLTYPE format; read before trusting C3 maps)
+    # record_layout    = OIG record-layout PDF (field names and lengths only; EXCLTYPE values are checked
+    #                    against the real file by C3, which stops on any unmapped value)
     kinds: [current, supplement_excl, supplement_rein, snapshot, record_layout]
     harmonised: false
 

@@ -121,6 +121,19 @@ def test_map_tied_to_file_checksum(proj, tmp_path):
         harmonise.harmonise(proj, "cms_ps", 2023)
 
 
+def test_dmepos_draft_uses_capital_hcpcs_and_drop_prefixes(proj, tmp_path):
+    header = ["Rfrg_NPI", "Tot_Suplr_Benes", "DME_Tot_Suplr_Benes", "DME_Sprsn_Ind", "POS_Tot_Suplrs",
+              "Bene_Avg_Age", "Rfrg_Prvdr_Spclty_Desc", "Mystery_Col"]
+    f = write_csv(tmp_path / "dmep.csv", header, [["1234567893", "20", "15", "", "3", "71", "Podiatry", "x"]])
+    e = acquire.register(proj, f, "dme_p", 2023, "data")
+    acquire.header_dump(proj, e)
+    cols = harmonise.ColumnMap.load(harmonise.draft_column_map(proj, "dme_p", 2023)).columns
+    assert cols["DME_Tot_Suplr_Benes"] == "dme_tot_suplr_benes"  # exact map wins over the DME_ drop prefix
+    assert cols["DME_Sprsn_Ind"] is None and cols["POS_Tot_Suplrs"] is None and cols["Bene_Avg_Age"] is None
+    assert cols["Rfrg_Prvdr_Spclty_Desc"] == "prvdr_type"
+    assert cols["Mystery_Col"] == harmonise.TODO
+
+
 def test_prefix_columns_for_chronic_conditions(proj, tmp_path):
     header = ["Rndrng_NPI", "Tot_HCPCS_Cds", "Tot_Benes", "Tot_Srvcs", "Tot_Sbmtd_Chrg", "Tot_Mdcr_Alowd_Amt",
               "Tot_Mdcr_Pymt_Amt", "Tot_Mdcr_Stdzd_Amt", "Bene_Avg_Risk_Scre", "Bene_Dual_Cnt",

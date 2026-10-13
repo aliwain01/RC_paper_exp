@@ -33,6 +33,9 @@ mandatory: ["1128(a)(1)", "1128(a)(2)", "1128(a)(3)", "1128(a)(4)"]
 # Column names and the raw EXCLTYPE strings below are background knowledge. The labeller fails on any
 # EXCLTYPE value that is not listed, so the real file forces this table to be checked before labels exist.
 # After checking: set verified: true and record the PDF in the manifest (kind: record_layout).
+# Phase 0: the 18-column header (LASTNAME ... WVRSTATE) matches third-party captures of the live file
+# (2026-08) exactly; dates are YYYYMMDD with "00000000" for empty; a missing NPI is "0000000000".
+# Supplements dated May 2013 or earlier lack the NPI and waiver fields (OIG), so the reader rejects them.
 leie_layout:
   verified: false
   columns:
@@ -54,6 +57,13 @@ leie_layout:
 
 # Raw EXCLTYPE -> canonical authority. Keys are matched after normalisation: whitespace, "(", ")", "§"
 # and "." removed; case kept, because "1128A" (civil monetary penalties) differs from "1128a".
+#
+# Phase 0 evidence (design/LITERATURE_REVIEW.md §1; third-party copies of 2022-2026 full files and of the
+# 2024-25 monthly supplements, not the OIG files themselves): the values that occur are 1128a1-a4,
+# 1128b1-b8, 1128b11, 1128b12, 1128b14-b16, 1128Aa, 1156, 1160, "BRCH CIA", "BRCH SA"; older full files
+# pad them with spaces to 9 characters (stripped on read). The OIG record-layout PDF gives field names and
+# lengths only, so the meaning of each code comes from the OIG exclusion-authorities page.
+# Keep verified: false until the first real download confirms there is no unmapped value.
 excltype_map:
   verified: false
   map:
@@ -61,12 +71,14 @@ excltype_map:
     "1128a2": "1128(a)(2)"
     "1128a3": "1128(a)(3)"
     "1128a4": "1128(a)(4)"
+    # Never observed in Phase 0: the file uses the unsplit "1128b1". Kept in case a future file splits it.
     "1128b1A": "1128(b)(1)(A)"
     "1128b1a": "1128(b)(1)(A)"
     "1128b1B": "1128(b)(1)(B)"
     "1128b1b": "1128(b)(1)(B)"
-    # If the record layout shows (b)(1) is not split into (A)/(B), decide at G1 whether 1128(b)(1)
-    # joins the primary tier. Until then an unsplit 1128b1 is "other excluded" (rows dropped).
+    # G1 DECISION NEEDED: the primary tier names 1128(b)(1)(A) (misdemeanour health-care fraud), but the
+    # file only carries the unsplit 1128(b)(1), which also covers (b)(1)(B) (fraud in other government
+    # programs). Until the human decides, an unsplit 1128b1 is "other excluded" (rows dropped).
     "1128b1": "1128(b)(1)"
     "1128b2": "1128(b)(2)"
     "1128b3": "1128(b)(3)"
@@ -83,11 +95,13 @@ excltype_map:
     "1128b14": "1128(b)(14)"
     "1128b15": "1128(b)(15)"
     "1128b16": "1128(b)(16)"
+    # Never observed in Phase 0 (no file encoding found); the prior-work tier's (c)(3)(G) entries may be moot.
     "1128c3Gi": "1128(c)(3)(G)(i)"
     "1128c3gi": "1128(c)(3)(G)(i)"
     "1128c3Gii": "1128(c)(3)(G)(ii)"
     "1128c3gii": "1128(c)(3)(G)(ii)"
     "1128Aa": "1128A(a)"
     "1156": "1156"
+    "1160": "1160"       # observed in 2022-23 full files (Phase 0); in no tier
     "BRCHCIA": "breach-CIA"
     "BRCHSA": "breach-SA"
