@@ -17,6 +17,9 @@
     scenario-fraud phase2 folds
     scenario-fraud phase2 qa [--no-rebuild] [--rebuild-year 2018]
     scenario-fraud phase2 report
+    scenario-fraud phase3 train [--design primary] [--family xgb ...] [--fold 0 ...] [--seeds N] [--trials N]
+    scenario-fraud phase3 score-showcase [--family xgb ...]
+    scenario-fraud phase3 report
 """
 
 from __future__ import annotations
@@ -28,7 +31,8 @@ from pathlib import Path
 
 import polars as pl
 
-from . import acquire, cohort, features, g1_report, g2_report, harmonise, labels, provenance, qa, splits
+from . import (acquire, cohort, features, g1_report, g2_report, g3_report, harmonise, labels, provenance, qa, splits,
+               train)
 from .paths import Paths
 from .runlog import run_log
 
@@ -166,18 +170,47 @@ def _run_phase2(paths: Paths, a: argparse.Namespace) -> dict:
     raise SystemExit(f"unknown command {a.cmd}")
 
 
+def _p3(sub: argparse._SubParsersAction) -> None:
+    p3 = sub.add_parser("phase3", help="Phase 3: models (C8), detection metrics and the G3 report")
+    s = p3.add_subparsers(dest="cmd", required=True)
+    t = s.add_parser("train", help="tune, fit and score one design -> data/processed/{models,scores}/")
+    t.add_argument("--design", default="primary", help="primary | O1 | O2 | O3 (rolling origins reuse primary params)")
+    t.add_argument("--family", action="append", default=None, help="repeatable; default: models.yaml families")
+    t.add_argument("--fold", type=int, action="append", default=None, help="repeatable; default: every fold")
+    t.add_argument("--seeds", type=int, default=None, help="override models.yaml seeds for this design")
+    t.add_argument("--trials", type=int, default=None, help="override models.yaml n_trials")
+    c = s.add_parser("score-showcase", help="score the showcase year with the primary models (no accuracy claims)")
+    c.add_argument("--family", action="append", default=None)
+    s.add_parser("report", help="write outputs/phase3/G3_report.md")
+
+
+def _run_phase3(paths: Paths, a: argparse.Namespace) -> dict:
+    if a.cmd == "train":
+        return train.train_design(paths, a.design, families=a.family, folds=a.fold, seeds=a.seeds, n_trials=a.trials)
+    if a.cmd == "score-showcase":
+        return train.score_showcase(paths, families=a.family)
+    if a.cmd == "report":
+        out = g3_report.build_report(paths)
+        rep = json.loads(out.with_suffix(".json").read_text(encoding="utf-8"))
+        prim = rep["designs"].get("primary", {})
+        return {"report": paths.rel(out), "best": prim.get("best"),
+                "h1_supported": (prim.get("delta") or {}).get("h1_supported")}
+    raise SystemExit(f"unknown command {a.cmd}")
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="scenario-fraud", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="phase", required=True)
     _p1(sub)
     _p2(sub)
+    _p3(sub)
     a = ap.parse_args(argv)
     paths = Paths.discover()
     args = {k: v for k, v in vars(a).items() if k not in ("phase", "cmd")}
     with run_log(paths, a.phase, a.cmd, args) as result:
-        result.update({"phase1": _run_phase1, "phase2": _run_phase2}[a.phase](paths, a))
-        if a.phase == "phase2":     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
+        result.update({"phase1": _run_phase1, "phase2": _run_phase2, "phase3": _run_phase3}[a.phase](paths, a))
+        if a.phase in ("phase2", "phase3"):     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
             result["synthetic_inputs"] = provenance.inputs_synthetic(provenance.interim_files(paths.interim))
     print(json.dumps(result, indent=2, default=str))
     return 0

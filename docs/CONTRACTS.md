@@ -192,3 +192,72 @@ stratum = splitmix64 hash of the NPI (stable across library versions and input r
   afterwards it never rewrites it (D67).
 - CLI: `scenario-fraud phase2 cohort [--year Y …] | features [--year Y …] | folds | qa [--no-rebuild]
   [--rebuild-year Y] | report`, each inside `run_log(paths, "phase2", …)`.
+
+## 3. Phase 3: models (C8) and detection metrics
+
+Parameters: `configs/models.yaml` (families, search spaces, seeds, final fit, calibration source, per-design tuning)
+and `experiment.yaml: evaluation` (k values, bootstrap, Holm level, reliability bins). DESIGN §17 D73–D81.
+
+### 3.1 Model matrix: `modelmatrix.py`
+
+`load_design(paths, design, *, label_tier=None, W=None, years=None) -> DesignFrame` reads the design's feature years
+once (`features.load_features`), joins `labels_{tier}_W{W}.parquet` (rows with `y` null dropped; defaults from
+`labels.yaml`) and `folds.parquet`. `DesignFrame.frame` has `npi`, `year`, `peer_cell`, `fold`, `y`,
+`label_horizon_complete` and the model columns in fixed order (`column_order`: groups.yaml order, features.yaml order,
+one-hots last and sorted); `columns`, `groups` (column → group), `folds`. `roles(df, fold, scfg, design=None)` gives
+the C7 roles; `matrix(frame, columns, rows=None)` the float32 matrix (absent one-hot columns = 0, any other missing
+column or non-finite value fails). `column_kinds(columns)` maps columns to features.yaml kinds.
+
+### 3.2 Model families: `models.py`
+
+| Key | Model |
+|---|---|
+| `lr` | pipeline: cubic B-spline basis (linear extrapolation, quantile knots) for `lr.spline_features` + standardised continuous columns + binary columns passed through → `LogisticRegression` (saga, `l1_ratio`, C) |
+| `ebm` / `ga2m` | `ExplainableBoostingClassifier`, `interactions` 0 / tuned ≤ `ga2m.max_interactions` (FAST) |
+| `xgb`, `xgb_mono` | `xgboost.train` (hist); `_mono` uses `features.yaml: monotone` in column order |
+| `lgbm`, `lgbm_mono` | `lightgbm.train` (deterministic); likewise |
+
+`fit(family, X, y, w, params, seed, columns, cfg) -> Fitted` (`params` includes `pos_weight`, which multiplies the
+positives' weights); `margin(fitted, X, batch)` = raw log-odds; `save(fitted, dir)` / `load(dir)` (`model.json` /
+`model.txt` native, else `model.joblib`, plus `fitted.json`: family, columns, params, seed, extra);
+`lr_design(fitted, X) -> (Z, names, groups)` with `Z @ coef + intercept` = the LR margin and spline basis columns
+named `{feature}__spl{j}` in their feature's group (method D, C12); `Fitted.extra`: `pair_terms` (EBM/GA²M),
+`converged` (LR).
+
+### 3.3 Trainer: `train.py` (C8)
+
+`train_design(paths, design, *, families, folds, seeds, n_trials)`, per fold k and family:
+
+1. training rows = TRAIN_ROLES, negatives subsampled by `splits.subsample_negatives` (identical for every family);
+   `tune_train` rows from that sample; `tune_valid` = all its rows (not subsampled), ≥ `min_valid_positives`;
+2. tuning (designs.<d>.tune): Optuna TPE, objective = average precision on `tune_valid`; otherwise the primary
+   design's `tuning.json` best parameters;
+3. tuning model (best params on `tune_train`) → `valid_ap` and, with `calibration_source: tuning_model`, the isotonic
+   calibrator;
+4. final models per seed on the final rows (`final_fit`); `calibration_source: final_model` fits the calibrator on
+   each final model's `tune_valid` margins (only with `exclude_holdout_npis`);
+5. test rows scored.
+
+Persisted: `data/processed/models/{design}/{family}/fold{k}/` with `seed{s}/` (model + `fitted.json` +
+`calibrator.joblib`), `columns.json`, `tuning.json` (best params, every trial, `valid_ap`, row and positive counts,
+`params_source`, `pair_terms`, seconds); `data/processed/scores/{design}/{family}/fold{k}.parquet` with `npi`, `year`,
+`fold`, `y`, `peer_cell`, `label_horizon_complete`, `seed`, `margin`, `prob`, `label_tier`, `W` (test rows only).
+`score_showcase(paths)` writes `scores/showcase/{family}/fold{k}.parquet` (showcase year, each NPI's own fold, every
+seed). `load_scores`, `load_tuning` read them back. `check_frozen(paths)` is the G2 guard (D73).
+
+### 3.4 Detection metrics: `metrics.py` (shared with C13)
+
+`detection_metrics(df, k_fracs)` → pooled and per-year N, positives, base rate, PR-AUC, ROC-AUC, precision / recall /
+lift@k, Brier, `reliability_top` (quantile bins of calibrated probability in each year's top 5 %).
+`bootstrap_ci(df, …)` and `paired_bootstrap(a, b, …)` (paired NPI bootstrap: row weight = its NPI's draw count;
+metrics computed on presorted arrays) return percentile CIs, Δ and two-sided bootstrap p-values; `holm(pvalues,
+alpha)`. Ranking: margin descending, ties by a fixed (npi, year) hash; pooled top-k = per-year counts summed (D81).
+
+### 3.5 Gate G3: `g3_report.py` → `outputs/phase3/G3_report.md` (+ `.json`)
+
+Per design with scores: validation average precision per family and the chosen best models; T1 (primary: with
+NPI-bootstrap CIs and seed spread); Δ best GBM − best glass box with CI, p and Holm; the H1 check; per-year results;
+label-horizon counts; calibration in the top 5 %; the showcase row count; the synthetic / unknown-provenance banner
+(`qa.provenance_lines`). It states which DESIGN §10.8 row the detection numbers are consistent with; the human decides.
+CLI: `scenario-fraud phase3 train [--design D] [--family F …] [--fold K …] [--seeds N] [--trials N] |
+score-showcase [--family F …] | report`, each inside `run_log(paths, "phase3", …)`.

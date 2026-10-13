@@ -75,3 +75,14 @@ qa:
 g2:
   protocol_version: "1.1"
   baseline_last_decision: 18   # D18 is the last row of DESIGN v1.1
+
+# Detection metrics (EXPERIMENT_PLAN §3; DESIGN §10.1; CONTRACTS §3.4).
+evaluation:
+  k_fracs: [0.001, 0.005, 0.01, 0.02]   # audit capacity: share of scored providers per test year
+  primary_k: 0.01                        # H1 uses precision@1 %
+  bootstrap_reps: 1000                   # paired NPI bootstrap
+  bootstrap_seed: 20261016
+  ci: 0.95
+  alpha: 0.05                            # Holm family-wise level across k
+  reliability_top: 0.05                  # calibration curve within the top 5 %
+  reliability_bins: 10

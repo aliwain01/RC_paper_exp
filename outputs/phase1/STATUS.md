@@ -2,6 +2,15 @@
 
 12 October 2026 · follows [HANDOFF.md](../../HANDOFF.md) §9 quick start. Gate **G1 not reached**: no data could be downloaded from this environment.
 
+## Phase 3 (13 October 2026): code built, tested on synthetic data only
+
+Built: `modelmatrix.py`, `models.py` (LR with splines, EBM, GA²M, XGBoost and LightGBM, each GBM with and without monotone constraints), `train.py` (tuning, final fits, isotonic calibration, out-of-fold scores, showcase scoring), `metrics.py` (precision/recall/lift@k, PR-AUC, ROC-AUC, Brier, reliability, NPI bootstrap, Holm), `g3_report.py`, and `scenario-fraud phase3 train | score-showcase | report`.
+
+- **Tests only, no results.** All models were trained on synthetic data in pytest temp directories; no number describes Medicare providers.
+- **Training refuses to start before the G2 freeze** (D73): G2 must be decided on real data first.
+- **Decisions for G2:** D73–D81 (proposed), and D59 (final fit vs calibration; default implemented as D79).
+- **Compute is unmeasured at real scale.** Tuning is 60 trials × 7 families × 5 folds on ≈ 0.5–0.7 M subsampled rows; EBM and GA²M dominate. Time one fold before the full run.
+
 ## Phase 2 (13 October 2026): code built, tested on synthetic data only
 
 The following are built, reviewed and fixed: C4 `cohort.py`, C5 `features.py` + `groups.py`, C7 `splits.py`, the QA report (`qa.py`, including the leakage checklist), the G2 report (`g2_report.py`), and `scenario-fraud phase2 cohort | features | folds | qa | report`.

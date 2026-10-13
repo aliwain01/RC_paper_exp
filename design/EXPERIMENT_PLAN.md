@@ -71,6 +71,16 @@ For a test year with *N* scored provider-years:
 
 **Power note.** With prevalence plausibly ≈ 0.02–0.05 % and ≈ 1.1 M providers per test year, there are on the order of 200–550 positive provider-years per year. These numbers are assumptions until Phase 1. Precision@0.1 % rests on ≈ 1,100 flagged providers per year. If Phase 1 counts make CIs uninformative, RQ1 is reported descriptively (design doc §16).
 
+### Implementation notes (Phase 3, C8 and metrics)
+
+DESIGN §17 D73–D81 hold the reasons; parameters live in `configs/models.yaml` and `experiment.yaml: evaluation`.
+
+- **Families:** `lr`, `ebm`, `ga2m`, `xgb`, `xgb_mono`, `lgbm`, `lgbm_mono`. "GBM" in T1 and Δ is the better of XGBoost and LightGBM by mean validation average precision; "GBM (monotone)" likewise among the monotone variants; the best glass box among LR, EBM and GA²M (D74).
+- **Tuning:** 60 Optuna TPE trials per family and fold on the primary design; rolling origins reuse those parameters with one seed (D75). Tuning stops if `tune_valid` has fewer than 5 positives (D80).
+- **Final fit and calibration:** all training rows; isotonic calibrator from the tuning model's validation margins (D79; the D59 choice is still open).
+- **Metrics:** pooled precision/recall@k sum per-year counts; ties broken by a fixed hash; Holm adjusts two-sided bootstrap p-values; T1 CIs are NPI-bootstrap percentile intervals of the seed-0 models (D81).
+- **Guard:** training refuses to start before the G2 freeze record exists, or if the frozen parameters changed (D73).
+
 ---
 
 ## 4. Attribution protocol (E2)
