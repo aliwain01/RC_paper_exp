@@ -10,6 +10,24 @@ years:
 
 cohort:
   min_nondrug_services: 50     # DESIGN §7.2: fixed before modelling
+  # RUCA class from the primary RUCA code = integer part of Rndrng_Prvdr_RUCA ("4.1" -> 4), inclusive
+  # ranges (CONTRACTS §2.1; FEATURE_CATALOG CX4). Anything else (99 = not coded, null, text) -> unknown.
+  ruca_classes:
+    urban: [1, 3]
+    large_rural: [4, 6]
+    small_rural: [7, 9]
+    isolated: [10, 10]
+  # Peer hierarchy (DESIGN §7.2; CONTRACTS §2.1). Counts are in-cohort providers of the cell and year.
+  # Census divisions: configs/census_divisions.yaml.
+  peer:
+    refine_min: 200            # DESIGN §7.2: use spec x ent x division when that cell has >= 200 providers
+    # Design gap (DESIGN §17, proposed, confirm at G2): smallest spec x ent cell used before falling back
+    # to ent x year. 100 because (a) SM2's "codes billed by < 1 % of the cell" can only flag a code in a
+    # cell of > 100 providers; (b) robust z needs a stable MAD: its relative SE is ~12 % at n = 100
+    # (~21 % at 30); (c) PM2/PM3 regress on PM1 + ~12-25 chronic-condition shares within the cell, so
+    # n must be well above the covariate count; (d) C9 peer backgrounds want up to 200 training-fold
+    # providers, and 100 in-cohort providers leave ~80. Peer granularity is varied in sensitivity S10.
+    min_cell: 100
 
 gate_g1:
   # DESIGN §14 first row: if fewer unique positive NPIs over these years, switch the primary tier
