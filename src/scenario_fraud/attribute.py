@@ -68,6 +68,46 @@ def _methods(f: models.Fitted, x: np.ndarray, xb: np.ndarray, cg: np.ndarray, ac
     return out
 
 
+STORE_LISTS = ("v", "B", "C", "E", "E_prob", "A", "A_feat", "D", "D_pair", "D_feat")
+
+
+def explain_rows(f: models.Fitted, exf: pl.DataFrame, cand: pl.DataFrame, base: str, cg: np.ndarray, acfg: dict,
+                 bcfg: bgm.BackgroundConfig, k: int, yr: int, *, assign=None, members=None, gl=None) -> pl.DataFrame:
+    """Store rows (CONTRACTS §4) for the providers of `exf` (one fold k and year) under model f, against peer or
+    global backgrounds drawn from `cand` (training-fold candidates of that year, sorted by NPI). Backgrounds already
+    drawn for these frames may be passed in (assign/members, gl)."""
+    Xe, Xc = matrix(exf, f.columns), matrix(cand, f.columns)
+    cidx = {n: i for i, n in enumerate(cand["npi"].to_list())}
+    if base == "peer":
+        if assign is None or members is None:
+            assign, members = bgm.peer_backgrounds(exf, cand, bcfg, k, yr)
+        # rows of exf by NPI (joins do not promise row order)
+        meta = exf.select("npi").with_row_index("_r").join(assign, on="npi", how="left").sort("_r")
+        if meta["bg_key"].null_count():
+            raise RuntimeError("explained provider without a background")
+        mem = members.group_by("bg_key").agg(pl.col("npi"))
+        mem = dict(zip(mem["bg_key"].to_list(), mem["npi"].to_list()))
+        jobs = [(np.asarray(r["_r"]), [cidx[n] for n in mem[r["bg_key"]]])
+                for r in meta.group_by("bg_key", maintain_order=True).agg(pl.col("_r")).to_dicts()]
+        meta = meta.drop("_r")
+    else:
+        if gl is None:
+            gl = bgm.global_background(cand, bcfg, k, yr)
+        jobs = [(np.arange(exf.height), [cidx[n] for n in gl.to_list()])]
+        meta = exf.select("npi").with_columns(pl.lit(f"global={yr}").alias("bg_key"), pl.lit("global").alias("bg_level"),
+                                              pl.lit(gl.len(), dtype=pl.UInt32).alias("bg_n"))
+    parts = []
+    for r_idx, b_idx in jobs:
+        res = _methods(f, Xe[r_idx], Xc[b_idx], cg, acfg, bcfg.seed + k)
+        n = len(r_idx)
+        frame = meta[r_idx].with_columns(pl.lit(yr, dtype=pl.Int32).alias("year"), pl.lit(k, dtype=pl.Int32).alias("fold"))
+        cols = [_arr(c, res[c], n) for c in STORE_LISTS]
+        cols += [pl.Series(c, np.asarray(res[c], dtype=np.float64)) for c in
+                 ("margin", "base", *sorted(c for c in res if c.startswith("del_")))]
+        parts.append(frame.with_columns(cols))
+    return pl.concat(parts, how="diagonal_relaxed")
+
+
 def explain(paths: Paths, *, families=None, baselines=None, folds=None, limit: int | None = None) -> dict:
     train.check_frozen(paths)
     acfg = load_config("attribution", paths)
@@ -103,41 +143,13 @@ def explain(paths: Paths, *, families=None, baselines=None, folds=None, limit: i
             bp.parent.mkdir(parents=True, exist_ok=True)
             pl.concat([members, pl.DataFrame({"bg_key": [f"global={yr}"] * gl.len(), "npi": gl})]).with_columns(
                 pl.lit(yr, dtype=pl.Int32).alias("year"), pl.lit(k, dtype=pl.Int32).alias("fold")).write_parquet(bp)
-            cidx = {n: i for i, n in enumerate(cand["npi"].to_list())}
             for fam in fams:
                 t0 = time.perf_counter()
                 f = models.load(train.model_dir(paths, design, fam, k) / f"seed{int(acfg['reference_seed'])}")
                 cg = col_groups(f.columns, paths)
-                Xe, Xc = matrix(exf, f.columns), matrix(cand, f.columns)
                 for base in bases:
-                    if base == "peer":
-                        # rows of exf by NPI (joins do not promise row order)
-                        meta = (exf.select("npi").with_row_index("_r").join(assign, on="npi", how="left")
-                                .sort("_r"))
-                        if meta["bg_key"].null_count():
-                            raise RuntimeError("explained provider without a background")
-                        groups_ = meta.group_by("bg_key", maintain_order=True).agg(pl.col("_r"))
-                        mem = members.group_by("bg_key").agg(pl.col("npi"))
-                        mem = dict(zip(mem["bg_key"].to_list(), mem["npi"].to_list()))
-                        jobs = [(r["bg_key"], np.asarray(r["_r"]), [cidx[n] for n in mem[r["bg_key"]]])
-                                for r in groups_.to_dicts()]
-                        meta = meta.drop("_r")
-                    else:
-                        rows = [cidx[n] for n in gl.to_list()]
-                        jobs = [(f"global={yr}", np.arange(exf.height), rows)]
-                        meta = exf.select("npi").with_columns(pl.lit(f"global={yr}").alias("bg_key"),
-                                                              pl.lit("global").alias("bg_level"),
-                                                              pl.lit(len(rows), dtype=pl.UInt32).alias("bg_n"))
-                    for key, r_idx, b_idx in jobs:
-                        res = _methods(f, Xe[r_idx], Xc[b_idx], cg, acfg, bcfg.seed + k)
-                        n = len(r_idx)
-                        frame = meta[r_idx].with_columns(pl.lit(yr, dtype=pl.Int32).alias("year"),
-                                                          pl.lit(k, dtype=pl.Int32).alias("fold"))
-                        cols = [_arr(c, res[c], n) for c in ("v", "B", "C", "E", "E_prob", "A", "A_feat", "D",
-                                                             "D_pair", "D_feat")]
-                        cols += [pl.Series(c, np.asarray(res[c], dtype=np.float64)) for c in
-                                 ("margin", "base", *sorted(c for c in res if c.startswith("del_")))]
-                        results[fam][base][k].append(frame.with_columns(cols))
+                    results[fam][base][k].append(explain_rows(f, exf, cand, base, cg, acfg, bcfg, k, yr,
+                                                              assign=assign, members=members, gl=gl))
                 summary["seconds"][f"{fam}/{yr}/fold{k}"] = round(time.perf_counter() - t0, 2)
                 (paths.processed / "attributions" / fam).mkdir(parents=True, exist_ok=True)
                 (paths.processed / "attributions" / fam / "columns.json").write_text(json.dumps(

@@ -158,6 +158,16 @@ For method *M*'s order π: f₀ = *v*(*N*), f₁ = *v*(*N*∖{π₁}), …, f₈
 - mean pairwise Kendall τ;
 - **perturbation:** binomial resampling of rate numerators given denominators, recompute features → top-1 agreement.
 
+### Implementation notes (Phase 6, C13: §5)
+
+DESIGN §17 D101–D105; parameters in `configs/evaluation.yaml`; code in `evaluate.py` and `stability.py`. Built and tested on synthetic data only.
+
+- **Vectors and ranks** (D101): the 7 scheme groups; a group is found only with a positive contribution; ties by group order. Method C ranks by its diagonal and its pair hit uses M_GH + M_HG; GA²M's D uses its pair cells. Chance levels are exact for each answer key, so DME mill has chance top-1 2/7 and top-3 5/7.
+- **T2** (D102): single schemes at medium intensity; distractor top-1 over medium single-scheme distractors; compound columns over the pairs.
+- **Consistency** (D103): flags at k = 1 % from each family's seed-0 out-of-fold margins; the permutation partner is another provider of the same year and flag stratum.
+- **Faithfulness** (D104): stored deletion scores plus method C's (diagonal order), over all explained providers above their baseline and over the top 2 %. Reported as medians: the normalised area is unbounded when contributions have mixed signs and f(x) is close to its baseline.
+- **Stability** (D105): one 2,000-provider subsample explained in every run (10 seeds, 10 NPI-bootstrap retrains, 10 perturbations) with the same backgrounds. Perturbation redraws the numerators of the count-based (shrunk) rates and recomputes their z from the persisted peer statistics.
+
 ---
 
 ## 6. Scheme injection (E4, E5; component C6)
@@ -228,11 +238,23 @@ DESIGN §17 D90–D100; parameters in `configs/injection.yaml`.
 | S11 | **Prior-work-compatible label tier** (a1, a2, a3, b4, b7, c3G), for comparability with FAU results |
 | S12 | Negative subsampling 15 % vs 30 % (GBM and LR only) |
 
+### Implementation notes (Phase 6, C13: §7)
+
+DESIGN §17 D106–D107; `configs/evaluation.yaml: sensitivity`; code in `sensitivity.py`.
+
+- Each variant runs in a scratch project (`data/processed/sensitivity/{id}/`) holding the main configs with its overrides, the main data linked in place, and a freeze record derived from the main G2 freeze. S1 is run as three variants (W = 1, 2, 5).
+- Retrained variants reuse the main tuned hyperparameters with one seed. They explain a seeded 2,000-provider subsample of the main explained set, with the best GBM and the best glass box (S12: the best GBM and LR).
+- Injected providers are re-explained where a variant changes the explanations (S6, S7, S8; draw 0). S5 and S9 are read from the main evaluation.
+- S6 clusters the scheme-group features on 1 − |Spearman ρ| (average linkage, 7 clusters). Each cluster is named after the scheme group it overlaps most, so the answer key still applies.
+- Reported per variant: detection of the variant's models next to the same main models; consistency; faithfulness; top-1 agreement and Kendall τ with the main explanations of the same providers; correctness where re-explained.
+
 ---
 
 ## 8. Fairness profile (E10)
 
 At k ∈ {0.5, 1} %, by specialty, entity type, Census division and RUCA class: flag rate, precision, and flag rate ÷ positive rate. Descriptive only, interpreted in light of LEIE enforcement patterns.
+
+**Implementation notes (Phase 6).** Best GBM and best glass box, seed 0. Flags are the top ⌈k·N⌉ of each test year, pooled over the test years (D108). `phase6 report` fills the §9 shells and names the DESIGN §10.8 row the numbers are consistent with, using the D108 rule; the human decides the branch.
 
 ---
 

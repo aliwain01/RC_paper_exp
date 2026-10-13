@@ -21,10 +21,10 @@ import numpy as np
 import polars as pl
 
 from . import features, injection, models, splits, train
-from .attribute import M, _arr, _methods, col_groups
+from .attribute import col_groups, explain_rows
 from .attribution import background as bgm
 from .config import load_config
-from .modelmatrix import column_order, matrix
+from .modelmatrix import matrix, model_column_order
 from .paths import Paths
 
 
@@ -59,7 +59,7 @@ def train_models(paths: Paths, draw: int, *, families=None, folds=None) -> dict:
     d = scfg.design("primary")
     years = sorted({*d.train_years, *d.test_years})
     df = _frame(paths, draw, years)
-    cols = column_order([c for c in df.columns if c not in EXTRA], paths=paths)
+    cols = model_column_order([c for c in df.columns if c not in EXTRA], paths=paths)
     plan = pl.read_parquet(injection.draw_dir(paths, draw) / "plan.parquet")
     out = {}
     for k in sorted(folds if folds is not None else range(scfg.n_folds)):
@@ -144,32 +144,7 @@ def explain(paths: Paths, draw: int, *, families=None, baselines=None, limit: in
                     if ex.is_empty():
                         continue
                     cand = df.filter((pl.col("fold") != k) & (pl.col("year") == yr) & (pl.col("y") == 0)).sort("npi")
-                    cidx = {n: i for i, n in enumerate(cand["npi"].to_list())}
-                    Xe, Xc = matrix(ex, f.columns), matrix(cand, f.columns)
-                    if base == "peer":
-                        assign, members = bgm.peer_backgrounds(ex, cand, bcfg, k, yr)
-                        meta = ex.select("npi").with_row_index("_r").join(assign, on="npi", how="left").sort("_r")
-                        mem = members.group_by("bg_key").agg(pl.col("npi"))
-                        mem = dict(zip(mem["bg_key"].to_list(), mem["npi"].to_list()))
-                        jobs = [(np.asarray(r["_r"]), [cidx[n] for n in mem[r["bg_key"]]]) for r in
-                                meta.group_by("bg_key", maintain_order=True).agg(pl.col("_r")).to_dicts()]
-                        meta = meta.drop("_r")
-                    else:
-                        gl = bgm.global_background(cand, bcfg, k, yr)
-                        jobs = [(np.arange(ex.height), [cidx[n] for n in gl.to_list()])]
-                        meta = ex.select("npi").with_columns(pl.lit(f"global={yr}").alias("bg_key"),
-                                                             pl.lit("global").alias("bg_level"),
-                                                             pl.lit(gl.len(), dtype=pl.UInt32).alias("bg_n"))
-                    for r_idx, b_idx in jobs:
-                        res = _methods(f, Xe[r_idx], Xc[b_idx], cg, acfg, bcfg.seed + k)
-                        n = len(r_idx)
-                        fr = meta[r_idx].with_columns(pl.lit(yr, dtype=pl.Int32).alias("year"),
-                                                      pl.lit(k, dtype=pl.Int32).alias("fold"))
-                        cols = [_arr(c, res[c], n) for c in ("v", "B", "C", "E", "E_prob", "A", "A_feat", "D",
-                                                             "D_pair", "D_feat")]
-                        cols += [pl.Series(c, np.asarray(res[c], dtype=np.float64)) for c in
-                                 ("margin", "base", *sorted(c for c in res if c.startswith("del_")))]
-                        parts.append(fr.with_columns(cols))
+                    parts.append(explain_rows(f, ex, cand, base, cg, acfg, bcfg, k, yr))
                 if parts:
                     a = pl.concat(parts, how="diagonal_relaxed").join(
                         plan.select("npi", "year", "schemes", "intensity", "pair", "answer_groups", "distractor",

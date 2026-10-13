@@ -108,10 +108,9 @@ def train_design(paths: Paths, design: str, *, families=None, folds=None, seeds:
     return summary
 
 
-def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds: int, trials: int) -> dict:
-    import optuna
-
-    optuna.logging.set_verbosity(optuna.logging.WARNING)
+def fold_rows(df: DesignFrame, k: int, mcfg: models.ModelConfig, scfg: splits.SplitConfig):
+    """Fold k's rows: (frame with `role` and row index `_i`, tune_train sample, tune_valid, final-fit sample, test).
+    Training rows are TRAIN_ROLES with negatives subsampled (weights 1/rate); tune_valid and test are not subsampled."""
     role = roles(df, k, scfg)
     fr = df.frame.with_columns(role.alias("role"), pl.int_range(pl.len()).alias("_i"))
     train_rows = fr.filter(pl.col("role").is_in(list(splits.TRAIN_ROLES))).select("npi", "year", "y", "role", "_i")
@@ -124,6 +123,14 @@ def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds:
     else:
         final = sub
     test = fr.filter(pl.col("role") == "test")
+    return fr, tt, tv, final, test
+
+
+def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds: int, trials: int) -> dict:
+    import optuna
+
+    optuna.logging.set_verbosity(optuna.logging.WARNING)
+    fr, tt, tv, final, test = fold_rows(df, k, mcfg, scfg)
     n_valid_pos = int(tv["y"].sum())
     if n_valid_pos < int(mcfg["min_valid_positives"]):
         raise TrainError(f"{df.design} fold {k}: tune_valid has {n_valid_pos} positives "

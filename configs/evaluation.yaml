@@ -1,0 +1,76 @@
+# Phase 6 evaluation suite C13 (DESIGN §10.2-10.7; EXPERIMENT_PLAN §5, §7, §8; CONTRACTS §6). Detection metrics
+# (E1) keep their parameters in experiment.yaml: evaluation. Frozen with the protocol before results are seen.
+
+seed: 20261019
+
+# Methods compared (DESIGN §9.2). Method C's group vector for rankings is the diagonal of M (the pure scheme effect,
+# DESIGN §17 D101); its pair hit uses M_GH + M_HG. GA²M's pair hit uses method D's pair cells.
+methods: [A, B, C, D, E]
+
+correctness:                 # E4 (EXPERIMENT_PLAN §5.1)
+  top_n: 3
+  table_intensity: medium    # T2 rows: single schemes at this intensity; compound columns: the pairs
+  baseline: peer
+
+consistency:                 # E3 (EXPERIMENT_PLAN §5.2)
+  sign_threshold: 0.05       # sign agreement over groups with max(|a|, |b|) > 0.05 log-odds
+  flag_k: 0.01               # strata by flag agreement at k = 1 %
+  gbm_methods: [A, B, C, E]
+  glass_boxes: [ebm, ga2m, lr]   # T3 shows EBM and GA²M; LR is reported in the JSON
+  baseline: peer
+
+faithfulness:                # E6 (EXPERIMENT_PLAN §5.3): read from the coalition tables (deletion scores, D86)
+  baselines: [peer]
+
+baselines:                   # E8 (RQ5): GBM methods A, B, E under the peer vs the global baseline
+  methods: [A, B, E]
+
+stability:                   # E7 (EXPERIMENT_PLAN §5.4; DESIGN §9.5 "2,000-provider subsample")
+  n: 2000                    # providers from the explained set (seeded, stratified by test year)
+  families: [lr, ebm, ga2m, xgb, xgb_mono, lgbm, lgbm_mono]
+  seeds: 10                  # reference seed 0 + seeds 1..9 of the primary models (Phase 3)
+  bootstraps: 10             # NPI-bootstrap retrains of the reference configuration
+  perturbations: 10          # binomial resampling of shrunk-rate numerators given denominators
+  baseline: peer
+
+fairness:                    # E10 (EXPERIMENT_PLAN §8): descriptive only
+  k_fracs: [0.005, 0.01]
+  by: [prvdr_type, ent_cd, census_division, ruca_class]
+  min_rows: 1                # groups with fewer scored provider-years are pooled into "other" in the report tables
+
+# E9 sensitivity suite (EXPERIMENT_PLAN §7; DESIGN §17 D105-D107). Each variant runs in its own scratch project
+# (data/processed/sensitivity/{id}/) with these config overrides, reusing the main project's tuned hyperparameters
+# and its explained providers. Stages: cohort, features, train, explain, inject_train, inject_explain.
+# `from_main` variants are read from the main project's stores (no run). `families`: best = best GBM + best glass box
+# (chosen on validation, D74); gbm_lr = best GBM + LR (S12).
+sensitivity:
+  explain_n: 2000            # explained providers per variant (a seeded subsample of the main explained set)
+  draws: [0]                 # injection draws re-explained where a variant touches the explanations
+  inject_limit: null         # at most N injected test providers per fold and year (null = all; G4 budget)
+  variants:
+    S1_W1: {what: "label window W = 1", families: best, stages: [train, explain], overrides: {labels: {W: 1}}}
+    S1_W2: {what: "label window W = 2", families: best, stages: [train, explain], overrides: {labels: {W: 2}}}
+    S1_W5: {what: "label window W = 5", families: best, stages: [train, explain], overrides: {labels: {W: 5}}}
+    S2: {what: "broad label tier", families: best, stages: [train, explain], overrides: {labels: {primary_tier: broad}}}
+    S3: {what: "individuals only", families: best, stages: [train, explain],
+         overrides: {models: {sensitivity: {entity_codes: ["I"]}}}}
+    S4: {what: "exclude 2020", families: best, stages: [train, explain],
+         overrides: {models: {sensitivity: {exclude_years: [2020]}}}}
+    S5: {what: "global vs peer baseline", from_main: baselines}
+    S6: {what: "grouping: correlation clusters (hierarchical on |rho|, cut at 7)", families: best,
+         stages: [explain, inject_explain], grouping: clusters}
+    S7: {what: "grouping: CH2 -> overutilization, PM1 -> context", families: best, stages: [explain, inject_explain],
+         grouping: S7}
+    S8: {what: "context ablation", families: best, stages: [train, explain, inject_train, inject_explain],
+         overrides: {models: {sensitivity: {exclude_groups: [context]}}}}
+    S9: {what: "monotone constraints on vs off", from_main: monotone}
+    S10: {what: "peer cells without region", families: best, stages: [cohort, features, train, explain],
+          overrides: {experiment: {cohort: {peer: {refine_min: 1000000000}}}}}   # no cell reaches it: never refine
+    S11: {what: "prior-work-compatible label tier", families: best, stages: [train, explain],
+          overrides: {labels: {primary_tier: prior_work}}}
+    S12: {what: "negative subsampling 30 %", families: gbm_lr, stages: [train, explain],
+          overrides: {experiment: {splits: {negative_subsample: {rate: 0.30}}}}}
+  clusters:                  # S6: label-free correlation clusters of the scheme-group features
+    n_clusters: 7
+    linkage: average         # on distance 1 - |Spearman rho| over training-year reference rows
+    max_rows: 200000         # seeded row sample for the correlation matrix

@@ -16,6 +16,7 @@ import numpy as np
 import polars as pl
 
 from . import features, groups, splits
+from .config import load_config
 from .labels import LabelConfig
 from .paths import Paths
 
@@ -36,6 +37,7 @@ class DesignFrame:
     columns: list[str]           # model columns in fixed order
     groups: dict[str, str]       # column -> group
     folds: pl.DataFrame
+    exclude_years: tuple[int, ...] = ()   # models.yaml sensitivity.exclude_years (S4), applied by roles()
 
 
 def column_order(columns, fcfg: features.FeatureConfig | None = None, paths: Paths | None = None) -> list[str]:
@@ -66,6 +68,40 @@ def column_kinds(columns, fcfg: features.FeatureConfig | None = None, paths: Pat
     return out
 
 
+def sensitivity_knobs(paths: Paths | None = None) -> dict:
+    """models.yaml `sensitivity` (EXPERIMENT_PLAN §7; inactive by default): entity_codes, exclude_years,
+    exclude_groups. Read here rather than through models.ModelConfig to keep this module free of model imports."""
+    s = load_config("models", paths).get("sensitivity") or {}
+    ent = s.get("entity_codes")
+    return {"entity_codes": None if ent is None else [str(e) for e in ent],
+            "exclude_years": [int(y) for y in s.get("exclude_years") or []],
+            "exclude_groups": [str(g) for g in s.get("exclude_groups") or []]}
+
+
+def model_column_order(columns, paths: Paths | None = None) -> list[str]:
+    """column_order without the columns of models.yaml sensitivity.exclude_groups (S8 context ablation)."""
+    cols = column_order(columns, paths=paths)
+    drop = set(sensitivity_knobs(paths)["exclude_groups"])
+    if not drop:
+        return cols
+    unknown = drop - set(groups.GROUP_ORDER)
+    if unknown:
+        raise MatrixError(f"models.yaml sensitivity.exclude_groups: unknown groups {sorted(unknown)}")
+    grp = groups.feature_groups(cols, paths=paths)
+    return [c for c in cols if grp[c] not in drop]
+
+
+def entity_filter(df: pl.DataFrame, paths: Paths) -> pl.DataFrame:
+    """Rows of providers whose cohort ent_cd is in models.yaml sensitivity.entity_codes (S3); unchanged if unset."""
+    ent = sensitivity_knobs(paths)["entity_codes"]
+    if ent is None:
+        return df
+    coh = (pl.scan_parquet(paths.processed / "cohort.parquet").select("npi", pl.col("year").cast(pl.Int32), "ent_cd")
+           .filter(pl.col("ent_cd").is_in(ent)).collect())
+    return df.with_columns(pl.col("year").cast(pl.Int32)).join(coh.select("npi", "year"), on=["npi", "year"],
+                                                               how="semi")
+
+
 def design_years(design: str, scfg: splits.SplitConfig) -> tuple[int, ...]:
     d = scfg.design(design)
     return tuple(sorted({*d.train_years, *d.test_years}))
@@ -90,17 +126,22 @@ def load_design(paths: Paths, design: str, *, label_tier: str | None = None, W: 
           .join(folds.select("npi", "fold"), on="npi", how="left"))
     if df["fold"].null_count():
         raise MatrixError(f"{df['fold'].null_count()} rows have no fold (folds.parquet is older than the features?)")
-    cols = column_order(feats.columns, paths=paths)
+    df = entity_filter(df, paths)
+    cols = model_column_order(feats.columns, paths=paths)
     nulls = [c for c in cols if df[c].null_count()]
     if nulls:
         raise MatrixError(f"model columns with nulls (features must be complete): {nulls[:10]}")
     df = df.select(*META, *cols).sort(["year", "npi"])
-    return DesignFrame(design, tier, W, years, df, cols, groups.feature_groups(cols, paths=paths), folds)
+    return DesignFrame(design, tier, W, years, df, cols, groups.feature_groups(cols, paths=paths), folds,
+                       tuple(sensitivity_knobs(paths)["exclude_years"]))
 
 
 def roles(df: DesignFrame, fold: int, scfg: splits.SplitConfig, *, design: str | None = None,
-          exclude_years=()) -> pl.Series:
-    """C7 role of every row of `df.frame` for fold `fold` (Enum)."""
+          exclude_years=None) -> pl.Series:
+    """C7 role of every row of `df.frame` for fold `fold` (Enum). exclude_years defaults to models.yaml
+    sensitivity.exclude_years (S4; empty in the main analysis)."""
+    if exclude_years is None:
+        exclude_years = df.exclude_years
     keys = df.frame.select("npi", "year")
     return splits.assign_roles(keys, df.folds, fold, design or df.design, scfg, check=False,
                                exclude_years=exclude_years)["role"]

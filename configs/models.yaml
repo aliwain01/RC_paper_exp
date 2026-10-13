@@ -87,3 +87,12 @@ lgbm:
 lgbm_mono:
   fixed: {objective: binary}
   space: *lgbm_space
+
+# Sensitivity-suite knobs (EXPERIMENT_PLAN §7; configs/evaluation.yaml sensitivity). Inactive in the main analysis;
+# a sensitivity variant sets them in its own scratch project. entity_codes: keep only rows whose cohort ent_cd is
+# listed (S3); exclude_years: training rows of these years get role `none` (S4, splits D60); exclude_groups: model
+# columns of these groups are dropped (S8, context ablation).
+sensitivity:
+  entity_codes: null
+  exclude_years: []
+  exclude_groups: []

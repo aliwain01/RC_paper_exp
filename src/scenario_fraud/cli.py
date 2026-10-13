@@ -24,6 +24,8 @@
     scenario-fraud phase4 diagnostics | bench [--family F ...] | report
     scenario-fraud phase5 calibrate | build [--draw D ...] | train [--draw D ...] [--family F ...] | stress [--draw D ...]
     scenario-fraud phase5 explain [--draw D ...] [--family F ...] [--limit N] | report
+    scenario-fraud phase6 evaluate [--part P ...] | stability [--family F ...] [--kind seed|boot|perturb ...]
+    scenario-fraud phase6 sensitivity [--variant S ...] | report
 """
 
 from __future__ import annotations
@@ -36,7 +38,8 @@ from pathlib import Path
 import polars as pl
 
 from . import (acquire, cohort, features, g1_report, g2_report, g3_report, harmonise, labels, provenance, qa, splits,
-               train, attribute, bench, explained_set, g4_report, g5_report, inject_models, injection)
+               train, attribute, bench, explained_set, g4_report, g5_report, inject_models, injection, evaluate,
+               eval_report, sensitivity, stability)
 from .paths import Paths
 from .runlog import run_log
 
@@ -272,6 +275,32 @@ def _run_phase5(paths: Paths, a: argparse.Namespace) -> dict:
     return out
 
 
+def _p6(sub: argparse._SubParsersAction) -> None:
+    p6 = sub.add_parser("phase6", help="Phase 6: evaluation suite (C13) and the evaluation report")
+    s = p6.add_subparsers(dest="cmd", required=True)
+    e = s.add_parser("evaluate", help="correctness, consistency, faithfulness, baselines, stress, fairness")
+    e.add_argument("--part", action="append", default=None, choices=list(evaluate.PARTS))
+    st = s.add_parser("stability", help="seeds, NPI-bootstrap retrains and perturbations on a subsample (E7)")
+    st.add_argument("--family", action="append", default=None)
+    st.add_argument("--kind", action="append", default=None, choices=list(stability.KINDS))
+    se = s.add_parser("sensitivity", help="sensitivity variants S1-S12 in scratch projects (E9)")
+    se.add_argument("--variant", action="append", default=None)
+    s.add_parser("report", help="write outputs/phase6/evaluation_report.md")
+
+
+def _run_phase6(paths: Paths, a: argparse.Namespace) -> dict:
+    if a.cmd == "evaluate":
+        return evaluate.run(paths, a.part)
+    if a.cmd == "stability":
+        res = stability.run(paths, families=a.family, kinds=tuple(a.kind or stability.KINDS))
+        return {"n": res["n"], "families": {f: v["seeds"] for f, v in res["families"].items()}}
+    if a.cmd == "sensitivity":
+        return sensitivity.run(paths, a.variant)
+    if a.cmd == "report":
+        return {"report": paths.rel(eval_report.build_report(paths))}
+    raise SystemExit(f"unknown command {a.cmd}")
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="scenario-fraud", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -281,13 +310,14 @@ def main(argv: list[str] | None = None) -> int:
     _p3(sub)
     _p4(sub)
     _p5(sub)
+    _p6(sub)
     a = ap.parse_args(argv)
     paths = Paths.discover()
     args = {k: v for k, v in vars(a).items() if k not in ("phase", "cmd")}
     with run_log(paths, a.phase, a.cmd, args) as result:
         result.update({"phase1": _run_phase1, "phase2": _run_phase2, "phase3": _run_phase3,
-                       "phase4": _run_phase4, "phase5": _run_phase5}[a.phase](paths, a))
-        if a.phase in ("phase2", "phase3", "phase4", "phase5"):     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
+                       "phase4": _run_phase4, "phase5": _run_phase5, "phase6": _run_phase6}[a.phase](paths, a))
+        if a.phase in ("phase2", "phase3", "phase4", "phase5", "phase6"):     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
             result["synthetic_inputs"] = provenance.inputs_synthetic(provenance.interim_files(paths.interim))
     print(json.dumps(result, indent=2, default=str))
     return 0

@@ -1,6 +1,14 @@
-# Phase 1 status: built, data acquisition blocked
+# Status: Phases 0-6 built and tested on synthetic data; data acquisition blocked
 
 12 October 2026 · follows [HANDOFF.md](../../HANDOFF.md) §9 quick start. Gate **G1 not reached**: no data could be downloaded from this environment.
+
+## Phase 6 (13 October 2026): code built, tested on synthetic data only
+
+Built: `evaluate.py` (C13: correctness, consistency, faithfulness, peer vs global baseline, use (a) stress test, fairness), `stability.py` (seeds, NPI-bootstrap retrains, binomial perturbations on a 2,000-provider subsample), `sensitivity.py` (S1–S12, each in its own scratch project), `eval_report.py` (table shells T1–T4 plus E5, E8, E9, E10), and `scenario-fraud phase6 evaluate | stability | sensitivity | report`.
+
+- **Checks on synthetic data.** Chance levels are exact per answer key. For additive models (LR, EBM without pairs) B, C, D and E agree exactly, as they should. Peer cells without region (S10) reproduce the main run when no Census-division cell exists.
+- **Deletion metric caveat (D104).** The normalised deletion area (D86) has no bound when a provider's contributions have mixed signs and its score sits close to its baseline. On synthetic data the means were strongly negative, so tables report medians.
+- **Decisions before Phase 6 runs on real data:** D101–D108 (proposed). The report names the DESIGN §10.8 row the numbers are consistent with (rule D108); the human decides the branch.
 
 ## Phase 5 (13 October 2026): code built, tested on synthetic data only
 

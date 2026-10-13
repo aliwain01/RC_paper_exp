@@ -317,3 +317,40 @@ Parameters: `configs/injection.yaml`. DESIGN §17 D90–D100. Everything per dra
   feature-shift profile by group, leakage checks L2/L5, injection-model row counts.
 - CLI: `scenario-fraud phase5 calibrate | build [--draw D …] | train [--draw D …] [--family F …] | stress … |
   explain … [--limit N] | report`. Training and explaining refuse after a protocol change (D73).
+
+## 6. Phase 6: evaluation suite (C13)
+
+Parameters: `configs/evaluation.yaml` (detection keeps `experiment.yaml: evaluation`); sensitivity knobs in
+`models.yaml: sensitivity` (`entity_codes`, `exclude_years`, `exclude_groups`; inactive by default, honoured by
+`modelmatrix.load_design` / `roles` / `model_column_order` and the injection models). DESIGN §17 D101–D108. Every
+command refuses before the G2 freeze (D73).
+
+- `evaluate.py`: pure metrics `group_vectors(att, method)` (n × 8; C = diagonal), `pair_matrix`, `ranks`, `chance(answer_sets)`
+  (exact over 7! orders), `correctness_rows(att, method, icfg)`, `consistency_metrics(a, b, threshold)`,
+  `flags(scores, k)`, `derangement`, `deletion_table(att)`, `fairness_table(scores, attrs, k, by)`; runners
+  `run_correctness | run_consistency | run_faithfulness | run_baselines | run_stress | run_fairness`, `run(paths, parts)`
+  → `outputs/phase6/{correctness,consistency,faithfulness,baselines,stress,fairness}.json`; per-row tables in
+  `data/processed/evaluation/` (`correctness_{baseline}.parquet`: npi, year, fold, draw, schemes_key, intensity,
+  pair, distractor, valid, rank, top1, top3, rr, both_top3, pair_hit, answer_share, spill_share, chance_*, family,
+  method, strat_specialty; `consistency.parquet`: npi, year, stratum, gbm, method, glass_box, metrics and `perm_*`;
+  `faithfulness.parquet`: per method score, `_reverse`, `random`, `valid`, `top`, family, baseline).
+  `best_families(paths)` → best `gbm`, `gbm_mono`, `glass_box` (D74); `load_part(paths, part)`.
+- `stability.py`: `subsample(paths, n, seed)`, `attribute_subsample(paths, model_for_fold, sub, feats, baseline,
+  perturb)` (Phase 4 engine via `attribute.explain_rows`), `bootstrap_model(paths, family, fold, b)` →
+  `data/processed/stability/models/{family}/boot{b}/fold{k}/`, `shrunk_z`, `binomial_numerators`, `perturber`,
+  `kendall_tau_b`, `run(paths, families, kinds)` → `stability/{family}/{seed,boot,perturb}{i}.parquet` (npi, year, fold,
+  8-vectors A–E) and `outputs/phase6/stability.json` (per family and method: runs, top-1 agreement per kind,
+  `kendall_seeds`, `kendall_boot`).
+- `sensitivity.py`: `run(paths, variants)`; per variant `setup` (scratch project `data/processed/sensitivity/{id}/`:
+  configs + overrides, `models.yaml designs.primary` = {tune: false, seeds: 1}, rewritten `groups.yaml` for grouping
+  variants, `mirror` links of every processed artefact the stages do not rebuild, copied `tuning.json`, derived
+  `outputs/phase2/G2_freeze.json` with `variant_of`), stages `cohort, features, train, explain, inject_train,
+  inject_explain`, `evaluate_variant` → `outputs/phase6/sensitivity/{id}.json` (`detection`, `detection_main`,
+  `consistency`, `faithfulness`, `agreement_with_main`, `correctness`, plus `moves` / `clusters`); `from_main`
+  variants S5, S9. `load_results(paths)`.
+- `eval_report.py`: `build_report(paths)` → `outputs/phase6/evaluation_report.md` (+ `.json`): T1 (from G3), T2, E5,
+  T3, T4, E8, E9, E10 and the DESIGN §10.8 row by rule D108 (`branch`).
+- CLI: `scenario-fraud phase6 evaluate [--part P …] | stability [--family F …] [--kind seed|boot|perturb …] |
+  sensitivity [--variant S …] | report`. `attribute.explain_rows(f, exf, cand, baseline, cg, acfg, bcfg, k, year)` is
+  the shared Phase 4 row explainer (used by Phase 4, 5 and 6).
+
