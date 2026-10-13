@@ -80,6 +80,10 @@ class Paths:
         return self.outputs / "phase4"
 
     @property
+    def phase5(self) -> Path:
+        return self.outputs / "phase5"
+
+    @property
     def headers(self) -> Path:
         return self.phase1 / "headers"
 

@@ -293,3 +293,27 @@ Parameters: `configs/attribution.yaml`. DESIGN §17 D82–D89. Groups are the 8 
   projections, background levels, EXPERIMENT_PLAN §4 additivity on the store (B, C, D 1e-6; A 1e-4), diagnostics.
 - CLI: `scenario-fraud phase4 explained-set | explain [--family F …] [--baseline peer|global] [--fold K …]
   [--limit N] | diagnostics | bench [--family F …] | report`. `explain` refuses after a protocol change (D73).
+
+## 5. Phase 5: scheme injection (C6) and injection models
+
+Parameters: `configs/injection.yaml`. DESIGN §17 D90–D100. Everything per draw d lives under
+`data/processed/injection/draw{d}/`.
+
+- `injection.py` (C6): `InjectionConfig`; `eligibility(paths, years, icfg)` (in-cohort, never-positive provider-years
+  with `ok_<scheme>` flags); `plan(paths, draw)` → `plan.parquet` (`npi`, `year`, `fold`, `strat_specialty`,
+  `peer_cell`, `part` train/test, `schemes` list, `intensity` label, `pair`, `cell`, `cell_target`, `x_<scheme>`
+  intensity values, `answer_groups`, `distractor`, `distractor_groups`, `draw`); transforms `upcoding`,
+  `overutilization`, `atypical_mix`, `charge_inflation`, `dme_mill`; `apply_year(frames, who, coh, refs, fcfg, icfg,
+  draw, year)` → edited frames + edit log; `build(paths, draw)` → `edited/{dataset}/{year}.parquet` (edited rows of
+  planned providers only), `features/{year}.parquet` (whole year re-featurised, `injected` column),
+  `peer/{year}/{stats,cohort}.parquet`, `edit_log.parquet`, `summary.json`; `load_injected_features`.
+- `inject_models.py`: `train_models(paths, draw)` → `models/{family}/fold{k}/seed0/`, `scores/{family}/fold{k}.parquet`
+  (`npi`, `year`, `fold`, `y` = injected, `peer_cell`, `margin`, plan columns); `stress_test` → `use_a.parquet`
+  (`family`, `margin`, `percentile` among clean test rows); `explain(paths, draw)` →
+  `attributions/{family}/{baseline}/fold{k}.parquet` (Phase 4 store columns + `schemes`, `intensity`, `pair`,
+  `answer_groups`, `distractor`, `distractor_groups`); `load_injected_attributions(paths, family, baseline, draws)`
+  (adds `draw`); `calibrate(paths)` → `outputs/phase5/calibration.json`.
+- `g5_report.py`: `outputs/phase5/G5_report.md` (+ `.json`): calibration, plan vs targets, edits and re-suppression,
+  feature-shift profile by group, leakage checks L2/L5, injection-model row counts.
+- CLI: `scenario-fraud phase5 calibrate | build [--draw D …] | train [--draw D …] [--family F …] | stress … |
+  explain … [--limit N] | report`. Training and explaining refuse after a protocol change (D73).

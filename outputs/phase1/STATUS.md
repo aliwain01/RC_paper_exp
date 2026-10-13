@@ -2,6 +2,14 @@
 
 12 October 2026 · follows [HANDOFF.md](../../HANDOFF.md) §9 quick start. Gate **G1 not reached**: no data could be downloaded from this environment.
 
+## Phase 5 (13 October 2026): code built, tested on synthetic data only
+
+Built: `injection.py` (C6: plan, five scheme transforms on harmonised rows, summary-total updates, re-suppression, re-featurising each injected copy with injected providers excluded from peer statistics), `inject_models.py` (injection models (use b), stress test (use a), attribution of injected providers, intensity calibration), `g5_report.py`, and `scenario-fraud phase5 calibrate | build | train | stress | explain | report`.
+
+- **Checks pass on synthetic data.** The G5 report checks re-suppression, that only planned rows are edited, and that peer statistics and cell sizes exclude injected providers (checklist L2/L5).
+- **Calibration matters.** On synthetic data the plan's starting intensities did not all land near the 95th percentile, and DME mill plateaued below it. Real-data calibration decides the grid at G5.
+- **Decisions for G5:** the intensity grid, the answer key (DME mill counts for either DME group) and D90–D100 (proposed).
+
 ## Phase 4 (13 October 2026): code built, tested on synthetic data only
 
 Built: `attribution/background.py` (C9), `attribution/coalition.py` (C10: methods B, C, E and deletion curves from one exact 256-subset coalition table), `attribution/summed_shap.py` (C11, method A), `attribution/glassbox.py` (C12, method D), `explained_set.py`, `attribute.py`, `bench.py`, `g4_report.py`, and `scenario-fraud phase4 explained-set | explain | diagnostics | bench | report`.

@@ -22,6 +22,8 @@
     scenario-fraud phase3 report
     scenario-fraud phase4 explained-set | explain [--family F ...] [--baseline peer|global] [--fold K ...] [--limit N]
     scenario-fraud phase4 diagnostics | bench [--family F ...] | report
+    scenario-fraud phase5 calibrate | build [--draw D ...] | train [--draw D ...] [--family F ...] | stress [--draw D ...]
+    scenario-fraud phase5 explain [--draw D ...] [--family F ...] [--limit N] | report
 """
 
 from __future__ import annotations
@@ -34,7 +36,7 @@ from pathlib import Path
 import polars as pl
 
 from . import (acquire, cohort, features, g1_report, g2_report, g3_report, harmonise, labels, provenance, qa, splits,
-               train, attribute, bench, explained_set, g4_report)
+               train, attribute, bench, explained_set, g4_report, g5_report, inject_models, injection)
 from .paths import Paths
 from .runlog import run_log
 
@@ -231,6 +233,45 @@ def _run_phase4(paths: Paths, a: argparse.Namespace) -> dict:
     raise SystemExit(f"unknown command {a.cmd}")
 
 
+def _p5(sub: argparse._SubParsersAction) -> None:
+    p5 = sub.add_parser("phase5", help="Phase 5: scheme injection (C6), injection models and the G5 report")
+    s = p5.add_subparsers(dest="cmd", required=True)
+    s.add_parser("calibrate", help="peer percentile of each scheme's primary feature over the intensity grid")
+    for name, hlp in (("build", "plan, edit and featurise injected copies -> data/processed/injection/draw{d}/"),
+                      ("train", "injection models (use b), one per family and fold"),
+                      ("stress", "LEIE models score injected test providers (use a)"),
+                      ("explain", "methods A-E for injected test providers under the injection models")):
+        c = s.add_parser(name, help=hlp)
+        c.add_argument("--draw", type=int, action="append", default=None, help="repeatable; default: every draw")
+        if name in ("train", "stress", "explain"):
+            c.add_argument("--family", action="append", default=None)
+        if name == "explain":
+            c.add_argument("--limit", type=int, default=None, help="at most N injected providers per fold and year")
+    s.add_parser("report", help="write outputs/phase5/G5_report.md")
+
+
+def _run_phase5(paths: Paths, a: argparse.Namespace) -> dict:
+    if a.cmd == "calibrate":
+        c = inject_models.calibrate(paths)
+        return {s: v["proposed_medium"] for s, v in c["schemes"].items()}
+    if a.cmd == "report":
+        return {"report": paths.rel(g5_report.build_report(paths))}
+    draws = a.draw if a.draw is not None else list(range(int(injection.InjectionConfig.load(paths)["draws"])))
+    out = {}
+    for d in draws:
+        if a.cmd == "build":
+            out[d] = injection.build(paths, d)
+        elif a.cmd == "train":
+            out[d] = inject_models.train_models(paths, d, families=a.family)
+        elif a.cmd == "stress":
+            out[d] = {"rows": inject_models.stress_test(paths, d, families=a.family).height}
+        elif a.cmd == "explain":
+            out[d] = inject_models.explain(paths, d, families=a.family, limit=a.limit)
+        else:
+            raise SystemExit(f"unknown command {a.cmd}")
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="scenario-fraud", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -239,13 +280,14 @@ def main(argv: list[str] | None = None) -> int:
     _p2(sub)
     _p3(sub)
     _p4(sub)
+    _p5(sub)
     a = ap.parse_args(argv)
     paths = Paths.discover()
     args = {k: v for k, v in vars(a).items() if k not in ("phase", "cmd")}
     with run_log(paths, a.phase, a.cmd, args) as result:
         result.update({"phase1": _run_phase1, "phase2": _run_phase2, "phase3": _run_phase3,
-                       "phase4": _run_phase4}[a.phase](paths, a))
-        if a.phase in ("phase2", "phase3", "phase4"):     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
+                       "phase4": _run_phase4, "phase5": _run_phase5}[a.phase](paths, a))
+        if a.phase in ("phase2", "phase3", "phase4", "phase5"):     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
             result["synthetic_inputs"] = provenance.inputs_synthetic(provenance.interim_files(paths.interim))
     print(json.dumps(result, indent=2, default=str))
     return 0

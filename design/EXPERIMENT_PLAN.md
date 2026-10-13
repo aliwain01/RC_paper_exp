@@ -198,6 +198,17 @@ For method *M*'s order π: f₀ = *v*(*N*), f₁ = *v*(*N*∖{π₁}), …, f₈
 
 Intensities are starting values, calibrated in Phase 5 so that "medium" places the primary feature near the peer 95th percentile. The calibration is reported.
 
+### Implementation notes (Phase 5, C6)
+
+DESIGN §17 D90–D100; parameters in `configs/injection.yaml`.
+
+- **Answer key:** each scheme maps to its group. DME mill counts as correct for either DME group, so its chance top-1 is 2/7. Expected spill-over groups are listed per scheme (D90).
+- **Transforms:** upcoding splits moved services ½/½ between 99214 and 99215 (D91). Atypical services add 3 rare codes at national median prices (D93). DME mill adds 2 high-risk codes with 1–2 suppliers (D94). Summary totals change by the visible change; edited rows are re-suppressed (D92).
+- **Featurising:** each draw's injected copy is re-featurised with injected providers excluded from peer cells and statistics. The G5 report checks this against checklist L2 and L5 (D95).
+- **Plan and distractors:** each provider-year is injected at most once per draw, stratified by specialty (D96). Distractors are defined on the clean features (D97).
+- **Calibration:** `phase5 calibrate` reports the peer percentile of each scheme's primary feature over an intensity grid, and the human accepts the grid at G5 (D98).
+- **Models:** injection models reuse the LEIE models' tuned parameters, and LEIE positives are removed. Use (a) is a percentile rank among clean test rows (D99). Injected providers are explained with the Phase 4 engine (D100).
+
 ---
 
 ## 7. Sensitivity suite (E9)
