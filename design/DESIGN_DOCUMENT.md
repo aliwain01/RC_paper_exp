@@ -91,9 +91,9 @@ The internal term "reason codes" is **not** used. In US health care it also refe
 
 Feature-level SHAP is precise but unreadable, and correlated features split credit unpredictably. Grouping by scheme matches how fraud is investigated and makes explanations more stable.
 
-**What is not new:** grouping attributions is established. Credit scoring uses adverse-action reasons. The literature has Owen values and groupShapley (Jullum, Redelmeier & Aas, 2021). Explainable ML on Medicare + LEIE data has also been published, e.g. Hancock, Bauder, Wang & Khoshgoftaar (2023), and Shekhar, Leder-Luis & Akoglu (2023) on unsupervised explainable fraud detection.
+**What is not new:** grouping attributions is established. Credit scoring uses adverse-action reasons. The literature has Owen values, groupShapley (Jullum, Redelmeier & Aas, 2021) and the Shapley interaction index (Grabisch & Roubens 1999) with modern tooling (SHAP-IQ, shapiq). Explainable ML on Medicare + LEIE data has also been published, e.g. Hancock, Bauder, Wang & Khoshgoftaar (2023), and Shekhar, Leder-Luis & Akoglu (2023) on unsupervised explainable fraud detection. Labelling with a fraud-related subset of LEIE authorities is standard in the FAU line of work, and archived LEIE files may already have been used to recover reinstated providers (Johnson & Khoshgoftaar 2023; to check). Ground truth built by modifying real data to test attributions exists outside fraud (Zhou et al. 2022), and simulated fraud data with ground-truth explanations exist for ERP fraud (Tritscher et al.). Phase 0 review: [LITERATURE_REVIEW.md](LITERATURE_REVIEW.md).
 
-**What this project contributes:**
+**What this project contributes** (no precedent found in Phase 0 for the combination; the individual methods and the authority-based labelling are prior art and are cited as such):
 
 - a scheme taxonomy grounded in public data,
 - a systematic comparison of group-attribution methods, including an exact group-interaction method,
@@ -193,7 +193,7 @@ All authority codes below are from the OIG exclusion-authorities page (verified)
 | **Broad** | Primary + (b)(2), (b)(5), (b)(8), (b)(15), §1156, (a)(4), (b)(3) | Sensitivity |
 | **Removed** (in primary analysis) | (a)(2) patient abuse/neglect · (b)(4) licence revocation · (b)(14) loan default · (b)(9)–(13) disclosure/access failures | Neither positive nor negative |
 
-The `EXCLTYPE` string format is confirmed against the OIG record-layout PDF in Phase 1.
+The `EXCLTYPE` string format was checked in Phase 0 against third-party copies of the file ([LITERATURE_REVIEW](LITERATURE_REVIEW.md) §1); the OIG record layout gives field lengths only, so C3 stops on any value not in `configs/labels.yaml`. **The file encodes 1128(b)(1) as a single code**, so the primary tier's (b)(1)(A) cannot be separated from (b)(1)(B); whether the unsplit code joins the primary tier is decided at G1 (D71). No file encoding of 1128(c)(3)(G) was found.
 
 **Expected prevalence.** Published work using broader label sets reports positive rates of roughly 0.03–0.07 % of records (Johnson & Khoshgoftaar 2019; Tajrobehkar et al. 2024 preprint). Our primary tier is narrower, so prevalence will likely be lower. The true count is the **Phase 1 go/no-go gate** (§15).
 
@@ -738,6 +738,8 @@ Public data validates scoring, attribution and the analyst view's content. The p
 | D68 | Reports carry "SYNTHETIC DATA: NOT A RESULT" when an interim file is flagged synthetic (Parquet key-value metadata `scenario_fraud.synthetic` or sidecar) or a manifest note says so, and "PROVENANCE UNKNOWN" when a harmonised file has neither sidecar nor flag; cohort, features and folds metas and phase2 run logs record `synthetic_inputs`; tests/synth.py refuses the checkout and roots holding non-synthetic data | HANDOFF §8 rule 7. Review fixes: provenance rested on sidecars only, and the generator could overwrite real data (proposed; confirm at G2) |
 | D69 | The G2 report lists §17 rows after D18 (experiment.yaml g2.baseline_last_decision), the parameters to freeze, the hashes and generated decisions (incl. the open §19 questions); the QA report gives raw-statistic quantiles, undefined and clipped shares and near-duplicates via prune_candidates | CONTRACTS §2.4; raw distributions are what a reviewer needs to judge plausibility (proposed; confirm at G2) |
 | D70 | Peer granularity (§19 Q2, "is region needed?"): QA §7 reports per feature the shift of Census-division cells' medians from their specialty × entity cell's median in robust-z units and the scale ratio (reporting threshold qa.region_shift_threshold = 0.5); keeping or dropping division refinement in the primary protocol is decided at G2, S10 runs the other choice | Review finding: §19 says this is decided empirically in Phase 2 and it had not been taken up (open; decide at G2) |
+| D71 | The LEIE file encodes 1128(b)(1) as one code (`1128b1`), so the primary tier's (b)(1)(A) cannot be isolated; until decided, `1128b1` maps to 1128(b)(1), which is in no tier (its providers are "other excluded" and dropped). `1160` added to the EXCLTYPE map (in no tier) | Phase 0 evidence from third-party copies of the 2022–2026 files (open; decide at G1) |
+| D72 | §3.2 narrowed after the Phase 0 review: fraud-related authority subsets, group Shapley values and the group interaction index are prior art; the claimed contribution is their combination with exact peer-baseline group attributions, injected-ground-truth correctness on real profiles and the glass-box comparison | Phase 0 found precedents for parts of contributions 2 and 3 ([LITERATURE_REVIEW](LITERATURE_REVIEW.md) §4.2) (proposed; confirm at G2) |
 
 ---
 
@@ -748,10 +750,10 @@ Public data validates scoring, attribution and the analyst view's content. The p
 | Part B by Provider & Service fields listed in §5.2 | **Verified** (column list, 2013–2024 coverage) | Third-party catalogue mirror of the CMS file; CMS data dictionary (RY25) title confirmed |
 | Part B latest year = 2024 | **Verified** | CMS dataset page and look-up tool (updated May 2026) |
 | By-Provider has `Tot_HCPCS_Cds`, `Bene_Avg_Risk_Scre` (avg HCC score), `Bene_Dual_Cnt`; 1,296,739 rows (2024) | **Verified** | CMS by-Provider data dictionary (RY21); CMS API page |
-| `Bene_CC_*` exact names per year | To verify | Phase 1 column maps |
-| Suppression of records from ≤ 10 beneficiaries | **Verified** | CMS methodology (Part B, DMEPOS) |
+| `Bene_CC_*` exact names per year | **Partially verified** (Phase 0): 25 names with V1/V2 suffixes (e.g. `Bene_CC_PH_Diabetes_V2_Pct`), unchanged 2019–2024 in the current release; older releases used 16 names (`Bene_CC_Dbts_Pct`) | Third-party copies of the files ([LITERATURE_REVIEW](LITERATURE_REVIEW.md) §2); confirm from Phase 1 header dumps |
+| Suppression of records from ≤ 10 beneficiaries | **Verified** for Part B; **to verify** for DMEPOS, whose documents mix "≤ 10 beneficiaries" and "≤ 10 claims" (Phase 0) | CMS methodology (Part B, DMEPOS); DMEPOS methodology PDF before Phase 5 re-suppression |
 | DMEPOS by Referring Provider & Service fields incl. `RBCS_Id`, `Suplr_Rentl_Ind`, `Tot_Suplrs`, payment averages | **Verified** | CMS data dictionaries / API pages (via search) |
-| DMEPOS latest year = 2024 | Likely; re-check | data.gov catalogue (Jul 2026), CMS API page; earlier entries said 2023 |
+| DMEPOS latest year = 2024 | **Verified** for by Referring Provider and Service (CMS api-docs snippet); likely for by Referring Provider (search summary only) | Phase 0; G1 records it from the real download |
 | DMEPOS by Referring Provider has distinct `Tot_Suplr_Benes`, `DME_Tot_Suplr_Benes` | **Verified** | CMS referring-provider data dictionary (via search) |
 | LEIE full file = exclusions in effect; reinstated removed | **Verified** | OIG LEIE download page |
 | Monthly supplements archived ≈ 12 months (earliest listed Jan 2025) | **Verified** | OIG supplement archive page |
@@ -760,17 +762,19 @@ Public data validates scoring, attribution and the analyst view's content. The p
 | Exclusion authority codes and minimum periods | **Verified** | OIG exclusion-authorities page |
 | FAU label set (a1, a2, a3, b4, b7, c3G) | **Verified** (as reported) | Bauder & Khoshgoftaar; Johnson & Khoshgoftaar 2019 |
 | Prior-work positive rate ≈ 0.03–0.07 % | **Verified** (as reported) | Johnson & Khoshgoftaar 2019; Tajrobehkar et al. 2024 |
-| CBRs: confidential, educational, not audit precursors; paused Jan 2024 | **Verified** | CMS/association sources |
-| CMS Fraud Prevention System since 2011 | Background knowledge; cite primary source in Phase 0 | CMS / Small Business Jobs Act 2010 |
-| NAIC Model Bulletin on AI (Dec 2023) | Background knowledge; cite primary source in Phase 0 | NAIC |
-| 2021 office E&M and 2023 ED/hospital E&M guideline changes; 99201 deleted 2021 | Background knowledge; cite AMA/CMS in Phase 0 | AMA CPT |
+| CBRs: educational, "not an indication or precursor to an audit", but selected providers "may be referred for additional review"; confidential; paused Jan 2024 | **Partially verified** (Phase 0): educational and not-a-precursor with the referral caveat (CMS page, CBR sample); confidentiality **not verified**; pause date from trade associations, 2024 RFI from CMS; no evidence of resumption by Oct 2026 | [LITERATURE_REVIEW](LITERATURE_REVIEW.md) §3 |
+| CMS Fraud Prevention System since 2011 | **Verified** (Phase 0): predictive analytics on Medicare FFS claims since 30 June 2011 | CMS Report to Congress, FPS 2nd year (2014); P.L. 111-240 §4241, 42 U.S.C. 1320a-7m |
+| NAIC Model Bulletin on AI (Dec 2023) | **Verified** (Phase 0): adopted 4 Dec 2023; "over half of all states" adopted it or similar guidance (NAIC, Dec 2025) | NAIC press release; NAIC statement; exact count from the NAIC map |
+| 2021 office E&M and 2023 ED/hospital E&M guideline changes; 99201 deleted 2021 | **Verified** (Phase 0); ED codes 99281–99285 are selected by MDM only | AMA CPT 2021 office E/M changes; AMA 2023 E/M descriptors and guidelines |
 | groupShapley = arXiv 2106.12228 (Jullum, Redelmeier, Aas) | **Verified** | arXiv |
-| Hancock, Bauder, Wang, Khoshgoftaar (2023) J. Big Data 10 | **Verified** | DOAJ / journal |
+| Hancock, Bauder, Wang, Khoshgoftaar (2023) J. Big Data 10:154 | **Verified** (whether it uses SHAP is unresolved) | DOAJ / journal |
 | Shekhar, Leder-Luis, Akoglu (2023) NBER w30946 | **Verified** | NBER |
 | Tajrobehkar et al. (2024) medRxiv LEIE critique | **Verified** (preprint) | medRxiv |
 | `shap.TreeExplainer` interventional mode; interaction values path-dependent only | Library behaviour; confirmed by test in Phase 4 | `shap` docs |
 | EBM pairwise detection (FAST) in InterpretML | Library behaviour; confirmed in Phase 3 | InterpretML docs |
 | Data-access 403 from automated clients | **Observed** during verification | — |
+| LEIE file header (18 columns), `YYYYMMDD` dates, `00000000` / `0000000000` sentinels; EXCLTYPE values 1128a1–a4, b1–b8, b11, b12, b14–b16, 1128Aa, 1156, 1160, BRCH CIA/SA | **Verified** from third-party copies of the 2022–2026 files (Phase 0); OIG record layout gives field lengths only | [LITERATURE_REVIEW](LITERATURE_REVIEW.md) §1; C3 stops on any unmapped value |
+| The LEIE file encodes 1128(b)(1) as one code, not (b)(1)(A)/(B) | **Verified** (third-party copies) | See §5.3 note and D71 |
 | All numbers in Figs. 5–6 and §11.4 | **Illustrative**, not results | — |
 
 ---
@@ -824,3 +828,19 @@ Public data validates scoring, attribution and the analyst view's content. The p
 - NAIC (2023). Model Bulletin: Use of Artificial Intelligence Systems by Insurers.
 - CMS Comparative Billing Reports (CBR) program; pause announced for 2024.
 - CMS Fraud Prevention System (Small Business Jobs Act of 2010).
+
+**Added in Phase 0** (details and caveats in [LITERATURE_REVIEW.md](LITERATURE_REVIEW.md); titles from search results, to be checked against the full text)
+- Johnson, J. M., & Khoshgoftaar, T. M. (2023). Data-centric AI for healthcare fraud detection. *SN Computer Science*, 4(4). https://doi.org/10.1007/s42979-023-01809-x
+- Liang, Q., Bauder, R. A., & Khoshgoftaar, T. M. (2024). Enhancing Medicare fraud detection: random undersampling followed by SHAP-driven feature selection with big data. *ICTAI 2024*.
+- Park, Y., & Brociner, E. (2026). From prediction to explainable provider behavior profiles for fraud, waste, and abuse review. arXiv:2609.28477.
+- Zhou, Y., Booth, S., Ribeiro, M. T., & Shah, J. (2022). Do feature attribution methods correctly attribute features? *AAAI*, 36, 9623–9633.
+- Tritscher, J., et al. (2023/2024). Towards explainable occupational fraud detection (CCIS); Data generation for explainable occupational fraud detection (KI 2024).
+- Fumagalli, F., et al. (2023). SHAP-IQ: Unified approximation of any-order Shapley interactions. *NeurIPS*; Muschalik, M., et al. (2024). shapiq. *NeurIPS Datasets & Benchmarks*, arXiv:2410.01649.
+- Bordt, S., & von Luxburg, U. (2023). From Shapley values to generalized additive models and back. *AISTATS*, PMLR 206.
+- Merrick, L., & Taly, A. (2020). The explanation game. *CD-MAKE*, arXiv:1909.08128; Albini, E., et al. (2022). Counterfactual Shapley additive explanations. *FAccT*, arXiv:2110.14270.
+- Bhatt, U., et al. (2020). Explainable machine learning in deployment. *FAT\**; Jesus, S., et al. (2021). How can I choose an explainer? *FAccT*, arXiv:2101.08758.
+- Han, S., et al. (2022). ADBench: Anomaly detection benchmark. *NeurIPS Datasets & Benchmarks*.
+- CMS (2014). Report to Congress: Fraud Prevention System, second implementation year; Small Business Jobs Act of 2010, P.L. 111-240 §4241.
+- NAIC (4 Dec 2023). Model Bulletin: Use of Artificial Intelligence Systems by Insurers.
+- AMA. CPT E/M office or other outpatient (99202–99215) code and guideline changes (2021); 2023 E/M descriptors and guidelines.
+- CMS (2024). CBR/PEPPER request for information.
