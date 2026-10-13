@@ -28,6 +28,7 @@ models = [
     "shap>=0.46",
     "optuna>=4.0",
     "matplotlib>=3.9",
+    "jsonschema>=4.21",            # C14 decision-record schema validation
 ]
 dev = ["pytest>=8"]
 

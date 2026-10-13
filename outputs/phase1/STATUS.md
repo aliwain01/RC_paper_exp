@@ -1,6 +1,14 @@
-# Status: Phases 0-6 built and tested on synthetic data; data acquisition blocked
+# Status: Phases 0-7 built and tested on synthetic data; data acquisition blocked
 
 12 October 2026 · follows [HANDOFF.md](../../HANDOFF.md) §9 quick start. Gate **G1 not reached**: no data could be downloaded from this environment.
+
+## Phase 7 (13 October 2026): code built, tested on synthetic data only
+
+Built: `render.py` (C14: decision record per `configs/decision_record.schema.json`, analyst, provider, beneficiary and oversight views, unit-manager queue summary), `reports.py` (C15: paper tables in Markdown, CSV and LaTeX; figures F2–F8; draft outline; reproducibility package), and `scenario-fraud phase7 render | render-sample | queue | tables | figures | draft | package | report`.
+
+- **Notices are mock-ups.** Provider and beneficiary notices appear only after a decision, and every decision here is a mock decision with a MOCK-UP banner. The renderer refuses a notice that shows the score, uses an audience's forbidden words or gives context as a reason (DESIGN §11.3).
+- **The draft is an outline.** It inserts the generated tables and leaves the narrative, the abstract and the §10.8 branch to the authors.
+- **Decisions at the end of Phase 7:** D109–D112 (proposed).
 
 ## Phase 6 (13 October 2026): code built, tested on synthetic data only
 

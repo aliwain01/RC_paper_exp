@@ -26,6 +26,8 @@
     scenario-fraud phase5 explain [--draw D ...] [--family F ...] [--limit N] | report
     scenario-fraud phase6 evaluate [--part P ...] | stability [--family F ...] [--kind seed|boot|perturb ...]
     scenario-fraud phase6 sensitivity [--variant S ...] | report
+    scenario-fraud phase7 render --npi NPI --year Y [--family F] [--action adr] | render-sample [--n N] [--action A]
+    scenario-fraud phase7 queue [--year Y] | tables | figures | draft | package | report
 """
 
 from __future__ import annotations
@@ -39,7 +41,7 @@ import polars as pl
 
 from . import (acquire, cohort, features, g1_report, g2_report, g3_report, harmonise, labels, provenance, qa, splits,
                train, attribute, bench, explained_set, g4_report, g5_report, inject_models, injection, evaluate,
-               eval_report, sensitivity, stability)
+               eval_report, render, reports, sensitivity, stability)
 from .paths import Paths
 from .runlog import run_log
 
@@ -301,6 +303,54 @@ def _run_phase6(paths: Paths, a: argparse.Namespace) -> dict:
     raise SystemExit(f"unknown command {a.cmd}")
 
 
+def _p7(sub: argparse._SubParsersAction) -> None:
+    p7 = sub.add_parser("phase7", help="Phase 7: indicator & view renderer (C14), paper tables and figures (C15)")
+    s = p7.add_subparsers(dest="cmd", required=True)
+    r = s.add_parser("render", help="decision record + analyst / oversight views (+ notices after a mock decision)")
+    r.add_argument("--npi", required=True)
+    r.add_argument("--year", type=int, required=True)
+    r.add_argument("--family", default=None)
+    r.add_argument("--action", default=None, help="mock decision (configs/views.yaml actions); never a real one")
+    rs = s.add_parser("render-sample", help="render the highest-scored explained providers of the latest test year")
+    rs.add_argument("--n", type=int, default=3)
+    rs.add_argument("--action", default="adr")
+    q = s.add_parser("queue", help="unit-manager queue summary")
+    q.add_argument("--year", type=int, default=None)
+    for name, hlp in (("tables", "paper tables (md, csv, tex) -> outputs/phase7/tables/"),
+                      ("figures", "paper figures (png, pdf) -> outputs/phase7/figures/"),
+                      ("draft", "draft outline with the tables -> outputs/phase7/draft.md"),
+                      ("package", "reproducibility package -> outputs/phase7/reproducibility.json, REPRODUCE.md"),
+                      ("report", "tables, figures, sample views, queue, draft and package")):
+        s.add_parser(name, help=hlp)
+
+
+def _run_phase7(paths: Paths, a: argparse.Namespace) -> dict:
+    if a.cmd == "render":
+        return render.render(paths, a.npi, a.year, family=a.family, action=a.action)
+    if a.cmd == "render-sample":
+        return {f"{n}/{y}": render.render(paths, n, int(y), action=a.action)["record"]
+                for n, y in render.sample(paths, a.n).iter_rows()}
+    if a.cmd == "queue":
+        return {"queue": paths.rel(render.queue_summary(paths, year=a.year))}
+    if a.cmd == "tables":
+        return {"tables": reports.build_tables(paths)}
+    if a.cmd == "figures":
+        return {"figures": reports.build_figures(paths)}
+    if a.cmd == "draft":
+        return {"draft": paths.rel(reports.build_draft(paths))}
+    if a.cmd == "package":
+        return {"package": paths.rel(reports.build_package(paths))}
+    if a.cmd == "report":
+        out = {"tables": reports.build_tables(paths), "figures": reports.build_figures(paths)}
+        out["views"] = {f"{n}/{y}": render.render(paths, n, int(y), action="adr")["record"]
+                        for n, y in render.sample(paths, 3).iter_rows()}
+        out["queue"] = paths.rel(render.queue_summary(paths))
+        out["draft"] = paths.rel(reports.build_draft(paths))
+        out["package"] = paths.rel(reports.build_package(paths))
+        return out
+    raise SystemExit(f"unknown command {a.cmd}")
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="scenario-fraud", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -311,13 +361,15 @@ def main(argv: list[str] | None = None) -> int:
     _p4(sub)
     _p5(sub)
     _p6(sub)
+    _p7(sub)
     a = ap.parse_args(argv)
     paths = Paths.discover()
     args = {k: v for k, v in vars(a).items() if k not in ("phase", "cmd")}
     with run_log(paths, a.phase, a.cmd, args) as result:
         result.update({"phase1": _run_phase1, "phase2": _run_phase2, "phase3": _run_phase3,
-                       "phase4": _run_phase4, "phase5": _run_phase5, "phase6": _run_phase6}[a.phase](paths, a))
-        if a.phase in ("phase2", "phase3", "phase4", "phase5", "phase6"):     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
+                       "phase4": _run_phase4, "phase5": _run_phase5, "phase6": _run_phase6,
+                       "phase7": _run_phase7}[a.phase](paths, a))
+        if a.phase in ("phase2", "phase3", "phase4", "phase5", "phase6", "phase7"):     # numbers in this log describe synthetic data when this is true (HANDOFF §8 r7)
             result["synthetic_inputs"] = provenance.inputs_synthetic(provenance.interim_files(paths.interim))
     print(json.dumps(result, indent=2, default=str))
     return 0

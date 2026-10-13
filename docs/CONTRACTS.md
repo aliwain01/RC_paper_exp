@@ -354,3 +354,27 @@ command refuses before the G2 freeze (D73).
   sensitivity [--variant S …] | report`. `attribute.explain_rows(f, exf, cand, baseline, cg, acfg, bcfg, k, year)` is
   the shared Phase 4 row explainer (used by Phase 4, 5 and 6).
 
+## 7. Phase 7: indicator & view renderer (C14), reports and figures (C15)
+
+Parameters: `configs/views.yaml` (family, baseline, primary method, indicator thresholds, group labels and policy
+reasons, actions, forbidden words per audience, notice templates); `configs/decision_record.schema.json`. DESIGN §17
+D109–D112.
+
+- `render.py` (C14): `build_record(paths, npi, year, family=None, decision=None)` → a schema-valid decision record
+  (`provider`, `score` {family, seed 0, margin, calibrated probability, rank among that year's scored providers,
+  n_scored, label tier, W}, `baseline`, `attributions` {primary_method, every method's 8-group vector, interaction
+  matrix, counterfactual probabilities}, `indicators` (≤ 3, with `facts` and `probability_if_peer`), `compound`,
+  `mitigating`, `peer_adjustment`, `versions` {model dir + fitted.json sha256, feature table sha256, config sha256s,
+  attribution store sha256, git commit}, `decision`, `notices`); `mock_decision(record, action, vcfg)`; views
+  `analyst_view`, `provider_view`, `beneficiary_view`, `oversight_view`, `to_html`; `check_external(text, audience,
+  record, vcfg)` (§11.3); `render(paths, npi, year, family, action)` → `outputs/phase7/records/{record_id}.json`,
+  `outputs/phase7/views/{record_id}/{analyst,provider,beneficiary,oversight}.{md,html}`; `sample(paths, n)`;
+  `queue_summary(paths, year)` → `outputs/phase7/views/queue_{year}.md`.
+- `reports.py` (C15): `build_tables` → `outputs/phase7/tables/{T1_detection,T2_correctness,T3_consistency,
+  T4_faithfulness_stability,T5_sensitivity,T6_fairness}.{md,csv,tex}`; `build_figures` →
+  `outputs/phase7/figures/{F2_scheme_importance,F3_recovery,F4_consistency,F5_deletion_curves,F6_interaction_matrix,
+  F7_peer_vs_global,F8_fairness}.{png,pdf}`; `build_draft` → `outputs/phase7/draft.md`; `build_package` →
+  `outputs/phase7/reproducibility.json` + `REPRODUCE.md`. Synthetic inputs → banner in every table and the draft, a
+  watermark on every figure.
+- CLI: `scenario-fraud phase7 render --npi N --year Y [--family F] [--action A] | render-sample [--n N] [--action A] |
+  queue [--year Y] | tables | figures | draft | package | report`.

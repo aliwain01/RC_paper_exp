@@ -2,6 +2,10 @@
 #    uv pip compile pyproject.toml --extra models --extra dev --python-version 3.13 -o requirements.lock
 alembic==1.20.0
     # via optuna
+attrs==26.1.0
+    # via
+    #   jsonschema
+    #   referencing
 certifi==2026.7.22
     # via requests
 charset-normalizer==3.5.2
@@ -30,6 +34,10 @@ joblib==1.6.0
     # via
     #   interpret-core
     #   scikit-learn
+jsonschema==4.26.0
+    # via scenario-fraud (pyproject.toml)
+jsonschema-specifications==2025.9.1
+    # via jsonschema
 kiwisolver==1.5.1
     # via matplotlib
 lightgbm==4.7.0
@@ -96,8 +104,16 @@ pyyaml==6.0.3
     # via
     #   scenario-fraud (pyproject.toml)
     #   optuna
+referencing==0.37.0
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
 requests==2.34.2
     # via scenario-fraud (pyproject.toml)
+rpds-py==2026.9.1
+    # via
+    #   jsonschema
+    #   referencing
 scikit-learn==1.9.1
     # via
     #   scenario-fraud (pyproject.toml)
