@@ -1,0 +1,95 @@
+# Known raw CMS column names -> harmonised names (DESIGN §5.2 field list, verified per §18).
+# Used ONLY by `draft-colmap` to pre-fill a draft map from a real header dump. A draft is not a map:
+# every line is checked against that year's header and data dictionary, then `reviewed: true` is set.
+# `drop` lists identifying/address columns that no feature uses; `drop_prefixes` drops whole column
+# families (exact `map` entries win first). Phase 0 (design/LITERATURE_REVIEW.md §2) checked the `map`
+# names against third-party copies of the current CMS release: all match, except that DMEPOS by Referring
+# Provider and Service spells HCPCS_CD in capitals. Provider gender (…_Gndr) is absent from the current
+# release; it stays in `drop` for older vintages.
+
+cms_ps:
+  map:
+    Rndrng_NPI: npi
+    Rndrng_Prvdr_Ent_Cd: ent_cd
+    Rndrng_Prvdr_State_Abrvtn: state
+    Rndrng_Prvdr_RUCA: ruca
+    Rndrng_Prvdr_Type: prvdr_type
+    Rndrng_Prvdr_Mdcr_Prtcptg_Ind: mdcr_prtcptg_ind
+    Rndrng_Prvdr_Zip5: zip5
+    HCPCS_Cd: hcpcs_cd
+    HCPCS_Desc: hcpcs_desc
+    HCPCS_Drug_Ind: hcpcs_drug_ind
+    Place_Of_Srvc: place_of_srvc
+    Tot_Benes: tot_benes
+    Tot_Srvcs: tot_srvcs
+    Tot_Bene_Day_Srvcs: tot_bene_day_srvcs
+    Avg_Sbmtd_Chrg: avg_sbmtd_chrg
+    Avg_Mdcr_Alowd_Amt: avg_mdcr_alowd_amt
+    Avg_Mdcr_Pymt_Amt: avg_mdcr_pymt_amt
+    Avg_Mdcr_Stdzd_Amt: avg_mdcr_stdzd_amt
+  drop: [Rndrng_Prvdr_Last_Org_Name, Rndrng_Prvdr_First_Name, Rndrng_Prvdr_MI, Rndrng_Prvdr_Crdntls,
+         Rndrng_Prvdr_Gndr, Rndrng_Prvdr_St1, Rndrng_Prvdr_St2, Rndrng_Prvdr_City, Rndrng_Prvdr_State_FIPS,
+         Rndrng_Prvdr_RUCA_Desc, Rndrng_Prvdr_Cntry]
+
+cms_prov:
+  map:
+    Rndrng_NPI: npi
+    Rndrng_Prvdr_Ent_Cd: ent_cd
+    Rndrng_Prvdr_State_Abrvtn: state
+    Rndrng_Prvdr_RUCA: ruca
+    Rndrng_Prvdr_Type: prvdr_type
+    Rndrng_Prvdr_Mdcr_Prtcptg_Ind: mdcr_prtcptg_ind
+    Tot_HCPCS_Cds: tot_hcpcs_cds
+    Tot_Benes: tot_benes
+    Tot_Srvcs: tot_srvcs
+    Tot_Sbmtd_Chrg: tot_sbmtd_chrg
+    Tot_Mdcr_Alowd_Amt: tot_mdcr_alowd_amt
+    Tot_Mdcr_Pymt_Amt: tot_mdcr_pymt_amt
+    Tot_Mdcr_Stdzd_Amt: tot_mdcr_stdzd_amt
+    Bene_Avg_Risk_Scre: bene_avg_risk_scre
+    Bene_Dual_Cnt: bene_dual_cnt
+    Bene_Ndual_Cnt: bene_ndual_cnt
+  prefix:
+    Bene_CC_: bene_cc_     # raw Bene_CC_<X> -> bene_cc_<x>. Current release (2019-2024 per Phase 0): 25
+                           # columns such as Bene_CC_BH_Depress_V1_Pct, Bene_CC_PH_Diabetes_V2_Pct (V1/V2 fixed per
+                           # condition); older releases used Bene_CC_Dbts_Pct-style names (16 columns).
+  drop_prefixes: [Drug_, Med_, Bene_Age_, Bene_Race_, Bene_Feml_, Bene_Male_]   # drug/medical split, demographics
+  drop: [Bene_Avg_Age, Rndrng_Prvdr_Last_Org_Name, Rndrng_Prvdr_First_Name, Rndrng_Prvdr_MI, Rndrng_Prvdr_Crdntls,
+         Rndrng_Prvdr_Gndr, Rndrng_Prvdr_St1, Rndrng_Prvdr_St2, Rndrng_Prvdr_City, Rndrng_Prvdr_Zip5,
+         Rndrng_Prvdr_State_FIPS, Rndrng_Prvdr_RUCA_Desc, Rndrng_Prvdr_Cntry]
+
+dme_s:
+  map:
+    Rfrg_NPI: npi
+    RBCS_Lvl: rbcs_lvl
+    RBCS_Id: rbcs_id
+    HCPCS_CD: hcpcs_cd     # capital CD in the DMEPOS files (Phase 0)
+    HCPCS_Desc: hcpcs_desc
+    Rfrg_Prvdr_Spclty_Desc: prvdr_type
+    Suplr_Rentl_Ind: suplr_rentl_ind
+    Tot_Suplrs: tot_suplrs
+    Tot_Suplr_Benes: tot_suplr_benes
+    Tot_Suplr_Clms: tot_suplr_clms
+    Tot_Suplr_Srvcs: tot_suplr_srvcs
+    Avg_Suplr_Sbmtd_Chrg: avg_suplr_sbmtd_chrg
+    Avg_Suplr_Mdcr_Alowd_Amt: avg_suplr_mdcr_alowd_amt
+    Avg_Suplr_Mdcr_Pymt_Amt: avg_suplr_mdcr_pymt_amt
+    Avg_Suplr_Mdcr_Stdzd_Amt: avg_suplr_mdcr_stdzd_amt
+  drop: [Rfrg_Prvdr_Last_Name_Org, Rfrg_Prvdr_First_Name, Rfrg_Prvdr_MI, Rfrg_Prvdr_Crdntls,
+         Rfrg_Prvdr_Gndr, Rfrg_Prvdr_St1, Rfrg_Prvdr_St2, Rfrg_Prvdr_City, Rfrg_Prvdr_Zip5,
+         Rfrg_Prvdr_State_FIPS, Rfrg_Prvdr_RUCA_Desc, Rfrg_Prvdr_Cntry, Rfrg_Prvdr_RUCA_Cat, Rfrg_Prvdr_RUCA,
+         Rfrg_Prvdr_Ent_Cd, Rfrg_Prvdr_State_Abrvtn, Rfrg_Prvdr_Spclty_Cd, Rfrg_Prvdr_Spclty_Srce, RBCS_Desc]
+
+dme_p:
+  map:
+    Rfrg_NPI: npi
+    Tot_Suplr_Benes: tot_suplr_benes
+    DME_Tot_Suplr_Benes: dme_tot_suplr_benes
+    Rfrg_Prvdr_Spclty_Desc: prvdr_type
+  # Category totals (DME_*, POS_*, Drug_* incl. *_Sprsn_Ind) and beneficiary demographics are not used by
+  # any feature (FEATURE_CATALOG §6 uses Tot_Suplr_Benes and DME-S rows only).
+  drop_prefixes: [DME_, POS_, Drug_, Bene_]
+  drop: [Rfrg_Prvdr_RUCA_Cat, Rfrg_Prvdr_RUCA, Rfrg_Prvdr_Ent_Cd, Rfrg_Prvdr_State_Abrvtn, Rfrg_Prvdr_Spclty_Cd,
+         Rfrg_Prvdr_Spclty_Srce, Rfrg_Prvdr_Last_Name_Org, Rfrg_Prvdr_First_Name, Rfrg_Prvdr_MI, Rfrg_Prvdr_Crdntls,
+         Rfrg_Prvdr_Gndr, Rfrg_Prvdr_St1, Rfrg_Prvdr_St2, Rfrg_Prvdr_City, Rfrg_Prvdr_Zip5,
+         Rfrg_Prvdr_State_FIPS, Rfrg_Prvdr_RUCA_Desc, Rfrg_Prvdr_Cntry]

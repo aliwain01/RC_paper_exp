@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scenario_fraud/decision_record.schema.json",
+  "title": "Decision record (DESIGN §11.2)",
+  "description": "One internal record per scored provider-year: score, attributions of every method, indicators with supporting facts, versions and the peer cell. A human decision is appended later; external notices reference the record (provenance chain: notice -> record -> attribution snapshot -> model and data version).",
+  "type": "object",
+  "required": ["schema_version", "record_id", "created_utc", "provider", "score", "baseline", "attributions",
+               "indicators", "compound", "mitigating", "peer_adjustment", "versions", "decision", "notices"],
+  "additionalProperties": false,
+  "$defs": {
+    "group": {"enum": ["upcoding", "overutilization", "atypical_mix", "charge_inflation", "patient_mix",
+                       "dme_intensity", "dme_concentration"]},
+    "vector": {"type": "object", "additionalProperties": {"type": ["number", "null"]}},
+    "fact": {
+      "type": "object", "required": ["feature", "name", "value", "peer_median", "contribution"],
+      "additionalProperties": false,
+      "properties": {"feature": {"type": "string"}, "name": {"type": "string"},
+                     "value": {"type": ["number", "null"]}, "peer_median": {"type": ["number", "null"]},
+                     "z": {"type": ["number", "null"]}, "contribution": {"type": "number"},
+                     "unit": {"enum": ["share", "value"]}}
+    },
+    "sha": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+  },
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "record_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+    "created_utc": {"type": "string"},
+    "synthetic": {"type": "boolean"},
+    "provider": {
+      "type": "object", "required": ["npi", "year", "peer_cell", "peer_level"], "additionalProperties": false,
+      "properties": {"npi": {"type": "string", "pattern": "^[0-9]{10}$"}, "year": {"type": "integer"},
+                     "peer_cell": {"type": "string"}, "peer_level": {"type": ["string", "null"]},
+                     "specialty": {"type": ["string", "null"]}, "entity": {"type": ["string", "null"]},
+                     "census_division": {"type": ["string", "null"]}, "ruca_class": {"type": ["string", "null"]},
+                     "data_coverage": {"type": ["number", "null"]}}
+    },
+    "score": {
+      "type": "object", "required": ["family", "seed", "margin", "probability", "rank", "n_scored"],
+      "additionalProperties": false,
+      "properties": {"family": {"type": "string"}, "seed": {"type": "integer"}, "margin": {"type": "number"},
+                     "probability": {"type": ["number", "null"]}, "rank": {"type": ["integer", "null"]},
+                     "n_scored": {"type": ["integer", "null"]}, "label_tier": {"type": ["string", "null"]},
+                     "W": {"type": ["integer", "null"]}}
+    },
+    "baseline": {
+      "type": "object", "required": ["kind", "bg_key", "bg_n", "base"], "additionalProperties": false,
+      "properties": {"kind": {"enum": ["peer", "global"]}, "bg_key": {"type": "string"},
+                     "bg_level": {"type": ["string", "null"]}, "bg_n": {"type": "integer"}, "base": {"type": "number"}}
+    },
+    "attributions": {
+      "type": "object", "required": ["primary_method", "methods"], "additionalProperties": false,
+      "properties": {
+        "primary_method": {"enum": ["A", "B", "C", "D", "E"]},
+        "methods": {"type": "object", "additionalProperties": {"$ref": "#/$defs/vector"}},
+        "interaction_matrix": {"type": ["array", "null"], "items": {"type": "array", "items": {"type": "number"}}},
+        "counterfactual_probability": {"$ref": "#/$defs/vector"}
+      }
+    },
+    "indicators": {
+      "type": "array", "maxItems": 7,
+      "items": {
+        "type": "object", "required": ["group", "label", "contribution", "facts"], "additionalProperties": false,
+        "properties": {"group": {"$ref": "#/$defs/group"}, "label": {"type": "string"},
+                       "contribution": {"type": "number"},
+                       "probability_if_peer": {"type": ["number", "null"]},
+                       "facts": {"type": "array", "items": {"$ref": "#/$defs/fact"}}}
+      }
+    },
+    "compound": {
+      "type": "array",
+      "items": {"type": "object", "required": ["groups", "value"], "additionalProperties": false,
+                "properties": {"groups": {"type": "array", "items": {"$ref": "#/$defs/group"},
+                                          "minItems": 2, "maxItems": 2},
+                               "value": {"type": "number"}}}
+    },
+    "mitigating": {
+      "type": "array",
+      "items": {"type": "object", "required": ["group", "label", "contribution"], "additionalProperties": false,
+                "properties": {"group": {"$ref": "#/$defs/group"}, "label": {"type": "string"},
+                               "contribution": {"type": "number"}}}
+    },
+    "peer_adjustment": {"type": "number", "description": "context group contribution: shown as a peer-group adjustment, never as a reason (§9.3, §11.3 rule 2)"},
+    "versions": {
+      "type": "object", "required": ["model", "features", "configs"], "additionalProperties": false,
+      "properties": {"model": {"type": "object"}, "features": {"type": "object"}, "configs": {"type": "object"},
+                     "attribution_store": {"type": ["object", "null"]}, "git_commit": {"type": ["string", "null"]}}
+    },
+    "decision": {
+      "type": ["object", "null"],
+      "required": ["action", "decided_by", "decided_utc", "policy_reasons", "mock"], "additionalProperties": false,
+      "properties": {"action": {"type": "string"}, "decided_by": {"type": "string"}, "decided_utc": {"type": "string"},
+                     "policy_reasons": {"type": "array", "items": {"$ref": "#/$defs/group"}},
+                     "mock": {"type": "boolean"}, "note": {"type": ["string", "null"]}}
+    },
+    "notices": {
+      "type": "array",
+      "items": {"type": "object", "required": ["notice_id", "audience", "record_id"], "additionalProperties": false,
+                "properties": {"notice_id": {"type": "string"}, "audience": {"enum": ["provider", "beneficiary"]},
+                               "record_id": {"type": "string"}, "path": {"type": "string"}}}
+    }
+  }
+}

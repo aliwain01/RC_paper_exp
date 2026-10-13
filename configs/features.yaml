@@ -1,0 +1,174 @@
+# C5 feature definitions (FEATURE_CATALOG v1.1; DESIGN §7.4-7.5; CONTRACTS §2.2).
+#
+# Every model feature is listed once (`features`), in the order the feature table writes them:
+#   id, name, group (configs/groups.yaml), direction (up | none), suppression (V | T | VT),
+#   kind (robust_z | indicator | context_raw | one_hot), shrink (beta-binomial EB on k/n), monotone (+1 for
+#   `up` robust_z scheme features, else 0), fit_on (robust_z only: which reference providers define the peer
+#   statistics: `defined` = every reference provider whose r is defined; `dme_referrers` = additionally
+#   DI0 = 0), source (one_hot only: cohort column), optional (computed only when its input exists).
+# Peer statistics are label-free, per year and peer cell, fitted only on non-injected in-cohort providers
+# (DESIGN §7.4). Choices the catalog leaves open carry "choice:" comments; each is a DESIGN §17 row
+# (proposed, confirm at G2).
+
+transform:
+  z_clip: 10                 # DESIGN §7.4: robust z clipped to [-10, 10]
+  mad_constant: 1.4826       # DESIGN §7.4: scale = 1.4826 * MAD
+  # choice: scale fallback when the cell's MAD is 0 (common for share features): IQR / 1.349, then the
+  # sample standard deviation, then the scale of the next level up in the peer hierarchy (same order),
+  # then 1.0. The method used is stored per cell x feature in peer/{year}/stats.parquet. The order is
+  # fixed in code; this list documents it and is checked against it.
+  scale_fallbacks: [mad, iqr, std, parent, unit]
+  iqr_constant: 1.349
+  scale_eps: 1.0e-12         # a scale <= this counts as zero
+  # choice: an undefined r (zero denominator, e.g. no established visits for UP1) gets z = 0, i.e. the
+  # peer median (FEATURE_CATALOG UP0 rule, applied to every robust_z feature); its raw__ value stays null.
+  # choice: a peer cell's members are all reference providers whose cell at the peer cell's level is that cell
+  # (an entity-type cell holds every provider of that entity type). SM1, SM2, CH4, PM2 and PM3 are measured against
+  # the peer cell's own reference (pooled code distribution, rare flags, allowed medians, PM regression), so their
+  # median, n and shrinkage prior come from the peer cell itself, over every member's value recomputed against that
+  # same reference (no min_defined fallback); only a cell without any spread borrows the parent level's scale.
+
+peer_stats:
+  # choice: peer statistics of a feature come from the provider's peer cell when it has >= min_defined
+  # reference providers with a defined value; otherwise from the next level up (spec x ent x division ->
+  # spec x ent -> ent -> national, same year), else national. 30 keeps the MAD's relative SE near 20 %
+  # for features that only some providers have (e.g. UP4 ED share outside emergency medicine).
+  min_defined: 30
+
+shrinkage:
+  # Beta-binomial empirical Bayes (DESIGN §7.4; FEATURE_CATALOG conventions): shrunk = (k + alpha*m)/(n + alpha),
+  # m = median of k/n over the cell's reference providers with n > 0, alpha = (a + b) of the beta prior by
+  # the method of moments (Kleinman 1973: rho = intra-cell correlation, alpha = 1/rho - 1), per cell and year,
+  # at the same peer level the feature's median comes from.
+  # choice: rates are shrunk before z-scoring, and the cell's median / scale are those of shrunk rates.
+  alpha_min: 1.0             # floor; also used when rho >= 1 or rho is not identified (no shrinkage signal)
+  alpha_max: 10000.0         # absolute cap
+  alpha_max_median_n: 1.0    # cap = this x the cell's median denominator: the typical provider is shrunk at
+                             # most halfway, even when the cell shows no overdispersion (rho <= 0)
+
+atypical_mix:
+  # FEATURE_CATALOG SM2: a code is rare in a peer cell if billed by < 1 % of the cell's reference providers
+  # (strict). Codes no reference provider of the cell bills are rare. Non-drug codes only.
+  rare_provider_share: 0.01
+
+charge_index:
+  # FEATURE_CATALOG CH4. choice: a code is matched on (HCPCS, place of service), non-drug lines only; the
+  # denominator is the median allowed amount over the peer cell's reference providers billing that code
+  # at that place, if >= min_providers_cell of them do, else the national (same year) median if >=
+  # min_providers_national do, else the code is left out of the index (CH4 undefined if nothing is left).
+  min_providers_cell: 10
+  min_providers_national: 3
+
+patient_mix:
+  # FEATURE_CATALOG PM2/PM3: OLS of log(OU1) / log(CH2) on [1, PM1 (risk score), bene_cc_* %] within the peer
+  # cell and year, fitted on reference providers (unsupervised; residual = r).
+  # choice: covariates = PM1 + every bene_cc_* column of that year's by-Provider file (names vary by year,
+  # DESIGN §18), minus columns null for all reference providers. Missing covariate values (suppressed counts)
+  # are imputed with the fit cell's reference median (national median if the cell has none).
+  # choice: a cell fits its own model only with n >= max(min_n, min_n_per_term x (covariates + 1)); otherwise
+  # the next level up (spec x ent -> ent -> national) is used, and the level is recorded in pm_models.parquet.
+  covariate_prefix: bene_cc_
+  min_n: 50
+  min_n_per_term: 5
+
+prune:
+  spearman_abs: 0.95         # FEATURE_CATALOG: near-duplicates within a group; pruning decided at G2
+
+# Code sets (FEATURE_CATALOG "Code sets").
+code_sets:
+  established: ["99211", "99212", "99213", "99214", "99215"]   # ordered levels 1..5 (UP1, UP2, UP5)
+  established_high: ["99214", "99215"]                        # UP2 numerator
+  # choice: UP3 uses 99202-99205 in every year (catalog formula), so 99201 (deleted 2021) is not in its
+  # denominator; 99201 still counts as an E&M visit for UP0 and UP6.
+  new: ["99202", "99203", "99204", "99205"]
+  new_deleted: ["99201"]
+  ed: ["99281", "99282", "99283", "99284", "99285"]
+  level5: {established: "99215", new: "99205", ed: "99285"}
+
+# DME high-risk categories (FEATURE_CATALOG code sets; DI3). STATUS: PROPOSED, freeze at G2 (leakage
+# checklist item 6: fixed before any test result is seen).
+# choice: defined by HCPCS ranges only (stable across years); RBCS_Id families are not used because the
+# RBCS ids in the DMEPOS files are not yet verified (DESIGN §18). Ranges are inclusive and compare
+# 5-character codes of the same leading letter. Sources to cite in Phase 0: DOJ "Operation Brace Yourself"
+# (2019: back, shoulder, wrist, knee and ankle braces ordered via telemarketing / telemedicine) and the OIG
+# reports on off-the-shelf orthotic braces and on power mobility devices.
+dme_high_risk:
+  status: proposed
+  hcpcs_ranges:
+    - {from: L0450, to: L0651, label: "spinal orthoses: TLSO, SIO, LSO (back braces)"}
+    - {from: L1810, to: L1860, label: "knee orthoses"}
+    - {from: L1900, to: L1990, label: "ankle-foot orthoses"}
+    - {from: L3650, to: L3678, label: "shoulder orthoses"}
+    - {from: L3702, to: L3766, label: "elbow and elbow-wrist-hand orthoses"}
+    - {from: L3806, to: L3935, label: "wrist-hand-finger and hand-finger orthoses"}
+    - {from: L3956, to: L3978, label: "shoulder-elbow-wrist-hand orthoses"}
+    - {from: K0800, to: K0899, label: "power mobility devices (POVs, power wheelchairs)"}
+
+features:
+  # 1 Upcoding (P&S, visible rows)
+  - {id: UP0, name: "E&M indicator", group: upcoding, direction: none, suppression: V, kind: indicator, shrink: false, monotone: 0}
+  - {id: UP1, name: "Level-5 established share", group: upcoding, direction: up, suppression: V, kind: robust_z, shrink: true, monotone: 1}
+  - {id: UP2, name: "High-level established share", group: upcoding, direction: up, suppression: V, kind: robust_z, shrink: true, monotone: 1}
+  - {id: UP3, name: "Level-5 new-patient share", group: upcoding, direction: up, suppression: V, kind: robust_z, shrink: true, monotone: 1}
+  - {id: UP4, name: "Level-5 ED share", group: upcoding, direction: up, suppression: V, kind: robust_z, shrink: true, monotone: 1}
+  - {id: UP5, name: "Mean established E&M level", group: upcoding, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1}
+  - {id: UP6, name: "Allowed $ per E&M service", group: upcoding, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1}
+  # 2 Overutilization
+  - {id: OU1, name: "Non-drug services per patient", group: overutilization, direction: up, suppression: VT, kind: robust_z, shrink: false, monotone: 1}
+  - {id: OU2, name: "Beneficiary-days per patient", group: overutilization, direction: up, suppression: VT, kind: robust_z, shrink: false, monotone: 1}
+  - {id: OU3, name: "Units per beneficiary-day", group: overutilization, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1}
+  - {id: OU4, name: "Distinct codes per patient", group: overutilization, direction: up, suppression: T, kind: robust_z, shrink: false, monotone: 1}
+  - {id: OU5, name: "Volume (log)", group: overutilization, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1}
+  # 3 Atypical service mix. choice: SM3 (HHI of payment) spans all codes incl. drug lines, as written;
+  # SM1 and SM2 use non-drug services only (drug units are not services).
+  - {id: SM1, name: "Mix divergence (Jensen-Shannon, base 2)", group: atypical_mix, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1}
+  - {id: SM2, name: "Rare-code share", group: atypical_mix, direction: up, suppression: V, kind: robust_z, shrink: true, monotone: 1}
+  - {id: SM3, name: "Billing concentration (HHI of payment)", group: atypical_mix, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1}
+  - {id: SM4, name: "Drug payment share", group: atypical_mix, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1}
+  # 4 Charge inflation. choice: CH1 and CH2 span all visible lines (as written); CH3's numerator excludes
+  # drug lines like its denominator (standardised payment per non-drug service); CH4: see charge_index.
+  - {id: CH1, name: "Submitted / allowed ratio", group: charge_inflation, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1}
+  - {id: CH2, name: "Standardised payment per patient", group: charge_inflation, direction: up, suppression: VT, kind: robust_z, shrink: false, monotone: 1}
+  - {id: CH3, name: "Standardised payment per service", group: charge_inflation, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1}
+  - {id: CH4, name: "Code-adjusted price index", group: charge_inflation, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1}
+  # 5 Patient-mix mismatch. PM4: k = Bene_Dual_Cnt, n = Tot_Benes; suppressed -> PM4_missing = 1, z = 0.
+  - {id: PM1, name: "Average risk score", group: patient_mix, direction: none, suppression: T, kind: robust_z, shrink: false, monotone: 0}
+  - {id: PM2, name: "Intensity residual (services)", group: patient_mix, direction: up, suppression: VT, kind: robust_z, shrink: false, monotone: 1}
+  - {id: PM3, name: "Intensity residual (payment)", group: patient_mix, direction: up, suppression: VT, kind: robust_z, shrink: false, monotone: 1}
+  - {id: PM4, name: "Dual-eligible share", group: patient_mix, direction: none, suppression: T, kind: robust_z, shrink: true, monotone: 0}
+  - {id: PM4_missing, name: "Dual-eligible count suppressed", group: patient_mix, direction: none, suppression: T, kind: indicator, shrink: false, monotone: 0}
+  # 6 DME referral intensity. No DME-P row -> DI0 = 1 and raw DI1-DI4 = 0 (FEATURE_CATALOG DI0).
+  # choice: DI1, DI3, DI4, DC1, DC2 describe referrals, so their peer statistics come from DME-referring
+  # reference providers (fit_on: dme_referrers), and a DI0 = 1 provider gets z = 0 (the referrers' median) on
+  # them: the structural zero is carried by DI0 alone, as UP0 does for E&M (FEATURE_CATALOG UP0 rule), instead of
+  # pushing non-referrers to the -z_clip and giving typical referrers a large G6/G7 contribution under a peer
+  # baseline. DC1, DC2 are undefined (raw__ null) without a DME-P row: the catalog sets only DI1-DI4 to 0.
+  # DI2 (share of the panel referred) is 0 for non-referrers by definition, so all count (fit_on: defined) and
+  # it is z-scored as usual. choice: DI2 is not shrunk (DME-P beneficiary counts are suppressed below 11, so k/n
+  # is not binomial).
+  - {id: DI0, name: "No-DME indicator", group: dme_intensity, direction: none, suppression: T, kind: indicator, shrink: false, monotone: 0}
+  - {id: DI1, name: "DME paid per DME patient", group: dme_intensity, direction: up, suppression: VT, kind: robust_z, shrink: false, monotone: 1, fit_on: dme_referrers}
+  - {id: DI2, name: "Share of panel referred for DME", group: dme_intensity, direction: up, suppression: T, kind: robust_z, shrink: false, monotone: 1}
+  - {id: DI3, name: "High-risk category share", group: dme_intensity, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1, fit_on: dme_referrers}
+  - {id: DI4, name: "DME claims per DME patient", group: dme_intensity, direction: up, suppression: VT, kind: robust_z, shrink: false, monotone: 1, fit_on: dme_referrers}
+  # 7 DME referral concentration
+  - {id: DC1, name: "Claims per supplier", group: dme_concentration, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1, fit_on: dme_referrers}
+  - {id: DC2, name: "Rental share", group: dme_concentration, direction: none, suppression: V, kind: robust_z, shrink: true, monotone: 0, fit_on: dme_referrers}
+  # Context: inputs, never reasons. One-hot names: CXn__<value lower-cased, non-alphanumerics -> "_">;
+  # a null value becomes "na". choice: one-hot vocabulary = values among that year's reference providers.
+  - {id: CX1, name: "Specialty", group: context, direction: none, suppression: V, kind: one_hot, shrink: false, monotone: 0, source: prvdr_type}
+  - {id: CX2, name: "Entity type", group: context, direction: none, suppression: V, kind: one_hot, shrink: false, monotone: 0, source: ent_cd}
+  - {id: CX3, name: "Census division", group: context, direction: none, suppression: V, kind: one_hot, shrink: false, monotone: 0, source: census_division}
+  - {id: CX4, name: "Urban-rural class (RUCA)", group: context, direction: none, suppression: V, kind: one_hot, shrink: false, monotone: 0, source: ruca_class}
+  - {id: CX5, name: "Practice size (log Tot_Benes)", group: context, direction: none, suppression: T, kind: context_raw, shrink: false, monotone: 0}
+  - {id: CX6, name: "Medicare participation", group: context, direction: none, suppression: V, kind: one_hot, shrink: false, monotone: 0, source: mdcr_prtcptg_ind}
+  # CX7 needs an NPPES extract (data/interim/nppes/*.parquet with npi, enumeration_date); absent -> column
+  # absent and listed as not computable in features/{year}.meta.json (HANDOFF §10.4). choice: every featurised
+  # NPI must have exactly one non-null enumeration date in the extract, else FeatureError: public NPPES files blank
+  # the dates of NPIs deactivated later, so a missing CX7 would encode an event after year t (leakage item 1).
+  - {id: CX7, name: "Tenure (years since NPI enumeration)", group: context, direction: none, suppression: T, kind: context_raw, shrink: false, monotone: 0, optional: true}
+  # CX8 = visible P&S services (all lines, incl. drug units) / by-Provider Tot_Srvcs (which counts them too).
+  - {id: CX8, name: "Data coverage", group: context, direction: none, suppression: VT, kind: context_raw, shrink: false, monotone: 0}
+
+# Feature IDs removed after the near-duplicate review (|Spearman rho| > 0.95 within a group). Decided at G2.
+pruned: []

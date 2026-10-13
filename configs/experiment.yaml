@@ -1,0 +1,88 @@
+# Experiment parameters (EXPERIMENT_PLAN; DESIGN §7.2, §7.6, §14).
+# Phase 1: year layout, cohort volume rule, G1 gate threshold. Phase 2: peer cells, folds and splits, QA and
+# G2 settings. k values and the injection grid are added when Phases 3-5 are built; all frozen at gate G2.
+
+years:
+  train: [2018, 2021]          # DESIGN §7.6 / D12
+  test: [2022, 2023]           # accuracy claimed for these (2023 horizon shortfall reported)
+  showcase: 2024               # scored, no accuracy claims
+  flagged: [2020]              # COVID utilisation shock: kept, plus an exclude-2020 sensitivity (S4)
+
+cohort:
+  min_nondrug_services: 50     # DESIGN §7.2: fixed before modelling
+  # RUCA class from the primary RUCA code = integer part of Rndrng_Prvdr_RUCA ("4.1" -> 4), inclusive
+  # ranges (CONTRACTS §2.1; FEATURE_CATALOG CX4). Anything else (99 = not coded, null, text) -> unknown.
+  ruca_classes:
+    urban: [1, 3]
+    large_rural: [4, 6]
+    small_rural: [7, 9]
+    isolated: [10, 10]
+  # Peer hierarchy (DESIGN §7.2; CONTRACTS §2.1). Counts are in-cohort providers of the cell and year.
+  # Census divisions: configs/census_divisions.yaml.
+  peer:
+    refine_min: 200            # DESIGN §7.2: use spec x ent x division when that cell has >= 200 providers
+    # Design gap (DESIGN §17, proposed, confirm at G2): smallest spec x ent cell used before falling back
+    # to ent x year. 100 because (a) SM2's "codes billed by < 1 % of the cell" can only flag a code in a
+    # cell of > 100 providers; (b) robust z needs a stable MAD: its relative SE is ~12 % at n = 100
+    # (~21 % at 30); (c) PM2/PM3 regress on PM1 + ~12-25 chronic-condition shares within the cell, so
+    # n must be well above the covariate count; (d) C9 peer backgrounds want up to 200 training-fold
+    # providers, and 100 in-cohort providers leave ~80. Peer granularity is varied in sensitivity S10.
+    min_cell: 100
+
+gate_g1:
+  # DESIGN §14 first row: if fewer unique positive NPIs over these years, switch the primary tier
+  # and/or extend training back to 2015.
+  window: [2018, 2023]
+  min_unique_positive_npis: 300
+
+# C7 folds and splits (DESIGN §7.6, D12-D13; EXPERIMENT_PLAN §2; CONTRACTS §2.3). Frozen at gate G2.
+splits:
+  n_folds: 5                   # NPIs partitioned once, stratified by modal specialty x ever-positive (any tier)
+  # Master seed. Sub-seeds per purpose (fold partition, per-fold validation hold-out, negative subsample)
+  # are derived with numpy SeedSequence([seed, purpose, fold]); no global random state.
+  seed: 20261013
+  valid_frac: 0.2              # tuning / calibration hold-out: share of training-fold NPIs (stratified)
+  # Year ranges are inclusive [first, last]. Tuning: tune_train = the other NPIs' rows in the earlier train
+  # years, tune_valid = the held-out NPIs' rows in the last train year. `primary` must equal years.train/test.
+  designs:
+    primary: {train: [2018, 2021], test: [2022, 2023]}
+    O1: {train: [2018, 2020], test: [2021, 2021]}     # rolling origins (robustness), same folds
+    O2: {train: [2018, 2021], test: [2022, 2022]}
+    O3: {train: [2018, 2022], test: [2023, 2023]}
+  # 2024 is scored by the primary-design models (out of fold), with no accuracy claims (DESIGN §7.6).
+  showcase: {year: 2024, design: primary}
+  # Phase 3 (EXPERIMENT_PLAN §2; DESIGN §7.8, D16): training rows keep every positive and a random share of
+  # negatives, weighted 1 / rate; identical for every model family; test data are never subsampled.
+  negative_subsample:
+    rate: 0.15
+    sensitivity_rates: [0.30]  # S12
+    seed: 20261014
+
+# Phase 2 QA report (CONTRACTS §2.4; FEATURE_CATALOG leakage checklist).
+qa:
+  quantiles: [0.01, 0.05, 0.25, 0.5, 0.75, 0.95, 0.99]
+  # Leakage checklist item 1: rebuild one year's features in a scratch project that holds only that year's
+  # harmonised files and cohort rows (no labels, no LEIE, no other years) and require identical tables.
+  # Costs one feature year (about 1 min and 6 GB at real scale). null = the earliest feature year.
+  leakage_rebuild: true
+  leakage_rebuild_year: null
+  # DESIGN §19 Q2 ("is region needed?", decided empirically in Phase 2): the QA report shows, per feature, how far
+  # Census-division cells' medians sit from their spec x ent cell's median, in robust-z units, and the share of
+  # division-level providers whose cell moves by more than this many z (a reporting threshold, not a decision rule).
+  region_shift_threshold: 0.5
+
+# Gate G2 report (HANDOFF §6; CONTRACTS §2.4): the protocol diff lists DESIGN §17 rows after this one.
+g2:
+  protocol_version: "1.1"
+  baseline_last_decision: 18   # D18 is the last row of DESIGN v1.1
+
+# Detection metrics (EXPERIMENT_PLAN §3; DESIGN §10.1; CONTRACTS §3.4).
+evaluation:
+  k_fracs: [0.001, 0.005, 0.01, 0.02]   # audit capacity: share of scored providers per test year
+  primary_k: 0.01                        # H1 uses precision@1 %
+  bootstrap_reps: 1000                   # paired NPI bootstrap
+  bootstrap_seed: 20261016
+  ci: 0.95
+  alpha: 0.05                            # Holm family-wise level across k
+  reliability_top: 0.05                  # calibration curve within the top 5 %
+  reliability_bins: 10
