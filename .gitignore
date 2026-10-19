@@ -1,11 +1,17 @@
-# Data never goes into git (HANDOFF §4, §8 rule 6)
-data/
+# Data never goes into git (HANDOFF §4, §8 rule 6); the manifest (sources, URLs, sha256) does (DESIGN §17 D116)
+data/*
+!data/raw/
+data/raw/*
+!data/raw/manifest.json
 
 # Run outputs are regenerated from data; keep only the Phase 1 status report
 outputs/*
 !outputs/phase1/
 outputs/phase1/*
 !outputs/phase1/STATUS.md
+!outputs/phase1/G1_report.md
+!outputs/phase1/G1_report.json
+!outputs/phase1/headers/
 # The G2 protocol freeze record (hashes only, no data) must survive for leakage checklist item 6
 !outputs/phase2/
 outputs/phase2/*

@@ -14,7 +14,7 @@ import yaml
 
 from scenario_fraud import cli, models, splits, train
 from scenario_fraud.paths import Paths
-from tests.conftest import REPO
+from tests.conftest import REPO, copy_configs
 from tests.synth import make_synthetic
 
 FAMS = ["lr", "ebm", "xgb", "lgbm_mono"]
@@ -37,7 +37,7 @@ def world(tmp_path_factory):
     root = tmp_path_factory.mktemp("w3") / "proj with space"
     (root / "design").mkdir(parents=True)
     (root / "pyproject.toml").write_text("[project]\nname='t'\n", encoding="utf-8")
-    shutil.copytree(REPO / "configs", root / "configs")
+    copy_configs(root)
     _small_configs(root)
     with pytest.MonkeyPatch.context() as mp:
         mp.setenv("SCENARIO_FRAUD_ROOT", str(root))

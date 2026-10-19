@@ -50,18 +50,21 @@ def _ranges(ys: list[int]) -> str:
 
 def inventory(paths: Paths) -> tuple[list[dict], list[dict], dict]:
     entries = acquire.load_manifest(paths)
-    dumps = {d["path"]: d for d in acquire.dump_all_headers(paths)} if entries else {}
+    # header dumps are keyed by the downloaded content (raw files may since be stored gzip-compressed, D113)
+    dumps = {d["sha256"]: d for d in acquire.dump_all_headers(paths)} if entries else {}
     rows = [{
         "source": e.source, "year": e.year, "kind": e.kind, "file": Path(e.path).name,
-        "MB": round(e.size_bytes / 1e6, 1), "rows": dumps.get(e.path, {}).get("n_rows"),
-        "cols": dumps.get(e.path, {}).get("n_columns"), "route": e.route, "as_of": e.as_of,
-        "sha256": e.sha256[:12],
+        "MB": round(e.size_bytes / 1e6, 1), "rows": dumps.get(acquire.content_sha256(e), {}).get("n_rows"),
+        "cols": dumps.get(acquire.content_sha256(e), {}).get("n_columns"), "route": e.route, "as_of": e.as_of,
+        "sha256": acquire.content_sha256(e)[:12],
     } for e in entries]
     years = _years(load_config("sources", paths)["years"]["primary"])
     have = {(e.source, e.year, e.kind) for e in entries}
     missing = []
     for s in CMS_SOURCES:
         for k in ("data", "dictionary", "methodology"):
+            if k != "data" and any((s, y, k) in have for y in years):
+                continue                  # CMS publishes one release-wide dictionary / methodology for all years
             ys = [y for y in years if (s, y, k) not in have]
             if ys:
                 missing.append({"source": s, "kind": k, "missing_years": _ranges(ys)})

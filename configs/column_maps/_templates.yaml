@@ -89,7 +89,10 @@ dme_p:
   # Category totals (DME_*, POS_*, Drug_* incl. *_Sprsn_Ind) and beneficiary demographics are not used by
   # any feature (FEATURE_CATALOG §6 uses Tot_Suplr_Benes and DME-S rows only).
   drop_prefixes: [DME_, POS_, Drug_, Bene_]
+  # Phase 1 (real headers, 2018-2024): the all-category totals below are not used by any feature either.
   drop: [Rfrg_Prvdr_RUCA_Cat, Rfrg_Prvdr_RUCA, Rfrg_Prvdr_Ent_Cd, Rfrg_Prvdr_State_Abrvtn, Rfrg_Prvdr_Spclty_Cd,
          Rfrg_Prvdr_Spclty_Srce, Rfrg_Prvdr_Last_Name_Org, Rfrg_Prvdr_First_Name, Rfrg_Prvdr_MI, Rfrg_Prvdr_Crdntls,
          Rfrg_Prvdr_Gndr, Rfrg_Prvdr_St1, Rfrg_Prvdr_St2, Rfrg_Prvdr_City, Rfrg_Prvdr_Zip5,
-         Rfrg_Prvdr_State_FIPS, Rfrg_Prvdr_RUCA_Desc, Rfrg_Prvdr_Cntry]
+         Rfrg_Prvdr_State_FIPS, Rfrg_Prvdr_RUCA_Desc, Rfrg_Prvdr_Cntry, Tot_Suplrs, Tot_Suplr_HCPCS_Cds,
+         Tot_Suplr_Clms, Tot_Suplr_Srvcs, Suplr_Sbmtd_Chrgs, Suplr_Mdcr_Alowd_Amt, Suplr_Mdcr_Pymt_Amt,
+         Suplr_Mdcr_Stdzd_Pymt_Amt]

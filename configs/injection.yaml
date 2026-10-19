@@ -61,11 +61,12 @@ transforms:
   dme: {n_codes: 2, suppliers: [1, 2], min_national_providers: 5}
   min_new_row_benes: 11       # added rows get >= 11 beneficiaries so they survive suppression
 
-# Re-suppression of edited service-level rows (CMS: records from <= 10 beneficiaries are excluded). DMEPOS documents
-# also mention claims (Phase 0, DESIGN §18): the field is configurable.
+# Re-suppression of edited service-level rows (CMS: records from <= 10 beneficiaries are excluded). DMEPOS: the real
+# 2018-2024 files (Phase 1) keep only rows with >= 11 claims and blank beneficiary counts below 11 (70 % of DME-S
+# rows in 2023 have a blank Tot_Suplr_Benes), so DME-S rows are re-suppressed on claims (DESIGN §17 D114, §18).
 suppression:
   cms_ps: {field: tot_benes, max_suppressed: 10}
-  dme_s: {field: tot_suplr_benes, max_suppressed: 10}
+  dme_s: {field: tot_suplr_clms, max_suppressed: 10}
 
 distractor:
   percentile: 0.95            # EXPERIMENT_PLAN §5.1: already above the peer 95th percentile in a different group

@@ -17,9 +17,15 @@ def proj(tmp_path, monkeypatch) -> Paths:
     root = tmp_path / "proj with space"
     (root / "design").mkdir(parents=True)
     (root / "pyproject.toml").write_text("[project]\nname='t'\n", encoding="utf-8")
-    shutil.copytree(REPO / "configs", root / "configs")
+    copy_configs(root)
     monkeypatch.setenv("SCENARIO_FRAUD_ROOT", str(root))
     return Paths(root)
+
+
+def copy_configs(root: Path) -> None:
+    """The repo's configs without the column maps written for the real CMS files (tests draft their own)."""
+    shutil.copytree(REPO / "configs", root / "configs",
+                    ignore=lambda d, names: [n for n in names if Path(d).name == "column_maps" and not n.startswith("_")])
 
 
 def write_csv(path: Path, header: list[str], rows: list[list], encoding: str = "utf-8") -> Path:

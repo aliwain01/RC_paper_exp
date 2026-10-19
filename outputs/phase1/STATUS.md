@@ -1,6 +1,25 @@
-# Status: Phases 0-7 built and tested on synthetic data; data acquisition blocked
+# Status: real data acquired (Phase 1); gate G1 reached. Phases 2-7 built, tested on synthetic data only
 
-12 October 2026 · follows [HANDOFF.md](../../HANDOFF.md) §9 quick start. Gate **G1 not reached**: no data could be downloaded from this environment.
+19 October 2026 · follows [HANDOFF.md](../../HANDOFF.md). **Gate G1 is reached**: the G1 report (`outputs/phase1/G1_report.md`, git-ignored, regenerate with `phase1 report`) is ready for the human's go/no-go decision. Phases 2-7 have not been run on the real data.
+
+## Phase 1 (19 October 2026): real data acquired, G1 report ready
+
+After the human allowed the CMS and OIG hosts in the environment's network settings:
+
+- **CMS (2018-2024, 28 files, 21.5 GB as CSV):** By Provider and Service, By Provider, DMEPOS by Referring Provider and Service, DMEPOS by Referring Provider, from the data.cms.gov catalogue (D115). Each year's data dictionary and methodology were also saved. Raw CSVs are stored gzip-compressed, 5.2 GB in total (D113).
+- **LEIE:** full file (09-2026, downloaded 2026-10-19), the record-layout PDF and all 42 monthly supplements online (2025-01 to 2026-09).
+- **Verification:** all 80 files pass `phase1 verify`.
+- **Column maps:** written from the real headers and reviewed against the CMS data dictionaries; all 28 files harmonised. Column names are identical in every year.
+- **Labels:** 85,156 exclusion events, 8,990 excluded NPIs, 8.4 M provider-years labelled.
+
+**G1 facts (the human decides):**
+- **Primary tier:** 427 unique positive NPIs over 2018-2023 (383 after the ≥ 50-services rule), above the ≈ 300 threshold. About 100-130 positive provider-years per year: prevalence ≈ 0.01 %, lower than the plan assumed. Prior-work tier: 839; broad: 574.
+- **NPI coverage:** only 8,924 of 84,093 LEIE records carry an NPI; of 2,524 primary-tier NPIs excluded since 2019, 622 appear in Part B.
+- **Reinstatement recovery is incomplete:** the monthly supplements cover only 2025-01 onwards, and web.archive.org resets connections from this environment, so no Internet Archive snapshot could be fetched. Exclusions that started and were reinstated before 2025 are invisible (1,124 events were recovered from the supplements).
+- **1128(b)(1) is unsplit** in the real file (957 events, 50 with an NPI; D71).
+- **DMEPOS suppression is on claims** (D114): beneficiary counts below 11 are blank in 70 % of DME-S rows and 45 % of DME-P rows. The DME intensity features divide by DME-P beneficiaries, so the Phase 2 QA must show how often they are undefined.
+- **Label horizon:** 2023 has 2.8 of 3 years observed, 2024 has 1.8 (showcase only).
+
 
 ## Phase 7 (13 October 2026): code built, tested on synthetic data only
 
@@ -74,47 +93,6 @@ The following are built, reviewed and fixed: C4 `cohort.py`, C5 `features.py` + 
 
 Run the tests with `.venv/bin/python -m pytest`.
 
-## What was executed, and what happened
-
-| Step | Command | Result |
-|---|---|---|
-| Route A (data.gov catalogue) | `phase1 datagov-list medicare-physician-other-practitioners-by-provider-and-service` | **Blocked**: the sandbox proxy refuses `catalog.data.gov` (403 on CONNECT) |
-| LEIE full file | `phase1 fetch … --url https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv` | **Blocked**: `oig.hhs.gov` refused by the proxy |
-| Internet Archive listing | `phase1 wayback-list` | **Blocked**: `web.archive.org` refused by the proxy |
-| data.cms.gov (route B) | probe only | **Blocked**: `data.cms.gov` refused by the proxy |
-| G1 report | `phase1 report` | Generated; every data section reads "not available" |
-
-These 403s come from **this cloud environment's network policy**, not from the sites' bot protection (DESIGN §5.2). Nothing was downloaded, and no data was mocked in place of real files.
-
-## Not done yet, and why
-
-- **No raw files, header dumps, column maps or labels.** C2 maps must be written from the real CSV headers (HANDOFF §7). The `bene_cc_*` names and DMEPOS 2024 stay unverified.
-- **LEIE layout and `EXCLTYPE` encoding are not verified.** `configs/labels.yaml` holds best-knowledge values marked `verified: false`. The labeller stops on any `EXCLTYPE` it doesn't know, so the real file forces a check against the OIG record-layout PDF.
-- **DESIGN §17 and §18 are unchanged.** No claim could be verified or falsified, and there were no design deviations.
-
-## To unblock: pick one
-
-1. **Allow the hosts in this environment's network settings:** `oig.hhs.gov`, `www.oig.hhs.gov`, `catalog.data.gov`, `data.cms.gov`, `archive.org`, `web.archive.org`, plus `download.cms.gov` if NPPES is wanted. Then run the runbook below here.
-   Caveats: the container has **≈ 30 GB of free disk, 4 CPUs and 15 GB RAM, and it is ephemeral**. `data/` is git-ignored, so downloads disappear when the session ends. Seven years of Part B by-Provider-and-Service CSVs ("several GB per year") may not fit alongside their Parquet copies.
-2. **Run Phase 1 on a workstation** (recommended for the full download). Clone, create the venv from `requirements.lock`, then follow the runbook. Files downloaded in a browser are registered with `phase1 register` (route C).
-
-## Runbook once access exists
-
-```bash
-S=.venv/bin/scenario-fraud
-# LEIE: current file, record-layout PDF, monthly supplements, archive snapshots (Q5 approval first)
-$S phase1 fetch --source leie --year 2026 --kind current --route oig --as-of <today> --url <link from download page>
-$S phase1 register --source leie --year 2026 --kind record_layout <layout.pdf>
-$S phase1 register --source leie --year 2025 --kind supplement_rein --as-of 2025-01 <2501REIN.csv>   # each month
-$S phase1 wayback-list && $S phase1 wayback-fetch <timestamp> ...
-# CMS: list per-year distributions, then fetch (or register browser downloads); data + dictionary + methodology
-$S phase1 datagov-list <slug from configs/sources.yaml>
-$S phase1 fetch --source cms_ps --year 2023 --kind data --route datagov --url <distribution url>
-$S phase1 verify && $S phase1 headers
-$S phase1 draft-colmap --dataset cms_ps --year 2023   # then review every line and set reviewed: true
-$S phase1 harmonise && $S phase1 labels && $S phase1 report   # -> outputs/phase1/G1_report.md, then stop at G1
-```
-
 ## HANDOFF §5 questions
 
 | # | Status |
@@ -122,8 +100,8 @@ $S phase1 harmonise && $S phase1 labels && $S phase1 report   # -> outputs/phase
 | Q1 git + layout | Taken as yes from the request to apply the handoff. It was already a git repo; layout and `.gitignore` are created. |
 | Q2 Python | This container: Python 3.13 venv, all packages installed. Confirm the version for the machine that will run the full pipeline. |
 | Q3 compute | Measured here: 4 CPU, 15 GB RAM, ~30 GB free disk, ephemeral. Budget for EBM and coalition tables still open. |
-| Q4 CMS download route | **Open.** All routes blocked from this container (see above). |
-| Q5 Internet Archive snapshots | **Open.** Approval needed, and the host is blocked here. |
+| Q4 CMS download route | **Resolved:** the human allowed the hosts; files fetched from the data.cms.gov catalogue (D115). |
+| Q5 Internet Archive snapshots | **Open:** the host was allowed, but web.archive.org resets connections from this environment; no snapshot fetched. |
 | Q6 years 2018–2024, Part D out | Assumed as in DESIGN D12/D17 (`configs/sources.yaml`). Please confirm. |
 | Q7 DESIGN §19 open questions | **Open.** Needed before the protocol freeze at G2, not for Phase 1. |
 

@@ -26,6 +26,12 @@ pins *where and in which shape*. When a contract changes, update this file in th
 
 ## 1. Phase 1 outputs (exist)
 
+Raw files: `data/raw/{source}/{year}/`, CMS CSVs stored gzip-compressed after their header dump (`acquire.compress`;
+the manifest entry's `extra` keeps `original_path`, `original_size_bytes`, `original_sha256`, and
+`acquire.content_sha256(entry)` is what column maps, header dumps and harmonised files refer to, D113).
+`data/raw/manifest.json`, the header dumps and the G1 report are in git; `phase1 restore` (`acquire.restore`)
+re-downloads any missing file and checks it (D116).
+
 | Artefact | Columns / content |
 |---|---|
 | `data/interim/{cms_ps,cms_prov,dme_s,dme_p}/{year}.parquet` | harmonised names from `configs/column_maps/_schema.yaml`, plus `year` (Int32) |

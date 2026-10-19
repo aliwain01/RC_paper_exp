@@ -6,6 +6,8 @@
     scenario-fraud phase1 wayback-list
     scenario-fraud phase1 wayback-fetch TIMESTAMP [...]
     scenario-fraud phase1 verify
+    scenario-fraud phase1 compress [--source cms_ps] [--year 2018 ...]
+    scenario-fraud phase1 restore
     scenario-fraud phase1 headers [--refresh]
     scenario-fraud phase1 draft-colmap --dataset cms_ps --year 2023
     scenario-fraud phase1 harmonise [--dataset cms_ps --year 2023]
@@ -80,6 +82,10 @@ def _p1(sub: argparse._SubParsersAction) -> None:
     w.add_argument("timestamps", nargs="+")
 
     s.add_parser("verify", help="recompute every manifest checksum")
+    s.add_parser("restore", help="re-download every manifest file missing on disk and check its checksum")
+    z = s.add_parser("compress", help="store registered raw CSVs gzip-compressed (keeps the original sha256)")
+    z.add_argument("--source", action="append", default=None)
+    z.add_argument("--year", type=int, action="append", default=None)
     h = s.add_parser("headers", help="dump column names + row counts for every registered table")
     h.add_argument("--refresh", action="store_true")
 
@@ -113,6 +119,15 @@ def _run_phase1(paths: Paths, a: argparse.Namespace) -> dict:
         return {"n_snapshots": len(snaps), "timestamps": [s["timestamp"] for s in snaps]}
     if a.cmd == "wayback-fetch":
         return {"fetched": [acquire.fetch_wayback_snapshot(paths, ts).path for ts in a.timestamps]}
+    if a.cmd == "restore":
+        res = acquire.restore(paths)
+        return {"restored": sum(r["status"] == "restored" for r in res), "problems": [r for r in res
+                                                                                 if r["status"] != "restored"]}
+    if a.cmd == "compress":
+        todo = [e.path for e in acquire.load_manifest(paths) if e.kind in acquire.DATA_KINDS
+                and e.path.lower().endswith(".csv") and (not a.source or e.source in a.source)
+                and (not a.year or e.year in a.year)]
+        return {"compressed": [acquire.compress(paths, p).path for p in todo]}
     if a.cmd == "verify":
         problems = acquire.verify(paths)
         if problems:

@@ -99,3 +99,45 @@ def test_fetch_streams_and_registers(proj, tmp_path):
         s.close()
         httpd.shutdown()
         httpd.server_close()
+
+
+def test_compress_keeps_original_checksum(proj, tmp_path):
+    from scenario_fraud.harmonise import draft_column_map  # noqa: F401  (import check)
+
+    f = tmp_path / "x.csv"
+    f.write_text("Rndrng_NPI,Tot_Srvcs\n1234567893,5\n", encoding="utf-8")
+    e = acquire.register(proj, f, "cms_prov", 2020, "data")
+    d0 = acquire.header_dump(proj, e)
+    z = acquire.compress(proj, e.path)
+    assert z.path.endswith(".csv.gz") and not (proj.root / e.path).exists()
+    assert acquire.content_sha256(z) == e.sha256 and z.extra["original_size_bytes"] == e.size_bytes
+    assert acquire.verify(proj) == []
+    assert acquire.header_path(proj, z) == acquire.header_path(proj, e)
+    d1 = acquire.header_dump(proj, z)
+    assert d1["columns"] == d0["columns"] and d1["sha256"] == e.sha256 and d1["n_rows"] == 1
+
+
+def test_restore_redownloads_and_checks(proj, tmp_path):
+    served = tmp_path / "srv"
+    write_csv(served / "a.csv", ["Rndrng_NPI", "Tot_Srvcs"], [["1234567893", "5"]])
+    write_csv(served / "UPDATED.csv", ["NPI", "EXCLTYPE"], [["0", "1128a1"]])
+    handler = partial(http.server.SimpleHTTPRequestHandler, directory=str(served))
+    httpd = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    s = acquire._session()
+    s.trust_env = False
+    try:
+        base = f"http://127.0.0.1:{httpd.server_address[1]}"
+        a = acquire.fetch(proj, f"{base}/a.csv", "cms_prov", 2020, "data", route="other", session=s)
+        z = acquire.compress(proj, a.path)
+        u = acquire.fetch(proj, f"{base}/UPDATED.csv", "leie", 2026, "current", route="oig", session=s)
+        proj.abs(z.path).unlink()
+        proj.abs(u.path).unlink()
+        write_csv(served / "UPDATED.csv", ["NPI", "EXCLTYPE"], [["0", "1128b4"]])   # the source replaced its file
+        res = {r["path"]: r["status"] for r in acquire.restore(proj, session=s)}
+        assert res[z.path] == "restored" and acquire.verify(proj) == [{"path": u.path, "problem": "missing"}]
+        assert res[u.path].startswith("checksum mismatch") and not list(proj.raw.rglob("*.part"))
+    finally:
+        s.close()
+        httpd.shutdown()
+        httpd.server_close()

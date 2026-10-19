@@ -9,8 +9,10 @@ Nothing here guesses a file URL: URLs come from the landing page, the catalogue 
 from __future__ import annotations
 
 import csv
+import gzip
 import json
 import shutil
+import subprocess
 from dataclasses import asdict, dataclass, field
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -73,6 +75,53 @@ def _upsert(paths: Paths, new: Entry) -> Entry:
     entries.append(new)
     save_manifest(paths, entries)
     return new
+
+
+def content_sha256(e: Entry) -> str:
+    """sha256 of the file as downloaded: for raw files stored gzip-compressed (`compress`), the original bytes."""
+    return e.extra.get("original_sha256", e.sha256)
+
+
+def compress(paths: Paths, rel_path: str) -> Entry:
+    """Store a registered raw CSV gzip-compressed (disk budget; DESIGN §17 D113). The entry's path, size and sha256
+    then describe the .gz file; `extra` keeps the original name, size and sha256 (column maps, header dumps and
+    harmonised files refer to the original content). Decompressing gives back the downloaded bytes exactly."""
+    entries = load_manifest(paths)
+    e = next((x for x in entries if x.path == rel_path), None)
+    if e is None:
+        raise ManifestError(f"{rel_path} is not registered")
+    src = paths.abs(e.path)
+    if src.suffix.lower() != ".csv":
+        raise ManifestError(f"only .csv files are compressed (got {rel_path})")
+    if file_sha256(src) != e.sha256:
+        raise ManifestError(f"{rel_path}: sha256 differs from the manifest; not compressing")
+    dst = src.with_name(src.name + ".gz")
+    tmp = dst.with_name(dst.name + ".tmp")
+    with open(tmp, "wb") as out:
+        subprocess.run(["gzip", "-6", "-n", "-c", str(src)], stdout=out, check=True)
+    with gzip.open(tmp, "rb") as fh:                      # round trip before the original is removed
+        import hashlib
+
+        h = hashlib.sha256()
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    if h.hexdigest() != e.sha256:
+        tmp.unlink()
+        raise ManifestError(f"{rel_path}: gzip round trip does not reproduce the original bytes")
+    tmp.replace(dst)
+    new = Entry(**{**asdict(e), "path": paths.rel(dst), "size_bytes": dst.stat().st_size, "sha256": file_sha256(dst),
+                   "extra": {**e.extra, "stored": "gzip", "original_path": e.path,
+                             "original_size_bytes": e.size_bytes, "original_sha256": e.sha256}})
+    save_manifest(paths, [x for x in entries if x.path != e.path] + [new])
+    src.unlink()
+    return new
+
+
+def open_text(path: Path, encoding: str):
+    """Open a raw CSV (plain or .gz) as text."""
+    if path.name.lower().endswith(".gz"):
+        return gzip.open(path, "rt", encoding=encoding, newline="")
+    return open(path, "r", encoding=encoding, newline="")
 
 
 def _validate(paths: Paths, source: str, year: int, kind: str, route: str) -> None:
@@ -200,6 +249,51 @@ def fetch(
     return entry
 
 
+def restore(paths: Paths, *, session: requests.Session | None = None, timeout: float = 60.0) -> list[dict]:
+    """Re-download every manifest file that is missing on disk from its recorded `file_url` and check it against the
+    recorded sha256 of the downloaded content (D116); files stored compressed are compressed again. The manifest is
+    what the repository keeps (the raw files are not in git). A source that replaced its file (e.g. the monthly LEIE
+    full file) gives a checksum mismatch: the download is discarded and reported, never registered in its place."""
+    session = session or _session()
+    out = []
+    for e in load_manifest(paths):
+        if paths.abs(e.path).is_file():
+            continue
+        if not e.file_url or e.file_url == "manual":
+            out.append({"path": e.path, "status": "manual file: register it again by hand"})
+            continue
+        orig = paths.abs(e.extra.get("original_path", e.path))
+        orig.parent.mkdir(parents=True, exist_ok=True)
+        part = orig.with_name(orig.name + ".part")
+        try:
+            with session.get(e.file_url, stream=True, timeout=timeout, allow_redirects=True) as r:
+                if r.status_code != 200:
+                    out.append({"path": e.path, "status": f"HTTP {r.status_code}"})
+                    continue
+                with open(part, "wb") as fh:
+                    for chunk in r.iter_content(chunk_size=1 << 20):
+                        fh.write(chunk)
+        except BaseException:
+            part.unlink(missing_ok=True)
+            raise
+        if file_sha256(part) != content_sha256(e):
+            part.unlink()
+            out.append({"path": e.path, "status": "checksum mismatch: the source no longer serves this file"})
+            continue
+        part.replace(orig)
+        if e.extra.get("stored") == "gzip":
+            gz = orig.with_name(orig.name + ".gz")
+            with open(gz, "wb") as fo:
+                subprocess.run(["gzip", "-6", "-n", "-c", str(orig)], stdout=fo, check=True)
+            orig.unlink()
+            if file_sha256(gz) != e.sha256:          # another gzip build may compress differently: keep the manifest true
+                entries = [x for x in load_manifest(paths) if x.path != e.path]
+                save_manifest(paths, entries + [Entry(**{**asdict(e), "size_bytes": gz.stat().st_size,
+                                                         "sha256": file_sha256(gz)})])
+        out.append({"path": e.path, "status": "restored"})
+    return out
+
+
 # ----------------------------------------------------------------------------------------------- route discovery
 
 def datagov_distributions(paths: Paths, slug: str, session: requests.Session | None = None) -> list[dict]:
@@ -285,7 +379,7 @@ def verify(paths: Paths) -> list[dict]:
 # ----------------------------------------------------------------------------------------------- header dumps
 
 def _sniff_encoding(path: Path) -> str:
-    with open(path, "rb") as fh:
+    with (gzip.open(path, "rb") if path.name.lower().endswith(".gz") else open(path, "rb")) as fh:
         head = fh.read(1 << 20)
     for enc in ("utf-8-sig", "cp1252", "latin-1"):
         try:
@@ -297,7 +391,7 @@ def _sniff_encoding(path: Path) -> str:
 
 
 def _count_rows_python(path: Path, encoding: str) -> int:
-    with open(path, "r", encoding=encoding, newline="") as fh:
+    with open_text(path, encoding) as fh:
         reader = csv.reader(fh)
         next(reader, None)
         return sum(1 for _ in reader)
@@ -323,10 +417,10 @@ def header_dump(paths: Paths, entry: Entry, count_rows: bool = True) -> dict:
     """Column names + row count for one tabular file -> outputs/phase1/headers/<source>_<year>_<stem>.json.
     These dumps are the inputs to the C2 column maps and to the G1 report."""
     p = paths.abs(entry.path)
-    if p.suffix.lower() != ".csv":
-        raise ManifestError(f"header dump supports .csv only (got {entry.path}); unpack archives first")
+    if not p.name.lower().endswith((".csv", ".csv.gz")):
+        raise ManifestError(f"header dump supports .csv and .csv.gz only (got {entry.path}); unpack archives first")
     enc = _sniff_encoding(p)
-    with open(p, "r", encoding=enc, newline="") as fh:
+    with open_text(p, enc) as fh:
         columns = next(csv.reader(fh))
     columns = [c.strip() for c in columns]
     rows, counter = _count_rows(p, enc) if count_rows else (None, None)
@@ -336,8 +430,8 @@ def header_dump(paths: Paths, entry: Entry, count_rows: bool = True) -> dict:
         "year": entry.year,
         "kind": entry.kind,
         "as_of": entry.as_of,
-        "sha256": entry.sha256,
-        "size_bytes": entry.size_bytes,
+        "sha256": content_sha256(entry),
+        "size_bytes": entry.extra.get("original_size_bytes", entry.size_bytes),
         "encoding": enc,
         "n_columns": len(columns),
         "columns": columns,
@@ -351,18 +445,19 @@ def header_dump(paths: Paths, entry: Entry, count_rows: bool = True) -> dict:
 
 
 def header_path(paths: Paths, entry: Entry) -> Path:
-    return paths.headers / f"{entry.source}_{entry.year}_{Path(entry.path).stem}.json"
+    name = Path(entry.extra.get("original_path", entry.path)).stem
+    return paths.headers / f"{entry.source}_{entry.year}_{name}.json"
 
 
 def dump_all_headers(paths: Paths, refresh: bool = False) -> list[dict]:
     dumps = []
     for e in load_manifest(paths):
-        if e.kind not in DATA_KINDS or not e.path.lower().endswith(".csv"):
+        if e.kind not in DATA_KINDS or not e.path.lower().endswith((".csv", ".csv.gz")):
             continue
         hp = header_path(paths, e)
         if hp.is_file() and not refresh:
             d = json.loads(hp.read_text(encoding="utf-8"))
-            if d.get("sha256") == e.sha256:
+            if d.get("sha256") == content_sha256(e):
                 dumps.append(d)
                 continue
         dumps.append(header_dump(paths, e))

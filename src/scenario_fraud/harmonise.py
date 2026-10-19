@@ -9,14 +9,16 @@ human-reviewed map sets `reviewed: true`. Everything that does not line up fails
 
 from __future__ import annotations
 
+import gzip
 import json
+import shutil
 import re
 from dataclasses import dataclass
 from pathlib import Path
 
 import polars as pl
 
-from .acquire import Entry, header_path, load_manifest
+from .acquire import Entry, content_sha256, header_path, load_manifest
 from .config import file_sha256, load_yaml
 from .paths import Paths
 
@@ -113,7 +115,7 @@ def validate_map(cmap: ColumnMap, raw_columns: list[str], schema: dict, allow_dr
 def _data_entry(paths: Paths, dataset: str, year: int, sha256: str | None) -> Entry:
     cands = [e for e in load_manifest(paths) if e.source == dataset and e.year == year and e.kind == "data"]
     if sha256:
-        match = [e for e in cands if e.sha256 == sha256]
+        match = [e for e in cands if content_sha256(e) == sha256]
         if not match:
             raise SchemaError(
                 f"no registered {dataset} {year} data file with sha256 {sha256[:12]}... (the map was written for "
@@ -136,6 +138,22 @@ def harmonise(paths: Paths, dataset: str, year: int, allow_draft: bool = False) 
     encoding = json.loads(hp.read_text(encoding="utf-8"))["encoding"] if hp.is_file() else "utf-8"
     pl_encoding = "utf8" if encoding.startswith("utf-8") else "utf8-lossy"
 
+    plain = None
+    if src.name.lower().endswith(".gz"):          # raw stored gzip-compressed (D113): decompress to a scratch copy
+        plain = paths.data / ".tmp" / f"{dataset}_{year}.csv"
+        plain.parent.mkdir(parents=True, exist_ok=True)
+        with gzip.open(src, "rb") as fi, open(plain, "wb") as fo:
+            shutil.copyfileobj(fi, fo, 1 << 22)
+        src = plain
+    try:
+        return _harmonise(paths, dataset, year, cmap, entry, src, encoding, pl_encoding, schema, allow_draft)
+    finally:
+        if plain is not None:
+            plain.unlink(missing_ok=True)
+
+
+def _harmonise(paths: Paths, dataset: str, year: int, cmap, entry: Entry, src: Path, encoding: str, pl_encoding: str,
+               schema: dict, allow_draft: bool) -> Path:
     lf = pl.scan_csv(src, infer_schema=False, encoding=pl_encoding, null_values=cmap.null_values)
     raw_columns = [c.strip() for c in lf.collect_schema().names()]
     lf = lf.rename({old: new for old, new in zip(lf.collect_schema().names(), raw_columns) if old != new})
@@ -173,7 +191,7 @@ def harmonise(paths: Paths, dataset: str, year: int, allow_draft: bool = False) 
         "dataset": dataset,
         "year": year,
         "source_path": entry.path,
-        "source_sha256": entry.sha256,
+        "source_sha256": content_sha256(entry),
         "column_map": paths.rel(cmap.path),
         "column_map_sha256": file_sha256(cmap.path),
         "map_reviewed": cmap.reviewed,
@@ -236,7 +254,7 @@ def draft_column_map(paths: Paths, dataset: str, year: int, force: bool = False)
         "reviewed: false",
         "written_from:",
         f"  path: {json.dumps(entry.path)}",
-        f"  sha256: {json.dumps(entry.sha256)}",
+        f"  sha256: {json.dumps(content_sha256(entry))}",
         f"  header_dump: {json.dumps(paths.rel(hp))}",
         f"  n_columns: {dump['n_columns']}",
         'null_values: [""]',
