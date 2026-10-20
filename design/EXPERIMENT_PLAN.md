@@ -80,7 +80,7 @@ DESIGN §17 D73–D81 hold the reasons; parameters live in `configs/models.yaml`
 - **Final fit and calibration:** all training rows; isotonic calibrator from the tuning model's validation margins (D79; the D59 choice is still open).
 - **Metrics:** pooled precision/recall@k sum per-year counts; ties broken by a fixed hash; Holm adjusts two-sided bootstrap p-values; T1 CIs are NPI-bootstrap percentile intervals of the seed-0 models (D81).
 - **Guard:** training refuses to start before the G2 freeze record exists, or if the frozen parameters changed (D73).
-- **Resume** (D120): a (family, fold) whose `tuning.json` records the same trial budget and seed count is skipped; an interrupted tuning replays its logged trials (`progress/trials.jsonl`) through the same seeded sampler, so the result equals an uninterrupted run; saved seed models are loaded. `phase3 train --no-resume` retrains from scratch. Progress lines go to `outputs/phase3/train_progress.log`.
+- **Resume** (D120): a (family, fold) whose `tuning.json` records the same trial budget and seed count is skipped; an interrupted tuning replays its logged trials (`progress/trials.jsonl`) through the same seeded sampler, so the result equals an uninterrupted run; saved seed models are loaded. All three reuse work only under the same settings fingerprint (the family's models.yaml section, the pos_weight space, tuning seed, final fit, calibration source and design columns); a changed setting retrains. `phase3 train --no-resume` retrains from scratch. Progress lines go to `outputs/phase3/train_progress.log`.
 
 ---
 

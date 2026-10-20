@@ -14,6 +14,7 @@ Training refuses to run unless the G2 freeze record exists and still matches the
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import sys
@@ -112,7 +113,8 @@ def train_design(paths: Paths, design: str, *, families=None, folds=None, seeds:
     summary = {"design": design, "label_tier": df.label_tier, "W": df.W, "rows": df.frame.height,
                "columns": len(df.columns), "folds": {}}
     for k in fold_ids:
-        done = {f: _done(paths, design, f, k, trials, n_seeds) for f in fams} if resume else {}
+        done = {f: _done(paths, design, f, k, trials, n_seeds, fingerprint(mcfg, f, df.columns)) for f in fams} \
+            if resume else {}
         for f, info in done.items():
             if info:
                 log(f"{design} fold {k} {f}: already done (valid AP {info['valid_ap']:.5f}), skipped")
@@ -141,13 +143,24 @@ def _brief(info: dict) -> dict:
     return {k: info[k] for k in ("valid_ap", "n_valid_pos", "n_test", "n_test_pos", "seconds")}
 
 
-def _done(paths: Paths, design: str, family: str, fold: int, trials: int, n_seeds: int) -> dict | None:
-    """The tuning.json of a finished (family, fold) with this budget, else None. tuning.json is written last."""
+def fingerprint(mcfg: models.ModelConfig, family: str, columns: list[str]) -> str:
+    """Hash of everything in models.yaml that changes a fit of `family` besides the tuned parameters (the family's
+    section, the pos_weight space, seeds, final fit and calibration) and of the design columns. Resume reuses logged
+    trials, saved seeds and finished pieces only under the same fingerprint."""
+    doc = {"family": mcfg[family], "pos_weight": mcfg["pos_weight"], "tuning_seed": mcfg["tuning_seed"],
+           "final_fit": mcfg["final_fit"], "calibration_source": mcfg["calibration_source"], "columns": columns}
+    return hashlib.sha256(json.dumps(doc, sort_keys=True, default=str).encode()).hexdigest()[:16]
+
+
+def _done(paths: Paths, design: str, family: str, fold: int, trials: int, n_seeds: int, fp: str) -> dict | None:
+    """The tuning.json of a finished (family, fold) with this budget and fingerprint, else None. tuning.json is
+    written last. A tuning.json without a fingerprint (written before fingerprints existed) is accepted."""
     p = model_dir(paths, design, family, fold) / "tuning.json"
     if not p.is_file() or not score_path(paths, design, family, fold).is_file():
         return None
     info = json.loads(p.read_text(encoding="utf-8"))
-    return info if info.get("n_trials") == trials and info.get("seeds") == n_seeds else None
+    ok = info.get("n_trials") == trials and info.get("seeds") == n_seeds and info.get("fingerprint", fp) == fp
+    return info if ok else None
 
 
 def _read_trials(p: Path) -> list[dict]:
@@ -204,8 +217,14 @@ def _tune(paths, df: DesignFrame, k: int, fam: str, mcfg, trials: int, data, res
     fs = FAMILY_SALT[fam]
     space = mcfg.space(fam)
     tp = model_dir(paths, df.design, fam, k) / "progress" / "trials.jsonl"
+    fpp = tp.with_name("fingerprint.json")
+    fp = fingerprint(mcfg, fam, df.columns)
     logged = _read_trials(tp)[:trials] if resume else []
+    if logged and fpp.is_file() and json.loads(fpp.read_text(encoding="utf-8")) != fp:   # no file: older log, kept
+        log(f"{df.design} fold {k} {fam}: settings changed since the logged trials; tuning restarts")
+        logged = []
     _write_trials(tp, logged)
+    fpp.write_text(json.dumps(fp), encoding="utf-8")
     study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(
         seed=_seed(mcfg["tuning_seed"], DESIGN_SALT[df.design], fs, k)))
     replayed = 0
@@ -273,12 +292,14 @@ def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds:
         log(f"{df.design} fold {k} {fam}: tuning model valid AP {valid_ap:.5f}, best params {best}")
         cal = _calibrator(m_tv, y_tv) if mcfg["calibration_source"] == "tuning_model" else None
         d = model_dir(paths, df.design, fam, k)
+        fp = fingerprint(mcfg, fam, df.columns)
         scores = []
         for s in range(n_seeds):
             sd = d / f"seed{s}"
             mark = sd / "params.json"
             t1 = time.perf_counter()
-            if resume and mark.is_file() and json.loads(mark.read_text(encoding="utf-8")) == best:
+            if resume and mark.is_file() and json.loads(mark.read_text(encoding="utf-8")) == {"params": best,
+                                                                                         "fingerprint": fp}:
                 f = models.load(sd)
                 c = joblib.load(sd / "calibrator.joblib")
                 how = "loaded (resume)"
@@ -289,7 +310,8 @@ def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds:
                 c = cal if cal is not None else _calibrator(models.margin(f, X_tv), y_tv)
                 models.save(f, sd)
                 joblib.dump(c, sd / "calibrator.joblib")
-                mark.write_text(json.dumps(best), encoding="utf-8")   # written last: marks a complete seed
+                mark.write_text(json.dumps({"params": best, "fingerprint": fp}),
+                                encoding="utf-8")                      # written last: marks a complete seed
                 how = "fitted"
             m = models.margin(f, X_te)
             log(f"{df.design} fold {k} {fam}: seed {s + 1}/{n_seeds} {how}, {time.perf_counter() - t1:.1f}s")
@@ -301,7 +323,7 @@ def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds:
         info = {"design": df.design, "family": fam, "fold": k, "params_source": source, "best_params": best,
                 "valid_ap": valid_ap, "n_tune_train": tt.height, "n_tune_valid": tv.height,
                 "n_valid_pos": n_valid_pos, "n_final_train": final.height, "n_final_pos": int(y_f.sum()),
-                "n_test": test.height, "n_test_pos": int(test["y"].sum()), "seeds": n_seeds, "n_trials": trials,
+                "n_test": test.height, "n_test_pos": int(test["y"].sum()), "seeds": n_seeds, "n_trials": trials, "fingerprint": fp,
                 "final_fit": mcfg["final_fit"], "calibration_source": mcfg["calibration_source"],
                 "pair_terms": tuning_model.extra.get("pair_terms"), "trials": trials_log,
                 "seconds": round(time.perf_counter() - t0, 2)}

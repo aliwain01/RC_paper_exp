@@ -167,6 +167,24 @@ def test_resume_after_interruption_matches_uninterrupted_run(w, monkeypatch):
     assert "1 logged trials replayed" in (w.phase3 / "train_progress.log").read_text()
 
 
+def test_resume_ignores_work_done_under_other_settings(w, monkeypatch):
+    train.train_design(w, "primary", families=["xgb"], folds=[0], n_trials=2, resume=False)
+    d = train.model_dir(w, "primary", "xgb", 0)
+    m = w.configs / "models.yaml"
+    doc = yaml.safe_load(m.read_text())
+    doc["xgb"]["fixed"]["max_bin"] = 64
+    m.write_text(yaml.safe_dump(doc, sort_keys=False))
+    (d / "tuning.json").unlink()                                   # interrupted before the piece finished
+    fits = []
+    real_fit = train.models.fit
+    monkeypatch.setattr(train.models, "fit", lambda *a, **k: fits.append(a[0]) or real_fit(*a, **k))
+    train.train_design(w, "primary", families=["xgb"], folds=[0], n_trials=2)
+    assert len(fits) == 2 + 1 + 2       # both trials, the tuning model, both seeds: nothing reused
+    assert "settings changed" in (w.phase3 / "train_progress.log").read_text()
+    fp = json.loads((d / "tuning.json").read_text())["fingerprint"]
+    assert json.loads((d / "seed0" / "params.json").read_text())["fingerprint"] == fp
+
+
 def test_training_refuses_without_or_after_changing_the_freeze(w):
     (w.phase2 / "G2_freeze.json").rename(w.phase2 / "moved.json")
     with pytest.raises(train.TrainError, match="freeze"):
