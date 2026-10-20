@@ -15,6 +15,8 @@ Training refuses to run unless the G2 freeze record exists and still matches the
 from __future__ import annotations
 
 import json
+import os
+import sys
 import time
 from pathlib import Path
 
@@ -86,7 +88,11 @@ def _reused_params(paths: Paths, family: str, fold: int) -> dict:
 
 
 def train_design(paths: Paths, design: str, *, families=None, folds=None, seeds: int | None = None,
-                 n_trials: int | None = None) -> dict:
+                 n_trials: int | None = None, resume: bool = True) -> dict:
+    """Train one design. With `resume` (the default) a (family, fold) whose tuning.json records the same trial budget
+    and seed count is skipped, an interrupted tuning replays its logged trials (progress/trials.jsonl; the seeded
+    sampler re-proposes the same parameters, so the run is identical to an uninterrupted one) and seed models already
+    saved with the best parameters are loaded instead of refitted. `resume=False` retrains from scratch."""
     check_frozen(paths)
     mcfg = models.ModelConfig.load(paths)
     scfg = splits.SplitConfig.load(paths)
@@ -98,14 +104,76 @@ def train_design(paths: Paths, design: str, *, families=None, folds=None, seeds:
     if unknown:
         raise TrainError(f"families {unknown} not in models.yaml families")
     n_seeds = int(seeds if seeds is not None else dcfg["seeds"])
-    trials = int(n_trials if n_trials is not None else mcfg["n_trials"])
-    df = load_design(paths, design)
+    trials = int(n_trials if n_trials is not None else mcfg["n_trials"]) if dcfg["tune"] else 0
     fold_ids = sorted(int(k) for k in (folds if folds is not None else range(scfg.n_folds)))
+    log = _Log(paths)
+    log(f"{design}: families {fams}, folds {fold_ids}, {trials} trials, {n_seeds} seeds, resume={resume}")
+    df = load_design(paths, design)
     summary = {"design": design, "label_tier": df.label_tier, "W": df.W, "rows": df.frame.height,
                "columns": len(df.columns), "folds": {}}
     for k in fold_ids:
-        summary["folds"][k] = _train_fold(paths, df, k, fams, mcfg, scfg, dcfg, n_seeds, trials)
+        done = {f: _done(paths, design, f, k, trials, n_seeds) for f in fams} if resume else {}
+        for f, info in done.items():
+            if info:
+                log(f"{design} fold {k} {f}: already done (valid AP {info['valid_ap']:.5f}), skipped")
+        pending = [f for f in fams if not done.get(f)]
+        out = _train_fold(paths, df, k, pending, mcfg, scfg, dcfg, n_seeds, trials, resume, log) if pending else {}
+        summary["folds"][k] = {f: out[f] if f in out else _brief(done[f]) for f in fams}
+    log(f"{design}: finished")
     return summary
+
+
+class _Log:
+    """Progress lines on stderr and appended to outputs/phase3/train_progress.log (validation numbers only)."""
+
+    def __init__(self, paths: Paths):
+        self.path = paths.phase3 / "train_progress.log"
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+
+    def __call__(self, msg: str) -> None:
+        line = f"{time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())} {msg}"
+        print(line, file=sys.stderr, flush=True)
+        with self.path.open("a", encoding="utf-8") as fh:
+            fh.write(line + "\n")
+
+
+def _brief(info: dict) -> dict:
+    return {k: info[k] for k in ("valid_ap", "n_valid_pos", "n_test", "n_test_pos", "seconds")}
+
+
+def _done(paths: Paths, design: str, family: str, fold: int, trials: int, n_seeds: int) -> dict | None:
+    """The tuning.json of a finished (family, fold) with this budget, else None. tuning.json is written last."""
+    p = model_dir(paths, design, family, fold) / "tuning.json"
+    if not p.is_file() or not score_path(paths, design, family, fold).is_file():
+        return None
+    info = json.loads(p.read_text(encoding="utf-8"))
+    return info if info.get("n_trials") == trials and info.get("seeds") == n_seeds else None
+
+
+def _read_trials(p: Path) -> list[dict]:
+    """Logged trials; a line cut short by an interruption ends the log."""
+    out = []
+    if p.is_file():
+        for line in p.read_text(encoding="utf-8").splitlines():
+            try:
+                out.append(json.loads(line))
+            except json.JSONDecodeError:
+                break
+    return out
+
+
+def _write_trials(p: Path, rows: list[dict]) -> None:
+    p.parent.mkdir(parents=True, exist_ok=True)
+    tmp = p.with_suffix(".tmp")
+    tmp.write_text("".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8")
+    tmp.replace(p)
+
+
+def _append_trial(p: Path, row: dict) -> None:
+    with p.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(row) + "\n")
+        fh.flush()
+        os.fsync(fh.fileno())
 
 
 def fold_rows(df: DesignFrame, k: int, mcfg: models.ModelConfig, scfg: splits.SplitConfig):
@@ -126,9 +194,52 @@ def fold_rows(df: DesignFrame, k: int, mcfg: models.ModelConfig, scfg: splits.Sp
     return fr, tt, tv, final, test
 
 
-def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds: int, trials: int) -> dict:
+def _tune(paths, df: DesignFrame, k: int, fam: str, mcfg, trials: int, data, resume: bool, log) -> tuple[dict, list]:
+    """Optuna TPE by ask/tell with every trial logged to progress/trials.jsonl as it ends. On resume the logged
+    trials are replayed: the seeded sampler proposes the same parameters given the same history, so a logged value
+    is told instead of refitting; from the first mismatch on, trials are fitted again."""
     import optuna
 
+    X_tt, y_tt, w_tt, X_tv, y_tv = data
+    fs = FAMILY_SALT[fam]
+    space = mcfg.space(fam)
+    tp = model_dir(paths, df.design, fam, k) / "progress" / "trials.jsonl"
+    logged = _read_trials(tp)[:trials] if resume else []
+    _write_trials(tp, logged)
+    study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(
+        seed=_seed(mcfg["tuning_seed"], DESIGN_SALT[df.design], fs, k)))
+    replayed = 0
+    for i in range(trials):
+        trial = study.ask()
+        p = models.suggest(trial, space)
+        if i < len(logged) and logged[i]["params"] == p:
+            value = logged[i]["value"]
+            replayed += 1
+        else:
+            if i < len(logged):
+                log(f"{df.design} fold {k} {fam}: logged trial {i} has other parameters; refitting from here")
+                logged = logged[:i]
+                _write_trials(tp, logged)
+            t1 = time.perf_counter()
+            f = models.fit(fam, X_tt, y_tt, w_tt, p, _seed(mcfg["tuning_seed"], 7, fs, k), df.columns, mcfg, paths)
+            value = _ap(y_tv, models.margin(f, X_tv))
+            row = {"number": i, "value": value, "params": p, "seconds": round(time.perf_counter() - t1, 1)}
+            _append_trial(tp, row)
+            logged.append(row)
+            best = max(r["value"] for r in logged)
+            log(f"{df.design} fold {k} {fam}: trial {i + 1}/{trials} valid AP {value:.5f} (best {best:.5f}), "
+                f"{row['seconds']}s")
+        study.tell(trial, value)
+    if replayed:
+        log(f"{df.design} fold {k} {fam}: {replayed} logged trials replayed without refitting")
+    return dict(study.best_params), [{"number": t.number, "value": t.value, "params": t.params} for t in study.trials]
+
+
+def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds: int, trials: int,
+                resume: bool = False, log=None) -> dict:
+    import optuna
+
+    log = log or (lambda msg: None)
     optuna.logging.set_verbosity(optuna.logging.WARNING)
     fr, tt, tv, final, test = fold_rows(df, k, mcfg, scfg)
     n_valid_pos = int(tv["y"].sum())
@@ -141,24 +252,16 @@ def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds:
     X_tv, y_tv = matrix(fr, df.columns, tv["_i"].to_numpy()), tv["y"].to_numpy()
     X_f, y_f, w_f = matrix(fr, df.columns, final["_i"].to_numpy()), final["y"].to_numpy(), final["weight"].to_numpy()
     X_te = matrix(fr, df.columns, test["_i"].to_numpy())
+    log(f"{df.design} fold {k}: tune_train {tt.height:,}, tune_valid {tv.height:,} ({n_valid_pos} positives), "
+        f"final {final.height:,}, test {test.height:,} rows")
     out = {}
     for fam in fams:
         t0 = time.perf_counter()
         fs = FAMILY_SALT[fam]
         trials_log = []
+        log(f"{df.design} fold {k} {fam}: start")
         if dcfg["tune"]:
-            space = mcfg.space(fam)
-
-            def objective(trial):
-                p = models.suggest(trial, space)
-                f = models.fit(fam, X_tt, y_tt, w_tt, p, _seed(mcfg["tuning_seed"], 7, fs, k), df.columns, mcfg, paths)
-                return _ap(y_tv, models.margin(f, X_tv))
-
-            study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(
-                seed=_seed(mcfg["tuning_seed"], DESIGN_SALT[df.design], fs, k)))
-            study.optimize(objective, n_trials=trials)
-            best = dict(study.best_params)
-            trials_log = [{"number": t.number, "value": t.value, "params": t.params} for t in study.trials]
+            best, trials_log = _tune(paths, df, k, fam, mcfg, trials, (X_tt, y_tt, w_tt, X_tv, y_tv), resume, log)
             source = "tuned"
         else:
             best = _reused_params(paths, fam, k)
@@ -167,15 +270,29 @@ def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds:
                                   mcfg, paths)
         m_tv = models.margin(tuning_model, X_tv)
         valid_ap = _ap(y_tv, m_tv)
+        log(f"{df.design} fold {k} {fam}: tuning model valid AP {valid_ap:.5f}, best params {best}")
         cal = _calibrator(m_tv, y_tv) if mcfg["calibration_source"] == "tuning_model" else None
         d = model_dir(paths, df.design, fam, k)
         scores = []
         for s in range(n_seeds):
-            f = models.fit(fam, X_f, y_f, w_f, best, _seed(mcfg["tuning_seed"], 11, fs, k, s), df.columns, mcfg, paths)
-            c = cal if cal is not None else _calibrator(models.margin(f, X_tv), y_tv)
-            models.save(f, d / f"seed{s}")
-            joblib.dump(c, d / f"seed{s}" / "calibrator.joblib")
+            sd = d / f"seed{s}"
+            mark = sd / "params.json"
+            t1 = time.perf_counter()
+            if resume and mark.is_file() and json.loads(mark.read_text(encoding="utf-8")) == best:
+                f = models.load(sd)
+                c = joblib.load(sd / "calibrator.joblib")
+                how = "loaded (resume)"
+            else:
+                mark.unlink(missing_ok=True)
+                f = models.fit(fam, X_f, y_f, w_f, best, _seed(mcfg["tuning_seed"], 11, fs, k, s), df.columns, mcfg,
+                               paths)
+                c = cal if cal is not None else _calibrator(models.margin(f, X_tv), y_tv)
+                models.save(f, sd)
+                joblib.dump(c, sd / "calibrator.joblib")
+                mark.write_text(json.dumps(best), encoding="utf-8")   # written last: marks a complete seed
+                how = "fitted"
             m = models.margin(f, X_te)
+            log(f"{df.design} fold {k} {fam}: seed {s + 1}/{n_seeds} {how}, {time.perf_counter() - t1:.1f}s")
             scores.append(test.select("npi", "year", "fold", "y", "peer_cell", "label_horizon_complete").with_columns(
                 pl.lit(s, dtype=pl.Int32).alias("seed"), pl.Series("margin", m),
                 pl.Series("prob", c.predict(m)), pl.lit(df.label_tier).alias("label_tier"),
@@ -184,13 +301,16 @@ def _train_fold(paths, df: DesignFrame, k: int, fams, mcfg, scfg, dcfg, n_seeds:
         info = {"design": df.design, "family": fam, "fold": k, "params_source": source, "best_params": best,
                 "valid_ap": valid_ap, "n_tune_train": tt.height, "n_tune_valid": tv.height,
                 "n_valid_pos": n_valid_pos, "n_final_train": final.height, "n_final_pos": int(y_f.sum()),
-                "n_test": test.height, "n_test_pos": int(test["y"].sum()), "seeds": n_seeds,
+                "n_test": test.height, "n_test_pos": int(test["y"].sum()), "seeds": n_seeds, "n_trials": trials,
                 "final_fit": mcfg["final_fit"], "calibration_source": mcfg["calibration_source"],
                 "pair_terms": tuning_model.extra.get("pair_terms"), "trials": trials_log,
                 "seconds": round(time.perf_counter() - t0, 2)}
         (d / "columns.json").write_text(json.dumps(df.columns), encoding="utf-8")
-        (d / "tuning.json").write_text(json.dumps(info, indent=1), encoding="utf-8")
-        out[fam] = {k2: info[k2] for k2 in ("valid_ap", "n_valid_pos", "n_test", "n_test_pos", "seconds")}
+        tmp = d / "tuning.json.tmp"
+        tmp.write_text(json.dumps(info, indent=1), encoding="utf-8")
+        tmp.replace(d / "tuning.json")                                  # written last: marks a finished (family, fold)
+        log(f"{df.design} fold {k} {fam}: done in {info['seconds'] / 60:.1f} min")
+        out[fam] = _brief(info)
     return out
 
 

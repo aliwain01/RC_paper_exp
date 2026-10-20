@@ -7,7 +7,7 @@ glass_box: [lr, ebm, ga2m]
 gbm: [xgb, lgbm]
 gbm_mono: [xgb_mono, lgbm_mono]
 
-n_trials: 60                 # EXPERIMENT_PLAN §3: matched tuning budget per family (Optuna TPE)
+n_trials: 30                 # EXPERIMENT_PLAN §3: matched tuning budget per family (Optuna TPE); 60 -> 30, D120
 tuning_seed: 20261015        # sampler seed; sub-seeded per (design, family, fold)
 seeds: 10                    # DESIGN §7.8: seeds per configuration; seed 0 = reference model for attribution
 threads: 4

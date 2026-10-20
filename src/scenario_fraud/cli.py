@@ -204,6 +204,8 @@ def _p3(sub: argparse._SubParsersAction) -> None:
     t.add_argument("--fold", type=int, action="append", default=None, help="repeatable; default: every fold")
     t.add_argument("--seeds", type=int, default=None, help="override models.yaml seeds for this design")
     t.add_argument("--trials", type=int, default=None, help="override models.yaml n_trials")
+    t.add_argument("--no-resume", dest="resume", action="store_false",
+                   help="retrain finished pieces and ignore logged trials (default: resume)")
     c = s.add_parser("score-showcase", help="score the showcase year with the primary models (no accuracy claims)")
     c.add_argument("--family", action="append", default=None)
     bb = s.add_parser("bench", help="time tuning trials and a final fit per family on one fold (no test scoring)")
@@ -215,7 +217,8 @@ def _p3(sub: argparse._SubParsersAction) -> None:
 
 def _run_phase3(paths: Paths, a: argparse.Namespace) -> dict:
     if a.cmd == "train":
-        return train.train_design(paths, a.design, families=a.family, folds=a.fold, seeds=a.seeds, n_trials=a.trials)
+        return train.train_design(paths, a.design, families=a.family, folds=a.fold, seeds=a.seeds, n_trials=a.trials,
+                                  resume=a.resume)
     if a.cmd == "score-showcase":
         return train.score_showcase(paths, families=a.family)
     if a.cmd == "bench":

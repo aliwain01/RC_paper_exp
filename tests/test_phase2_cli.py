@@ -94,7 +94,8 @@ def test_phase2_end_to_end_reports_exist_and_say_synthetic(world, w):
     assert any(r["feature"] == "CX7" for r in g2["not_computable"])
     assert {r["id"]: r["status"] for r in g2["features"]}["CX7"] == "not computable"
     assert g2["protocol_hashes"] == rep["protocol_hashes"]
-    assert any("high-risk DME" in t for t in g2["decisions_needed"])
+    dme_open = yaml.safe_load((w.configs / "features.yaml").read_text())["dme_high_risk"]["status"] != "frozen"
+    assert any("high-risk DME" in t for t in g2["decisions_needed"]) == dme_open   # frozen at G2 (D119)
     assert any("DESIGN §19 Q2" in t for t in g2["decisions_needed"])
     assert "## 4. Protocol diff against v1.1" in gmd and "design/DESIGN_DOCUMENT.md not found" in gmd
     assert g2["freeze"]["status"] == "recorded"

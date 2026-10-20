@@ -126,9 +126,45 @@ def test_showcase_scores_2024_out_of_fold(w):
 
 def test_training_is_deterministic(w):
     before = train.load_scores(w, "primary", "xgb").filter(pl.col("fold") == 0).sort(["seed", "npi", "year"])
-    train.train_design(w, "primary", families=["xgb"], folds=[0], n_trials=2)
+    train.train_design(w, "primary", families=["xgb"], folds=[0], n_trials=2, resume=False)
     after = train.load_scores(w, "primary", "xgb").filter(pl.col("fold") == 0).sort(["seed", "npi", "year"])
     assert before.equals(after)
+
+
+def test_resume_skips_finished_pieces(w):
+    d = train.model_dir(w, "primary", "xgb", 0)
+    stamp = (d / "tuning.json").stat().st_mtime_ns
+    train.train_design(w, "primary", families=["xgb"], folds=[0], n_trials=2)
+    assert (d / "tuning.json").stat().st_mtime_ns == stamp
+    assert "already done" in (w.phase3 / "train_progress.log").read_text()
+    train.train_design(w, "primary", families=["xgb"], folds=[0], n_trials=3)      # other budget: retrained
+    assert json.loads((d / "tuning.json").read_text())["n_trials"] == 3
+
+
+def test_resume_after_interruption_matches_uninterrupted_run(w, monkeypatch):
+    key = ["seed", "npi", "year"]
+    train.train_design(w, "primary", families=["xgb"], folds=[0], n_trials=3, resume=False)
+    d = train.model_dir(w, "primary", "xgb", 0)
+    full = train.load_scores(w, "primary", "xgb").filter(pl.col("fold") == 0).sort(key)
+    best = json.loads((d / "tuning.json").read_text())["best_params"]
+    # interrupted during the 2nd trial (a half-written line) and before seed 1 was saved
+    tp = d / "progress" / "trials.jsonl"
+    rows = tp.read_text().splitlines()
+    tp.write_text(rows[0] + "\n" + rows[1][:15])
+    (d / "tuning.json").unlink()
+    train.score_path(w, "primary", "xgb", 0).unlink()
+    shutil.rmtree(d / "seed1")
+    fits = []
+    real_fit = train.models.fit
+    monkeypatch.setattr(train.models, "fit", lambda *a, **k: fits.append(a[0]) or real_fit(*a, **k))
+    train.train_design(w, "primary", families=["xgb"], folds=[0], n_trials=3)
+    assert len(fits) == 4          # trials 2 and 3, the tuning model, seed 1 (seed 0 loaded)
+    assert json.loads((d / "tuning.json").read_text())["best_params"] == best
+    assert [json.loads(r) for r in tp.read_text().splitlines()][0] == json.loads(rows[0])
+    resumed = train.load_scores(w, "primary", "xgb").filter(pl.col("fold") == 0).sort(key)
+    assert resumed.select(key).equals(full.select(key))
+    np.testing.assert_allclose(resumed["margin"].to_numpy(), full["margin"].to_numpy(), rtol=1e-6, atol=1e-6)
+    assert "1 logged trials replayed" in (w.phase3 / "train_progress.log").read_text()
 
 
 def test_training_refuses_without_or_after_changing_the_freeze(w):
