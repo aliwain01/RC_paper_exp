@@ -2,7 +2,7 @@
 
 Inputs: 28 harmonised CMS files under `data/interim` and 80 registered raw files (`data/raw/manifest.json`).
 
-Generated 2026-10-20T09:10:41.270869+00:00 by `scenario-fraud phase2 qa`. Regenerate after any change to the cohort, features, folds or configs. This report states facts; G2 decisions belong to the human (HANDOFF §6).
+Generated 2026-10-20T09:59:19.704253+00:00 by `scenario-fraud phase2 qa`. Regenerate after any change to the cohort, features, folds or configs. This report states facts; G2 decisions belong to the human (HANDOFF §6).
 
 ## 1. Cohort per year (DESIGN §7.2)
 
@@ -463,5 +463,5 @@ Rows per role and design × fold (positives `y = 1` from `data/processed/labels_
 
 **L6** Cohort threshold, high-risk DME list and grouping are fixed before any test result is seen.
 
-- [pass] hashes recorded: cohort_threshold 1a6562590ef1, dme_high_risk 19769117c4e2, grouping 284fa5077dae
-- [pass] fixed before any test result: no Phase 3-7 outputs exist, so no test result can have been seen
+- [pass] hashes recorded: cohort_threshold 1a6562590ef1, dme_high_risk d83e84616864, grouping 284fa5077dae
+- [pass] fixed before any test result: no Phase 3-7 outputs exist, so no test result can have been seen; changed since the freeze record recorded 2026-10-20T09:14:35.612603+00:00 (the next `phase2 report` re-records it): ['dme_high_risk']

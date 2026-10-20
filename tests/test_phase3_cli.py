@@ -149,3 +149,12 @@ def test_too_few_validation_positives_fails_loudly(w):
     m.write_text(yaml.safe_dump(doc))
     with pytest.raises(train.TrainError, match="min_valid_positives"):
         train.train_design(w, "primary", families=["lr"], folds=[0], n_trials=1)
+
+
+def test_bench_times_one_fold_without_scoring(w):
+    before = sorted((w.processed / "scores").rglob("*.parquet"))
+    assert cli.main(["phase3", "bench", "--family", "lr", "--family", "xgb", "--trials", "2"]) == 0
+    b = json.loads((w.phase3 / "bench.json").read_text())
+    assert set(b["families"]) == {"lr", "xgb"} and b["projected_hours_total"] >= 0
+    assert all(len(v["trial_seconds"]) == 2 for v in b["families"].values())
+    assert sorted((w.processed / "scores").rglob("*.parquet")) == before      # no test row scored

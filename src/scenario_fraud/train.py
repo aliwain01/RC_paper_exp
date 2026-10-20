@@ -238,3 +238,59 @@ def load_tuning(paths: Paths, design: str) -> pl.DataFrame:
         t = json.loads(p.read_text(encoding="utf-8"))
         rows.append({k: t[k] for k in ("family", "fold", "valid_ap", "n_valid_pos", "params_source")})
     return pl.DataFrame(rows) if rows else pl.DataFrame()
+
+
+def benchmark(paths: Paths, *, families=None, fold: int = 0, trials: int = 3) -> dict:
+    """Timing run before the full Phase 3 (EXPERIMENT_PLAN §10; HANDOFF §7 "time it first"): on fold k of the
+    primary design, `trials` tuning trials per family (parameters drawn by the same seeded TPE sampler, so its random
+    start) fitted on tune_train and scored on tune_valid, plus one final-model fit on all training rows. No test row
+    is scored. Projects the hours of the full run: per family and fold, n_trials tuning fits + the tuning model +
+    `seeds` final fits (primary) + one final fit per rolling origin. Writes outputs/phase3/bench.json."""
+    import optuna
+
+    check_frozen(paths)
+    optuna.logging.set_verbosity(optuna.logging.WARNING)
+    mcfg = models.ModelConfig.load(paths)
+    scfg = splits.SplitConfig.load(paths)
+    fams = list(families or mcfg["families"])
+    t0 = time.perf_counter()
+    df = load_design(paths, "primary")
+    load_s = time.perf_counter() - t0
+    fr, tt, tv, final, _ = fold_rows(df, fold, mcfg, scfg)
+    X_tt, y_tt, w_tt = matrix(fr, df.columns, tt["_i"].to_numpy()), tt["y"].to_numpy(), tt["weight"].to_numpy()
+    X_tv, y_tv = matrix(fr, df.columns, tv["_i"].to_numpy()), tv["y"].to_numpy()
+    X_f, y_f, w_f = matrix(fr, df.columns, final["_i"].to_numpy()), final["y"].to_numpy(), final["weight"].to_numpy()
+    n_trials, seeds = int(mcfg["n_trials"]), int(mcfg.design("primary")["seeds"])
+    rolling = [d for d in DESIGN_SALT if d != "primary" and d in scfg.designs]
+    out = {"fold": fold, "rows": {"tune_train": int(len(y_tt)), "tune_valid": int(len(y_tv)), "final": int(len(y_f)),
+                                  "columns": len(df.columns)},
+           "load_design_seconds": round(load_s, 1), "threads": int(mcfg["threads"]), "n_trials": n_trials,
+           "seeds": seeds, "rolling_origins": rolling, "families": {}}
+    for fam in fams:
+        fs = FAMILY_SALT[fam]
+        study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(
+            seed=_seed(mcfg["tuning_seed"], DESIGN_SALT["primary"], fs, fold)))
+        times, params = [], []
+        for _ in range(trials):
+            trial = study.ask()
+            p = models.suggest(trial, mcfg.space(fam))
+            t1 = time.perf_counter()
+            f = models.fit(fam, X_tt, y_tt, w_tt, p, _seed(mcfg["tuning_seed"], 7, fs, fold), df.columns, mcfg, paths)
+            ap = _ap(y_tv, models.margin(f, X_tv))
+            times.append(time.perf_counter() - t1)
+            params.append(p)
+            study.tell(trial, ap)
+        t1 = time.perf_counter()
+        models.fit(fam, X_f, y_f, w_f, params[0], _seed(mcfg["tuning_seed"], 11, fs, fold, 0), df.columns, mcfg, paths)
+        t_final = time.perf_counter() - t1
+        t_trial = float(np.mean(times))
+        per_fold = n_trials * t_trial + t_trial + seeds * t_final + len(rolling) * t_final
+        out["families"][fam] = {"trial_seconds": [round(t, 1) for t in times], "mean_trial_seconds": round(t_trial, 1),
+                                "final_fit_seconds": round(t_final, 1), "params": params,
+                                "projected_hours_per_fold": round(per_fold / 3600, 2),
+                                "projected_hours_all_folds": round(scfg.n_folds * per_fold / 3600, 2)}
+    out["projected_hours_total"] = round(sum(v["projected_hours_all_folds"] for v in out["families"].values()), 1)
+    p = paths.phase3 / "bench.json"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(out, indent=1, default=str), encoding="utf-8")
+    return out

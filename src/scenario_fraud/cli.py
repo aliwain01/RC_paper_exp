@@ -21,6 +21,7 @@
     scenario-fraud phase2 report
     scenario-fraud phase3 train [--design primary] [--family xgb ...] [--fold 0 ...] [--seeds N] [--trials N]
     scenario-fraud phase3 score-showcase [--family xgb ...]
+    scenario-fraud phase3 bench [--family F ...] [--fold 0] [--trials 3]
     scenario-fraud phase3 report
     scenario-fraud phase4 explained-set | explain [--family F ...] [--baseline peer|global] [--fold K ...] [--limit N]
     scenario-fraud phase4 diagnostics | bench [--family F ...] | report
@@ -205,6 +206,10 @@ def _p3(sub: argparse._SubParsersAction) -> None:
     t.add_argument("--trials", type=int, default=None, help="override models.yaml n_trials")
     c = s.add_parser("score-showcase", help="score the showcase year with the primary models (no accuracy claims)")
     c.add_argument("--family", action="append", default=None)
+    bb = s.add_parser("bench", help="time tuning trials and a final fit per family on one fold (no test scoring)")
+    bb.add_argument("--family", action="append", default=None)
+    bb.add_argument("--fold", type=int, default=0)
+    bb.add_argument("--trials", type=int, default=3)
     s.add_parser("report", help="write outputs/phase3/G3_report.md")
 
 
@@ -213,6 +218,8 @@ def _run_phase3(paths: Paths, a: argparse.Namespace) -> dict:
         return train.train_design(paths, a.design, families=a.family, folds=a.fold, seeds=a.seeds, n_trials=a.trials)
     if a.cmd == "score-showcase":
         return train.score_showcase(paths, families=a.family)
+    if a.cmd == "bench":
+        return train.benchmark(paths, families=a.family, fold=a.fold, trials=a.trials)
     if a.cmd == "report":
         out = g3_report.build_report(paths)
         rep = json.loads(out.with_suffix(".json").read_text(encoding="utf-8"))

@@ -92,8 +92,9 @@ code_sets:
 # 5-character codes of the same leading letter. Sources to cite in Phase 0: DOJ "Operation Brace Yourself"
 # (2019: back, shoulder, wrist, knee and ankle braces ordered via telemarketing / telemedicine) and the OIG
 # reports on off-the-shelf orthotic braces and on power mobility devices.
+# Frozen at G2 on 2026-10-20 (DESIGN §17 D119).
 dme_high_risk:
-  status: proposed
+  status: frozen
   hcpcs_ranges:
     - {from: L0450, to: L0651, label: "spinal orthoses: TLSO, SIO, LSO (back braces)"}
     - {from: L1810, to: L1860, label: "knee orthoses"}

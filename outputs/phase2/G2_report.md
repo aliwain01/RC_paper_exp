@@ -2,7 +2,7 @@
 
 Inputs: 28 harmonised CMS files under `data/interim` and 80 registered raw files (`data/raw/manifest.json`).
 
-Generated 2026-10-20T09:14:35.612603+00:00 by `scenario-fraud phase2 report`. HANDOFF §6 G2: final feature list after pruning, features that could not be computed, protocol diff. The human freezes the protocol; this report only states facts.
+Generated 2026-10-20T10:06:36.661046+00:00 by `scenario-fraud phase2 report`. HANDOFF §6 G2: final feature list after pruning, features that could not be computed, protocol diff. The human freezes the protocol; this report only states facts.
 
 ## 1. Final feature list (after `pruned`)
 
@@ -170,6 +170,7 @@ Generated 2026-10-20T09:14:35.612603+00:00 by `scenario-fraud phase2 report`. HA
 | D116 | The repository keeps the data's provenance, not the data: `data/raw/manifest.json` (source page, URL, download date, size, sha256 of every file), the header dumps and the G1 report are committed; the raw and harmonised files stay git-ignored (one By Provider and Service year is ≈ 0.5 GB compressed, over GitHub's 100 MB file limit) and `phase1 restore` re-downloads them and checks every checksum. The LEIE files (names, dates of birth, addresses of excluded individuals) are not pushed to the public repository unless the human decides so | HANDOFF §4 (`data/` git-ignored), §8 rule 6; requested data in the repo (Phase 1) |
 | D117 | **G1 decisions (human, 2026-10-20):** go with the primary tier (427 unique positive NPIs over 2018–2023, 383 after the volume rule; threshold ≈ 300); the unsplit 1128(b)(1) stays out of the primary tier, with sensitivity S13 (tier `primary_b1` = primary + 1128(b)(1)); proceed without Internet Archive snapshots (web.archive.org refuses this environment), reporting the missing pre-2025 reinstatements as a limitation | G1 report (`outputs/phase1/G1_report.md`); HANDOFF §6 G1 |
 | D118 | CMS blanks DME-P `Tot_Suplr_Benes` when it is 1–10 (34 % of DME referrers in 2018). DI1, DI2 and DI4, which divide by it or are it, are then undefined (z = 0, D34), and a new indicator **DI2_missing** (DME intensity group) flags the suppression, as PM4_missing does for dual counts. The injection engine treats a blank count as 0 plus the added beneficiaries (a lower bound) instead of letting `min_horizontal` skip the null | Real 2018–2024 files (D114); C5 failed loudly on the nulls (proposed; confirm at G2) |
+| D119 | **G2 decisions (human, 2026-10-20), protocol frozen:** the high-risk DME list is frozen as proposed; no pruning (OU1 and OU2, \ | ρ\ \| = 0.97, sit in the same group, so group attributions are unaffected); CX7 is dropped (no NPPES extract); the §17 rows D19–D118 marked proposed are confirmed as implemented; D59 is decided as D79 (final model on all training rows, isotonic calibrator from the tuning model's validation margins); peer cells keep the Census-division level (§19 Q2: division cells move a typical z by ≤ 0.17 robust units and make cells slightly more homogeneous; S10 runs without it); §19: audit capacity 0.1–2 % kept (Q1), expert review and positive-unlabelled learning stated as limitations (Q3, Q5), Part D left to follow-up work (Q4). Phase 3 starts with a one-fold timing run before the full training \| G2 report (`outputs/phase2/G2_report.md`); HANDOFF §6 G2 |
 
 ### 4.2 Parameters to freeze
 
@@ -191,25 +192,25 @@ Generated 2026-10-20T09:14:35.612603+00:00 by `scenario-fraud phase2 report`. HA
 | SM2 rare_provider_share | 0.01 | features.yaml |
 | CH4 min providers cell / national | [10, 3] | features.yaml |
 | PM2/PM3 min_n / min_n_per_term | [50, 5] | features.yaml |
-| high-risk DME list (status, ranges) | ["proposed", ["L0450-L0651", "L1810-L1860", "L1900-L1990", "L3650-L3678", "L3702-L3766", "L3806-L3935", "L3956-L3978", "K0800-K0899"]] | features.yaml |
+| high-risk DME list (status, ranges) | ["frozen", ["L0450-L0651", "L1810-L1860", "L1900-L1990", "L3650-L3678", "L3702-L3766", "L3806-L3935", "L3956-L3978", "K0800-K0899"]] | features.yaml |
 | pruned | [] | features.yaml |
 | near-duplicate threshold abs(rho) | 0.95 | features.yaml |
 
 ### 4.3 Hashes (leakage checklist item 6; QA compares later runs with the freeze record)
 
-Recorded in `outputs/phase2/G2_freeze.json` (2026-10-20T09:14:35.612603+00:00). No Phase 3-7 output exists, so the record is rewritten by every report until the first one appears, and never afterwards.
+Recorded in `outputs/phase2/G2_freeze.json` (2026-10-20T10:06:36.661046+00:00). No Phase 3-7 output exists, so the record is rewritten by every report until the first one appears, and never afterwards.
 
 | what | sha256 |
 |---|---|
 | cohort_threshold | 1a6562590ef19d1045d06c4055742d38288e9e6dcd71ccde5cee80f1d5a774eb |
 | cohort_peer_cells | b52bf2fb86e4db1344ee8c20af40bcf1e92a848173a33c7814015e81fae358cb |
-| dme_high_risk | 19769117c4e2bbc82a2a26d4364cc5058489ccb060c3f1436259d8d70188e7c5 |
+| dme_high_risk | d83e84616864388889e7e5018d81639e193f1ab5adf8f0782957653032f0f63d |
 | grouping | 284fa5077daeff63d94535a71351bd77970648661490672d92ceb88f0520f544 |
-| features | e1ff023721c9a4b5090f6b77b712839f7eab37e4728884e095c9e05e3915e5fe |
+| features | a9dfa7ba5d816456a7d6d0e2da614f5ce55b0602e79b3b45ba89e2b8f05ff392 |
 | splits | b9a0f09baf2d7dc64ff98909035a49ab4d9d135f359169d02698e017c768dc7c |
 | labels | 183a0c2932b249596b3875c0452064c89254c8e3fc0e679310c4b690b84e58c5 |
 | configs/experiment.yaml | dbd5923f7005e5fb561262e9d900c117943f6ab118454d990b9b8b37fe33fabd |
-| configs/features.yaml | 0272ffb6fca1d529d7e04fcd93367a55c63b5cd8396361532900e1be1a0a2e78 |
+| configs/features.yaml | 24c152a7b6d386d798724b82d2bf378f417e73d64bb7783c0f86ac9325e1a4d5 |
 | configs/groups.yaml | 8b302a1d73b4387e6f123beff8435d5d075e626816156ee6e196096f97dbc0fa |
 | configs/labels.yaml | 46e30dca55ecd56e1d14944311c1d2611090d16dacdb2240bc5d16db515150c8 |
 | configs/census_divisions.yaml | 10cdf5237b64b12bd7da6f4ec27334c27f7929ade3aa6cce4f59b4223ebbfca2 |
@@ -227,11 +228,10 @@ Recorded in `outputs/phase2/G2_freeze.json` (2026-10-20T09:14:35.612603+00:00). 
 
 ## 6. Decisions needed at G2
 
-1. Freeze the high-risk DME list (features.yaml `dme_high_risk.status` is not `frozen`; leakage item 6) and cite its DOJ/OIG sources.
-2. Decide the pruning of 1 near-duplicate pair(s) (features.yaml `pruned`).
-3. Accept or remedy: CX7 (no NPPES extract in data/interim/nppes/*.parquet (HANDOFF §10.4); 2018,2019,2020,2021,2022,2023,2024).
-4. Confirm or change the §17 rows marked proposed.
-5. Decide the §17 rows marked open, e.g. which training rows the final fold model and its isotonic calibrator use (DESIGN §7.8 'calibration on the validation slice').
-6. Decide peer granularity (DESIGN §19 Q2, 'is region needed?'; decided empirically in Phase 2) from QA report §7 (shift of division-cell medians against the spec × entity cell); sensitivity S10 runs the other choice.
-7. Answer the open DESIGN §19 questions that change the protocol before the freeze (HANDOFF §5 Q7): Q1 Audit-capacity range: are 0.1–2 % of providers right for the framing?; Q2 Peer granularity: is region needed? (Decided empirically in Phase 2.); Q3 Venue: will reviewers expect even a small expert review of the analyst view?; Q4 Part D: extension here or follow-up?; Q5 Positive-unlabelled learning: include as a variant or leave as a limitation?.
-8. Freeze the protocol (EXPERIMENT_PLAN header): no test-year result may be looked at before.
+1. Decide the pruning of 1 near-duplicate pair(s) (features.yaml `pruned`).
+2. Accept or remedy: CX7 (no NPPES extract in data/interim/nppes/*.parquet (HANDOFF §10.4); 2018,2019,2020,2021,2022,2023,2024).
+3. Confirm or change the §17 rows marked proposed.
+4. Decide the §17 rows marked open, e.g. which training rows the final fold model and its isotonic calibrator use (DESIGN §7.8 'calibration on the validation slice').
+5. Decide peer granularity (DESIGN §19 Q2, 'is region needed?'; decided empirically in Phase 2) from QA report §7 (shift of division-cell medians against the spec × entity cell); sensitivity S10 runs the other choice.
+6. Answer the open DESIGN §19 questions that change the protocol before the freeze (HANDOFF §5 Q7): Q1 Audit-capacity range: are 0.1–2 % of providers right for the framing?; Q2 Peer granularity: is region needed? (Decided empirically in Phase 2.); Q3 Venue: will reviewers expect even a small expert review of the analyst view?; Q4 Part D: extension here or follow-up?; Q5 Positive-unlabelled learning: include as a variant or leave as a limitation?.
+7. Freeze the protocol (EXPERIMENT_PLAN header): no test-year result may be looked at before.
