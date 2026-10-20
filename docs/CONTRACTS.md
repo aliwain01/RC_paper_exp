@@ -104,7 +104,7 @@ Persisted:
 | `data/processed/peer/{year}/pm_models.parquet` | PM2/PM3 per peer cell: `target`, `level`, `fit_cell`, `n`, `term`, `coef`, `impute` (long format) |
 
 **Model feature columns** are named by FEATURE_CATALOG ID: `UP0`–`UP6`, `OU1`–`OU5`, `SM1`–`SM4`,
-`CH1`–`CH4`, `PM1`–`PM4` (+ `PM4_missing`), `DI0`–`DI4`, `DC1`, `DC2`, `CX5`, `CX8` (+ `CX7` if NPPES
+`CH1`–`CH4`, `PM1`–`PM4` (+ `PM4_missing`), `DI0`–`DI4` (+ `DI2_missing`, D118), `DC1`, `DC2`, `CX5`, `CX8` (+ `CX7` if NPPES
 exists); one-hot context columns `CX1__<value>`, `CX2__<value>`, `CX3__<value>`, `CX4__<value>`,
 `CX6__<value>` with values lower-cased and non-alphanumerics replaced by `_` (XGBoost-safe names; null → `na`;
 vocabulary = that year's reference providers, D42). Indicators and one-hots are Int8, all others Float64, no nulls.

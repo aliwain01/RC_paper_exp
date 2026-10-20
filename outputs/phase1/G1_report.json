@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-19T23:16:36.056143+00:00",
+  "generated_utc": "2026-10-20T08:54:38.971196+00:00",
   "inventory": [
     {
       "source": "cms_prov",
@@ -1206,7 +1206,7 @@
       "authority": "1128(a)(1)",
       "events": 26361,
       "with_npi": 3503,
-      "tiers": "primary,prior_work,broad"
+      "tiers": "primary,prior_work,primary_b1,broad"
     },
     {
       "excltype_raw": "1128a2",
@@ -1220,7 +1220,7 @@
       "authority": "1128(a)(3)",
       "events": 5995,
       "with_npi": 709,
-      "tiers": "primary,prior_work,broad"
+      "tiers": "primary,prior_work,primary_b1,broad"
     },
     {
       "excltype_raw": "1128a4",
@@ -1248,7 +1248,7 @@
       "authority": "1128(b)(1)",
       "events": 957,
       "with_npi": 50,
-      "tiers": "-"
+      "tiers": "primary_b1"
     },
     {
       "excltype_raw": "1128b5",
@@ -1262,7 +1262,7 @@
       "authority": "1128(b)(7)",
       "events": 769,
       "with_npi": 205,
-      "tiers": "primary,prior_work,broad"
+      "tiers": "primary,prior_work,primary_b1,broad"
     },
     {
       "excltype_raw": "1128b3",
@@ -1283,7 +1283,7 @@
       "authority": "1128(b)(6)",
       "events": 77,
       "with_npi": 9,
-      "tiers": "primary,broad"
+      "tiers": "primary,primary_b1,broad"
     },
     {
       "excltype_raw": "1128b2",
@@ -1339,7 +1339,7 @@
       "authority": "1128(b)(16)",
       "events": 2,
       "with_npi": 1,
-      "tiers": "primary,broad"
+      "tiers": "primary,primary_b1,broad"
     },
     {
       "excltype_raw": "1128b12",
@@ -1464,6 +1464,62 @@
         "pos_after_volume_rule": 122
       },
       {
+        "tier": "primary_b1",
+        "year": 2018,
+        "pos": 120,
+        "neg": 1120184,
+        "dropped": 1158,
+        "pos_after_volume_rule": 107
+      },
+      {
+        "tier": "primary_b1",
+        "year": 2019,
+        "pos": 133,
+        "neg": 1154825,
+        "dropped": 912,
+        "pos_after_volume_rule": 117
+      },
+      {
+        "tier": "primary_b1",
+        "year": 2020,
+        "pos": 130,
+        "neg": 1160721,
+        "dropped": 691,
+        "pos_after_volume_rule": 116
+      },
+      {
+        "tier": "primary_b1",
+        "year": 2021,
+        "pos": 157,
+        "neg": 1198096,
+        "dropped": 501,
+        "pos_after_volume_rule": 136
+      },
+      {
+        "tier": "primary_b1",
+        "year": 2022,
+        "pos": 127,
+        "neg": 1229833,
+        "dropped": 333,
+        "pos_after_volume_rule": 110
+      },
+      {
+        "tier": "primary_b1",
+        "year": 2023,
+        "pos": 102,
+        "neg": 1259046,
+        "dropped": 195,
+        "pos_after_volume_rule": 90
+      },
+      {
+        "tier": "primary_b1",
+        "year": 2024,
+        "pos": 51,
+        "neg": 1296566,
+        "dropped": 122,
+        "pos_after_volume_rule": 44
+      },
+      {
         "tier": "broad",
         "year": 2018,
         "pos": 178,
@@ -1536,6 +1592,13 @@
         "threshold": 300
       },
       {
+        "tier": "primary_b1",
+        "W": 3,
+        "unique_positive_npis": 435,
+        "after_volume_rule": 391,
+        "threshold": 300
+      },
+      {
         "tier": "broad",
         "W": 3,
         "unique_positive_npis": 574,
@@ -1589,6 +1652,15 @@
       "unique_npis": 4065,
       "npis_in_part_b": 1162,
       "npis_not_in_part_b": 2903
+    },
+    {
+      "tier": "primary_b1",
+      "events": 10198,
+      "no_npi": 7629,
+      "invalid_npi": 0,
+      "unique_npis": 2556,
+      "npis_in_part_b": 633,
+      "npis_not_in_part_b": 1923
     },
     {
       "tier": "broad",
@@ -1652,6 +1724,7 @@
       "mandatory": false,
       "in_primary": false,
       "in_prior_work": true,
+      "in_primary_b1": false,
       "in_broad": false
     },
     {
@@ -1663,6 +1736,7 @@
       "mandatory": true,
       "in_primary": true,
       "in_prior_work": true,
+      "in_primary_b1": true,
       "in_broad": true
     },
     {
@@ -1674,6 +1748,7 @@
       "mandatory": true,
       "in_primary": true,
       "in_prior_work": true,
+      "in_primary_b1": true,
       "in_broad": true
     },
     {
@@ -1685,6 +1760,7 @@
       "mandatory": true,
       "in_primary": false,
       "in_prior_work": true,
+      "in_primary_b1": false,
       "in_broad": false
     },
     {
@@ -1696,6 +1772,7 @@
       "mandatory": true,
       "in_primary": false,
       "in_prior_work": false,
+      "in_primary_b1": false,
       "in_broad": true
     },
     {
@@ -1707,6 +1784,7 @@
       "mandatory": false,
       "in_primary": false,
       "in_prior_work": false,
+      "in_primary_b1": true,
       "in_broad": false
     },
     {
@@ -1718,6 +1796,19 @@
       "mandatory": false,
       "in_primary": true,
       "in_prior_work": true,
+      "in_primary_b1": true,
+      "in_broad": true
+    },
+    {
+      "authority": "1128(b)(3)",
+      "n_reinstated": 7,
+      "median_days": 1153.0,
+      "p10_days": 366.0,
+      "share_shorter_than_longest_gap": 1.0,
+      "mandatory": false,
+      "in_primary": false,
+      "in_prior_work": false,
+      "in_primary_b1": false,
       "in_broad": true
     },
     {
@@ -1729,18 +1820,8 @@
       "mandatory": false,
       "in_primary": false,
       "in_prior_work": false,
+      "in_primary_b1": false,
       "in_broad": false
-    },
-    {
-      "authority": "1128(b)(3)",
-      "n_reinstated": 7,
-      "median_days": 1153.0,
-      "p10_days": 366.0,
-      "share_shorter_than_longest_gap": 1.0,
-      "mandatory": false,
-      "in_primary": false,
-      "in_prior_work": false,
-      "in_broad": true
     },
     {
       "authority": "1128(b)(5)",
@@ -1751,6 +1832,7 @@
       "mandatory": false,
       "in_primary": false,
       "in_prior_work": false,
+      "in_primary_b1": false,
       "in_broad": true
     },
     {
@@ -1762,6 +1844,19 @@
       "mandatory": false,
       "in_primary": false,
       "in_prior_work": false,
+      "in_primary_b1": false,
+      "in_broad": true
+    },
+    {
+      "authority": "1128(b)(2)",
+      "n_reinstated": 1,
+      "median_days": 1127.0,
+      "p10_days": 1127.0,
+      "share_shorter_than_longest_gap": 1.0,
+      "mandatory": false,
+      "in_primary": false,
+      "in_prior_work": false,
+      "in_primary_b1": false,
       "in_broad": true
     },
     {
@@ -1773,6 +1868,7 @@
       "mandatory": false,
       "in_primary": false,
       "in_prior_work": false,
+      "in_primary_b1": false,
       "in_broad": false
     },
     {
@@ -1784,6 +1880,7 @@
       "mandatory": false,
       "in_primary": false,
       "in_prior_work": false,
+      "in_primary_b1": false,
       "in_broad": false
     },
     {
@@ -1795,18 +1892,8 @@
       "mandatory": false,
       "in_primary": false,
       "in_prior_work": false,
+      "in_primary_b1": false,
       "in_broad": false
-    },
-    {
-      "authority": "1128(b)(2)",
-      "n_reinstated": 1,
-      "median_days": 1127.0,
-      "p10_days": 1127.0,
-      "share_shorter_than_longest_gap": 1.0,
-      "mandatory": false,
-      "in_primary": false,
-      "in_prior_work": false,
-      "in_broad": true
     }
   ]
 }

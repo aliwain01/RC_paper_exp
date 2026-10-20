@@ -149,6 +149,8 @@ features:
   - {id: DI0, name: "No-DME indicator", group: dme_intensity, direction: none, suppression: T, kind: indicator, shrink: false, monotone: 0}
   - {id: DI1, name: "DME paid per DME patient", group: dme_intensity, direction: up, suppression: VT, kind: robust_z, shrink: false, monotone: 1, fit_on: dme_referrers}
   - {id: DI2, name: "Share of panel referred for DME", group: dme_intensity, direction: up, suppression: T, kind: robust_z, shrink: false, monotone: 1}
+  # D118: CMS blanks DME-P Tot_Suplr_Benes when 1-10; DI1, DI2, DI4 are then undefined (z = 0) and this flags it.
+  - {id: DI2_missing, name: "DME patient count suppressed", group: dme_intensity, direction: none, suppression: T, kind: indicator, shrink: false, monotone: 0}
   - {id: DI3, name: "High-risk category share", group: dme_intensity, direction: up, suppression: V, kind: robust_z, shrink: false, monotone: 1, fit_on: dme_referrers}
   - {id: DI4, name: "DME claims per DME patient", group: dme_intensity, direction: up, suppression: VT, kind: robust_z, shrink: false, monotone: 1, fit_on: dme_referrers}
   # 7 DME referral concentration

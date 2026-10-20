@@ -8,7 +8,7 @@ groups:
   - {id: G3, name: atypical_mix, features: [SM1, SM2, SM3, SM4]}
   - {id: G4, name: charge_inflation, features: [CH1, CH2, CH3, CH4]}
   - {id: G5, name: patient_mix, features: [PM1, PM2, PM3, PM4, PM4_missing]}
-  - {id: G6, name: dme_intensity, features: [DI0, DI1, DI2, DI3, DI4]}
+  - {id: G6, name: dme_intensity, features: [DI0, DI1, DI2, DI2_missing, DI3, DI4]}
   - {id: G7, name: dme_concentration, features: [DC1, DC2]}
 
 # Grouping variants for the sensitivity suite (EXPERIMENT_PLAN §7): feature ID -> group it moves to.

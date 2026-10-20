@@ -237,6 +237,7 @@ DESIGN §17 D90–D100; parameters in `configs/injection.yaml`.
 | S10 | Peer cells with vs without region |
 | S11 | **Prior-work-compatible label tier** (a1, a2, a3, b4, b7, c3G), for comparability with FAU results |
 | S12 | Negative subsampling 15 % vs 30 % (GBM and LR only) |
+| S13 | Primary tier + the unsplit 1128(b)(1) (G1 decision, DESIGN §17 D117) |
 
 ### Implementation notes (Phase 6, C13: §7)
 

@@ -1,6 +1,16 @@
-# Status: real data acquired (Phase 1); gate G1 reached. Phases 2-7 built, tested on synthetic data only
+# Status: G1 decided; Phase 2 run on the real data, gate G2 reached. Phases 3-7 not yet run on real data
 
-19 October 2026 · follows [HANDOFF.md](../../HANDOFF.md). **Gate G1 is reached**: the G1 report (`outputs/phase1/G1_report.md`, git-ignored, regenerate with `phase1 report`) is ready for the human's go/no-go decision. Phases 2-7 have not been run on the real data.
+19 October 2026 · follows [HANDOFF.md](../../HANDOFF.md). G1 was decided on 2026-10-20 (D117). Phase 2 has run on the real data and **gate G2 is reached**: `outputs/phase2/G2_report.md` lists the decisions that freeze the protocol. Phases 3-7 have not been run on the real data.
+
+## Phase 2 on real data (20 October 2026): cohort, features, folds, QA; G2 report ready
+
+- **Cohort:** 0.96-1.07 M in-cohort providers per year (of 1.12-1.30 M); 97 % in a specialty × entity × Census-division peer cell.
+- **Features:** 40 catalog features, 164 model columns. CX7 (tenure) is not computable without NPPES. A new indicator DI2_missing flags DME patient counts that CMS blanks (1-10); C5 had failed loudly on them (D118). Each year takes ≈ 1.5 min and ≈ 7.4 GB of memory.
+- **Folds:** 1.51 M NPIs in 5 folds, 258 ever-excluded NPIs per fold. Primary design: 32-44 positive test rows and 21-28 positive validation rows per fold.
+- **QA:** leakage checklist L1, L2, L4 and L6 pass, including the label-free rebuild of 2018. L3 and L5 are pending until Phases 3 and 5.
+- **Region (§19 Q2):** Census-division cells move a typical provider's z by a median of ≤ 0.17 robust units per feature; under 10 % of providers move by more than 0.5.
+- **Near-duplicate pair:** OU1-OU2 (|ρ| = 0.97).
+- **G2 decisions:** listed in `outputs/phase2/G2_report.md` §6. The freeze record `outputs/phase2/G2_freeze.json` is written, but Phase 3 starts only after the human's G2 decision.
 
 ## Phase 1 (19 October 2026): real data acquired, G1 report ready
 

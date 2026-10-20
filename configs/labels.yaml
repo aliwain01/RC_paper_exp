@@ -17,6 +17,8 @@ tiers:
     ["1128(a)(1)", "1128(a)(3)", "1128(b)(1)(A)", "1128(b)(6)", "1128(b)(7)", "1128(b)(16)"]
   prior_work:     # FAU (Khoshgoftaar group) label set, EXPERIMENT_PLAN S11
     ["1128(a)(1)", "1128(a)(2)", "1128(a)(3)", "1128(b)(4)", "1128(b)(7)", "1128(c)(3)(G)(i)", "1128(c)(3)(G)(ii)"]
+  primary_b1:     # G1 decision (D117): primary + the unsplit 1128(b)(1), sensitivity S13 only
+    ["1128(a)(1)", "1128(a)(3)", "1128(b)(1)(A)", "1128(b)(6)", "1128(b)(7)", "1128(b)(16)", "1128(b)(1)"]
   broad:          # primary + these, EXPERIMENT_PLAN S2
     ["1128(a)(1)", "1128(a)(3)", "1128(b)(1)(A)", "1128(b)(6)", "1128(b)(7)", "1128(b)(16)",
      "1128(b)(2)", "1128(b)(5)", "1128(b)(8)", "1128(b)(15)", "1156", "1128(a)(4)", "1128(b)(3)"]
@@ -83,7 +85,8 @@ excltype_map:
     "1128b1b": "1128(b)(1)(B)"
     # G1 DECISION NEEDED: the primary tier names 1128(b)(1)(A) (misdemeanour health-care fraud), but the
     # file only carries the unsplit 1128(b)(1), which also covers (b)(1)(B) (fraud in other government
-    # programs). Until the human decides, an unsplit 1128b1 is "other excluded" (rows dropped).
+    # programs). Decided at G1 (D71, D117): an unsplit 1128b1 stays out of the primary tier ("other excluded", rows
+    # dropped) and is tested in sensitivity S13 (tier primary_b1).
     "1128b1": "1128(b)(1)"
     "1128b2": "1128(b)(2)"
     "1128b3": "1128(b)(3)"

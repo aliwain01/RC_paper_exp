@@ -70,6 +70,8 @@ sensitivity:
           overrides: {labels: {primary_tier: prior_work}}}
     S12: {what: "negative subsampling 30 %", families: gbm_lr, stages: [train, explain],
           overrides: {experiment: {splits: {negative_subsample: {rate: 0.30}}}}}
+    S13: {what: "primary tier + unsplit 1128(b)(1) (G1 decision, D117)", families: best, stages: [train, explain],
+          overrides: {labels: {primary_tier: primary_b1}}}
   clusters:                  # S6: label-free correlation clusters of the scheme-group features
     n_clusters: 7
     linkage: average         # on distance 1 - |Spearman rho| over training-year reference rows

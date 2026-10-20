@@ -1,6 +1,6 @@
 # Gate G1 report: end of Phase 1 (data acquisition)
 
-Generated 2026-10-19T23:16:36.056143+00:00 by `scenario-fraud phase1 report`. Regenerate after any change to `data/raw/manifest.json`, column maps or labels. This report states facts; the go/no-go decision belongs to the human (HANDOFF §6, G1).
+Generated 2026-10-20T08:54:38.971196+00:00 by `scenario-fraud phase1 report`. Regenerate after any change to `data/raw/manifest.json`, column maps or labels. This report states facts; the go/no-go decision belongs to the human (HANDOFF §6, G1).
 
 ## 1. Files acquired
 
@@ -141,18 +141,18 @@ Generated 2026-10-19T23:16:36.056143+00:00 by `scenario-fraud phase1 report`. Re
 | excltype_raw | authority | events | with_npi | tiers |
 |---|---|---|---|---|
 | 1128b4 | 1128(b)(4) | 33930 | 2761 | prior_work |
-| 1128a1 | 1128(a)(1) | 26361 | 3503 | primary,prior_work,broad |
+| 1128a1 | 1128(a)(1) | 26361 | 3503 | primary,prior_work,primary_b1,broad |
 | 1128a2 | 1128(a)(2) | 8205 | 409 | prior_work |
-| 1128a3 | 1128(a)(3) | 5995 | 709 | primary,prior_work,broad |
+| 1128a3 | 1128(a)(3) | 5995 | 709 | primary,prior_work,primary_b1,broad |
 | 1128a4 | 1128(a)(4) | 3651 | 1043 | broad |
 | 1128b14 | 1128(b)(14) | 2173 | 198 | - |
 | 1128b8 | 1128(b)(8) | 1484 | 96 | broad |
-| 1128b1 | 1128(b)(1) | 957 | 50 | - |
+| 1128b1 | 1128(b)(1) | 957 | 50 | primary_b1 |
 | 1128b5 | 1128(b)(5) | 817 | 91 | broad |
-| 1128b7 | 1128(b)(7) | 769 | 205 | primary,prior_work,broad |
+| 1128b7 | 1128(b)(7) | 769 | 205 | primary,prior_work,primary_b1,broad |
 | 1128b3 | 1128(b)(3) | 337 | 22 | broad |
 | 1128Aa | 1128A(a) | 174 | 32 | - |
-| 1128b6 | 1128(b)(6) | 77 | 9 | primary,broad |
+| 1128b6 | 1128(b)(6) | 77 | 9 | primary,primary_b1,broad |
 | 1128b2 | 1128(b)(2) | 67 | 9 | broad |
 | 1156 | 1156 | 53 | 1 | broad |
 | 1128b15 | 1128(b)(15) | 39 | 2 | broad |
@@ -160,7 +160,7 @@ Generated 2026-10-19T23:16:36.056143+00:00 by `scenario-fraud phase1 report`. Re
 | BRCH CIA | breach-CIA | 14 | 9 | - |
 | 1128b11 | 1128(b)(11) | 13 | 2 | - |
 | 1160 | 1160 | 8 | 0 | - |
-| 1128b16 | 1128(b)(16) | 2 | 1 | primary,broad |
+| 1128b16 | 1128(b)(16) | 2 | 1 | primary,primary_b1,broad |
 | 1128b12 | 1128(b)(12) | 1 | 0 | - |
 
 ## 4. Positive NPI counts per year × label tier
@@ -183,6 +183,13 @@ Counts over all by-Provider NPI-years, after the ≥ 50 non-drug services rule w
 | prior_work | 2022 | 261 | 1229833 | 199 | 209 |
 | prior_work | 2023 | 256 | 1259046 | 41 | 216 |
 | prior_work | 2024 | 147 | 1296566 | 26 | 122 |
+| primary_b1 | 2018 | 120 | 1120184 | 1158 | 107 |
+| primary_b1 | 2019 | 133 | 1154825 | 912 | 117 |
+| primary_b1 | 2020 | 130 | 1160721 | 691 | 116 |
+| primary_b1 | 2021 | 157 | 1198096 | 501 | 136 |
+| primary_b1 | 2022 | 127 | 1229833 | 333 | 110 |
+| primary_b1 | 2023 | 102 | 1259046 | 195 | 90 |
+| primary_b1 | 2024 | 51 | 1296566 | 122 | 44 |
 | broad | 2018 | 178 | 1120184 | 1100 | 154 |
 | broad | 2019 | 181 | 1154825 | 864 | 158 |
 | broad | 2020 | 168 | 1160721 | 653 | 152 |
@@ -197,6 +204,7 @@ Counts over all by-Provider NPI-years, after the ≥ 50 non-drug services rule w
 |---|---|---|---|---|
 | primary | 3 | 427 | 383 | 300 |
 | prior_work | 3 | 839 | 726 | 300 |
+| primary_b1 | 3 | 435 | 391 | 300 |
 | broad | 3 | 574 | 513 | 300 |
 
 W sensitivity (primary tier):
@@ -216,6 +224,7 @@ Exclusion events with 2018 < exclusion year ≤ 2026, by tier. `npis_in_part_b` 
 |---|---|---|---|---|---|---|
 | primary | 9977 | 7440 | 0 | 2524 | 622 | 1902 |
 | prior_work | 17134 | 13037 | 0 | 4065 | 1162 | 2903 |
+| primary_b1 | 10198 | 7629 | 0 | 2556 | 633 | 1923 |
 | broad | 11347 | 8177 | 0 | 3149 | 851 | 2298 |
 
 ## 6. Reinstatement recovery: Internet Archive gaps and loss profile
@@ -232,23 +241,23 @@ Uncovered intervals (an exclusion that starts and is reinstated inside one is in
 
 Reinstated records by authority (from supplements and snapshots):
 
-| authority | n_reinstated | median_days | p10_days | share_shorter_than_longest_gap | mandatory | in_primary | in_prior_work | in_broad |
-|---|---|---|---|---|---|---|---|---|
-| 1128(b)(4) | 473 | 2816.0 | 134.0 | 0.5031712473572939 | False | False | True | False |
-| 1128(a)(1) | 331 | 2903.0 | 1833.0 | 0.486404833836858 | True | True | True | True |
-| 1128(a)(3) | 112 | 2528.5 | 1830.0 | 0.5357142857142857 | True | True | True | True |
-| 1128(a)(2) | 85 | 3138.0 | 1828.0 | 0.43529411764705883 | True | False | True | False |
-| 1128(a)(4) | 59 | 2497.0 | 1830.0 | 0.576271186440678 | True | False | False | True |
-| 1128(b)(1) | 14 | 3192.5 | 740.0 | 0.42857142857142855 | False | False | False | False |
-| 1128(b)(7) | 14 | 1718.0 | 1099.0 | 0.7142857142857143 | False | True | True | True |
-| 1128(b)(14) | 7 | 6430.0 | 4957.0 | 0.14285714285714285 | False | False | False | False |
-| 1128(b)(3) | 7 | 1153.0 | 366.0 | 1.0 | False | False | False | True |
-| 1128(b)(5) | 6 | 3323.5 | 2316.0 | 0.5 | False | False | False | True |
-| 1128(b)(15) | 2 | 6067.0 | 4823.0 | 0.0 | False | False | False | True |
-| 1128A(a) | 1 | 3653.0 | 3653.0 | 0.0 | False | False | False | False |
-| breach-SA | 1 | 186.0 | 186.0 | 1.0 | False | False | False | False |
-| breach-CIA | 1 | 1931.0 | 1931.0 | 1.0 | False | False | False | False |
-| 1128(b)(2) | 1 | 1127.0 | 1127.0 | 1.0 | False | False | False | True |
+| authority | n_reinstated | median_days | p10_days | share_shorter_than_longest_gap | mandatory | in_primary | in_prior_work | in_primary_b1 | in_broad |
+|---|---|---|---|---|---|---|---|---|---|
+| 1128(b)(4) | 473 | 2816.0 | 134.0 | 0.5031712473572939 | False | False | True | False | False |
+| 1128(a)(1) | 331 | 2903.0 | 1833.0 | 0.486404833836858 | True | True | True | True | True |
+| 1128(a)(3) | 112 | 2528.5 | 1830.0 | 0.5357142857142857 | True | True | True | True | True |
+| 1128(a)(2) | 85 | 3138.0 | 1828.0 | 0.43529411764705883 | True | False | True | False | False |
+| 1128(a)(4) | 59 | 2497.0 | 1830.0 | 0.576271186440678 | True | False | False | False | True |
+| 1128(b)(1) | 14 | 3192.5 | 740.0 | 0.42857142857142855 | False | False | False | True | False |
+| 1128(b)(7) | 14 | 1718.0 | 1099.0 | 0.7142857142857143 | False | True | True | True | True |
+| 1128(b)(3) | 7 | 1153.0 | 366.0 | 1.0 | False | False | False | False | True |
+| 1128(b)(14) | 7 | 6430.0 | 4957.0 | 0.14285714285714285 | False | False | False | False | False |
+| 1128(b)(5) | 6 | 3323.5 | 2316.0 | 0.5 | False | False | False | False | True |
+| 1128(b)(15) | 2 | 6067.0 | 4823.0 | 0.0 | False | False | False | False | True |
+| 1128(b)(2) | 1 | 1127.0 | 1127.0 | 1.0 | False | False | False | False | True |
+| 1128A(a) | 1 | 3653.0 | 3653.0 | 0.0 | False | False | False | False | False |
+| breach-SA | 1 | 186.0 | 186.0 | 1.0 | False | False | False | False | False |
+| breach-CIA | 1 | 1931.0 | 1931.0 | 1.0 | False | False | False | False | False |
 
 ## 7. Label horizon
 

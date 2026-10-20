@@ -430,7 +430,9 @@ def dme_mill(dme_s: pl.DataFrame, dme_p: pl.DataFrame, who: pl.DataFrame, prov: 
         *[pl.when(hit).then((pl.col(c) * pl.col("tot_suplr_srvcs") + pl.col(f"{c}__n") * pl.col("srv__n")) / tot)
           .otherwise(pl.col(c)).alias(c) for c in DME_AMT],
         pl.when(hit).then(tot).otherwise(pl.col("tot_suplr_srvcs")).alias("tot_suplr_srvcs"),
-        pl.when(hit).then(pl.min_horizontal(pl.col("tot_suplr_benes") + pl.col("benes__n"), pl.col("prov_benes__n")))
+        # a blank count is 1-10 (D114/D118): 0 + added is its lower bound; min_horizontal would skip a null
+        pl.when(hit).then(pl.min_horizontal(pl.col("tot_suplr_benes").fill_null(0) + pl.col("benes__n"),
+                                            pl.col("prov_benes__n")))
         .otherwise(pl.col("tot_suplr_benes")).alias("tot_suplr_benes"),
         pl.when(hit).then(pl.col("tot_suplr_clms") + pl.col("clms__n")).otherwise(pl.col("tot_suplr_clms"))
         .alias("tot_suplr_clms")).drop([c for c in j.columns if c.endswith("__n")])
@@ -440,7 +442,8 @@ def dme_mill(dme_s: pl.DataFrame, dme_p: pl.DataFrame, who: pl.DataFrame, prov: 
     dme_s = pl.concat([j, _cast_like(fresh, dme_s.schema)]) if fresh.height else j
     added = new.group_by("npi").agg(pl.col("benes").sum().alias("add_b"), pl.col("prov_benes").first())
     dp = dme_p.join(added, on="npi", how="left", maintain_order="left").with_columns(
-        *[pl.when(pl.col("add_b").is_not_null()).then(pl.min_horizontal(pl.col(c) + pl.col("add_b"), pl.col("prov_benes")))
+        *[pl.when(pl.col("add_b").is_not_null()).then(pl.min_horizontal(pl.col(c).fill_null(0) + pl.col("add_b"),
+                                                                          pl.col("prov_benes")))
           .otherwise(pl.col(c)).alias(c) for c in ("tot_suplr_benes", "dme_tot_suplr_benes")]).drop("add_b", "prov_benes")
     missing = added.join(dme_p.select("npi"), on="npi", how="anti")
     if missing.height:

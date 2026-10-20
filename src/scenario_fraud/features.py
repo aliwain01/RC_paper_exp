@@ -23,7 +23,7 @@ same year) with >= min_defined defined reference values; scale = 1.4826 MAD, els
 level's, else 1. Reference-dependent features (REF_DEPENDENT: SM1, SM2, CH4, PM2, PM3, whose r is measured against
 the peer cell's code reference or regression) take their statistics from the peer cell itself, over every member's
 r recomputed against that same reference (no hierarchy fallback; scale fallback mad, iqr, std, unit). An undefined
-r gets z = 0 (the peer median); structural zeros have indicators UP0, DI0, PM4_missing. No DME-P row: DI0 = 1, raw
+r gets z = 0 (the peer median); structural zeros have indicators UP0, DI0, PM4_missing; a suppressed DME patient count has DI2_missing. No DME-P row: DI0 = 1, raw
 DI1-DI4 = 0 (FEATURE_CATALOG DI0), raw DC1-DC2 undefined, and z = 0 for DI1, DI3, DI4, DC1, DC2 (DI0 carries the
 information). Parameters, code sets and every choice the catalog leaves open: configs/features.yaml.
 """
@@ -62,7 +62,7 @@ REF_DEPENDENT = {"SM1": ("SM1",), "SM2": ("SM2__k",), "CH4": ("CH4",), "PM2": ("
 AT = "@"
 CATALOG = (
     "UP0", "UP1", "UP2", "UP3", "UP4", "UP5", "UP6", "OU1", "OU2", "OU3", "OU4", "OU5", "SM1", "SM2", "SM3", "SM4",
-    "CH1", "CH2", "CH3", "CH4", "PM1", "PM2", "PM3", "PM4", "PM4_missing", "DI0", "DI1", "DI2", "DI3", "DI4",
+    "CH1", "CH2", "CH3", "CH4", "PM1", "PM2", "PM3", "PM4", "PM4_missing", "DI0", "DI1", "DI2", "DI2_missing", "DI3", "DI4",
     "DC1", "DC2", "CX1", "CX2", "CX3", "CX4", "CX5", "CX6", "CX7", "CX8",
 )
 DATASETS = ("cms_ps", "cms_prov", "dme_s", "dme_p")
@@ -280,7 +280,8 @@ def _check_values(lfs: dict[str, pl.LazyFrame], year: int, datasets: Iterable[st
         "dme_s": (("npi", "hcpcs_cd", "suplr_rentl_ind"), [
             ("suplr_rentl_ind not in {Y, N}", not_in("suplr_rentl_ind", ["Y", "N"])),
             ("nulls in used columns", nulls(DMES_COLS)), ("negative numbers", negative(DMES_NUM))]),
-        "dme_p": (("npi",), [("nulls in used columns", nulls(DMEP_COLS)),
+        # Tot_Suplr_Benes is blank when 1-10 (CMS suppression, D118): only the NPI must be present
+        "dme_p": (("npi",), [("nulls in npi", nulls(("npi",))),
                              ("negative numbers", negative(("tot_suplr_benes",)))]),
     }
     problems = []
@@ -633,6 +634,7 @@ def _raw_columns(df: pl.DataFrame, cfg: FeatureConfig, cc: list[str], year: int,
         no_dme.cast(pl.Int8).alias("DI0"),
         dme(_ratio(c("_dme_pay").fill_null(0.0), c("_dme_benes"))).alias("DI1"),
         dme(_ratio(c("_dme_benes"), benes)).alias("DI2"),
+        (~no_dme & c("_dme_benes").is_null()).cast(pl.Int8).alias("DI2_missing"),   # D118: DI1, DI2, DI4 undefined
         dme(_ratio(c("_hr_pay"), c("_dme_pay"))).alias("DI3"),
         dme(_ratio(c("_clms").cast(pl.Float64).fill_null(0.0), c("_dme_benes"))).alias("DI4"),
         referral(_ratio(c("_dc1_num"), c("_dc1_den"))).alias("DC1"),

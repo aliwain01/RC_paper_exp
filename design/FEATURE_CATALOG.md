@@ -100,6 +100,7 @@ Office and ED E&M guideline changes shift national distributions. Per-year peer 
 | DI3 | High-risk category share | DME payment in high-risk categories / total DME payment | DME-S | ↑ | V | Brace / power-mobility schemes |
 | DI4 | DME claims per DME patient | Σ `Tot_Suplr_Clms` (DME-S) / `Tot_Suplr_Benes` (DME-P) | DME-S, DME-P | ↑ | V/T | Repeated orders |
 | DI0 | No-DME indicator | 1 if no DME-P row for the NPI-year | DME-P | — | T | Structural zero; DI1–4 = 0 |
+| DI2_missing | DME patient count suppressed | 1 if the DME-P row exists but `Tot_Suplr_Benes` is blank (1–10 beneficiaries, CMS suppression); DI1, DI2, DI4 are then undefined (z = 0) | DME-P | — | T | Added in Phase 2 on the real files (DESIGN §17 D118), like PM4_missing |
 
 ## 7 · DME referral concentration
 

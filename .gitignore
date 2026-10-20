@@ -16,6 +16,8 @@ outputs/phase1/*
 !outputs/phase2/
 outputs/phase2/*
 !outputs/phase2/G2_freeze.json
+!outputs/phase2/QA_report.md
+!outputs/phase2/G2_report.md
 
 # Python
 .venv/
