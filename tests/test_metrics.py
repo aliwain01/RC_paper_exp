@@ -130,3 +130,35 @@ def test_reliability_bins_in_top_share():
 def test_rank_rejects_duplicates_and_nulls():
     with pytest.raises(metrics.MetricsError, match="duplicated"):
         metrics.rank(_frame([1, 0], [1, 2], npis=["1111111112", "1111111112"]))
+
+
+def _two_fold_scores():
+    # fold 1's model puts every margin 5 higher than fold 0's: pooled raw margins would flag only fold 1
+    rows = []
+    for fold, shift in ((0, 0.0), (1, 5.0)):
+        for i in range(100):
+            rows.append({"npi": f"1{fold}{i:08d}", "year": 2022, "fold": fold, "y": int(i < 3),
+                         "margin": shift - i / 10})
+    return pl.DataFrame(rows)
+
+
+def test_within_fold_ranking_takes_each_folds_own_top():
+    d = _two_fold_scores()
+    raw = d.sort("margin", descending=True).head(10)
+    assert set(raw["fold"]) == {1}                                 # the scale problem D125 fixes
+    s = metrics.screening_score(d, "within_fold_year").sort("margin", descending=True).head(10)
+    assert s.group_by("fold").len().sort("fold")["len"].to_list() == [5, 5]
+    assert metrics.screening_score(d, "pooled_margin").equals(d)
+
+
+def test_within_fold_ranking_keeps_order_within_a_fold_and_its_metrics():
+    d = _two_fold_scores()
+    s = metrics.screening_score(d, "within_fold_year")
+    for f in (0, 1):
+        a, b = d.filter(pl.col("fold") == f), s.filter(pl.col("fold") == f)
+        assert (np.argsort(-a["margin"].to_numpy(), kind="stable") == np.argsort(-b["margin"].to_numpy(),
+                                                                                kind="stable")).all()
+    m = metrics.detection_metrics(s, [0.06])["pooled"]
+    assert m["p@0.06"] == pytest.approx(6 / 12)                    # 3 positives at the top of each fold
+    with pytest.raises(metrics.MetricsError, match="fold"):
+        metrics.screening_score(d.drop("fold"), "within_fold_year")

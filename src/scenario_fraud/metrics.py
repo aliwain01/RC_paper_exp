@@ -1,6 +1,7 @@
 """Detection metrics (EXPERIMENT_PLAN §3; DESIGN §10.1; CONTRACTS §3.4), shared with C13.
 
-Scores are ranked by the raw margin within each test year. precision@k = positives in the top ceil(k*N) / ceil(k*N)
+Scores are ranked within each test year by the score `screening_score` gives them (DESIGN §17 D125: the
+within-fold percentile of the margin by default; the raw margin under the original D81 ranking). precision@k = positives in the top ceil(k*N) / ceil(k*N)
 with N the scored provider-years of that year; pooled over years = per-year top-k counts summed. Ties are broken
 by a fixed hash of (npi, year), so results do not depend on row order. PR-AUC is average precision (scikit-learn's
 definition), computed here on presorted arrays so the paired NPI bootstrap can reweight rows without re-sorting:
@@ -26,6 +27,26 @@ class MetricsError(RuntimeError):
 
 def tie_keys(npi: pl.Series, year: pl.Series) -> np.ndarray:
     return _mix64(npi_keys(npi, _TIE_SALT) ^ year.cast(pl.UInt64).to_numpy())
+
+
+RANKINGS = ("within_fold_year", "pooled_margin")
+
+
+def screening_score(df: pl.DataFrame, mode: str = "within_fold_year") -> pl.DataFrame:
+    """The score providers are ranked by when scores of different fold models are pooled (DESIGN §17 D125).
+
+    `within_fold_year`: `margin` is replaced by 1 − (rank − 1) / n, the provider's position within its own fold and
+    year (rank by margin, descending, ties share the lowest rank), so each fold's model contributes its own top
+    share and the five models' differing margin scales cannot crowd each other out. `pooled_margin`: raw margins
+    (the original D81 ranking). Use the result for ranking only; the raw margin stays in the stores."""
+    if mode == "pooled_margin":
+        return df
+    if mode != "within_fold_year":
+        raise MetricsError(f"unknown ranking {mode!r}; expected one of {RANKINGS}")
+    if "fold" not in df.columns:
+        raise MetricsError("within_fold_year ranking needs a `fold` column")
+    r = pl.col("margin").rank("min", descending=True).over(["fold", "year"])
+    return df.with_columns((1.0 - (r - 1) / pl.len().over(["fold", "year"])).cast(pl.Float64).alias("margin"))
 
 
 @dataclass

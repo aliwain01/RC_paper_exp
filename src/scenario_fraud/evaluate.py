@@ -356,7 +356,10 @@ def derangement(keys: pl.DataFrame, by: list[str], seed: int) -> np.ndarray:
 
 
 def _scores0(paths: Paths, fam: str) -> pl.DataFrame:
-    return train.load_scores(paths, "primary", fam).filter(pl.col("seed") == 0).select("npi", "year", "margin")
+    """Seed-0 test scores of `fam`, `margin` = the screening score (DESIGN §17 D125)."""
+    mode = load_config("experiment", paths)["evaluation"].get("ranking", "pooled_margin")
+    s = train.load_scores(paths, "primary", fam).filter(pl.col("seed") == 0).select("npi", "year", "fold", "margin")
+    return metrics.screening_score(s, mode).select("npi", "year", "margin")
 
 
 def run_consistency(paths: Paths, *, gbms=None, glass_boxes=None, store: Path | None = None) -> dict:
@@ -576,6 +579,8 @@ def run_fairness(paths: Paths, *, families=None) -> dict:
             sc = train.load_scores(paths, "primary", fam).filter(pl.col("seed") == 0)
         except train.TrainError:
             continue
+        sc = metrics.screening_score(sc, load_config("experiment", paths)["evaluation"].get("ranking",
+                                                                                          "pooled_margin"))
         out[fam] = [r for k in fc["k_fracs"] for by in fc["by"] for r in fairness_table(sc, attrs, float(k), by)]
     return {"available": bool(out), "best": best, "families": out}
 

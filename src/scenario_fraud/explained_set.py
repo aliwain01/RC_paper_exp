@@ -43,8 +43,14 @@ def build_explained_set(paths: Paths, injected: pl.DataFrame | None = None) -> p
     s = s.join(folds, on="npi", how="left")
     parts = []
     for (yr,), g in s.sort("year").group_by("year", maintain_order=True):
-        n_top = math.ceil(float(e["top_frac"]) * g.height)
-        top = g.sort(["margin", "npi"], descending=[True, False]).head(n_top).select("npi")
+        if e.get("top_within", "year") == "fold_year":    # DESIGN §17 D125: each fold model's own top share
+            top = (g.sort(["fold", "margin", "npi"], descending=[False, True, False])
+                   .filter(pl.int_range(pl.len()).over("fold")
+                           < (pl.len().over("fold") * float(e["top_frac"])).ceil().cast(pl.Int64))
+                   .select("npi"))
+        else:
+            n_top = math.ceil(float(e["top_frac"]) * g.height)
+            top = g.sort(["margin", "npi"], descending=[True, False]).head(n_top).select("npi")
         h = pl.Series("_h", splits.npi_keys(g["npi"], splits._salt(int(a["seed"]), _RANDOM, int(yr))))
         gg = g.with_columns(h)
         n = min(int(e["random_n"]), g.height)

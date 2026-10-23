@@ -78,9 +78,10 @@ def test_explained_set_top_is_best_gbm_top(w):
     gbm = es["score_family"][0]
     s = train.load_scores(w, "primary", gbm).filter(pl.col("seed") == 0)
     for yr in (2022, 2023):
-        sy = s.filter(pl.col("year") == yr)
-        n_top = int(np.ceil(0.02 * sy.height))
-        want = set(sy.sort(["margin", "npi"], descending=[True, False]).head(n_top)["npi"])
+        want = set()                     # D125: the top 2 % of each fold's own model
+        for (k,), g in s.filter(pl.col("year") == yr).group_by("fold"):
+            n_top = int(np.ceil(0.02 * g.height))
+            want |= set(g.sort(["margin", "npi"], descending=[True, False]).head(n_top)["npi"])
         assert set(es.filter((pl.col("year") == yr) & pl.col("top"))["npi"]) == want
     assert es.filter(pl.col("random")).group_by("year").len()["len"].to_list() == [30, 30]
 

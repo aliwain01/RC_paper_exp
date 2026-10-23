@@ -16,6 +16,8 @@ background:
 explained:
   design: primary
   top_frac: 0.02         # DESIGN §9.5: top 2 % by out-of-fold GBM score per test year
+  top_within: fold_year  # D125: the top 2 % of each fold's own model per test year (fold models' margins differ in
+                         # scale; pooled margins put ~60 % of the top 2 % in one fold)
   random_n: 5000         # + a stratified random 5,000 per test year (stratified by specialty)
   # The GBM whose scores pick the top 2 %: the best GBM by validation average precision (DESIGN §17 D74).
 

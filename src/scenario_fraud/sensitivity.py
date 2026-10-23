@@ -263,6 +263,7 @@ def detection(paths: Paths, fams: list[str]) -> dict:
             s = train.load_scores(paths, "primary", f).filter(pl.col("seed") == 0)
         except train.TrainError:
             continue
+        s = metrics.screening_score(s.select("npi", "year", "fold", "y", "margin"), ev.get("ranking", "pooled_margin"))
         p = metrics.detection_metrics(s.select("npi", "year", "y", "margin"), ks)["pooled"]
         out[f] = {"N": p["N"], "positives": p["positives"], "pr_auc": p["pr_auc"], "roc_auc": p["roc_auc"],
                   **{f"p@{k}": p[f"p@{k}"] for k in ks}}

@@ -52,8 +52,9 @@ def choose_best(tuning: pl.DataFrame, candidates: list[str]) -> tuple[str | None
     return (best if best in scores else None), scores
 
 
-def _ref(df: pl.DataFrame) -> pl.DataFrame:
-    return df.filter(pl.col("seed") == REF_SEED).select("npi", "year", "y", "margin", "prob")
+def _ref(df: pl.DataFrame, mode: str = "pooled_margin") -> pl.DataFrame:
+    return metrics.screening_score(df.filter(pl.col("seed") == REF_SEED).select("npi", "year", "fold", "y", "margin",
+                                                                                  "prob"), mode)
 
 
 def design_section(paths: Paths, design: str, mcfg: models.ModelConfig, ev: dict, *, full: bool) -> dict | None:
@@ -68,26 +69,31 @@ def design_section(paths: Paths, design: str, mcfg: models.ModelConfig, ev: dict
         best[role], out[f"valid_ap_{role}"] = choose_best(tuning, [f for f in mcfg[role] if f in fams])
     out["best"] = best
     scores = {f: train.load_scores(paths, design, f) for f in fams}
+    mode = ev.get("ranking", "pooled_margin")
+    out["ranking"] = mode
     t1 = {}
     for i, f in enumerate(fams):
-        ref = _ref(scores[f])
+        ref = _ref(scores[f], mode)
         det = metrics.detection_metrics(ref, k_fracs, reliability_top=float(ev["reliability_top"]),
                                         reliability_bins=int(ev["reliability_bins"]))
         row = {"point": det}
+        if mode != "pooled_margin":       # the original D81 ranking, kept for comparison
+            raw = metrics.detection_metrics(_ref(scores[f]), k_fracs)["pooled"]
+            row["pooled_margin"] = {m: raw[m] for m in ("pr_auc", "roc_auc", *[f"p@{k}" for k in k_fracs])}
         if full:
             row["ci"] = metrics.bootstrap_ci(ref, k_fracs, int(ev["bootstrap_reps"]), int(ev["bootstrap_seed"]) + i,
                                              float(ev["ci"]))
         seeds = scores[f]["seed"].unique().sort().to_list()
         if len(seeds) > 1:
-            per = [metrics.detection_metrics(scores[f].filter(pl.col("seed") == s).select(
-                "npi", "year", "y", "margin", "prob"), k_fracs)["pooled"] for s in seeds]
+            per = [metrics.detection_metrics(metrics.screening_score(scores[f].filter(pl.col("seed") == s).select(
+                "npi", "year", "fold", "y", "margin", "prob"), mode), k_fracs)["pooled"] for s in seeds]
             row["seed_spread"] = {m: float(pl.Series([p[m] for p in per]).std())
                                   for m in ("pr_auc", f"p@{ev['primary_k']}")}
         t1[f] = row
     out["t1"] = t1
     a, b = best["gbm"], best["glass_box"]
     if full and a and b:
-        boot = metrics.paired_bootstrap(_ref(scores[a]), _ref(scores[b]), k_fracs, int(ev["bootstrap_reps"]),
+        boot = metrics.paired_bootstrap(_ref(scores[a], mode), _ref(scores[b], mode), k_fracs, int(ev["bootstrap_reps"]),
                                         int(ev["bootstrap_seed"]), float(ev["ci"]))
         hk = metrics.holm({f"p@{k}": boot[f"p@{k}"]["p_value"] for k in k_fracs}, float(ev["alpha"]))
         pk = f"p@{ev['primary_k']}"
@@ -123,7 +129,9 @@ def build_report(paths: Paths) -> Path:
     freeze = qa.load_freeze(paths)
     md = ["# Gate G3 report: detection results (end of Phase 3)", "", *qa.provenance_lines(prov),
           f"Generated {gen} by `scenario-fraud phase3 report`. HANDOFF §6 G3: detection results with CIs; the human "
-          "decides which DESIGN §10.8 / §16 branch the paper follows. Rankings use raw margins; probabilities are "
+          "decides which DESIGN §10.8 / §16 branch the paper follows. Ranking: `{ev.get('ranking', 'pooled_margin')}` "
+          "(DESIGN §17 D125: each provider's within-fold percentile of the margin, so the fold models' differing "
+          "margin scales do not crowd each other out; `pooled_margin` = raw margins, the original D81). Probabilities are "
           "isotonic-calibrated (models.yaml calibration_source). T1 uses the reference model (seed 0) of each family.",
           "", f"- G2 freeze record: {'recorded ' + freeze['recorded_utc'] if freeze else '**missing**'}",
           f"- Final fit / calibration: `{mcfg['final_fit']}` / `{mcfg['calibration_source']}` (DESIGN §17 D59, open)",
@@ -166,6 +174,12 @@ def build_report(paths: Paths) -> Path:
         md += [f"**T1 ({'pooled ' + '–'.join(map(str, d.test)) if len(d.test_years) > 1 else d.test[0]}, "
                f"{'95 % NPI-bootstrap CIs, ' if design == 'primary' else ''}reference models)**", "",
                qa.md_table(rows)]
+        if any("pooled_margin" in sec["t1"][f] for f in sec["families"]):
+            md += ["For comparison, the original D81 ranking (raw margins pooled across the fold models):", "",
+                   qa.md_table([{"model": f, **{(m if m in ("pr_auc", "roc_auc") else f"P@{float(m[2:]):.1%}"):
+                                                _fmt(v, 5 if m.startswith("p@") or m == "pr_auc" else 3)
+                                                for m, v in sec["t1"][f]["pooled_margin"].items()}}
+                                for f in sec["families"] if "pooled_margin" in sec["t1"][f]])]
         if "delta" in sec:
             dl = sec["delta"]
             drows = [{"metric": m, "Δ": _fmt(v["delta"]), "CI": f"[{_fmt(v['delta_ci'][0])}, {_fmt(v['delta_ci'][1])}]",

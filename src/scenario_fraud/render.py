@@ -77,8 +77,10 @@ def _score(paths: Paths, family: str, npi: str, year: int) -> dict:
     s = train.load_scores(paths, design, family).filter((pl.col("seed") == 0) & (pl.col("year") == year))
     if s.is_empty() or s.filter(pl.col("npi") == npi).is_empty():
         raise RenderError(f"{npi} {year}: no {design} score of {family} (run phase3)")
+    mode = load_config("experiment", paths)["evaluation"].get("ranking", "pooled_margin")
+    s = metrics.screening_score(s, mode).rename({"margin": "_score"}).join(s.select("npi", "margin"), on="npi")
     s = s.with_columns(pl.Series("_tk", metrics.tie_keys(s["npi"], s["year"]))).sort(
-        ["margin", "_tk"], descending=[True, True]).with_row_index("rank", offset=1)
+        ["_score", "_tk"], descending=[True, True]).with_row_index("rank", offset=1)
     r = s.filter(pl.col("npi") == npi).row(0, named=True)
     return {"family": family, "seed": 0, "margin": float(r["margin"]), "probability": _f(r.get("prob")),
             "rank": int(r["rank"]), "n_scored": s.height, "label_tier": r.get("label_tier"),
@@ -380,9 +382,13 @@ def sample(paths: Paths, n: int) -> pl.DataFrame:
     """The n highest-scored providers of the latest test year's explained set (top 2 % part) that have attributions."""
     vcfg = load_config("views", paths)
     fam = vcfg.get("family") or evaluate.best_families(paths)["gbm"]
-    att = load_attributions(paths, fam, vcfg["baseline"]).select("npi", "year", "margin")
+    att = load_attributions(paths, fam, vcfg["baseline"]).select("npi", "year", "fold", "margin")
     yr = att["year"].max()
-    return att.filter(pl.col("year") == yr).sort(["margin", "npi"], descending=[True, False]).head(n).select("npi", "year")
+    mode = load_config("experiment", paths)["evaluation"].get("ranking", "pooled_margin")
+    sc = metrics.screening_score(train.load_scores(paths, "primary", fam).filter(
+        (pl.col("seed") == 0) & (pl.col("year") == yr)).select("npi", "year", "fold", "margin"), mode)
+    att = att.filter(pl.col("year") == yr).select("npi", "year").join(sc.select("npi", "margin"), on="npi", how="left")
+    return att.sort(["margin", "npi"], descending=[True, False], nulls_last=True).head(n).select("npi", "year")
 
 
 def queue_summary(paths: Paths, *, year: int | None = None) -> Path:
