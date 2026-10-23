@@ -1,0 +1,19 @@
+{
+  "recorded_utc": "2026-10-20T10:06:36.661046+00:00",
+  "protocol_hashes": {
+    "cohort_threshold": "1a6562590ef19d1045d06c4055742d38288e9e6dcd71ccde5cee80f1d5a774eb",
+    "cohort_peer_cells": "b52bf2fb86e4db1344ee8c20af40bcf1e92a848173a33c7814015e81fae358cb",
+    "dme_high_risk": "d83e84616864388889e7e5018d81639e193f1ab5adf8f0782957653032f0f63d",
+    "grouping": "284fa5077daeff63d94535a71351bd77970648661490672d92ceb88f0520f544",
+    "features": "a9dfa7ba5d816456a7d6d0e2da614f5ce55b0602e79b3b45ba89e2b8f05ff392",
+    "splits": "b9a0f09baf2d7dc64ff98909035a49ab4d9d135f359169d02698e017c768dc7c",
+    "labels": "183a0c2932b249596b3875c0452064c89254c8e3fc0e679310c4b690b84e58c5"
+  },
+  "config_sha256": {
+    "experiment.yaml": "dbd5923f7005e5fb561262e9d900c117943f6ab118454d990b9b8b37fe33fabd",
+    "features.yaml": "24c152a7b6d386d798724b82d2bf378f417e73d64bb7783c0f86ac9325e1a4d5",
+    "groups.yaml": "8b302a1d73b4387e6f123beff8435d5d075e626816156ee6e196096f97dbc0fa",
+    "labels.yaml": "46e30dca55ecd56e1d14944311c1d2611090d16dacdb2240bc5d16db515150c8",
+    "census_divisions.yaml": "10cdf5237b64b12bd7da6f4ec27334c27f7929ade3aa6cce4f59b4223ebbfca2"
+  }
+}
