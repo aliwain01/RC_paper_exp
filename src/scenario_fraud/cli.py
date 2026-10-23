@@ -241,6 +241,8 @@ def _p4(sub: argparse._SubParsersAction) -> None:
     e.add_argument("--baseline", action="append", default=None, choices=["peer", "global"])
     e.add_argument("--fold", type=int, action="append", default=None)
     e.add_argument("--limit", type=int, default=None, help="explain at most N providers per fold and year")
+    e.add_argument("--no-resume", dest="resume", action="store_false",
+                   help="recompute every chunk (default: skip chunks already written)")
     s.add_parser("diagnostics", help="path-dependent TreeSHAP diagnostics on a subsample (DESIGN §9.4)")
     b = s.add_parser("bench", help="timing benchmark -> outputs/phase4/bench.json")
     b.add_argument("--family", action="append", default=None)
@@ -253,7 +255,8 @@ def _run_phase4(paths: Paths, a: argparse.Namespace) -> dict:
         return {"explained": paths.rel(explained_set.explained_path(paths)),
                 "per_year": {str(y): n for y, n in es.group_by("year").len().sort("year").iter_rows()}}
     if a.cmd == "explain":
-        return attribute.explain(paths, families=a.family, baselines=a.baseline, folds=a.fold, limit=a.limit)
+        return attribute.explain(paths, families=a.family, baselines=a.baseline, folds=a.fold, limit=a.limit,
+                                 resume=a.resume)
     if a.cmd == "diagnostics":
         return attribute.diagnostics(paths)
     if a.cmd == "bench":

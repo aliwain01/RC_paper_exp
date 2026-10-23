@@ -30,6 +30,7 @@ def _small(root):
     a["background"].update(B=20, min_background=8, B_global=40)
     a["explained"]["random_n"] = 30
     a["coalition_families"] = FAMS
+    a["global_families"] = FAMS
     a["shap_families"] = ["xgb"]
     a["bench"]["rows"] = 20000
     a["diagnostics"]["path_dependent_n"] = 20
@@ -122,3 +123,80 @@ def test_explain_refuses_after_protocol_change(w):
     e.write_text(e.read_text().replace("min_nondrug_services: 50", "min_nondrug_services: 40"))
     with pytest.raises(train.TrainError, match="protocol changed"):
         attribute.explain(w, families=["lr"], limit=2)
+
+
+def _chunk_rows(w, n):
+    p = w.configs / "attribution.yaml"
+    a = yaml.safe_load(p.read_text())
+    a["chunk_rows"] = n
+    p.write_text(yaml.safe_dump(a, sort_keys=False))
+
+
+def _store(w, base):
+    return pl.read_parquet(attribute.store_path(w, "xgb", base, 0)).sort(["year", "npi"])
+
+
+def _same(a, b):
+    """Equal up to floating-point rounding: batch sizes change BLAS summation order (about 1e-15)."""
+    assert a.columns == b.columns and a.height == b.height
+    for c in a.columns:
+        x, y = a[c], b[c]
+        if x.dtype in (pl.Float64, pl.List(pl.Float64)):
+            xa = np.array(x.to_list(), dtype=float) if x.dtype == pl.Float64 else x.explode().to_numpy()
+            ya = np.array(y.to_list(), dtype=float) if y.dtype == pl.Float64 else y.explode().to_numpy()
+            np.testing.assert_allclose(xa, ya, rtol=0, atol=1e-12, equal_nan=True, err_msg=c)
+        else:
+            assert x.equals(y), c
+
+
+def test_chunked_store_equals_unchunked(w):
+    whole = {b: _store(w, b) for b in ("peer", "global")}
+    _chunk_rows(w, 3)
+    attribute.explain(w, families=["xgb"], folds=[0], limit=8, resume=False)
+    assert len(list(attribute.parts_dir(w, "xgb", "peer", 2022, 0).glob("c*.parquet"))) >= 3
+    for b in ("peer", "global"):
+        _same(_store(w, b), whole[b])
+
+
+def test_resume_skips_written_chunks_and_matches(w, monkeypatch):
+    _chunk_rows(w, 3)
+    attribute.explain(w, families=["xgb"], folds=[0], limit=8, resume=False)
+    full = {b: _store(w, b) for b in ("peer", "global")}
+    gone = []
+    for b in ("peer", "global"):
+        for d in (attribute.parts_dir(w, "xgb", b, yr, 0) for yr in (2022, 2023)):
+            chunks = sorted(d.glob("c*.parquet"))
+            for c in chunks[len(chunks) // 2:]:
+                c.unlink()
+                gone.append(c)
+    calls = []
+    real = attribute._run
+    monkeypatch.setattr(attribute, "_run", lambda *a, **k: calls.append(1) or real(*a, **k))
+    attribute.explain(w, families=["xgb"], folds=[0], limit=8)
+    assert len(calls) == len(gone) > 0
+    for b in ("peer", "global"):
+        assert _store(w, b).equals(full[b])      # same chunking: identical bytes, not just close
+    assert "already done, skipped" in (w.phase4 / "explain_progress.log").read_text()
+
+
+def test_resume_recomputes_after_a_settings_change(w):
+    _chunk_rows(w, 3)
+    attribute.explain(w, families=["xgb"], folds=[0], limit=8, baselines=["global"], resume=False)
+    p = w.configs / "attribution.yaml"
+    a = yaml.safe_load(p.read_text())
+    a["background"]["B_global"] = 30
+    p.write_text(yaml.safe_dump(a, sort_keys=False))
+    attribute.explain(w, families=["xgb"], folds=[0], limit=8, baselines=["global"])
+    assert "settings or providers changed" in (w.phase4 / "explain_progress.log").read_text()
+    assert (_store(w, "global")["bg_n"] == 30).all()
+
+
+def test_global_baseline_only_for_global_families(w):
+    p = w.configs / "attribution.yaml"
+    a = yaml.safe_load(p.read_text())
+    a["global_families"] = ["xgb"]
+    p.write_text(yaml.safe_dump(a, sort_keys=False))
+    shutil.rmtree(w.processed / "attributions" / "lr" / "global")
+    out = attribute.explain(w, families=["lr", "xgb"], folds=[0], limit=4)
+    assert not (w.processed / "attributions" / "lr" / "global").exists()
+    assert any("xgb/global" in x for x in out["written"]) and any("lr/peer" in x for x in out["written"])

@@ -4,11 +4,18 @@ For each test year, fold k, family (reference seed of fold k's primary model) an
 backgrounds (C9) → coalition table V (C10) → B, C, E, deletion scores; method A (C11) for tree families; method D
 (C12) for glass boxes. Path-dependent diagnostics (A-path, feature-level TreeSHAP interactions) on a subsample.
 Store: data/processed/attributions/{family}/{baseline}/fold{k}.parquet (+ columns.json per family).
+Resumable (DESIGN §17 D123): each (family, baseline, year, fold) is computed in chunks of about `chunk_rows`
+explained providers, each written to {family}/{baseline}/parts/{year}_fold{k}/ as it finishes; a rerun skips the
+chunks of a piece whose plan.json fingerprint (settings, model, providers, chunking) still matches, and the fold
+file is assembled from the parts. Providers are independent given their background, so chunking changes no value.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
+import shutil
+import sys
 import time
 
 import numpy as np
@@ -71,12 +78,10 @@ def _methods(f: models.Fitted, x: np.ndarray, xb: np.ndarray, cg: np.ndarray, ac
 STORE_LISTS = ("v", "B", "C", "E", "E_prob", "A", "A_feat", "D", "D_pair", "D_feat")
 
 
-def explain_rows(f: models.Fitted, exf: pl.DataFrame, cand: pl.DataFrame, base: str, cg: np.ndarray, acfg: dict,
-                 bcfg: bgm.BackgroundConfig, k: int, yr: int, *, assign=None, members=None, gl=None) -> pl.DataFrame:
-    """Store rows (CONTRACTS §4) for the providers of `exf` (one fold k and year) under model f, against peer or
-    global backgrounds drawn from `cand` (training-fold candidates of that year, sorted by NPI). Backgrounds already
-    drawn for these frames may be passed in (assign/members, gl)."""
-    Xe, Xc = matrix(exf, f.columns), matrix(cand, f.columns)
+def _plan(exf: pl.DataFrame, cand: pl.DataFrame, base: str, bcfg: bgm.BackgroundConfig, k: int, yr: int, *,
+          assign=None, members=None, gl=None) -> tuple[pl.DataFrame, list]:
+    """Store metadata per row of `exf` and the jobs (row indices into exf, row indices into cand) that share one
+    background."""
     cidx = {n: i for i, n in enumerate(cand["npi"].to_list())}
     if base == "peer":
         if assign is None or members is None:
@@ -96,6 +101,28 @@ def explain_rows(f: models.Fitted, exf: pl.DataFrame, cand: pl.DataFrame, base: 
         jobs = [(np.arange(exf.height), [cidx[n] for n in gl.to_list()])]
         meta = exf.select("npi").with_columns(pl.lit(f"global={yr}").alias("bg_key"), pl.lit("global").alias("bg_level"),
                                               pl.lit(gl.len(), dtype=pl.UInt32).alias("bg_n"))
+    return meta, jobs
+
+
+def _chunks(jobs: list, chunk_rows: int) -> list[list]:
+    """Jobs packed into chunks of about `chunk_rows` explained rows, in job order; a large job is split by rows
+    (its background is unchanged)."""
+    out, cur, n = [], [], 0
+    for r_idx, b_idx in jobs:
+        for i in range(0, len(r_idx), chunk_rows):
+            piece = r_idx[i:i + chunk_rows]
+            if cur and n + len(piece) > chunk_rows:
+                out.append(cur)
+                cur, n = [], 0
+            cur.append((piece, b_idx))
+            n += len(piece)
+    if cur:
+        out.append(cur)
+    return out
+
+
+def _run(f: models.Fitted, Xe: np.ndarray, Xc: np.ndarray, meta: pl.DataFrame, jobs: list, cg: np.ndarray,
+         acfg: dict, bcfg: bgm.BackgroundConfig, k: int, yr: int) -> pl.DataFrame:
     parts = []
     for r_idx, b_idx in jobs:
         res = _methods(f, Xe[r_idx], Xc[b_idx], cg, acfg, bcfg.seed + k)
@@ -108,12 +135,62 @@ def explain_rows(f: models.Fitted, exf: pl.DataFrame, cand: pl.DataFrame, base: 
     return pl.concat(parts, how="diagonal_relaxed")
 
 
-def explain(paths: Paths, *, families=None, baselines=None, folds=None, limit: int | None = None) -> dict:
+def explain_rows(f: models.Fitted, exf: pl.DataFrame, cand: pl.DataFrame, base: str, cg: np.ndarray, acfg: dict,
+                 bcfg: bgm.BackgroundConfig, k: int, yr: int, *, assign=None, members=None, gl=None) -> pl.DataFrame:
+    """Store rows (CONTRACTS §4) for the providers of `exf` (one fold k and year) under model f, against peer or
+    global backgrounds drawn from `cand` (training-fold candidates of that year, sorted by NPI). Backgrounds already
+    drawn for these frames may be passed in (assign/members, gl)."""
+    meta, jobs = _plan(exf, cand, base, bcfg, k, yr, assign=assign, members=members, gl=gl)
+    return _run(f, matrix(exf, f.columns), matrix(cand, f.columns), meta, jobs, cg, acfg, bcfg, k, yr)
+
+
+class _Log:
+    """Progress lines on stderr and appended to outputs/phase4/explain_progress.log."""
+
+    def __init__(self, paths: Paths):
+        self.path = paths.outputs / "phase4" / "explain_progress.log"
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+
+    def __call__(self, msg: str) -> None:
+        line = f"{time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())} {msg}"
+        print(line, file=sys.stderr, flush=True)
+        with self.path.open("a", encoding="utf-8") as fh:
+            fh.write(line + "\n")
+
+
+def parts_dir(paths: Paths, family: str, baseline: str, yr: int, fold: int):
+    return paths.processed / "attributions" / family / baseline / "parts" / f"{yr}_fold{fold}"
+
+
+def _fingerprint(paths: Paths, acfg: dict, bcfg: bgm.BackgroundConfig, design: str, fam: str, k: int, base: str,
+                 exf: pl.DataFrame, chunk_rows: int, n_chunks: int) -> str:
+    """Everything a piece's values depend on: attribution settings, background settings, the model (its tuning
+    record), the explained providers and the chunking."""
+    keep = {key: acfg.get(key) for key in ("background", "deletion", "shap_families", "reference_seed", "seed")}
+    tj = train.model_dir(paths, design, fam, k) / "tuning.json"
+    model = json.loads(tj.read_text(encoding="utf-8")) if tj.is_file() else {}
+    doc = {"acfg": keep, "bcfg": {k2: str(v) for k2, v in sorted(vars(bcfg).items())}, "base": base,
+           "model": {k2: model.get(k2) for k2 in ("best_params", "fingerprint", "seeds", "n_trials")},
+           "npis": hashlib.sha256("\n".join(exf["npi"].cast(pl.Utf8).to_list()).encode()).hexdigest(),
+           "chunk_rows": chunk_rows, "n_chunks": n_chunks}
+    return hashlib.sha256(json.dumps(doc, sort_keys=True, default=str).encode()).hexdigest()[:16]
+
+
+def _write(df: pl.DataFrame, path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".parquet.tmp")
+    df.write_parquet(tmp)
+    tmp.replace(path)
+
+
+def explain(paths: Paths, *, families=None, baselines=None, folds=None, limit: int | None = None,
+            resume: bool = True) -> dict:
     train.check_frozen(paths)
     acfg = load_config("attribution", paths)
     bcfg = bgm.BackgroundConfig.load(paths)
     scfg = splits.SplitConfig.load(paths)
     design = acfg["explained"]["design"]
+    chunk_rows = int(acfg.get("chunk_rows", 1000))
     fams = list(families or acfg["coalition_families"])
     bases = list(baselines or acfg["baselines"])
     es = load_explained_set(paths)
@@ -122,8 +199,11 @@ def explain(paths: Paths, *, families=None, baselines=None, folds=None, limit: i
         "npi", pl.col("year").cast(pl.Int32), "cell_spec_ent", "cell_ent").collect()
     years = sorted(es["year"].unique().to_list())
     fold_ids = sorted(int(k) for k in (folds if folds is not None else range(scfg.n_folds)))
-    results: dict = {fam: {b: {k: [] for k in fold_ids} for b in bases} for fam in fams}
-    summary: dict = {"design": design, "families": fams, "baselines": bases, "seconds": {}}
+    log = _Log(paths)
+    log(f"explain: families {fams}, baselines {bases}, folds {fold_ids}, years {years}, chunk_rows {chunk_rows}, "
+        f"resume={resume}")
+    done: dict = {(fam, b, k): [] for fam in fams for b in bases for k in fold_ids}
+    summary: dict = {"design": design, "families": fams, "baselines": bases, "seconds": {}, "chunks": {}}
     for yr in years:
         feats = (features.load_features(paths, [yr]).with_columns(pl.col("year").cast(pl.Int32))
                  .join(cells, on=["npi", "year"], how="left").join(fold_tab, on="npi", how="inner"))
@@ -147,22 +227,51 @@ def explain(paths: Paths, *, families=None, baselines=None, folds=None, limit: i
                 t0 = time.perf_counter()
                 f = models.load(train.model_dir(paths, design, fam, k) / f"seed{int(acfg['reference_seed'])}")
                 cg = col_groups(f.columns, paths)
+                Xe = Xc = None
                 for base in bases:
-                    results[fam][base][k].append(explain_rows(f, exf, cand, base, cg, acfg, bcfg, k, yr,
-                                                              assign=assign, members=members, gl=gl))
+                    if base == "global" and fam not in acfg.get("global_families", fams):
+                        continue
+                    meta, jobs = _plan(exf, cand, base, bcfg, k, yr, assign=assign, members=members, gl=gl)
+                    chunks = _chunks(jobs, chunk_rows)
+                    fp = _fingerprint(paths, acfg, bcfg, design, fam, k, base, exf, chunk_rows, len(chunks))
+                    pdir = parts_dir(paths, fam, base, yr, k)
+                    plan = pdir / "plan.json"
+                    if not resume or not plan.is_file() or json.loads(plan.read_text(encoding="utf-8")).get("fp") != fp:
+                        if pdir.exists():
+                            if resume:
+                                log(f"{fam}/{base} {yr} fold {k}: settings or providers changed; recomputing")
+                            shutil.rmtree(pdir)
+                        pdir.mkdir(parents=True)
+                        plan.write_text(json.dumps({"fp": fp, "n_chunks": len(chunks), "rows": exf.height}),
+                                        encoding="utf-8")
+                    files, skipped = [], 0
+                    for j, chunk in enumerate(chunks):
+                        cp = pdir / f"c{j:04d}.parquet"
+                        files.append(cp)
+                        if cp.is_file():
+                            skipped += 1
+                            continue
+                        if Xe is None:
+                            Xe, Xc = matrix(exf, f.columns), matrix(cand, f.columns)
+                        t1 = time.perf_counter()
+                        _write(_run(f, Xe, Xc, meta, chunk, cg, acfg, bcfg, k, yr), cp)
+                        log(f"{fam}/{base} {yr} fold {k}: chunk {j + 1}/{len(chunks)} "
+                            f"({sum(len(r) for r, _ in chunk)} providers) {time.perf_counter() - t1:.1f}s")
+                    if skipped:
+                        log(f"{fam}/{base} {yr} fold {k}: {skipped} of {len(chunks)} chunks already done, skipped")
+                    done[(fam, base, k)].extend(files)
+                    summary["chunks"][f"{fam}/{base}/{yr}/fold{k}"] = len(chunks)
                 summary["seconds"][f"{fam}/{yr}/fold{k}"] = round(time.perf_counter() - t0, 2)
                 (paths.processed / "attributions" / fam).mkdir(parents=True, exist_ok=True)
                 (paths.processed / "attributions" / fam / "columns.json").write_text(json.dumps(
                     {"columns": f.columns, "col_group": cg.tolist(), "groups": list(GROUP_ORDER)}), encoding="utf-8")
     written = []
-    for fam in fams:
-        for base in bases:
-            for k in fold_ids:
-                if results[fam][base][k]:
-                    p = store_path(paths, fam, base, k)
-                    p.parent.mkdir(parents=True, exist_ok=True)
-                    pl.concat(results[fam][base][k], how="diagonal_relaxed").write_parquet(p)
-                    written.append(paths.rel(p))
+    for (fam, base, k), files in done.items():
+        if files:
+            p = store_path(paths, fam, base, k)
+            _write(pl.concat([pl.read_parquet(x) for x in files], how="diagonal_relaxed"), p)
+            written.append(paths.rel(p))
+            log(f"{fam}/{base} fold {k}: store written ({len(files)} chunks)")
     summary["written"] = written
     return summary
 

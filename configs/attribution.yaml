@@ -10,7 +10,8 @@ background:
   # unmatch Census division. A cell is used while it has >= min_background training-fold providers; up to B of
   # them are drawn.
   min_background: 50
-  B_global: 1000         # global baseline: same-year training-fold providers, stratified by specialty
+  B_global: 200          # global baseline: same-year training-fold providers, stratified by specialty; 1000 -> 200
+                         # at G4 (D124): the same |B| as the peer baseline, method A at 1000 would cost ~35 h
 
 explained:
   design: primary
@@ -24,6 +25,8 @@ coalition_families: [lr, ebm, ga2m, xgb, xgb_mono, lgbm, lgbm_mono]
 shap_families: [xgb, xgb_mono, lgbm, lgbm_mono]     # method A (interventional TreeSHAP)
 glassbox_families: [lr, ebm, ga2m]                  # method D
 baselines: [peer, global]                           # RQ5 / E8
+global_families: [xgb]   # G4 (D124): the global baseline only for the best GBM (D74); RQ5 is answered for it
+chunk_rows: 1000         # resume unit (D123): explained providers per chunk written to parts/
 reference_seed: 0
 
 batch_rows: 500000       # hybrid rows predicted per call (memory: batch_rows x columns x 4 bytes)
