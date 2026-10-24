@@ -201,3 +201,11 @@ def test_global_baseline_only_for_global_families(w):
     out = attribute.explain(w, families=["lr", "xgb"], folds=[0], limit=4)
     assert not (w.processed / "attributions" / "lr" / "global").exists()
     assert any("xgb/global" in x for x in out["written"]) and any("lr/peer" in x for x in out["written"])
+
+
+def test_method_a_gap_stored_and_exact_on_synthetic_data(w):
+    a = attribute.load_attributions(w, "xgb", "peer")
+    assert "A_gap" in a.columns and a["A_gap"].null_count() == 0
+    assert float(a["A_gap"].max()) < 1e-4
+    lr = attribute.load_attributions(w, "lr", "peer")
+    assert "A_gap" not in lr.columns or lr["A_gap"].null_count() == lr.height

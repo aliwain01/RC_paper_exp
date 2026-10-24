@@ -48,6 +48,8 @@ def store_checks(paths: Paths, acfg: dict) -> list[dict]:
                 err = float(np.abs(v - tot).max())
                 row[f"max_err_{k}"] = err
                 ok &= err < TOL[k]
+            if "A" in checks:      # D126: providers whose method A is not exact (excluded from method A comparisons)
+                row["A_inexact"] = int((np.abs(checks["A"] - tot) >= TOL["A"]).sum())
             row["additivity"] = "pass" if ok else "FAIL"
             rows.append(row)
     return rows
@@ -102,7 +104,7 @@ def build_report(paths: Paths) -> Path:
            "Σ Φᴮ, Σ M (method C), Σ Φᴬ and Σ D against v(N) − v(∅) per provider (A tolerance 1e-4, others 1e-6).",
            "", qa.md_table([{k: v for k, v in r.items() if k != "bg_levels"} for r in checks],
                            [c for c in ("family", "baseline", "providers", "bg_n_min", "bg_n_median", "max_err_B",
-                                        "max_err_C", "max_err_A", "max_err_D", "additivity")]) if checks
+                                        "max_err_C", "max_err_A", "A_inexact", "max_err_D", "additivity")]) if checks
            else "_No attributions yet: run `phase4 explain`._\n",
            "Background levels used (peer baseline falls back up the hierarchy below `min_background`, D82):", "",
            qa.md_table([{"family": r["family"], "baseline": r["baseline"], **r["bg_levels"]} for r in checks],

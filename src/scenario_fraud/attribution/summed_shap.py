@@ -30,7 +30,16 @@ def feature_shap(f: Fitted, X: np.ndarray, Xb: np.ndarray) -> tuple[np.ndarray, 
     Xb = np.asarray(Xb, dtype=np.float32)
     e = shap.TreeExplainer(f.model, data=shap.maskers.Independent(Xb, max_samples=len(Xb)),
                            feature_perturbation="interventional", model_output="raw")
-    phi = np.asarray(e.shap_values(np.asarray(X, dtype=np.float32)), dtype=np.float64)
+    Xf = np.asarray(X, dtype=np.float32)
+    try:
+        phi = np.asarray(e.shap_values(Xf), dtype=np.float64)
+    except shap.utils._exceptions.ExplainerError as err:
+        # DESIGN §17 D126: a feature value exactly at a LightGBM split threshold can send shap's interventional
+        # algorithm down the other branch for that row (the model's own prediction is unaffected); the values are
+        # kept and each row's additivity gap is stored (`A_gap`) so reports and evaluation can see and exclude it.
+        warnings.warn(f"interventional TreeSHAP additivity check failed ({err}); values kept, gap stored per row",
+                      RuntimeWarning, stacklevel=2)
+        phi = np.asarray(e.shap_values(Xf, check_additivity=False), dtype=np.float64)
     if phi.ndim != 2 or phi.shape != (len(X), Xb.shape[1]):
         raise ValueError(f"unexpected SHAP output shape {phi.shape}")
     return phi, float(np.ravel(e.expected_value)[0])

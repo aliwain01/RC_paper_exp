@@ -56,11 +56,13 @@ def _methods(f: models.Fitted, x: np.ndarray, xb: np.ndarray, cg: np.ndarray, ac
     phi = C.shapley(V)
     Mx = C.interaction_matrix(V, phi)
     E, Ep = C.counterfactual(V)
-    out = {"v": V, "B": phi, "C": Mx, "E": E, "E_prob": Ep, "A": None, "A_feat": None, "D": None, "D_pair": None,
-           "D_feat": None, "margin": V[:, -1], "base": V[:, 0]}
+    out = {"v": V, "B": phi, "C": Mx, "E": E, "E_prob": Ep, "A": None, "A_feat": None, "A_gap": None, "D": None,
+           "D_pair": None, "D_feat": None, "margin": V[:, -1], "base": V[:, 0]}
     if f.family in acfg["shap_families"]:
         phi_f, _ = summed_shap.feature_shap(f, x, xb)
         out["A"], out["A_feat"] = summed_shap.group_sums(phi_f, cg, M), phi_f
+        # |Σφ − (f(x) − mean_B f)| per provider (D126): above 1e-4, method A is not exact for that row
+        out["A_gap"] = np.abs(phi_f.sum(axis=1) - (V[:, -1] - V[:, 0]))
     if f.family == "lr":
         out["D"], _ = glassbox.lr_contrib(f, x, xb, GROUP_ORDER)
         out["D_feat"] = glassbox.lr_feature_contrib(f, x, xb)
@@ -130,7 +132,8 @@ def _run(f: models.Fitted, Xe: np.ndarray, Xc: np.ndarray, meta: pl.DataFrame, j
         frame = meta[r_idx].with_columns(pl.lit(yr, dtype=pl.Int32).alias("year"), pl.lit(k, dtype=pl.Int32).alias("fold"))
         cols = [_arr(c, res[c], n) for c in STORE_LISTS]
         cols += [pl.Series(c, np.asarray(res[c], dtype=np.float64)) for c in
-                 ("margin", "base", *sorted(c for c in res if c.startswith("del_")))]
+                 ("margin", "base", *(["A_gap"] if res.get("A_gap") is not None else []),
+                  *sorted(c for c in res if c.startswith("del_")))]
         parts.append(frame.with_columns(cols))
     return pl.concat(parts, how="diagonal_relaxed")
 
