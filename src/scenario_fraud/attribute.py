@@ -148,10 +148,10 @@ def explain_rows(f: models.Fitted, exf: pl.DataFrame, cand: pl.DataFrame, base: 
 
 
 class _Log:
-    """Progress lines on stderr and appended to outputs/phase4/explain_progress.log."""
+    """Progress lines on stderr and appended to outputs/phase4/explain_progress.log (or `path`)."""
 
-    def __init__(self, paths: Paths):
-        self.path = paths.outputs / "phase4" / "explain_progress.log"
+    def __init__(self, paths: Paths, path=None):
+        self.path = path or paths.outputs / "phase4" / "explain_progress.log"
         self.path.parent.mkdir(parents=True, exist_ok=True)
 
     def __call__(self, msg: str) -> None:
@@ -177,6 +177,33 @@ def _fingerprint(paths: Paths, acfg: dict, bcfg: bgm.BackgroundConfig, design: s
            "npis": hashlib.sha256("\n".join(exf["npi"].cast(pl.Utf8).to_list()).encode()).hexdigest(),
            "chunk_rows": chunk_rows, "n_chunks": n_chunks}
     return hashlib.sha256(json.dumps(doc, sort_keys=True, default=str).encode()).hexdigest()[:16]
+
+
+def run_chunks(pdir, fp: str, chunks: list, compute, log, label: str, rows: int, resume: bool) -> list:
+    """Compute each chunk into pdir/c{j}.parquet, skipping chunks already written under the same fingerprint
+    (pdir/plan.json); a changed fingerprint (or resume=False) clears pdir first. Returns the chunk files in order."""
+    plan = pdir / "plan.json"
+    if not resume or not plan.is_file() or json.loads(plan.read_text(encoding="utf-8")).get("fp") != fp:
+        if pdir.exists():
+            if resume:
+                log(f"{label}: settings or providers changed; recomputing")
+            shutil.rmtree(pdir)
+        pdir.mkdir(parents=True)
+        plan.write_text(json.dumps({"fp": fp, "n_chunks": len(chunks), "rows": rows}), encoding="utf-8")
+    files, skipped = [], 0
+    for j, chunk in enumerate(chunks):
+        cp = pdir / f"c{j:04d}.parquet"
+        files.append(cp)
+        if cp.is_file():
+            skipped += 1
+            continue
+        t1 = time.perf_counter()
+        _write(compute(chunk), cp)
+        log(f"{label}: chunk {j + 1}/{len(chunks)} ({sum(len(r) for r, _ in chunk)} providers) "
+            f"{time.perf_counter() - t1:.1f}s")
+    if skipped:
+        log(f"{label}: {skipped} of {len(chunks)} chunks already done, skipped")
+    return files
 
 
 def _write(df: pl.DataFrame, path) -> None:
@@ -237,31 +264,15 @@ def explain(paths: Paths, *, families=None, baselines=None, folds=None, limit: i
                     meta, jobs = _plan(exf, cand, base, bcfg, k, yr, assign=assign, members=members, gl=gl)
                     chunks = _chunks(jobs, chunk_rows)
                     fp = _fingerprint(paths, acfg, bcfg, design, fam, k, base, exf, chunk_rows, len(chunks))
-                    pdir = parts_dir(paths, fam, base, yr, k)
-                    plan = pdir / "plan.json"
-                    if not resume or not plan.is_file() or json.loads(plan.read_text(encoding="utf-8")).get("fp") != fp:
-                        if pdir.exists():
-                            if resume:
-                                log(f"{fam}/{base} {yr} fold {k}: settings or providers changed; recomputing")
-                            shutil.rmtree(pdir)
-                        pdir.mkdir(parents=True)
-                        plan.write_text(json.dumps({"fp": fp, "n_chunks": len(chunks), "rows": exf.height}),
-                                        encoding="utf-8")
-                    files, skipped = [], 0
-                    for j, chunk in enumerate(chunks):
-                        cp = pdir / f"c{j:04d}.parquet"
-                        files.append(cp)
-                        if cp.is_file():
-                            skipped += 1
-                            continue
+
+                    def compute(chunk, f=f, cg=cg):
+                        nonlocal Xe, Xc
                         if Xe is None:
                             Xe, Xc = matrix(exf, f.columns), matrix(cand, f.columns)
-                        t1 = time.perf_counter()
-                        _write(_run(f, Xe, Xc, meta, chunk, cg, acfg, bcfg, k, yr), cp)
-                        log(f"{fam}/{base} {yr} fold {k}: chunk {j + 1}/{len(chunks)} "
-                            f"({sum(len(r) for r, _ in chunk)} providers) {time.perf_counter() - t1:.1f}s")
-                    if skipped:
-                        log(f"{fam}/{base} {yr} fold {k}: {skipped} of {len(chunks)} chunks already done, skipped")
+                        return _run(f, Xe, Xc, meta, chunk, cg, acfg, bcfg, k, yr)
+
+                    files = run_chunks(parts_dir(paths, fam, base, yr, k), fp, chunks, compute, log,
+                                       f"{fam}/{base} {yr} fold {k}", exf.height, resume)
                     done[(fam, base, k)].extend(files)
                     summary["chunks"][f"{fam}/{base}/{yr}/fold{k}"] = len(chunks)
                 summary["seconds"][f"{fam}/{yr}/fold{k}"] = round(time.perf_counter() - t0, 2)

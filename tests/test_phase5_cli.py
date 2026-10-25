@@ -148,3 +148,36 @@ def test_build_resumes_by_year(w, capsys):
     assert pl.read_parquet(d / "edit_log.parquet")["year"].n_unique() == len(s["years"])
     injection.build(w, 0, years=[2023], resume=False)
     assert not (d / "years" / "2022.json").is_file() and (d / "years" / "2023.json").is_file()
+
+
+def test_injection_train_resumes(w, capsys):
+    before = pl.read_parquet(injection.draw_dir(w, 0) / "scores" / "xgb" / "fold0.parquet")
+    inject_models.train_models(w, 0, families=["xgb"])
+    err = capsys.readouterr().err
+    assert "train draw 0 xgb fold 0: done earlier, skipped" in err and "training rows" not in err
+    (inject_models.model_dir(w, 0, "xgb", 1) / "done.json").unlink()
+    inject_models.train_models(w, 0, families=["xgb"])
+    err = capsys.readouterr().err
+    assert "xgb fold 1:" in err and "training rows" in err and "xgb fold 0: done earlier" in err
+    assert pl.read_parquet(injection.draw_dir(w, 0) / "scores" / "xgb" / "fold0.parquet").equals(before)
+
+
+def test_injection_explain_chunks_and_resumes(w, capsys):
+    """Chunked pieces equal the one-piece store; a deleted piece is recomputed and the rest reused."""
+    root = injection.draw_dir(w, 0) / "attributions" / "xgb" / "peer"
+    one = pl.read_parquet(root / "fold0.parquet")
+    a = yaml.safe_load((w.root / "configs" / "attribution.yaml").read_text())
+    a["chunk_rows"] = 1
+    (w.root / "configs" / "attribution.yaml").write_text(yaml.safe_dump(a, sort_keys=False))
+    inject_models.explain(w, 0, families=["xgb"], limit=3)
+    assert "settings or providers changed; recomputing" in capsys.readouterr().err
+    pieces = sorted((root / "parts").glob("*_fold0/c*.parquet"))
+    assert len(pieces) > 2
+    pieces[1].unlink()
+    inject_models.explain(w, 0, families=["xgb"], limit=3)
+    err = capsys.readouterr().err
+    assert "chunks already done, skipped" in err and err.count("providers)") == 1
+    many = pl.read_parquet(root / "fold0.parquet")
+    assert many.select("npi", "year").equals(one.select("npi", "year"))
+    for c in ("B", "v", "A"):
+        np.testing.assert_allclose(np.array(many[c].to_list()), np.array(one[c].to_list()), atol=1e-12)

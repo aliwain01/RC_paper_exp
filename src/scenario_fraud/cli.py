@@ -278,7 +278,8 @@ def _p5(sub: argparse._SubParsersAction) -> None:
         c.add_argument("--draw", type=int, action="append", default=None, help="repeatable; default: every draw")
         if name == "build":
             c.add_argument("--year", type=int, action="append", default=None, help="repeatable; default: every year")
-            c.add_argument("--no-resume", action="store_true", help="rebuild years already finished")
+        if name in ("build", "train", "explain"):
+            c.add_argument("--no-resume", action="store_true", help="redo work already finished")
         if name in ("train", "stress", "explain"):
             c.add_argument("--family", action="append", default=None)
         if name == "explain":
@@ -298,11 +299,11 @@ def _run_phase5(paths: Paths, a: argparse.Namespace) -> dict:
         if a.cmd == "build":
             out[d] = injection.build(paths, d, years=a.year, resume=not a.no_resume)
         elif a.cmd == "train":
-            out[d] = inject_models.train_models(paths, d, families=a.family)
+            out[d] = inject_models.train_models(paths, d, families=a.family, resume=not a.no_resume)
         elif a.cmd == "stress":
             out[d] = {"rows": inject_models.stress_test(paths, d, families=a.family).height}
         elif a.cmd == "explain":
-            out[d] = inject_models.explain(paths, d, families=a.family, limit=a.limit)
+            out[d] = inject_models.explain(paths, d, families=a.family, limit=a.limit, resume=not a.no_resume)
         else:
             raise SystemExit(f"unknown command {a.cmd}")
     return out

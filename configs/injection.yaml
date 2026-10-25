@@ -1,10 +1,12 @@
 # C6 scheme injection (DESIGN §7.7; EXPERIMENT_PLAN §6; CONTRACTS §5). Intensities are the plan's starting values;
-# Phase 5 calibration proposes new ones and the human accepts them at gate G5.
+# Phase 5 calibration proposes new ones and the human accepts them at gate G5. Accepted 2026-10-25 (DESIGN §17 D129):
+# low = the grid value whose median peer percentile is nearest 0.875, medium = the smallest reaching 0.95 (D98),
+# high = the smallest reaching 0.975 (outputs/phase5/calibration.json).
 
 seed: 20261018
 draws: 5                      # EXPERIMENT_PLAN §6: 5 independent draws
 
-# Answer key per scheme (DESIGN §17 D90): `groups` = the scheme group(s) that count as correct; `spill` = groups the
+# Answer key per scheme (DESIGN §17 D90, accepted at G5): `groups` = the scheme group(s) that count as correct; `spill` = groups the
 # transform is expected to touch too (spill-over profile, EXPERIMENT_PLAN §5.1); `primary_feature` = the feature the
 # calibration targets ("medium" near the peer 95th percentile).
 schemes:
@@ -12,29 +14,29 @@ schemes:
     groups: [upcoding]
     spill: [charge_inflation]
     primary_feature: UP2
-    intensities: {low: 0.15, medium: 0.30, high: 0.50}     # p: share of 99212-13 services moved to 99214-15
+    intensities: {low: 0.70, medium: 0.85, high: 1.0}      # p: share of 99212-13 services moved to 99214-15 (G5, D129)
   overutilization:
     groups: [overutilization]
     spill: [charge_inflation, patient_mix]
     primary_feature: OU1
-    intensities: {low: 1.3, medium: 1.6, high: 2.0}        # m: multiplier on non-drug services
+    intensities: {low: 1.8, medium: 3.0, high: 4.0}        # m: multiplier on non-drug services (G5, D129)
   atypical_mix:
     groups: [atypical_mix]
-    spill: [overutilization, charge_inflation]
+    spill: [overutilization, charge_inflation, patient_mix]   # patient_mix added at G5 (D129)
     primary_feature: SM2
-    intensities: {low: 0.10, medium: 0.20, high: 0.35}     # q: payment share in codes rare in the peer cell
+    intensities: {low: 0.01, medium: 0.05, high: 0.10}     # q: payment share in codes rare in the peer cell (G5, D129)
   charge_inflation:
     groups: [charge_inflation]
     spill: []
     primary_feature: CH1
-    intensities: {low: 1.3, medium: 1.7, high: 2.2}        # c: multiplier on submitted charges
+    intensities: {low: 1.5, medium: 2.0, high: 2.6}        # c: multiplier on submitted charges (G5, D129)
   dme_mill:
     # "DME mill referrals" add high-risk DME volume (DME referral intensity) filled by 1-2 suppliers (DME referral
     # concentration): both groups count as correct.
     groups: [dme_intensity, dme_concentration]
     spill: []
     primary_feature: DI1
-    intensities: {low: 2.0, medium: 4.0, high: 8.0}        # d: added DME spend as a multiple of the peer-cell median
+    intensities: {low: 4.0, medium: 16.0, high: 32.0}      # d: added DME spend as a multiple of the peer-cell median (G5, D129)
 
 pairs:
   - [upcoding, overutilization]

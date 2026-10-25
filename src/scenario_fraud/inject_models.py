@@ -15,13 +15,15 @@ EXPERIMENT_PLAN §6; CONTRACTS §5).
 
 from __future__ import annotations
 
+import hashlib
 import json
+import time
 
 import numpy as np
 import polars as pl
 
 from . import features, injection, models, splits, train
-from .attribute import col_groups, explain_rows
+from .attribute import _chunks, _fingerprint, _Log, _plan, _run, col_groups, run_chunks
 from .attribution import background as bgm
 from .config import load_config
 from .modelmatrix import matrix, model_column_order
@@ -51,18 +53,50 @@ def model_dir(paths: Paths, draw: int, family: str, fold: int):
     return injection.draw_dir(paths, draw) / "models" / family / f"fold{fold}"
 
 
-def train_models(paths: Paths, draw: int, *, families=None, folds=None) -> dict:
+def _log(paths: Paths) -> _Log:
+    return _Log(paths, paths.outputs / "phase5" / "progress.log")
+
+
+def _build_fp(paths: Paths, draw: int) -> str | None:
+    p = injection.draw_dir(paths, draw) / "build.json"
+    return json.loads(p.read_text(encoding="utf-8"))["fingerprint"] if p.is_file() else None
+
+
+def _train_fp(paths: Paths, draw: int, fam: str, k: int, params: dict, cols: list[str], mcfg, scfg) -> str:
+    """The draw's build, the reused parameters, the family's settings and columns, and the split settings."""
+    doc = {"build": _build_fp(paths, draw), "params": params, "model": train.fingerprint(mcfg, fam, cols),
+           "splits": {k2: str(v) for k2, v in sorted(vars(scfg).items())}, "fold": k, "draw": draw}
+    return hashlib.sha256(json.dumps(doc, sort_keys=True, default=str).encode()).hexdigest()[:16]
+
+
+def train_models(paths: Paths, draw: int, *, families=None, folds=None, resume: bool = True) -> dict:
+    """Use (b) models. With `resume`, a (family, fold) whose done.json records the same fingerprint (draw build,
+    reused parameters, settings) and whose scores exist is skipped."""
     train.check_frozen(paths)
     icfg = injection.InjectionConfig.load(paths)
     mcfg = models.ModelConfig.load(paths)
     scfg = splits.SplitConfig.load(paths)
+    log = _log(paths)
     d = scfg.design("primary")
     years = sorted({*d.train_years, *d.test_years})
     df = _frame(paths, draw, years)
     cols = model_column_order([c for c in df.columns if c not in EXTRA], paths=paths)
     plan = pl.read_parquet(injection.draw_dir(paths, draw) / "plan.parquet")
+    fams = list(families or icfg["families"])
     out = {}
     for k in sorted(folds if folds is not None else range(scfg.n_folds)):
+        todo = []
+        for fam in fams:
+            fp = _train_fp(paths, draw, fam, k, train._reused_params(paths, fam, k), cols, mcfg, scfg)
+            dj = model_dir(paths, draw, fam, k) / "done.json"
+            sp = injection.draw_dir(paths, draw) / "scores" / fam / f"fold{k}.parquet"
+            if resume and dj.is_file() and sp.is_file() and json.loads(dj.read_text(encoding="utf-8"))["fingerprint"] == fp:
+                out.setdefault(fam, {})[k] = json.loads(dj.read_text(encoding="utf-8"))["rows"]
+                log(f"train draw {draw} {fam} fold {k}: done earlier, skipped")
+            else:
+                todo.append((fam, fp, dj, sp))
+        if not todo:
+            continue
         role = splits.assign_roles(df.select("npi", "year"), splits.load_folds(paths), k, "primary", scfg)["role"]
         fr = df.with_columns(role.alias("role"), pl.int_range(pl.len()).alias("_i"))
         tr = splits.subsample_negatives(
@@ -70,7 +104,8 @@ def train_models(paths: Paths, draw: int, *, families=None, folds=None) -> dict:
         te = fr.filter(pl.col("role") == "test")
         X, y, w = matrix(fr, cols, tr["_i"].to_numpy()), tr["y"].to_numpy(), tr["weight"].to_numpy()
         Xt = matrix(fr, cols, te["_i"].to_numpy())
-        for fam in families or icfg["families"]:
+        for fam, fp, dj, sp in todo:
+            t0 = time.perf_counter()
             params = train._reused_params(paths, fam, k)
             f = models.fit(fam, X, y, w, params, train._seed(mcfg["tuning_seed"], 13, train.FAMILY_SALT[fam], k, draw),
                            cols, mcfg, paths)
@@ -80,11 +115,14 @@ def train_models(paths: Paths, draw: int, *, families=None, folds=None) -> dict:
             s = s.join(plan.filter(pl.col("part") == "test").select("npi", "year", "schemes", "intensity", "pair",
                                                                     "answer_groups", "distractor", "distractor_groups"),
                        on=["npi", "year"], how="left")
-            p = injection.draw_dir(paths, draw) / "scores" / fam / f"fold{k}.parquet"
-            p.parent.mkdir(parents=True, exist_ok=True)
-            s.write_parquet(p)
-            out.setdefault(fam, {})[k] = {"train_rows": tr.height, "train_injected": int(y.sum()),
-                                          "test_rows": te.height, "test_injected": int(te["y"].sum())}
+            sp.parent.mkdir(parents=True, exist_ok=True)
+            s.write_parquet(sp)
+            rows = {"train_rows": tr.height, "train_injected": int(y.sum()),
+                    "test_rows": te.height, "test_injected": int(te["y"].sum())}
+            dj.write_text(json.dumps({"fingerprint": fp, "rows": rows}), encoding="utf-8")   # written last
+            out.setdefault(fam, {})[k] = rows
+            log(f"train draw {draw} {fam} fold {k}: {time.perf_counter() - t0:.0f}s, {tr.height} training rows")
+        del X, Xt, fr, tr, te
     return out
 
 
@@ -119,13 +157,18 @@ def stress_test(paths: Paths, draw: int, *, families=None) -> pl.DataFrame:
     return out
 
 
-def explain(paths: Paths, draw: int, *, families=None, baselines=None, limit: int | None = None) -> dict:
-    """Methods A-E for injected test providers under the injection model of their fold."""
+def explain(paths: Paths, draw: int, *, families=None, baselines=None, limit: int | None = None,
+            resume: bool = True) -> dict:
+    """Methods A-E for injected test providers under the injection model of their fold. Chunked and resumable as in
+    Phase 4 (pieces under attributions/{family}/{baseline}/parts/{year}_fold{k}/, fingerprinted by the settings,
+    the injection model's done.json and the providers)."""
     train.check_frozen(paths)
     icfg = injection.InjectionConfig.load(paths)
     acfg = load_config("attribution", paths)
     bcfg = bgm.BackgroundConfig.load(paths)
     scfg = splits.SplitConfig.load(paths)
+    log = _log(paths)
+    chunk_rows = int(acfg.get("chunk_rows", 1000))
     years = scfg.design("primary").test_years
     df = _frame(paths, draw, years).join(_cohort_cells(paths, draw, years), on=["npi", "year"], how="left")
     plan = pl.read_parquet(injection.draw_dir(paths, draw) / "plan.parquet").filter(pl.col("part") == "test")
@@ -134,9 +177,12 @@ def explain(paths: Paths, draw: int, *, families=None, baselines=None, limit: in
     for fam in families or icfg["families"]:
         for base in baselines or icfg["attribution_baselines"]:
             for k in range(scfg.n_folds):
-                parts = []
-                f = models.load(model_dir(paths, draw, fam, k) / "seed0")
+                files = []
+                mdir = model_dir(paths, draw, fam, k)
+                f = models.load(mdir / "seed0")
                 cg = col_groups(f.columns, paths)
+                mfp = json.loads((mdir / "done.json").read_text(encoding="utf-8"))["fingerprint"] \
+                    if (mdir / "done.json").is_file() else None
                 for yr in years:
                     ex = df.filter((pl.col("fold") == k) & (pl.col("year") == yr) & (pl.col("y") == 1)).sort("npi")
                     if limit is not None:
@@ -144,9 +190,22 @@ def explain(paths: Paths, draw: int, *, families=None, baselines=None, limit: in
                     if ex.is_empty():
                         continue
                     cand = df.filter((pl.col("fold") != k) & (pl.col("year") == yr) & (pl.col("y") == 0)).sort("npi")
-                    parts.append(explain_rows(f, ex, cand, base, cg, acfg, bcfg, k, yr))
-                if parts:
-                    a = pl.concat(parts, how="diagonal_relaxed").join(
+                    meta, jobs = _plan(ex, cand, base, bcfg, k, yr)
+                    chunks = _chunks(jobs, chunk_rows)
+                    fp = hashlib.sha256(json.dumps(
+                        [_fingerprint(paths, acfg, bcfg, "primary", fam, k, base, ex, chunk_rows, len(chunks)), mfp]
+                    ).encode()).hexdigest()[:16]
+                    mats = {}
+
+                    def compute(chunk, f=f, cg=cg, ex=ex, cand=cand, meta=meta, yr=yr, mats=mats):
+                        if not mats:
+                            mats["e"], mats["c"] = matrix(ex, f.columns), matrix(cand, f.columns)
+                        return _run(f, mats["e"], mats["c"], meta, chunk, cg, acfg, bcfg, k, yr)
+
+                    files += run_chunks(out_root / fam / base / "parts" / f"{yr}_fold{k}", fp, chunks, compute, log,
+                                        f"explain draw {draw} {fam}/{base} {yr} fold {k}", ex.height, resume)
+                if files:
+                    a = pl.concat([pl.read_parquet(x) for x in files], how="diagonal_relaxed").join(
                         plan.select("npi", "year", "schemes", "intensity", "pair", "answer_groups", "distractor",
                                     "distractor_groups"), on=["npi", "year"], how="left")
                     p = out_root / fam / base / f"fold{k}.parquet"
