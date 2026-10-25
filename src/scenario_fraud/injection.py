@@ -523,9 +523,13 @@ def injected_cohort(paths: Paths, year: int, npis: pl.Series) -> pl.DataFrame:
     return cohort_mod.assign_peer_cells(coh, ccfg)
 
 
+BUILD_VERSION = 2   # bumped when the build's output changes for the same settings (2: D131 drop of unobservable rows)
+
+
 def _build_fingerprint(paths: Paths, icfg: InjectionConfig, p: pl.DataFrame) -> str:
     """Injection and feature settings plus the plan itself: a finished year is reused only under the same ones."""
-    h = hashlib.sha256(json.dumps([icfg.doc, load_config("features", paths)], sort_keys=True, default=str).encode())
+    h = hashlib.sha256(json.dumps([BUILD_VERSION, icfg.doc, load_config("features", paths)], sort_keys=True,
+                                  default=str).encode())
     h.update(p.sort("npi", "year").write_ndjson().encode())   # a provider-year is planned at most once
     return h.hexdigest()[:16]
 
@@ -577,6 +581,10 @@ def build(paths: Paths, draw: int, p: pl.DataFrame | None = None, *, years=None,
         ps_ = features.fit_peer_stats(raw, coh_in, y, fcfg)
         feat = features.transform(raw, coh_in, ps_, refs, y, fcfg)
         feat = feat.with_columns(pl.col("npi").is_in(npis.implode()).alias("injected"))
+        # D131: an injected provider whose every service-level row is suppressed after the edit would not appear in
+        # the public files (its P&S features are undefined): it leaves the injected copy
+        lost = npis.filter(~npis.is_in(edited["cms_ps"]["npi"].unique().implode()))
+        feat = feat.filter(~pl.col("npi").is_in(lost.implode()))
         fd = out_dir / "features"
         fd.mkdir(parents=True, exist_ok=True)
         feat.write_parquet(fd / f"{y}.parquet")
@@ -587,7 +595,8 @@ def build(paths: Paths, draw: int, p: pl.DataFrame | None = None, *, years=None,
         log.write_parquet(yd / f"{y}_log.parquet")
         (yd / f"{y}.json").write_text(json.dumps(
             {"injected": int(npis.len()), "rows_suppressed_ps": int(log["ps_rows_suppressed_total"][0]),
-             "rows_suppressed_dme": int(log["dme_rows_suppressed_total"][0]), "featurised": feat.height}), encoding="utf-8")
+             "rows_suppressed_dme": int(log["dme_rows_suppressed_total"][0]), "dropped_no_visible_rows": lost.len(),
+             "featurised": feat.height}), encoding="utf-8")
         print(f"draw {draw} {y}: {npis.len()} injected, {feat.height} featurised", flush=True)
         del full, sub, edited, lazy, raw   # free the year before the next one is read
     done = [y for y in planned if (yd / f"{y}.json").is_file()]
@@ -600,12 +609,22 @@ def build(paths: Paths, draw: int, p: pl.DataFrame | None = None, *, years=None,
     return summary
 
 
-def load_injected_features(paths: Paths, draw: int, years) -> pl.DataFrame:
+def load_injected_features(paths: Paths, draw: int, years, *, model_only: bool = False) -> pl.DataFrame:
+    """The draw's feature tables of `years`. `model_only`: no raw__ statistics and float columns as Float32, which
+    is what the model matrix uses anyway (memory: six years of the full table do not fit beside a model fit)."""
     fcfg = features.FeatureConfig.load(paths)
     files = [draw_dir(paths, draw) / "features" / f"{int(y)}.parquet" for y in years]
     miss = [str(f) for f in files if not f.is_file()]
     if miss:
         raise InjectionError(f"injected features missing: {miss}")
-    df = pl.concat([pl.read_parquet(f) for f in files], how="diagonal_relaxed")
+    if model_only:
+        def lean(f):
+            lf = pl.scan_parquet(f)
+            sch = lf.collect_schema()
+            return lf.select([pl.col(c).cast(pl.Float32) if sch[c] == pl.Float64 else pl.col(c)
+                              for c in sch.names() if not c.startswith(features.RAW)]).collect()
+        df = pl.concat([lean(f) for f in files], how="diagonal_relaxed")
+    else:
+        df = pl.concat([pl.read_parquet(f) for f in files], how="diagonal_relaxed")
     hot = tuple(f"{s.id}__" for s in fcfg.one_hot)
     return df.with_columns(pl.col(c).fill_null(0) for c in df.columns if c.startswith(hot))

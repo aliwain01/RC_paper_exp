@@ -44,7 +44,7 @@ def _cohort_cells(paths: Paths, draw: int, years) -> pl.DataFrame:
 def _frame(paths: Paths, draw: int, years) -> pl.DataFrame:
     """Injected copy of the given years with label `y` = injected, LEIE-positive NPIs (any tier) removed."""
     folds = splits.load_folds(paths).select("npi", "fold", "ever_positive", "strat_specialty")
-    f = injection.load_injected_features(paths, draw, years).with_columns(pl.col("year").cast(pl.Int32))
+    f = injection.load_injected_features(paths, draw, years, model_only=True).with_columns(pl.col("year").cast(pl.Int32))
     f = f.join(folds, on="npi", how="inner").filter(~pl.col("ever_positive"))
     return f.with_columns(pl.col("injected").cast(pl.Int8).alias("y"))
 

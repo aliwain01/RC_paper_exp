@@ -181,3 +181,16 @@ def test_injection_explain_chunks_and_resumes(w, capsys):
     assert many.select("npi", "year").equals(one.select("npi", "year"))
     for c in ("B", "v", "A"):
         np.testing.assert_allclose(np.array(many[c].to_list()), np.array(one[c].to_list()), atol=1e-12)
+
+
+def test_injected_copy_has_complete_model_columns(w):
+    """D131: no injected provider-year without visible service rows stays in the copy, so model matrices are finite;
+    the lean load gives the same matrix as the full one."""
+    from scenario_fraud.modelmatrix import matrix
+    full = injection.load_injected_features(w, 0, [2022, 2023])
+    lean = injection.load_injected_features(w, 0, [2022, 2023], model_only=True)
+    cols = [c for c in features.model_columns(full.columns) if c != "injected"]
+    assert not any(c.startswith(features.RAW) for c in lean.columns)
+    np.testing.assert_array_equal(matrix(full, cols), matrix(lean, cols))
+    s = json.loads((injection.draw_dir(w, 0) / "summary.json").read_text())
+    assert all("dropped_no_visible_rows" in v for v in s["years"].values())

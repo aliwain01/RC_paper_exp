@@ -219,6 +219,7 @@ DESIGN §17 D90–D100; parameters in `configs/injection.yaml`.
 - **Plan and distractors:** each provider-year is injected at most once per draw, stratified by specialty (D96). Distractors are defined on the clean features (D97).
 - **Calibration:** `phase5 calibrate` reports the peer percentile of each scheme's primary feature over an intensity grid, and the human accepts the grid at G5 (D98).
 - **Resume of injection models and their attributions** (D130): `phase5 train` skips a (family, fold) whose `done.json` records the same fingerprint (the draw's build, the reused parameters, the model and split settings); `phase5 explain` writes chunked pieces as in Phase 4 (D123) and skips pieces already written under the same settings, injection model and providers. `--no-resume` redoes both. Progress lines go to `outputs/phase5/progress.log`.
+- **Unobservable injections** (D131): an injected provider-year left without visible service-level rows after re-suppression is dropped from the injected copy and counted in the G5 report.
 - **Memory and resume** (D127): the year's files are scanned lazily; `phase5 build` skips years finished under the same settings and plan, takes `--year`, and `scripts/run_phase5_build.sh` builds each year in its own process.
 - **Models:** injection models reuse the LEIE models' tuned parameters, and LEIE positives are removed. Use (a) is a percentile rank among clean test rows (D99). Injected providers are explained with the Phase 4 engine (D100).
 
