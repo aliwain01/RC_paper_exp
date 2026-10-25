@@ -25,7 +25,7 @@
     scenario-fraud phase3 report
     scenario-fraud phase4 explained-set | explain [--family F ...] [--baseline peer|global] [--fold K ...] [--limit N]
     scenario-fraud phase4 diagnostics | bench [--family F ...] | report
-    scenario-fraud phase5 calibrate | build [--draw D ...] | train [--draw D ...] [--family F ...] | stress [--draw D ...]
+    scenario-fraud phase5 calibrate | build [--draw D ...] [--year Y ...] [--no-resume] | train [--draw D ...] [--family F ...] | stress [--draw D ...]
     scenario-fraud phase5 explain [--draw D ...] [--family F ...] [--limit N] | report
     scenario-fraud phase6 evaluate [--part P ...] | stability [--family F ...] [--kind seed|boot|perturb ...]
     scenario-fraud phase6 sensitivity [--variant S ...] | report
@@ -276,6 +276,9 @@ def _p5(sub: argparse._SubParsersAction) -> None:
                       ("explain", "methods A-E for injected test providers under the injection models")):
         c = s.add_parser(name, help=hlp)
         c.add_argument("--draw", type=int, action="append", default=None, help="repeatable; default: every draw")
+        if name == "build":
+            c.add_argument("--year", type=int, action="append", default=None, help="repeatable; default: every year")
+            c.add_argument("--no-resume", action="store_true", help="rebuild years already finished")
         if name in ("train", "stress", "explain"):
             c.add_argument("--family", action="append", default=None)
         if name == "explain":
@@ -293,7 +296,7 @@ def _run_phase5(paths: Paths, a: argparse.Namespace) -> dict:
     out = {}
     for d in draws:
         if a.cmd == "build":
-            out[d] = injection.build(paths, d)
+            out[d] = injection.build(paths, d, years=a.year, resume=not a.no_resume)
         elif a.cmd == "train":
             out[d] = inject_models.train_models(paths, d, families=a.family)
         elif a.cmd == "stress":

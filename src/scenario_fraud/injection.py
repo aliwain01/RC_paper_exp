@@ -523,16 +523,37 @@ def injected_cohort(paths: Paths, year: int, npis: pl.Series) -> pl.DataFrame:
     return cohort_mod.assign_peer_cells(coh, ccfg)
 
 
-def build(paths: Paths, draw: int, p: pl.DataFrame | None = None, *, years=None) -> dict:
-    """Plan (if not given), edit and featurise every planned year of draw `draw`."""
+def _build_fingerprint(paths: Paths, icfg: InjectionConfig, p: pl.DataFrame) -> str:
+    """Injection and feature settings plus the plan itself: a finished year is reused only under the same ones."""
+    h = hashlib.sha256(json.dumps([icfg.doc, load_config("features", paths)], sort_keys=True, default=str).encode())
+    h.update(p.sort("npi", "year").write_ndjson().encode())   # a provider-year is planned at most once
+    return h.hexdigest()[:16]
+
+
+def build(paths: Paths, draw: int, p: pl.DataFrame | None = None, *, years=None, resume: bool = True) -> dict:
+    """Plan (if not given), edit and featurise every planned year of draw `draw` (or only `years`). Each finished
+    year leaves years/{y}.json and years/{y}_log.parquet; with `resume`, a year finished under the same fingerprint
+    is skipped, so a killed build restarts where it stopped. summary.json and edit_log.parquet cover the finished
+    planned years."""
     icfg = InjectionConfig.load(paths)
     fcfg = features.FeatureConfig.load(paths)
     out_dir = draw_dir(paths, draw)
     p = plan(paths, draw) if p is None else p
     out_dir.mkdir(parents=True, exist_ok=True)
+    fp = _build_fingerprint(paths, icfg, p)
+    yd = out_dir / "years"
+    fpf = out_dir / "build.json"
+    if not (resume and fpf.is_file() and json.loads(fpf.read_text())["fingerprint"] == fp):
+        for f in yd.glob("*") if yd.is_dir() else []:
+            f.unlink()
+    yd.mkdir(exist_ok=True)
+    fpf.write_text(json.dumps({"fingerprint": fp}), encoding="utf-8")
     p.write_parquet(out_dir / "plan.parquet")
-    logs, summary = [], {"draw": draw, "years": {}}
-    for y in sorted(p["year"].unique().to_list()) if years is None else years:
+    planned = sorted(p["year"].unique().to_list())
+    for y in planned if years is None else [int(v) for v in years]:
+        if (yd / f"{y}.json").is_file():
+            print(f"draw {draw} {y}: done earlier, skipped", flush=True)
+            continue
         who = p.filter(pl.col("year") == y)
         npis = who["npi"]
         full = _year_frames(paths, y)
@@ -563,12 +584,18 @@ def build(paths: Paths, draw: int, p: pl.DataFrame | None = None, *, years=None)
         pd_.mkdir(parents=True, exist_ok=True)
         ps_.stats.write_parquet(pd_ / "stats.parquet")
         coh.write_parquet(pd_ / "cohort.parquet")
-        logs.append(log)
+        log.write_parquet(yd / f"{y}_log.parquet")
+        (yd / f"{y}.json").write_text(json.dumps(
+            {"injected": int(npis.len()), "rows_suppressed_ps": int(log["ps_rows_suppressed_total"][0]),
+             "rows_suppressed_dme": int(log["dme_rows_suppressed_total"][0]), "featurised": feat.height}), encoding="utf-8")
+        print(f"draw {draw} {y}: {npis.len()} injected, {feat.height} featurised", flush=True)
         del full, sub, edited, lazy, raw   # free the year before the next one is read
-        summary["years"][y] = {"injected": int(npis.len()), "rows_suppressed_ps": int(log["ps_rows_suppressed_total"][0]),
-                               "rows_suppressed_dme": int(log["dme_rows_suppressed_total"][0]),
-                               "featurised": feat.height}
-    pl.concat(logs, how="diagonal_relaxed").write_parquet(out_dir / "edit_log.parquet")
+    done = [y for y in planned if (yd / f"{y}.json").is_file()]
+    summary = {"draw": draw, "years": {y: json.loads((yd / f"{y}.json").read_text()) for y in done},
+               "missing_years": [y for y in planned if y not in done]}
+    if done:
+        pl.concat([pl.read_parquet(yd / f"{y}_log.parquet") for y in done], how="diagonal_relaxed").write_parquet(
+            out_dir / "edit_log.parquet")
     (out_dir / "summary.json").write_text(json.dumps(summary, indent=1), encoding="utf-8")
     return summary
 

@@ -132,3 +132,19 @@ def test_calibration_written(w):
     assert set(c["schemes"]) == set(injection.SCHEME_ORDER)
     for v in c["schemes"].values():
         assert len(v["grid"]) == 2 and all(0 <= g["median_percentile"] <= 1 for g in v["grid"])
+
+
+def test_build_resumes_by_year(w, capsys):
+    """A finished year is skipped under the same settings; deleting its marker rebuilds it identically; a changed
+    setting rebuilds every year."""
+    d = injection.draw_dir(w, 0)
+    before = pl.read_parquet(d / "features" / "2022.parquet")
+    (d / "years" / "2022.json").unlink()
+    s = injection.build(w, 0)
+    out = capsys.readouterr().out
+    assert "2023: done earlier, skipped" in out and "2022: done earlier" not in out
+    assert s["missing_years"] == [] and "2022" in json.loads((d / "summary.json").read_text())["years"]
+    assert pl.read_parquet(d / "features" / "2022.parquet").equals(before)
+    assert pl.read_parquet(d / "edit_log.parquet")["year"].n_unique() == len(s["years"])
+    injection.build(w, 0, years=[2023], resume=False)
+    assert not (d / "years" / "2022.json").is_file() and (d / "years" / "2023.json").is_file()
