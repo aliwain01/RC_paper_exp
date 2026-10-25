@@ -25,7 +25,7 @@
     scenario-fraud phase3 report
     scenario-fraud phase4 explained-set | explain [--family F ...] [--baseline peer|global] [--fold K ...] [--limit N]
     scenario-fraud phase4 diagnostics | bench [--family F ...] | report
-    scenario-fraud phase5 calibrate | build [--draw D ...] [--year Y ...] [--no-resume] | train [--draw D ...] [--family F ...] | stress [--draw D ...]
+    scenario-fraud phase5 calibrate | build [--draw D ...] [--year Y ...] [--no-resume] | train [--draw D ...] [--family F ...] [--fold K ...] | stress [--draw D ...]
     scenario-fraud phase5 explain [--draw D ...] [--family F ...] [--limit N] | report
     scenario-fraud phase6 evaluate [--part P ...] | stability [--family F ...] [--kind seed|boot|perturb ...]
     scenario-fraud phase6 sensitivity [--variant S ...] | report
@@ -282,6 +282,8 @@ def _p5(sub: argparse._SubParsersAction) -> None:
             c.add_argument("--no-resume", action="store_true", help="redo work already finished")
         if name in ("train", "stress", "explain"):
             c.add_argument("--family", action="append", default=None)
+        if name in ("train", "explain"):
+            c.add_argument("--fold", type=int, action="append", default=None, help="repeatable; default: every fold")
         if name == "explain":
             c.add_argument("--limit", type=int, default=None, help="at most N injected providers per fold and year")
     s.add_parser("report", help="write outputs/phase5/G5_report.md")
@@ -299,11 +301,11 @@ def _run_phase5(paths: Paths, a: argparse.Namespace) -> dict:
         if a.cmd == "build":
             out[d] = injection.build(paths, d, years=a.year, resume=not a.no_resume)
         elif a.cmd == "train":
-            out[d] = inject_models.train_models(paths, d, families=a.family, resume=not a.no_resume)
+            out[d] = inject_models.train_models(paths, d, families=a.family, folds=a.fold, resume=not a.no_resume)
         elif a.cmd == "stress":
             out[d] = {"rows": inject_models.stress_test(paths, d, families=a.family).height}
         elif a.cmd == "explain":
-            out[d] = inject_models.explain(paths, d, families=a.family, limit=a.limit, resume=not a.no_resume)
+            out[d] = inject_models.explain(paths, d, families=a.family, folds=a.fold, limit=a.limit, resume=not a.no_resume)
         else:
             raise SystemExit(f"unknown command {a.cmd}")
     return out

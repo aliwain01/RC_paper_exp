@@ -157,7 +157,7 @@ def stress_test(paths: Paths, draw: int, *, families=None) -> pl.DataFrame:
     return out
 
 
-def explain(paths: Paths, draw: int, *, families=None, baselines=None, limit: int | None = None,
+def explain(paths: Paths, draw: int, *, families=None, baselines=None, folds=None, limit: int | None = None,
             resume: bool = True) -> dict:
     """Methods A-E for injected test providers under the injection model of their fold. Chunked and resumable as in
     Phase 4 (pieces under attributions/{family}/{baseline}/parts/{year}_fold{k}/, fingerprinted by the settings,
@@ -176,7 +176,7 @@ def explain(paths: Paths, draw: int, *, families=None, baselines=None, limit: in
     written = []
     for fam in families or icfg["families"]:
         for base in baselines or icfg["attribution_baselines"]:
-            for k in range(scfg.n_folds):
+            for k in sorted(folds if folds is not None else range(scfg.n_folds)):
                 files = []
                 mdir = model_dir(paths, draw, fam, k)
                 f = models.load(mdir / "seed0")
