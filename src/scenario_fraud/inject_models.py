@@ -185,12 +185,12 @@ def calibrate(paths: Paths) -> dict:
     elig = injection.eligibility(paths, [y], icfg)
     elig = elig.with_columns(pl.Series("_h", injection._h(elig["npi"], int(icfg["seed"]), 299, y)))
     out = {"year": y, "target_percentile": float(cal["target_percentile"]), "schemes": {}}
+    full = injection._year_frames(paths, y)
     for s in injection.SCHEME_ORDER:
         if s not in icfg["schemes"]:
             continue
         sample = injection._take_stratified(elig.filter(pl.col(f"ok_{s}")), int(cal["sample_per_scheme"]))
         npis = sample["npi"]
-        full = injection._year_frames(paths, y)
         coh = injection.injected_cohort(paths, y, npis)
         coh_in = coh.filter(pl.col("in_cohort"))
         lazy = {k: v.lazy() for k, v in full.items()}
@@ -208,7 +208,8 @@ def calibrate(paths: Paths) -> dict:
             sub = {k: v.filter(pl.col("npi").is_in(npis.implode())) for k, v in full.items()}
             sub["_full"] = full
             edited, _ = injection.apply_year(sub, who, coh, refs, fcfg, icfg, -1, y)
-            frames = {k: pl.concat([full[k].filter(~pl.col("npi").is_in(npis.implode())), edited[k]]).lazy()
+            # lazy, so the featurisation's semi-join on the injected NPIs never copies the full year (memory)
+            frames = {k: pl.concat([full[k].lazy().filter(~pl.col("npi").is_in(npis.implode())), edited[k].lazy()])
                       for k in features.DATASETS}
             frames["nppes"] = None
             inj_coh = coh_in.filter(pl.col("injected"))

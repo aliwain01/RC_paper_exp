@@ -540,13 +540,13 @@ def build(paths: Paths, draw: int, p: pl.DataFrame | None = None, *, years=None)
         # peer cells after re-counting without the injected providers (they never count, D22)
         who_y = who.drop("peer_cell").join(coh.select("npi", "peer_cell"), on="npi", how="left")
         edited, log = apply_year(sub, who_y, coh, refs, fcfg, icfg, draw, y)
-        frames = {k: pl.concat([full[k].filter(~pl.col("npi").is_in(npis.implode())), edited[k]], how="vertical")
-                  for k in features.DATASETS}
         for k, v in edited.items():
             d = out_dir / "edited" / k
             d.mkdir(parents=True, exist_ok=True)
             v.write_parquet(d / f"{y}.parquet")
-        lazy = {k: v.lazy() for k, v in frames.items()}
+        # lazy, so the year is not copied a second time before featurisation (memory)
+        lazy = {k: pl.concat([full[k].lazy().filter(~pl.col("npi").is_in(npis.implode())), edited[k].lazy()],
+                             how="vertical") for k in features.DATASETS}
         lazy["nppes"] = None
         raw = features.raw_statistics(lazy, coh_in, refs, y, fcfg)
         ps_ = features.fit_peer_stats(raw, coh_in, y, fcfg)
@@ -560,6 +560,7 @@ def build(paths: Paths, draw: int, p: pl.DataFrame | None = None, *, years=None)
         ps_.stats.write_parquet(pd_ / "stats.parquet")
         coh.write_parquet(pd_ / "cohort.parquet")
         logs.append(log)
+        del full, sub, edited, lazy, raw   # free the year before the next one is read
         summary["years"][y] = {"injected": int(npis.len()), "rows_suppressed_ps": int(log["ps_rows_suppressed_total"][0]),
                                "rows_suppressed_dme": int(log["dme_rows_suppressed_total"][0]),
                                "featurised": feat.height}
