@@ -209,11 +209,12 @@ def add_distractors(paths: Paths, p: pl.DataFrame, icfg: InjectionConfig) -> pl.
 
 # ----------------------------------------------------------------------------------------------- references
 
-def reference_tables(frames: dict[str, pl.DataFrame], coh: pl.DataFrame, refs: features.PeerReference,
+def reference_tables(frames: dict, coh: pl.DataFrame, refs: features.PeerReference,
                      fcfg: features.FeatureConfig, icfg: InjectionConfig) -> dict:
-    """Label-free medians from reference providers (in cohort, not injected) used to price added rows."""
-    ref = coh.filter(pl.col("in_cohort") & ~pl.col("injected")).select("npi", "peer_cell")
-    ps = frames["cms_ps"].join(ref, on="npi", how="inner").filter(pl.col("hcpcs_drug_ind") == "N")
+    """Label-free medians from reference providers (in cohort, not injected) used to price added rows. The year's
+    frames may be lazy: only the aggregates are collected (memory)."""
+    ref = coh.filter(pl.col("in_cohort") & ~pl.col("injected")).select("npi", "peer_cell").lazy()
+    ps = frames["cms_ps"].lazy().join(ref, on="npi", how="inner").filter(pl.col("hcpcs_drug_ind") == "N")
     aggs = [pl.col(c).median().alias(c) for c in AMT] + [pl.len().alias("n")]
     cell = ps.group_by("peer_cell", "hcpcs_cd", "place_of_srvc").agg(aggs)
     nat_place = ps.group_by("hcpcs_cd", "place_of_srvc").agg(aggs)
@@ -224,8 +225,9 @@ def reference_tables(frames: dict[str, pl.DataFrame], coh: pl.DataFrame, refs: f
         pl.col("place_of_srvc").mode().first().alias("place")))
     rare_cell = refs.codes.filter(pl.col("level") != "national").select(
         "peer_cell", "hcpcs_cd", pl.col("provider_share"))
+    cell, nat_place, nat = pl.collect_all([cell, nat_place, nat])
     out = {"cell": cell, "nat_place": nat_place, "nat": nat, "rare_cell": rare_cell}
-    ds = frames["dme_s"].join(ref, on="npi", how="inner")
+    ds = frames["dme_s"].lazy().join(ref, on="npi", how="inner")
     hr = ds.filter(features.high_risk_expr(fcfg))
     out["dme_codes"] = (hr.group_by("hcpcs_cd").agg(
         *[pl.col(c).median().alias(c) for c in DME_AMT], pl.col("npi").n_unique().alias("n_providers"),
@@ -233,9 +235,10 @@ def reference_tables(frames: dict[str, pl.DataFrame], coh: pl.DataFrame, refs: f
         (pl.col("tot_suplr_clms") / pl.col("tot_suplr_srvcs")).median().alias("clms_per_srv"),
         pl.col("suplr_rentl_ind").mode().first().alias("rental"), pl.col("rbcs_lvl").mode().first().alias("rbcs_lvl"),
         pl.col("rbcs_id").mode().first().alias("rbcs_id"))
-        .filter(pl.col("n_providers") >= int(icfg["transforms"]["dme"]["min_national_providers"])).sort("hcpcs_cd"))
+        .filter(pl.col("n_providers") >= int(icfg["transforms"]["dme"]["min_national_providers"])).sort("hcpcs_cd")
+        .collect())
     spend = ds.group_by("npi", "peer_cell").agg((pl.col("tot_suplr_srvcs") * pl.col("avg_suplr_mdcr_pymt_amt")).sum()
-                                                .alias("spend"))
+                                                .alias("spend")).collect()
     out["dme_spend_cell"] = spend.group_by("peer_cell").agg(pl.col("spend").median().alias("med_spend"))
     out["dme_spend_nat"] = float(spend["spend"].median()) if spend.height else float("nan")
     return out
@@ -504,11 +507,12 @@ def apply_year(frames: dict[str, pl.DataFrame], who: pl.DataFrame, coh: pl.DataF
 
 # ----------------------------------------------------------------------------------------------- build
 
-def _year_frames(paths: Paths, year: int) -> dict[str, pl.DataFrame]:
+def _year_frames(paths: Paths, year: int) -> dict[str, pl.LazyFrame]:
+    """The year's harmonised frames, lazy: a year of service-level rows does not fit in memory twice."""
     out = {}
     for ds in features.DATASETS:
         f = paths.interim / ds / f"{year}.parquet"
-        out[ds] = pl.read_parquet(f) if f.is_file() else features.empty_frame(paths, ds, year)
+        out[ds] = pl.scan_parquet(f) if f.is_file() else features.empty_frame(paths, ds, year).lazy()
     return out
 
 
@@ -534,8 +538,8 @@ def build(paths: Paths, draw: int, p: pl.DataFrame | None = None, *, years=None)
         full = _year_frames(paths, y)
         coh = injected_cohort(paths, y, npis)
         coh_in = coh.filter(pl.col("in_cohort"))
-        refs = features.fit_peer_reference({k: v.lazy() for k, v in full.items()}, coh_in, y, fcfg)
-        sub = {k: v.filter(pl.col("npi").is_in(npis.implode())) for k, v in full.items()}
+        refs = features.fit_peer_reference(full, coh_in, y, fcfg)
+        sub = {k: v.filter(pl.col("npi").is_in(npis.implode())).collect() for k, v in full.items()}
         sub["_full"] = full
         # peer cells after re-counting without the injected providers (they never count, D22)
         who_y = who.drop("peer_cell").join(coh.select("npi", "peer_cell"), on="npi", how="left")
@@ -545,7 +549,7 @@ def build(paths: Paths, draw: int, p: pl.DataFrame | None = None, *, years=None)
             d.mkdir(parents=True, exist_ok=True)
             v.write_parquet(d / f"{y}.parquet")
         # lazy, so the year is not copied a second time before featurisation (memory)
-        lazy = {k: pl.concat([full[k].lazy().filter(~pl.col("npi").is_in(npis.implode())), edited[k].lazy()],
+        lazy = {k: pl.concat([full[k].filter(~pl.col("npi").is_in(npis.implode())), edited[k].lazy()],
                              how="vertical") for k in features.DATASETS}
         lazy["nppes"] = None
         raw = features.raw_statistics(lazy, coh_in, refs, y, fcfg)

@@ -193,8 +193,7 @@ def calibrate(paths: Paths) -> dict:
         npis = sample["npi"]
         coh = injection.injected_cohort(paths, y, npis)
         coh_in = coh.filter(pl.col("in_cohort"))
-        lazy = {k: v.lazy() for k, v in full.items()}
-        lazy["nppes"] = None
+        lazy = dict(full, nppes=None)
         refs = features.fit_peer_reference(lazy, coh_in, y, fcfg)
         raw_ref = features.raw_statistics(lazy, coh_in.filter(~pl.col("injected")), refs, y, fcfg)
         ps_ = features.fit_peer_stats(raw_ref, coh_in, y, fcfg)
@@ -205,11 +204,11 @@ def calibrate(paths: Paths) -> dict:
         for x in cal["grid"][s]:
             who = sample.drop("peer_cell").join(coh.select("npi", "peer_cell"), on="npi").with_columns(
                 pl.lit(float(x)).alias(f"x_{s}"))
-            sub = {k: v.filter(pl.col("npi").is_in(npis.implode())) for k, v in full.items()}
+            sub = {k: v.filter(pl.col("npi").is_in(npis.implode())).collect() for k, v in full.items()}
             sub["_full"] = full
             edited, _ = injection.apply_year(sub, who, coh, refs, fcfg, icfg, -1, y)
             # lazy, so the featurisation's semi-join on the injected NPIs never copies the full year (memory)
-            frames = {k: pl.concat([full[k].lazy().filter(~pl.col("npi").is_in(npis.implode())), edited[k].lazy()])
+            frames = {k: pl.concat([full[k].filter(~pl.col("npi").is_in(npis.implode())), edited[k].lazy()])
                       for k in features.DATASETS}
             frames["nppes"] = None
             inj_coh = coh_in.filter(pl.col("injected"))
