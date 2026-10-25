@@ -135,3 +135,18 @@ def test_fairness_table():
     assert t["I"]["flagged"] == 2 and t["I"]["precision"] == 1.0 and t["O"]["flagged"] == 0
     assert t["I"]["flag_rate"] == 0.02 and t["I"]["flag_to_positive_ratio"] == pytest.approx(1.0)
     assert t["O"]["positive_rate"] == 0.01 and t["O"]["precision"] is None
+
+
+def test_inexact_method_a_rows_leave_comparisons():
+    """D126: a method A row whose sum misses v(N) − v(∅) by 1e-4 or more becomes NaN; exact rows and other methods stay."""
+    rng = np.random.default_rng(0)
+    V = rng.normal(size=(3, 2 ** ev.M))
+    A = rng.normal(size=(3, ev.M))
+    A[:, 0] += (V[:, -1] - V[:, 0]) - A.sum(axis=1)       # exact
+    A[1, 0] += 5e-5                                        # within tolerance
+    A[2, 0] += 2e-4                                        # beyond it
+    att = pl.DataFrame({"v": V.tolist(), "A": A.tolist(), "B": A.tolist()})
+    a = ev.group_vectors(att, "A")
+    assert np.isfinite(a[:2]).all() and np.isnan(a[2]).all()
+    assert np.isfinite(ev.group_vectors(att, "B")).all()
+    assert np.isfinite(ev.group_vectors(att.drop("v"), "A")).all()   # no v -> nothing to check against

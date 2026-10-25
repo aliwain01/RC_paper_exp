@@ -88,14 +88,27 @@ def stack(series: pl.Series, width: int) -> np.ndarray:
     return out
 
 
+A_TOL = 1e-4   # EXPERIMENT_PLAN §4 additivity tolerance of method A (interventional TreeSHAP)
+
+
+def exact_only(a: np.ndarray, v: pl.Series) -> np.ndarray:
+    """Method A rows whose sum misses v(N) − v(∅) by A_TOL or more -> NaN, so they leave every comparison (D126)."""
+    V = stack(v, 2 ** M)
+    with np.errstate(invalid="ignore"):
+        bad = ~(np.abs(a.sum(axis=1) - (V[:, -1] - V[:, 0])) < A_TOL)
+    return np.where((bad & np.isfinite(a).all(axis=1))[:, None], np.nan, a)
+
+
 def group_vectors(att: pl.DataFrame, method: str) -> np.ndarray:
-    """n × 8 group vector of a method (NaN rows where the method was not computed)."""
+    """n × 8 group vector of a method (NaN rows where the method was not computed, or where method A is not exact
+    and the frame carries v)."""
     if method == "C":
         Mx = stack(att["C"], M * M).reshape(-1, M, M)
         return np.diagonal(Mx, axis1=1, axis2=2).copy()
     if method not in att.columns:
         return np.full((att.height, M), np.nan)
-    return stack(att[method], M)
+    a = stack(att[method], M)
+    return exact_only(a, att["v"]) if method == "A" and "v" in att.columns else a
 
 
 def pair_matrix(att: pl.DataFrame, method: str) -> np.ndarray | None:
@@ -501,12 +514,14 @@ def run_baselines(paths: Paths, *, families=None) -> dict:
             peer, glob = load_attributions(paths, fam, "peer"), load_attributions(paths, fam, "global")
         except FileNotFoundError:
             continue
-        cols = ["npi", "year", *[m for m in ecfg["baselines"]["methods"] if m in peer.columns]]
+        cols = ["npi", "year", "v", *[m for m in ecfg["baselines"]["methods"] if m in peer.columns]]
         j = peer.select(cols).join(glob.select(cols), on=["npi", "year"], suffix="_g")
         for meth in ecfg["baselines"]["methods"]:
             if meth not in peer.columns or j.is_empty():
                 continue
             a, g = stack(j[meth], M), stack(j[f"{meth}_g"], M)
+            if meth == "A":
+                a, g = exact_only(a, j["v"]), exact_only(g, j["v_g"])
             ok = np.isfinite(a).all(axis=1) & np.isfinite(g).all(axis=1)
             a, g = a[ok], g[ok]
             if not len(a):

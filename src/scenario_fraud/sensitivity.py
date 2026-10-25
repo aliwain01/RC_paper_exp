@@ -277,7 +277,7 @@ def agreement_with_main(paths: Paths, vp: Paths, fams: list[str]) -> list[dict]:
             a, b = load_attributions(paths, f, "peer"), load_attributions(vp, f, "peer")
         except FileNotFoundError:
             continue
-        j = b.select("npi", "year", *[m for m in ("A", "B", "C", "D", "E") if m in b.columns]).join(
+        j = b.select("npi", "year", "v", *[m for m in ("A", "B", "C", "D", "E") if m in b.columns]).join(
             a, on=["npi", "year"], how="inner", suffix="_main")
         if j.is_empty():
             continue
@@ -285,7 +285,7 @@ def agreement_with_main(paths: Paths, vp: Paths, fams: list[str]) -> list[dict]:
             if not evaluate.method_available(j, m):
                 continue
             va = evaluate.group_vectors(j, m)[:, 1:]
-            main = j.select("npi", "year", *[pl.col(f"{c}_main").alias(c) for c in ("A", "B", "C", "D", "E")
+            main = j.select("npi", "year", *[pl.col(f"{c}_main").alias(c) for c in ("v", "A", "B", "C", "D", "E")
                                              if f"{c}_main" in j.columns])
             vm = evaluate.group_vectors(main, m)[:, 1:]
             ok = np.isfinite(va).all(axis=1) & np.isfinite(vm).all(axis=1)
