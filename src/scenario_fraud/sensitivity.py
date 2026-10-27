@@ -17,6 +17,7 @@ explanations of the same providers, and correctness on injected providers where 
 from __future__ import annotations
 
 import contextlib
+import hashlib
 import json
 import os
 import shutil
@@ -164,10 +165,31 @@ def grouping_doc(paths: Paths, moves: dict[str, str]) -> dict:
 
 # ----------------------------------------------------------------------------------------------- setup
 
-def setup(paths: Paths, vid: str, spec: dict, fams: list[str], draws: list[int]) -> tuple[Paths, dict]:
-    """Create the scratch project of one variant (configs, linked data, derived freeze record)."""
+def variant_fingerprint(paths: Paths, vid: str, spec: dict, fams: list[str], draws: list[int]) -> str:
+    """The variant's spec, families and draws, every main config file and the main G2 freeze: a scratch project or
+    result made under the same fingerprint is reused (D132)."""
+    frozen = (qa.load_freeze(paths) or {}).get("recorded_utc")
+    h = hashlib.sha256(json.dumps([vid, spec, fams, draws, frozen], sort_keys=True, default=str).encode())
+    for f in sorted(paths.configs.rglob("*")):
+        if f.is_file():
+            h.update(f.relative_to(paths.configs).as_posix().encode())
+            h.update(f.read_bytes())
+    return h.hexdigest()[:16]
+
+
+def setup(paths: Paths, vid: str, spec: dict, fams: list[str], draws: list[int], *, resume: bool = True,
+          fp: str | None = None) -> tuple[Paths, dict]:
+    """Create the scratch project of one variant (configs, linked data, derived freeze record). With `resume`, a
+    project whose setup.json records the same fingerprint is kept as it is, so the stages inside it (training,
+    attribution, injection models) resume where they stopped."""
     sc = load_config("evaluation", paths)
     root = variant_root(paths, vid)
+    fp = fp or variant_fingerprint(paths, vid, spec, fams, draws)
+    sj = root / "setup.json"
+    if resume and sj.is_file():
+        rec = json.loads(sj.read_text(encoding="utf-8"))
+        if rec.get("fp") == fp:
+            return Paths(root), rec["info"]
     if root.exists():
         shutil.rmtree(root)
     vp = Paths(root)
@@ -233,6 +255,7 @@ def setup(paths: Paths, vid: str, spec: dict, fams: list[str], draws: list[int])
                           "main_protocol_hashes": freeze["protocol_hashes"]}}
     (vp.phase2).mkdir(parents=True, exist_ok=True)
     (vp.phase2 / qa.FREEZE_FILE).write_text(json.dumps(rec, indent=1), encoding="utf-8")
+    sj.write_text(json.dumps({"fp": fp, "info": info}, default=str), encoding="utf-8")   # written last
     return vp, info
 
 
@@ -343,7 +366,9 @@ def from_main(paths: Paths, kind: str) -> dict:
 
 # ----------------------------------------------------------------------------------------------- orchestration
 
-def run_variant(paths: Paths, vid: str) -> dict:
+def run_variant(paths: Paths, vid: str, *, resume: bool = True) -> dict:
+    """One variant. With `resume`, a variant whose result records the same fingerprint is skipped, and an interrupted
+    one continues in its scratch project."""
     sc = load_config("evaluation", paths)
     spec = (sc["sensitivity"]["variants"] or {}).get(vid)
     if spec is None:
@@ -355,9 +380,15 @@ def run_variant(paths: Paths, vid: str) -> dict:
     fams = variant_families(paths, spec)
     draws = [int(d) for d in sc["sensitivity"]["draws"]]
     stages = list(spec.get("stages") or [])
-    vp, info = setup(paths, vid, spec, fams, draws)
+    fp = variant_fingerprint(paths, vid, spec, fams, draws)
+    rp = evaluate.out_dir(paths) / "sensitivity" / f"{vid}.json"
+    if resume and rp.is_file():
+        done = json.loads(rp.read_text(encoding="utf-8"))
+        if done.get("fingerprint") == fp:
+            return done
+    vp, info = setup(paths, vid, spec, fams, draws, resume=resume, fp=fp)
     res: dict = {"variant": vid, "what": spec.get("what"), "families": fams, "stages": stages,
-                 "root": paths.rel(vp.root), **info}
+                 "root": paths.rel(vp.root), "fingerprint": fp, **info}
     with as_root(vp.root):
         if "cohort" in stages:
             cohort.build_cohort(vp)
@@ -380,11 +411,11 @@ def run_variant(paths: Paths, vid: str) -> dict:
     return res
 
 
-def run(paths: Paths, variants=None) -> dict:
+def run(paths: Paths, variants=None, *, resume: bool = True) -> dict:
     train.check_frozen(paths)
     sc = load_config("evaluation", paths)
     ids = list(variants or sc["sensitivity"]["variants"])
-    return {vid: {"done": True, "families": run_variant(paths, vid).get("families")} for vid in ids}
+    return {vid: {"done": True, "families": run_variant(paths, vid, resume=resume).get("families")} for vid in ids}
 
 
 def load_results(paths: Paths) -> dict[str, dict]:

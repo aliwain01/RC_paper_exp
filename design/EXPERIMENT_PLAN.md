@@ -247,6 +247,7 @@ DESIGN §17 D90–D100; parameters in `configs/injection.yaml`.
 
 DESIGN §17 D106–D107; `configs/evaluation.yaml: sensitivity`; code in `sensitivity.py`.
 
+- **Resume** (D132): stability reuses runs written under the same fingerprint; a finished sensitivity variant is skipped and an interrupted one continues in its scratch project. Progress lines go to `outputs/phase6/progress.log`.
 - Each variant runs in a scratch project (`data/processed/sensitivity/{id}/`) holding the main configs with its overrides, the main data linked in place, and a freeze record derived from the main G2 freeze. S1 is run as three variants (W = 1, 2, 5).
 - Retrained variants reuse the main tuned hyperparameters with one seed. They explain a seeded 2,000-provider subsample of the main explained set, with the best GBM and the best glass box (S12: the best GBM and LR).
 - Injected providers are re-explained where a variant changes the explanations (S6, S7, S8; draw 0). S5 and S9 are read from the main evaluation.

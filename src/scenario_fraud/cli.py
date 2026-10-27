@@ -319,8 +319,10 @@ def _p6(sub: argparse._SubParsersAction) -> None:
     st = s.add_parser("stability", help="seeds, NPI-bootstrap retrains and perturbations on a subsample (E7)")
     st.add_argument("--family", action="append", default=None)
     st.add_argument("--kind", action="append", default=None, choices=list(stability.KINDS))
-    se = s.add_parser("sensitivity", help="sensitivity variants S1-S12 in scratch projects (E9)")
+    st.add_argument("--no-resume", action="store_true", help="recompute runs already written")
+    se = s.add_parser("sensitivity", help="sensitivity variants S1-S13 in scratch projects (E9)")
     se.add_argument("--variant", action="append", default=None)
+    se.add_argument("--no-resume", action="store_true", help="rerun variants already finished")
     s.add_parser("report", help="write outputs/phase6/evaluation_report.md")
 
 
@@ -328,10 +330,10 @@ def _run_phase6(paths: Paths, a: argparse.Namespace) -> dict:
     if a.cmd == "evaluate":
         return evaluate.run(paths, a.part)
     if a.cmd == "stability":
-        res = stability.run(paths, families=a.family, kinds=tuple(a.kind or stability.KINDS))
+        res = stability.run(paths, families=a.family, kinds=tuple(a.kind or stability.KINDS), resume=not a.no_resume)
         return {"n": res["n"], "families": {f: v["seeds"] for f, v in res["families"].items()}}
     if a.cmd == "sensitivity":
-        return sensitivity.run(paths, a.variant)
+        return sensitivity.run(paths, a.variant, resume=not a.no_resume)
     if a.cmd == "report":
         return {"report": paths.rel(eval_report.build_report(paths))}
     raise SystemExit(f"unknown command {a.cmd}")

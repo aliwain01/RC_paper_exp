@@ -14,6 +14,7 @@ import yaml
 
 from scenario_fraud import cli, evaluate, features, sensitivity, stability
 from scenario_fraud.attribute import load_attributions
+from scenario_fraud.config import load_config
 from scenario_fraud.paths import Paths
 from tests.conftest import REPO, copy_configs
 from tests.synth import make_synthetic
@@ -177,3 +178,44 @@ def test_sensitivity_variants(w):
     for v in ("S4", "S7", "S10"):
         a = Paths(w.processed / "sensitivity" / v).processed / "attributions"
         assert a.is_dir() and not a.is_symlink()
+
+
+def test_stability_resumes(w, capsys):
+    """Runs already written are reused (same values); a deleted run is recomputed identically; a settings change
+    recomputes the family."""
+    d = w.processed / "stability" / "xgb"
+    before = json.loads((w.phase6 / "stability.json").read_text())["families"]["xgb"]
+    ref = pl.read_parquet(d / "perturb0.parquet")
+    (d / "perturb0.parquet").unlink()
+    stability.run(w, families=["xgb"])
+    err = capsys.readouterr().err
+    assert "xgb perturb0:" in err and "seed0:" not in err and "boot0:" not in err
+    assert pl.read_parquet(d / "perturb0.parquet").equals(ref)
+    assert json.loads((w.phase6 / "stability.json").read_text())["families"]["xgb"] == before
+    e = yaml.safe_load((w.configs / "evaluation.yaml").read_text())
+    e["stability"]["perturbations"] = 2
+    (w.configs / "evaluation.yaml").write_text(yaml.safe_dump(e, sort_keys=False))
+    stability.run(w, families=["xgb"], kinds=("seed",))
+    assert "settings or models changed; recomputing" in capsys.readouterr().err
+    assert not (d / "perturb0.parquet").exists() and (d / "seed0.parquet").is_file()
+
+
+def test_sensitivity_resumes(w, monkeypatch):
+    """A finished variant is skipped; an interrupted one keeps its scratch project (setup.json)."""
+    vid = VARIANTS[0]
+    res = json.loads((w.phase6 / "sensitivity" / f"{vid}.json").read_text())
+    assert res.get("fingerprint")
+    calls = []
+    monkeypatch.setattr(sensitivity, "setup", lambda *a, **k: calls.append(1))
+    assert sensitivity.run_variant(w, vid) == res and calls == []
+    monkeypatch.undo()
+    monkeypatch.setenv("SCENARIO_FRAUD_ROOT", str(w.root))
+    root = sensitivity.variant_root(w, vid)
+    marker = root / "kept.txt"
+    marker.write_text("x")
+    spec = load_config("evaluation", w)["sensitivity"]["variants"][vid]
+    fams = sensitivity.variant_families(w, spec)
+    sensitivity.setup(w, vid, spec, fams, [0])
+    assert marker.is_file()
+    sensitivity.setup(w, vid, spec, fams, [0], resume=False)
+    assert not marker.exists()

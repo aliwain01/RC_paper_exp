@@ -11,11 +11,16 @@ recomputed (Phase 4 engine, same backgrounds) under
 Reported per family and method: top-1 agreement with the reference run (seeds, bootstraps, perturbations) and the
 mean pairwise Kendall τ_b over the 7 scheme groups within the seed runs and within the bootstrap runs.
 Runs: data/processed/stability/{family}/{seed,boot,perturb}{i}.parquet; models: stability/models/; summary:
-outputs/phase6/stability.json.
+outputs/phase6/stability.json. Resumable (DESIGN §17 D132): each run is written as soon as it is computed and reused
+on a rerun under the same fingerprint (family plan.json); progress lines go to outputs/phase6/progress.log.
 """
 
 from __future__ import annotations
 
+import hashlib
+import json
+import shutil
+import time
 from itertools import combinations
 from typing import Callable
 
@@ -23,7 +28,7 @@ import numpy as np
 import polars as pl
 
 from . import features, models, splits, train
-from .attribute import col_groups, explain_rows
+from .attribute import _Log, _write, col_groups, explain_rows
 from .attribution import background as bgm
 from .config import load_config
 from .evaluate import METHODS, group_vectors, out_dir, write_json
@@ -230,11 +235,31 @@ def summarise(runs: dict[tuple[str, int], pl.DataFrame]) -> list[dict]:
 
 # ----------------------------------------------------------------------------------------------- orchestration
 
-def run(paths: Paths, *, families=None, kinds=KINDS) -> dict:
+def _fingerprint(paths: Paths, fam: str, sub: pl.DataFrame, st: dict, seed: int, folds: list[int]) -> str:
+    """Everything a family's runs depend on: the subsample, the stability settings, the attribution and background
+    settings and the family's tuned models (their tuning records)."""
+    acfg = load_config("attribution", paths)
+    bcfg = bgm.BackgroundConfig.load(paths)
+    tun = {}
+    for k in folds:
+        tj = train.model_dir(paths, "primary", fam, k) / "tuning.json"
+        t = json.loads(tj.read_text(encoding="utf-8")) if tj.is_file() else {}
+        tun[k] = {key: t.get(key) for key in ("best_params", "fingerprint", "seeds", "n_trials")}
+    doc = {"st": st, "seed": seed, "acfg": {key: acfg.get(key) for key in ("background", "deletion", "shap_families",
+                                                                          "reference_seed", "seed")},
+           "bcfg": {key: str(v) for key, v in sorted(vars(bcfg).items())}, "models": tun,
+           "sub": hashlib.sha256(sub.select("npi", "year", "fold").write_csv().encode()).hexdigest()}
+    return hashlib.sha256(json.dumps(doc, sort_keys=True, default=str).encode()).hexdigest()[:16]
+
+
+def run(paths: Paths, *, families=None, kinds=KINDS, resume: bool = True) -> dict:
+    """With `resume`, a run already written under the family's fingerprint is loaded instead of recomputed; a changed
+    fingerprint (or resume=False) clears the family's runs and bootstrap models first."""
     train.check_frozen(paths)
     sc = load_config("evaluation", paths)
     st = sc["stability"]
     seed = int(sc["seed"])
+    log = _Log(paths, out_dir(paths) / "progress.log")
     sub = subsample(paths, int(st["n"]), seed)
     feats = year_features(paths, sorted(sub["year"].unique().to_list()))
     base = st["baseline"]
@@ -245,30 +270,48 @@ def run(paths: Paths, *, families=None, kinds=KINDS) -> dict:
         mdirs = {k: train.model_dir(paths, "primary", fam, k) for k in folds}
         if not all((d / "seed0").is_dir() for d in mdirs.values()):
             continue
+        fdir = stab_dir(paths) / fam
+        fp = _fingerprint(paths, fam, sub, st, seed, folds)
+        plan = fdir / "plan.json"
+        if not (resume and plan.is_file() and json.loads(plan.read_text(encoding="utf-8")).get("fp") == fp):
+            for d in (fdir, stab_dir(paths) / "models" / fam):
+                if d.exists():
+                    if resume:
+                        log(f"stability {fam}: settings or models changed; recomputing")
+                    shutil.rmtree(d)
+            fdir.mkdir(parents=True)
+            plan.write_text(json.dumps({"fp": fp}), encoding="utf-8")
         n_seeds = min(int(st["seeds"]), *[len(list(d.glob("seed*"))) for d in mdirs.values()])
         runs: dict[tuple[str, int], pl.DataFrame] = {}
-        if "seed" in kinds:
-            for s in range(n_seeds):
-                runs[("seed", s)] = attribute_subsample(
-                    paths, lambda k, s=s: models.load(mdirs[k] / f"seed{s}"), sub, feats, base)
-        else:
-            runs[("seed", 0)] = attribute_subsample(paths, lambda k: models.load(mdirs[k] / "seed0"), sub, feats, base)
+
+        def get(kind: str, i: int, compute: Callable[[], pl.DataFrame]) -> None:
+            p_ = fdir / f"{kind}{i}.parquet"
+            if p_.is_file():
+                runs[(kind, i)] = pl.read_parquet(p_)
+                return
+            t0 = time.perf_counter()
+            runs[(kind, i)] = compute()
+            _write(runs[(kind, i)], p_)
+            log(f"stability {fam} {kind}{i}: {runs[(kind, i)].height} providers, {time.perf_counter() - t0:.0f}s")
+
+        for s in range(n_seeds if "seed" in kinds else 1):
+            get("seed", s, lambda s=s: attribute_subsample(
+                paths, lambda k: models.load(mdirs[k] / f"seed{s}"), sub, feats, base))
         if "boot" in kinds and int(st["bootstraps"]):
-            df = df if df is not None else load_design(paths, "primary")
             for b in range(int(st["bootstraps"])):
-                runs[("boot", b)] = attribute_subsample(
-                    paths, lambda k, b=b: bootstrap_model(paths, fam, k, b, df), sub, feats, base)
+                if not (fdir / f"boot{b}.parquet").is_file():
+                    df = df if df is not None else load_design(paths, "primary")
+                get("boot", b, lambda b=b: attribute_subsample(
+                    paths, lambda k: bootstrap_model(paths, fam, k, b, df), sub, feats, base))
         if "perturb" in kinds:
             for p in range(int(st["perturbations"])):
-                runs[("perturb", p)] = attribute_subsample(
-                    paths, lambda k: models.load(mdirs[k] / "seed0"), sub, feats, base, perturber(paths, p, seed))
+                get("perturb", p, lambda p=p: attribute_subsample(
+                    paths, lambda k: models.load(mdirs[k] / "seed0"), sub, feats, base, perturber(paths, p, seed)))
         keys = runs[("seed", 0)].select("npi", "year")
         for (kind, i), r in runs.items():
             if not r.select("npi", "year").equals(keys):
                 raise RuntimeError(f"stability run {kind}{i} of {fam} explains different rows than the reference")
-            p_ = stab_dir(paths) / fam / f"{kind}{i}.parquet"
-            p_.parent.mkdir(parents=True, exist_ok=True)
-            r.write_parquet(p_)
         out["families"][fam] = {"seeds": n_seeds, "summary": summarise(runs)}
+        log(f"stability {fam}: done ({len(runs)} runs)")
     write_json(out_dir(paths) / "stability.json", out)
     return out
