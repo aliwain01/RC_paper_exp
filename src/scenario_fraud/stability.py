@@ -236,8 +236,9 @@ def summarise(runs: dict[tuple[str, int], pl.DataFrame]) -> list[dict]:
 # ----------------------------------------------------------------------------------------------- orchestration
 
 def _fingerprint(paths: Paths, fam: str, sub: pl.DataFrame, st: dict, seed: int, folds: list[int]) -> str:
-    """Everything a family's runs depend on: the subsample, the stability settings, the attribution and background
-    settings and the family's tuned models (their tuning records)."""
+    """Everything a family's runs depend on: the subsample, the baseline, the attribution and background settings and
+    the family's tuned models (their tuning records). The run counts are left out: run i does not depend on how many
+    runs there are, so changing a count keeps the runs already written."""
     acfg = load_config("attribution", paths)
     bcfg = bgm.BackgroundConfig.load(paths)
     tun = {}
@@ -245,7 +246,8 @@ def _fingerprint(paths: Paths, fam: str, sub: pl.DataFrame, st: dict, seed: int,
         tj = train.model_dir(paths, "primary", fam, k) / "tuning.json"
         t = json.loads(tj.read_text(encoding="utf-8")) if tj.is_file() else {}
         tun[k] = {key: t.get(key) for key in ("best_params", "fingerprint", "seeds", "n_trials")}
-    doc = {"st": st, "seed": seed, "acfg": {key: acfg.get(key) for key in ("background", "deletion", "shap_families",
+    doc = {"st": {key: v for key, v in st.items() if key not in ("seeds", "bootstraps", "perturbations", "families")},
+           "seed": seed, "acfg": {key: acfg.get(key) for key in ("background", "deletion", "shap_families",
                                                                           "reference_seed", "seed")},
            "bcfg": {key: str(v) for key, v in sorted(vars(bcfg).items())}, "models": tun,
            "sub": hashlib.sha256(sub.select("npi", "year", "fold").write_csv().encode()).hexdigest()}

@@ -181,8 +181,8 @@ def test_sensitivity_variants(w):
 
 
 def test_stability_resumes(w, capsys):
-    """Runs already written are reused (same values); a deleted run is recomputed identically; a settings change
-    recomputes the family."""
+    """Runs already written are reused (same values); a deleted run is recomputed identically; a run-count change
+    keeps the runs; a subsample change recomputes the family."""
     d = w.processed / "stability" / "xgb"
     before = json.loads((w.phase6 / "stability.json").read_text())["families"]["xgb"]
     ref = pl.read_parquet(d / "perturb0.parquet")
@@ -193,7 +193,11 @@ def test_stability_resumes(w, capsys):
     assert pl.read_parquet(d / "perturb0.parquet").equals(ref)
     assert json.loads((w.phase6 / "stability.json").read_text())["families"]["xgb"] == before
     e = yaml.safe_load((w.configs / "evaluation.yaml").read_text())
-    e["stability"]["perturbations"] = 2
+    e["stability"]["perturbations"] = 0                  # a count change keeps the runs written
+    (w.configs / "evaluation.yaml").write_text(yaml.safe_dump(e, sort_keys=False))
+    stability.run(w, families=["xgb"])
+    assert "recomputing" not in capsys.readouterr().err and (d / "perturb0.parquet").is_file()
+    e["stability"]["n"] = 20                             # a different subsample does not
     (w.configs / "evaluation.yaml").write_text(yaml.safe_dump(e, sort_keys=False))
     stability.run(w, families=["xgb"], kinds=("seed",))
     assert "settings or models changed; recomputing" in capsys.readouterr().err
