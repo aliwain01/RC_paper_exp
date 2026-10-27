@@ -194,3 +194,16 @@ def test_injected_copy_has_complete_model_columns(w):
     np.testing.assert_array_equal(matrix(full, cols), matrix(lean, cols))
     s = json.loads((injection.draw_dir(w, 0) / "summary.json").read_text())
     assert all("dropped_no_visible_rows" in v for v in s["years"].values())
+
+
+def test_shift_profile_skips_dropped_injections(w):
+    """An injected provider-year missing from the injected copy (D131) is left out of the shift profile."""
+    from scenario_fraud import g5_report
+    icfg = injection.InjectionConfig.load(w)
+    before = {r["schemes"]: r["n"] for r in g5_report.shift_profile(w, 0, icfg)}
+    f = injection.draw_dir(w, 0) / "features" / "2022.parquet"
+    df = pl.read_parquet(f)
+    gone = df.filter(pl.col("injected")).row(0, named=True)["npi"]
+    df.filter(pl.col("npi") != gone).write_parquet(f)
+    after = {r["schemes"]: r["n"] for r in g5_report.shift_profile(w, 0, icfg)}
+    assert sum(before.values()) - sum(after.values()) == 1

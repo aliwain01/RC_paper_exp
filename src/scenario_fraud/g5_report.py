@@ -80,8 +80,10 @@ def shift_profile(paths: Paths, draw: int, icfg: injection.InjectionConfig) -> l
     cl = features.load_features(paths, years)
     rows = []
     for (key,), g in plan.with_columns(pl.col("schemes").list.join("+").alias("k")).group_by("k"):
+        # provider-years dropped from the injected copy (D131) have no injected row: compare the ones present in both
         a = g.select("npi", "year").join(inj, on=["npi", "year"]).sort("npi", "year")
-        b = g.select("npi", "year").join(cl, on=["npi", "year"]).sort("npi", "year")
+        b = a.select("npi", "year").join(cl, on=["npi", "year"]).sort("npi", "year")
+        a = a.join(b.select("npi", "year"), on=["npi", "year"], how="semi").sort("npi", "year")
         row = {"schemes": key, "n": a.height}
         for grp, cols in up.items():
             cols = [c for c in cols if c in a.columns and c in b.columns]
