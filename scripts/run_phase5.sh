@@ -21,7 +21,14 @@ step() {
 if [ $# -gt 0 ]; then DRAWS="$*"; else
   DRAWS=$("$PY" -c "import yaml; print(' '.join(str(d) for d in range(yaml.safe_load(open('configs/injection.yaml'))['draws'])))")
 fi
+# A draw finished under the same configs and code is skipped outright (its steps would only re-check finished work)
+STAMP=$(cat configs/*.yaml src/scenario_fraud/*.py src/scenario_fraud/*/*.py | sha256sum | cut -c1-16)
 for d in $DRAWS; do
+  MARK=data/processed/injection/draw$d/phase5_done
+  if [ -f "$MARK" ] && [ "$(cat "$MARK")" = "$STAMP" ]; then
+    echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) DRAW $d already done, skipped" | tee -a "$LOG"
+    continue
+  fi
   echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) STEP build draw $d" | tee -a "$LOG"
   if ! scripts/run_phase5_build.sh "$d" >>"$LOG" 2>&1; then
     echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) FAILED build draw $d" | tee -a "$LOG"
@@ -30,6 +37,7 @@ for d in $DRAWS; do
   step phase5 train --draw "$d"
   step phase5 stress --draw "$d"
   step phase5 explain --draw "$d"
+  echo "$STAMP" > "$MARK"
   echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) DRAW $d DONE" | tee -a "$LOG"
 done
 step phase5 report
