@@ -108,7 +108,9 @@ def design_years(design: str, scfg: splits.SplitConfig) -> tuple[int, ...]:
 
 
 def load_design(paths: Paths, design: str, *, label_tier: str | None = None, W: int | None = None,
-                years=None) -> DesignFrame:
+                years=None, lean: bool = False) -> DesignFrame:
+    """The design's rows with labels and folds. `lean`: model columns kept as Float32 (the model matrix's type, so
+    fits are unchanged) and raw__ statistics never loaded, for callers that hold other large frames (D133)."""
     lcfg = LabelConfig.load(paths)
     scfg = splits.SplitConfig.load(paths)
     tier, W = label_tier or lcfg.primary_tier, int(W or lcfg.W)
@@ -116,7 +118,7 @@ def load_design(paths: Paths, design: str, *, label_tier: str | None = None, W: 
     lab_path = paths.processed / f"labels_{tier}_W{W}.parquet"
     if not lab_path.is_file():
         raise MatrixError(f"{paths.rel(lab_path)} missing (run phase1 labels)")
-    feats = features.load_features(paths, years)
+    feats = features.load_features(paths, years, model_only=lean)
     labels = (pl.scan_parquet(lab_path).filter(pl.col("year").is_in(list(years)) & pl.col("y").is_not_null())
               .select("npi", pl.col("year").cast(pl.Int32), pl.col("y").cast(pl.Int8), "label_horizon_complete")
               .collect())

@@ -1074,15 +1074,24 @@ def _meta(feat: pl.DataFrame, raw: pl.DataFrame, ps: PeerStats, refs: PeerRefere
     }
 
 
-def load_features(paths: Paths, years: Iterable[int]) -> pl.DataFrame:
+def load_features(paths: Paths, years: Iterable[int], *, model_only: bool = False) -> pl.DataFrame:
     """Feature tables of several years stacked; one-hot columns absent in a year (a category without reference
-    providers that year) are 0."""
+    providers that year) are 0. `model_only`: no raw__ statistics and float columns as Float32, which is what the
+    model matrix uses anyway (memory, D133)."""
     cfg = FeatureConfig.load(paths)
     files = [paths.processed / "features" / f"{int(y)}.parquet" for y in years]
     missing = [paths.rel(f) for f in files if not f.is_file()]
     if missing:
         raise FeatureError(f"feature tables missing: {missing}")
-    df = pl.concat([pl.read_parquet(f) for f in files], how="diagonal_relaxed")
+    if model_only:
+        def lean(f):
+            lf = pl.scan_parquet(f)
+            sch = lf.collect_schema()
+            return lf.select([pl.col(c).cast(pl.Float32) if sch[c] == pl.Float64 else pl.col(c)
+                              for c in sch.names() if not c.startswith(RAW)]).collect()
+        df = pl.concat([lean(f) for f in files], how="diagonal_relaxed")
+    else:
+        df = pl.concat([pl.read_parquet(f) for f in files], how="diagonal_relaxed")
     hot = tuple(f"{s.id}__" for s in cfg.one_hot)
     return df.with_columns(pl.col(c).fill_null(0) for c in df.columns if c.startswith(hot))
 

@@ -107,7 +107,7 @@ def bootstrap_model(paths: Paths, family: str, fold: int, b: int, df=None) -> mo
     mcfg = models.ModelConfig.load(paths)
     scfg = splits.SplitConfig.load(paths)
     seed = int(load_config("evaluation", paths)["seed"])
-    df = df if df is not None else load_design(paths, "primary")
+    df = df if df is not None else load_design(paths, "primary", lean=True)
     fr, _, _, final, _ = train.fold_rows(df, fold, mcfg, scfg)
     npis = final["npi"].unique().sort()
     rng = np.random.default_rng(np.random.SeedSequence([seed, _BOOT, fold, b]))
@@ -302,7 +302,7 @@ def run(paths: Paths, *, families=None, kinds=KINDS, resume: bool = True) -> dic
         if "boot" in kinds and int(st["bootstraps"]):
             for b in range(int(st["bootstraps"])):
                 if not (fdir / f"boot{b}.parquet").is_file():
-                    df = df if df is not None else load_design(paths, "primary")
+                    df = df if df is not None else load_design(paths, "primary", lean=True)
                 get("boot", b, lambda b=b: attribute_subsample(
                     paths, lambda k: bootstrap_model(paths, fam, k, b, df), sub, feats, base))
         if "perturb" in kinds:

@@ -223,3 +223,12 @@ def test_sensitivity_resumes(w, monkeypatch):
     assert marker.is_file()
     sensitivity.setup(w, vid, spec, fams, [0], resume=False)
     assert not marker.exists()
+
+
+def test_lean_design_gives_the_same_matrix(w):
+    """D133: the lean design (model columns as Float32, no raw__) yields the model matrix of the full design."""
+    from scenario_fraud.modelmatrix import load_design, matrix
+    full, lean = load_design(w, "primary"), load_design(w, "primary", lean=True)
+    assert full.columns == lean.columns and not any(c.startswith(features.RAW) for c in lean.frame.columns)
+    np.testing.assert_array_equal(matrix(full.frame, full.columns), matrix(lean.frame, lean.columns))
+    assert full.frame.select("npi", "year", "y", "fold").equals(lean.frame.select("npi", "year", "y", "fold"))
