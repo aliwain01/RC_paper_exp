@@ -212,7 +212,8 @@ def build_report(paths: Paths) -> Path:
     if sens:
         rows = []
         for vid, r in sens.items():
-            row = {"variant": vid, "what": r.get("what")}
+            row = {"variant": vid, "what": r.get("what") if not r.get("not_estimable")
+                   else f"{r.get('what')} (not estimable: {r['not_estimable']})"}
             fam = best.get("gbm")
             det, det0 = (r.get("detection") or {}).get(fam), (r.get("detection_main") or {}).get(fam)
             row["PR-AUC (variant / main)"] = f"{fmt(det['pr_auc']) if det else '–'} / {fmt(det0['pr_auc']) if det0 else '–'}"

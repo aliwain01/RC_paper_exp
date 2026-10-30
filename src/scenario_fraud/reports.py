@@ -112,7 +112,8 @@ def sensitivity_rows(paths: Paths, best: dict) -> list[dict]:
         ag = next((a for a in r.get("agreement_with_main", []) if a["family"] == fam and a["method"] == "B"), None)
         co = next((c for c in r.get("correctness", []) if c["family"] == fam and c["method"] == "B"), None)
         cs = next((c for c in r.get("consistency", []) if c["gbm"] == fam and c["method"] == "B"), None)
-        rows.append({"Variant": vid, "Description": r.get("what"),
+        what = r.get("what") if not r.get("not_estimable") else f"{r.get('what')} (not estimable: {r['not_estimable']})"
+        rows.append({"Variant": vid, "Description": what,
                      "PR-AUC (variant)": fmt(det["pr_auc"]) if det else "–",
                      "PR-AUC (main)": fmt(det0["pr_auc"]) if det0 else "–",
                      "Top-1 agree with main (B)": fmt(ag["top1_agreement"]) if ag else "–",

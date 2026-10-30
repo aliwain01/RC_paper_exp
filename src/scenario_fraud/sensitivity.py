@@ -395,7 +395,15 @@ def run_variant(paths: Paths, vid: str, *, resume: bool = True) -> dict:
         if "features" in stages:
             features.build_features(vp)
         if "train" in stages:
-            train.train_design(vp, "primary", families=fams)
+            try:
+                train.train_design(vp, "primary", families=fams)
+            except train.TrainError as e:
+                if "min_valid_positives" not in str(e):
+                    raise
+                # D134: too few validation positives to fit under the protocol's guard: reported, not forced
+                res["not_estimable"] = str(e)
+                write_json(evaluate.out_dir(paths) / "sensitivity" / f"{vid}.json", res)
+                return res
         if "explain" in stages or spec.get("grouping"):
             res["explained"] = write_explained(paths, vp, int(sc["sensitivity"]["explain_n"]), int(sc["seed"]), fams,
                                               "train" in stages)

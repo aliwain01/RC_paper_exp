@@ -232,3 +232,19 @@ def test_lean_design_gives_the_same_matrix(w):
     assert full.columns == lean.columns and not any(c.startswith(features.RAW) for c in lean.frame.columns)
     np.testing.assert_array_equal(matrix(full.frame, full.columns), matrix(lean.frame, lean.columns))
     assert full.frame.select("npi", "year", "y", "fold").equals(lean.frame.select("npi", "year", "y", "fold"))
+
+
+def test_variant_without_validation_positives_is_not_estimable(w, monkeypatch):
+    """D134: a variant whose training stops on the min_valid_positives guard is recorded as not estimable."""
+    from scenario_fraud import train as train_mod
+
+    def refuse(*a, **k):
+        raise train_mod.TrainError("primary fold 0: tune_valid has 0 positives (< models.yaml min_valid_positives = 5)")
+
+    monkeypatch.setattr(train_mod, "train_design", refuse)
+    res = sensitivity.run_variant(w, "S4", resume=False)
+    assert "min_valid_positives" in res["not_estimable"]
+    assert json.loads((w.phase6 / "sensitivity" / "S4.json").read_text())["not_estimable"] == res["not_estimable"]
+    monkeypatch.setattr(train_mod, "train_design", lambda *a, **k: (_ for _ in ()).throw(train_mod.TrainError("other")))
+    with pytest.raises(train_mod.TrainError):
+        sensitivity.run_variant(w, "S4", resume=False)
