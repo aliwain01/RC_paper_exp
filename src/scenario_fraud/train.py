@@ -109,7 +109,7 @@ def train_design(paths: Paths, design: str, *, families=None, folds=None, seeds:
     fold_ids = sorted(int(k) for k in (folds if folds is not None else range(scfg.n_folds)))
     log = _Log(paths)
     log(f"{design}: families {fams}, folds {fold_ids}, {trials} trials, {n_seeds} seeds, resume={resume}")
-    df = load_design(paths, design)
+    df = load_design(paths, design, lean=True)   # model columns as Float32, as the model matrix uses (D136)
     summary = {"design": design, "label_tier": df.label_tier, "W": df.W, "rows": df.frame.height,
                "columns": len(df.columns), "folds": {}}
     for k in fold_ids:
