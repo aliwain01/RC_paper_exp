@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Phase 6 on real data (DESIGN §17 D132): evaluation parts, stability (E7), sensitivity variants (E9), then the
+# Phase 6 on real data (DESIGN §17 D132, D135): evaluation parts, stability (E7), sensitivity variants (E9), then the
 # evaluation report. Resumable: `evaluate` is skipped when it finished under the same configs and code; stability runs
 # and sensitivity variants already finished are reused. Progress: outputs/phase6/run_phase6.log and
 # outputs/phase6/progress.log. Usage: scripts/run_phase6.sh
@@ -26,6 +26,11 @@ else
   echo "$STAMP" > "$MARK"
 fi
 step phase6 stability
-step phase6 sensitivity
+# one process per variant: a variant's design and models are freed before the next one loads its own (D135)
+VARIANTS=$("$PY" -c "import yaml; print(' '.join(yaml.safe_load(open('configs/evaluation.yaml'))['sensitivity']['variants']))")
+for v in $VARIANTS; do
+  step phase6 sensitivity --variant "$v"
+done
+step phase6 sensitivity   # every variant done: reloads the results and lists them
 step phase6 report
 echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) ALL DONE" | tee -a "$LOG"
