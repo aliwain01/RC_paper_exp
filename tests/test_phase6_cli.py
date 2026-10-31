@@ -97,6 +97,7 @@ def test_commands_and_report(world, w):
     assert "SYNTHETIC DATA: NOT A RESULT" in md
     for h in ("T1 Detection", "T2 Correctness", "T3 Consistency", "T4 Faithfulness", "E8", "E9", "E10", "§10.8"):
         assert h in md
+    assert "deletion median (B)" in md        # E9 reports the median deletion area, as T4 (D104)
     for part in evaluate.PARTS:
         assert (w.phase6 / f"{part}.json").is_file()
 

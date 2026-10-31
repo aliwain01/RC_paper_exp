@@ -222,7 +222,8 @@ def build_report(paths: Paths) -> Path:
             cs = next((c for c in r.get("consistency", []) if c["gbm"] == fam and c["method"] == "B"), None)
             row["cos vs glass box (B)"] = fmt(cs["cosine"]) if cs else "–"
             fa = next((f for f in r.get("faithfulness", []) if f["family"] == fam and f["method"] == "B"), None)
-            row["deletion (B)"] = fmt(fa["deletion"]) if fa else "–"
+            # the median, as in T4: the mean normalised area is unbounded (D104)
+            row["deletion median (B)"] = fmt(fa.get("median", fa["deletion"])) if fa else "–"
             co = next((c for c in r.get("correctness", []) if c["family"] == fam and c["method"] == "B"), None)
             row["top-1 injected (B)"] = fmt(co["top1"]) if co else "–"
             rows.append(row)
