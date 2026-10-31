@@ -1,0 +1,33 @@
+{
+  "path": "data/raw/leie/2025/2507excl.csv",
+  "source": "leie",
+  "year": 2025,
+  "kind": "supplement_excl",
+  "as_of": "2025-07",
+  "sha256": "e970823bb2f14a00b05cb4cc9df90ddeb2d71114842cbbccc843f9f1215ea994",
+  "size_bytes": 45823,
+  "encoding": "utf-8-sig",
+  "n_columns": 18,
+  "columns": [
+    "LASTNAME",
+    "FIRSTNAME",
+    "MIDNAME",
+    "BUSNAME",
+    "GENERAL",
+    "SPECIALTY",
+    "UPIN",
+    "NPI",
+    "DOB",
+    "ADDRESS",
+    "CITY",
+    "STATE",
+    "ZIP",
+    "EXCLTYPE",
+    "EXCLDATE",
+    "REINDATE",
+    "WAIVERDATE",
+    "WVRSTATE"
+  ],
+  "n_rows": 242,
+  "row_counter": "duckdb"
+}

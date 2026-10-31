@@ -32,6 +32,24 @@ Freeze this protocol before any test result is seen. Changes after Phase 3 start
 - **Showcase:** 2024, scored by the primary models (no accuracy claims).
 - **Negative subsampling (training only):** all positives + a random 15 % of negatives (fixed seed, identical for every model family), weighted 1/0.15. Test data are never subsampled.
 
+### Implementation notes (Phase 2, C7)
+
+How `src/scenario_fraud/splits.py` and `configs/experiment.yaml: splits` resolve what this section leaves open. Each choice is a DESIGN §17 row; D54–D58 and D60–D63 are proposed (confirm at G2), and D59 is open. Built and tested on synthetic data only.
+
+- **Folds** (D54–D56). Folds cover the NPIs with at least one in-cohort year. The specialty stratum is the NPI's modal `prvdr_type` over those years; a tie goes to the latest tied year. "Ever-positive" means an exclusion under any `labels.yaml` tier, at any date. Strata are laid end to end and NPIs are ordered by a seeded hash, so fold sizes, positives per fold and every stratum's count per fold differ by at most 1.
+- **Tuning hold-out** (D57). H_k is exactly ⌊0.2 N⌋ of the N NPIs outside fold k, stratified the same way. It differs per fold and is the same for every design.
+- **Roles** (D58), for train years [a, b] and test years [c, e]:
+  - `test`: fold-k NPIs in years [c, e].
+  - `tune_valid`: H_k NPIs in year b ("validate on their 2021 rows").
+  - `tune_train`: the other non-k NPIs in years [a, b − 1] ("train on 2018–2020").
+  - `train`: the remaining non-k rows of years [a, b].
+- **Final model and calibration (open, D59).** The training set is every non-k row of the train years. This section says the final model trains on all of it, while DESIGN §7.8 says "calibration on the validation slice". The two cannot both hold without calibrating on the final model's own training rows. Phase 3 must choose one of these options, and the choice is listed as a G2 decision:
+  - (i) the final model on all training rows, with a calibrator fitted on the tuning model's held-out scores or on cross-fitted scores;
+  - (ii) the final model on `train` + `tune_train`, with the calibrator fitted on its `tune_valid` scores.
+- **Rolling origins and 2020** (D60). O1's last train year is 2020, so O1 validates on the flagged COVID year. For sensitivity S4, `split_rows(..., exclude_years=[2020])` gives 2020 rows the role `none` and validates on the last remaining train year (O1: 2019).
+- **Showcase** (D61). Fold-k NPIs' 2024 rows are scored by their own fold's primary-design model.
+- **Negative subsampling** (D63). Each negative (npi, year) is kept independently when its seeded hash falls below the rate, so the sample is about 15 % rather than an exact count. Kept negatives get weight 1/rate. The sample is the same for every model family, fold and design, and the 15 % sample is nested in the 30 % one (S12).
+
 ---
 
 ## 3. Detection metrics (E1)
@@ -49,9 +67,20 @@ For a test year with *N* scored provider-years:
 - Δ = GBM − best glass box, with 95 % CI from a paired bootstrap over NPIs (resample NPIs with all their rows; 1,000 replicates).
 - Holm correction across k.
 - H1 is supported if both Δ PR-AUC and Δ precision@1 % have CIs > 0.
-- **Matched tuning budget:** 60 Optuna TPE trials per family; objective = validation PR-AUC.
+- **Matched tuning budget:** 30 Optuna TPE trials per family (60 planned; reduced at the Phase 3 timing run, DESIGN §17 D120); objective = validation PR-AUC.
 
 **Power note.** With prevalence plausibly ≈ 0.02–0.05 % and ≈ 1.1 M providers per test year, there are on the order of 200–550 positive provider-years per year. These numbers are assumptions until Phase 1. Precision@0.1 % rests on ≈ 1,100 flagged providers per year. If Phase 1 counts make CIs uninformative, RQ1 is reported descriptively (design doc §16).
+
+### Implementation notes (Phase 3, C8 and metrics)
+
+DESIGN §17 D73–D81 hold the reasons; parameters live in `configs/models.yaml` and `experiment.yaml: evaluation`.
+
+- **Families:** `lr`, `ebm`, `ga2m`, `xgb`, `xgb_mono`, `lgbm`, `lgbm_mono`. "GBM" in T1 and Δ is the better of XGBoost and LightGBM by mean validation average precision; "GBM (monotone)" likewise among the monotone variants; the best glass box among LR, EBM and GA²M (D74).
+- **Tuning:** 30 Optuna TPE trials per family and fold on the primary design (D120); rolling origins reuse those parameters with one seed (D75). Tuning stops if `tune_valid` has fewer than 5 positives (D80).
+- **Final fit and calibration:** all training rows; isotonic calibrator from the tuning model's validation margins (D79; the D59 choice is still open).
+- **Metrics:** providers are ranked by their within-fold percentile of the margin (D125), so the five fold models' different margin scales cannot crowd each other out; pooled precision/recall@k sum per-year counts; ties broken by a fixed hash; Holm adjusts two-sided bootstrap p-values; T1 CIs are NPI-bootstrap percentile intervals of the seed-0 models (D81).
+- **Guard:** training refuses to start before the G2 freeze record exists, or if the frozen parameters changed (D73).
+- **Resume** (D120): a (family, fold) whose `tuning.json` records the same trial budget and seed count is skipped; an interrupted tuning replays its logged trials (`progress/trials.jsonl`) through the same seeded sampler, so the result equals an uninterrupted run; saved seed models are loaded. All three reuse work only under the same settings fingerprint (the family's models.yaml section, the pos_weight space, tuning seed, final fit, calibration source and design columns); a changed setting retrains. `phase3 train --no-resume` retrains from scratch. Progress lines go to `outputs/phase3/train_progress.log`.
 
 ---
 
@@ -80,6 +109,16 @@ For a test year with *N* scored provider-years:
 3. On a linear model, Φᴮ equals method D's LR group sums (up to background averaging).
 
 **Unit test (C11):** \|Σ φ − (*f*(*x*) − mean_B *f*)\| < 1e-4.
+
+### Implementation notes (Phase 4, C9–C12)
+
+DESIGN §17 D82–D89; parameters in `configs/attribution.yaml`.
+
+- **Backgrounds:** a peer cell is used while it has ≥ 50 training-fold providers; up to 200 are drawn in a seeded order, else the next level up (D82–D83). The global baseline is 1,000 providers stratified by specialty (D84); at G4 it was cut to 200 and run for the best GBM only (D124). Memberships are stored for provenance. Attribution is computed in resumable chunks of 1,000 providers (D123).
+- **Explained set:** top 2 % of the best GBM's seed-0 margins ∪ a stratified random 5,000 per test year ∪ injected test providers (D85).
+- **Methods:** coalition tables for every family (B, C, E, deletion), A for tree families, D for glass boxes, both baselines (D89). Method A needs a full-size `Independent` masker (D87).
+- **Unit tests:** all three tests above pass to 1e-6 or better (`tests/test_attribution_engine.py`). D equals B exactly for LR and EBM without pairs, and A equals B for depth-1 trees. `phase4 report` re-checks additivity on the stored attributions.
+- **Deletion:** groups removed by decreasing signed attribution; trapezoid area / 8; defined for providers above their baseline (D86).
 
 ---
 
@@ -120,6 +159,16 @@ For method *M*'s order π: f₀ = *v*(*N*), f₁ = *v*(*N*∖{π₁}), …, f₈
 - mean pairwise Kendall τ;
 - **perturbation:** binomial resampling of rate numerators given denominators, recompute features → top-1 agreement.
 
+### Implementation notes (Phase 6, C13: §5)
+
+DESIGN §17 D101–D105; parameters in `configs/evaluation.yaml`; code in `evaluate.py` and `stability.py`. Built and tested on synthetic data only.
+
+- **Vectors and ranks** (D101): the 7 scheme groups; a group is found only with a positive contribution; ties by group order. Method C ranks by its diagonal and its pair hit uses M_GH + M_HG; GA²M's D uses its pair cells. Chance levels are exact for each answer key, so DME mill has chance top-1 2/7 and top-3 5/7.
+- **T2** (D102): single schemes at medium intensity; distractor top-1 over medium single-scheme distractors; compound columns over the pairs.
+- **Consistency** (D103): flags at k = 1 % from each family's seed-0 out-of-fold margins; the permutation partner is another provider of the same year and flag stratum.
+- **Faithfulness** (D104): stored deletion scores plus method C's (diagonal order), over all explained providers above their baseline and over the top 2 %. Reported as medians: the normalised area is unbounded when contributions have mixed signs and f(x) is close to its baseline.
+- **Stability** (D105): one 2,000-provider subsample explained in every run (10 seeds, 10 NPI-bootstrap retrains, 10 perturbations) with the same backgrounds. Perturbation redraws the numerators of the count-based (shrunk) rates and recomputes their z from the persisted peer statistics.
+
 ---
 
 ## 6. Scheme injection (E4, E5; component C6)
@@ -158,7 +207,21 @@ For method *M*'s order π: f₀ = *v*(*N*), f₁ = *v*(*N*∖{π₁}), …, f₈
 | Charge inflation | multiply `Avg_Sbmtd_Chrg` by *c*; allowed and paid unchanged | Prov submitted-charge total | c = 1.3 / 1.7 / 2.2 |
 | DME mill referrals | add DME-S rows in high-risk categories worth *d* × the peer-cell median DME spend, with `Tot_Suplrs` = 1–2 | DME-P beneficiary and payment totals | d = 2 / 4 / 8 |
 
-Intensities are starting values, calibrated in Phase 5 so that "medium" places the primary feature near the peer 95th percentile. The calibration is reported.
+Intensities are starting values, calibrated in Phase 5 so that "medium" places the primary feature near the peer 95th percentile. The calibration is reported. **Accepted at G5 (DESIGN §17 D129):** upcoding 0.70 / 0.85 / 1.0; overutilization 1.8 / 3.0 / 4.0; atypical services 0.01 / 0.05 / 0.10; charge inflation 1.5 / 2.0 / 2.6; DME mill 4 / 16 / 32.
+
+### Implementation notes (Phase 5, C6)
+
+DESIGN §17 D90–D100; parameters in `configs/injection.yaml`.
+
+- **Answer key:** each scheme maps to its group. DME mill counts as correct for either DME group, so its chance top-1 is 2/7. Expected spill-over groups are listed per scheme (D90).
+- **Transforms:** upcoding splits moved services ½/½ between 99214 and 99215 (D91). Atypical services add 3 rare codes at national median prices (D93). DME mill adds 2 high-risk codes with 1–2 suppliers (D94). Summary totals change by the visible change; edited rows are re-suppressed (D92).
+- **Featurising:** each draw's injected copy is re-featurised with injected providers excluded from peer cells and statistics. The G5 report checks this against checklist L2 and L5 (D95).
+- **Plan and distractors:** each provider-year is injected at most once per draw, stratified by specialty (D96). Distractors are defined on the clean features (D97).
+- **Calibration:** `phase5 calibrate` reports the peer percentile of each scheme's primary feature over an intensity grid, and the human accepts the grid at G5 (D98).
+- **Resume of injection models and their attributions** (D130): `phase5 train` skips a (family, fold) whose `done.json` records the same fingerprint (the draw's build, the reused parameters, the model and split settings); `phase5 explain` writes chunked pieces as in Phase 4 (D123) and skips pieces already written under the same settings, injection model and providers. `--no-resume` redoes both. Progress lines go to `outputs/phase5/progress.log`.
+- **Unobservable injections** (D131): an injected provider-year left without visible service-level rows after re-suppression is dropped from the injected copy and counted in the G5 report.
+- **Memory and resume** (D127): the year's files are scanned lazily; `phase5 build` skips years finished under the same settings and plan, takes `--year`, and `scripts/run_phase5_build.sh` builds each year in its own process.
+- **Models:** injection models reuse the LEIE models' tuned parameters, and LEIE positives are removed. Use (a) is a percentile rank among clean test rows (D99). Injected providers are explained with the Phase 4 engine (D100).
 
 ---
 
@@ -178,12 +241,26 @@ Intensities are starting values, calibrated in Phase 5 so that "medium" places t
 | S10 | Peer cells with vs without region |
 | S11 | **Prior-work-compatible label tier** (a1, a2, a3, b4, b7, c3G), for comparability with FAU results |
 | S12 | Negative subsampling 15 % vs 30 % (GBM and LR only) |
+| S13 | Primary tier + the unsplit 1128(b)(1) (G1 decision, DESIGN §17 D117) |
+
+### Implementation notes (Phase 6, C13: §7)
+
+DESIGN §17 D106–D107; `configs/evaluation.yaml: sensitivity`; code in `sensitivity.py`.
+
+- **Resume** (D132): stability reuses runs written under the same fingerprint; a finished sensitivity variant is skipped and an interrupted one continues in its scratch project. Progress lines go to `outputs/phase6/progress.log`.
+- Each variant runs in a scratch project (`data/processed/sensitivity/{id}/`) holding the main configs with its overrides, the main data linked in place, and a freeze record derived from the main G2 freeze. S1 is run as three variants (W = 1, 2, 5).
+- Retrained variants reuse the main tuned hyperparameters with one seed. They explain a seeded 2,000-provider subsample of the main explained set, with the best GBM and the best glass box (S12: the best GBM and LR).
+- Injected providers are re-explained where a variant changes the explanations (S6, S7, S8; draw 0). S5 and S9 are read from the main evaluation.
+- S6 clusters the scheme-group features on 1 − |Spearman ρ| (average linkage, 7 clusters). Each cluster is named after the scheme group it overlaps most, so the answer key still applies.
+- Reported per variant: detection of the variant's models next to the same main models; consistency; faithfulness; top-1 agreement and Kendall τ with the main explanations of the same providers; correctness where re-explained.
 
 ---
 
 ## 8. Fairness profile (E10)
 
 At k ∈ {0.5, 1} %, by specialty, entity type, Census division and RUCA class: flag rate, precision, and flag rate ÷ positive rate. Descriptive only, interpreted in light of LEIE enforcement patterns.
+
+**Implementation notes (Phase 6).** Best GBM and best glass box, seed 0. Flags are the top ⌈k·N⌉ of each test year, pooled over the test years (D108). `phase6 report` fills the §9 shells and names the DESIGN §10.8 row the numbers are consistent with, using the D108 rule; the human decides the branch.
 
 ---
 
@@ -222,6 +299,8 @@ At k ∈ {0.5, 1} %, by specialty, entity type, Census division and RUCA class: 
 
 | Model · method | Deletion ↓ | Random order | Top-1 agree (seeds) | Kendall τ (bootstrap) |
 |---|---|---|---|---|
+
+**Implementation notes (Phase 6–7).** `phase6 report` fills these shells (`outputs/phase6/evaluation_report.md`). `phase7 tables` writes T1–T4, the sensitivity table and the fairness table as Markdown, CSV and LaTeX; `phase7 figures` draws the DESIGN §12 figures (DESIGN §17 D112). T4 reports median deletion scores (D104).
 
 ---
 

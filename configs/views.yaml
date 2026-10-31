@@ -1,0 +1,49 @@
+# C14 indicator & view renderer (DESIGN §9.6, §11; CONTRACTS §7). Views are mock-ups for the design proposal
+# (DESIGN §11.5): no live case-management system, nothing leaves the project (HANDOFF §8 rule 6).
+
+seed: 20261020
+family: null                 # model whose record is rendered; null = the best GBM (D74)
+baseline: peer
+primary_method: B            # DESIGN §9.6 step 1: default B; the human picks it after the §10 results
+max_indicators: 3            # §9.6 step 2: up to 3 groups ...
+min_contribution: 0.1        # ... with a positive contribution >= 0.1 log-odds
+mitigating_max: -0.1         # negative contributions at or below this are listed as mitigating factors
+compound_min: 0.1            # §9.6 step 3: pairs with M_GH + M_HG >= 0.1 log-odds (method C)
+supporting_facts: 2          # §9.6 step 4: 1-2 features per indicator (largest per-feature contribution in the group)
+
+# Plain-language labels and policy reasons per scheme group. `policy_reason` is what an external notice may say
+# (§11.3 rule 4: external reasons come from the decision record, not from raw attributions).
+groups:
+  upcoding: {label: "Upcoding", policy_reason: "the level of evaluation and management services billed"}
+  overutilization: {label: "Overutilization", policy_reason: "the number of services billed per patient"}
+  atypical_mix: {label: "Atypical service mix", policy_reason: "services that are uncommon for your specialty"}
+  charge_inflation: {label: "Charge inflation", policy_reason: "submitted charges relative to allowed amounts"}
+  patient_mix: {label: "Patient mix", policy_reason: "service intensity relative to the documented patient mix"}
+  dme_intensity: {label: "DME referral intensity", policy_reason: "durable medical equipment orders"}
+  dme_concentration: {label: "DME referral concentration", policy_reason: "durable medical equipment orders filled by few suppliers"}
+
+# Actions a human decision may record (mock decisions only, DESIGN §11.2). `external`: whether the provider and
+# beneficiary notices are produced.
+actions:
+  no_action: {external: false, text: "No action"}
+  education: {external: true, text: "Educational peer-comparison letter"}
+  adr: {external: true, text: "Additional documentation request (ADR)"}
+  prepayment_review: {external: true, text: "Prepayment review"}
+  referral: {external: false, text: "Referral for investigation"}
+
+# §11.3 rules 2, 3 and 5, enforced on the rendered text of the external views (case-insensitive whole words).
+# A view that contains one of these fails to render.
+forbidden:
+  provider: [score, scores, probability, risk, rank, ranked, model, algorithm, machine, fraud, fraudulent,
+             threshold, percentile, attribution, shap, shapley, log-odds, investigation, suspicious]
+  beneficiary: [fraud, fraudulent, investigation, investigator, score, risk, model, suspicious, billing, peer,
+                provider's, abuse, exclusion]
+
+templates:
+  provider: |
+    We are reviewing a sample of your {year} Medicare claims and request supporting documentation for the services
+    listed. For context, your billing differs from peers in your specialty and region: {facts}. This comparison is
+    informational and is not a finding. [Response and appeal instructions.]
+  beneficiary: |
+    Payment for your [date of service] visit is under routine review. You do not need to do anything.
+    [Appeal rights if a claim is later denied.]

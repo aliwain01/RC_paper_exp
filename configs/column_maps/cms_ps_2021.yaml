@@ -1,0 +1,42 @@
+# Column map for cms_ps 2021. Draft generated from the real header dump; review every line
+# against the file header and that year's CMS data dictionary, then set reviewed: true.
+# Reviewed 2026-10-19 (Phase 1): every mapped column checked against the header dump and the CMS data dictionary
+# (RY25/RY24 PDFs in data/raw/*/2024); columns, names and meanings are identical in all years 2018-2024.
+dataset: cms_ps
+year: 2021
+reviewed: true
+written_from:
+  path: "data/raw/cms_ps/2021/MUP_PHY_R25_P05_V20_D21_Prov_Svc.csv.gz"
+  sha256: "4e3d65744b60441e6236430c863260928157924d8ba3c6a056e462a4dfdc9b50"
+  header_dump: "outputs/phase1/headers/cms_ps_2021_MUP_PHY_R25_P05_V20_D21_Prov_Svc.json"
+  n_columns: 28
+null_values: [""]
+columns:
+  "Rndrng_NPI": npi    # template
+  "Rndrng_Prvdr_Last_Org_Name": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_First_Name": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_MI": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_Crdntls": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_Ent_Cd": ent_cd    # template
+  "Rndrng_Prvdr_St1": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_St2": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_City": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_State_Abrvtn": state    # template
+  "Rndrng_Prvdr_State_FIPS": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_Zip5": zip5    # template
+  "Rndrng_Prvdr_RUCA": ruca    # template
+  "Rndrng_Prvdr_RUCA_Desc": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_Cntry": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_Type": prvdr_type    # template
+  "Rndrng_Prvdr_Mdcr_Prtcptg_Ind": mdcr_prtcptg_ind    # template
+  "HCPCS_Cd": hcpcs_cd    # template
+  "HCPCS_Desc": hcpcs_desc    # template
+  "HCPCS_Drug_Ind": hcpcs_drug_ind    # template
+  "Place_Of_Srvc": place_of_srvc    # template
+  "Tot_Benes": tot_benes    # template
+  "Tot_Srvcs": tot_srvcs    # template
+  "Tot_Bene_Day_Srvcs": tot_bene_day_srvcs    # template
+  "Avg_Sbmtd_Chrg": avg_sbmtd_chrg    # template
+  "Avg_Mdcr_Alowd_Amt": avg_mdcr_alowd_amt    # template
+  "Avg_Mdcr_Pymt_Amt": avg_mdcr_pymt_amt    # template
+  "Avg_Mdcr_Stdzd_Amt": avg_mdcr_stdzd_amt    # template

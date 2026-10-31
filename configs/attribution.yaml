@@ -1,0 +1,45 @@
+# Phase 4 attribution (DESIGN §9; EXPERIMENT_PLAN §4; CONTRACTS §4). |B| and the explained-set size are set at
+# gate G4 from the timing benchmark; the values below are the plan's defaults.
+
+seed: 20261017
+
+background:
+  B: 200                 # EXPERIMENT_PLAN §4: up to 200 same-year, same-peer-cell, training-fold providers
+  # Design gap (DESIGN §17 D82; confirm at G4): the plan says "fall back up the peer hierarchy if < 200". A literal
+  # 200 would push almost every refined (>= 200 in-cohort, ~160 training-fold) cell up to specialty x entity and
+  # unmatch Census division. A cell is used while it has >= min_background training-fold providers; up to B of
+  # them are drawn.
+  min_background: 50
+  B_global: 200          # global baseline: same-year training-fold providers, stratified by specialty; 1000 -> 200
+                         # at G4 (D124): the same |B| as the peer baseline, method A at 1000 would cost ~35 h
+
+explained:
+  design: primary
+  top_frac: 0.02         # DESIGN §9.5: top 2 % by out-of-fold GBM score per test year
+  top_within: fold_year  # D125: the top 2 % of each fold's own model per test year (fold models' margins differ in
+                         # scale; pooled margins put ~60 % of the top 2 % in one fold)
+  random_n: 5000         # + a stratified random 5,000 per test year (stratified by specialty)
+  # The GBM whose scores pick the top 2 %: the best GBM by validation average precision (DESIGN §17 D74).
+
+# Families whose coalition tables are computed (methods B, C, E, deletion). E6 asks for every model x method pair;
+# narrowed at G4 if the benchmark says so.
+coalition_families: [lr, ebm, ga2m, xgb, xgb_mono, lgbm, lgbm_mono]
+shap_families: [xgb, xgb_mono, lgbm, lgbm_mono]     # method A (interventional TreeSHAP)
+glassbox_families: [lr, ebm, ga2m]                  # method D
+baselines: [peer, global]                           # RQ5 / E8
+global_families: [xgb]   # G4 (D124): the global baseline only for the best GBM (D74); RQ5 is answered for it
+chunk_rows: 1000         # resume unit (D123): explained providers per chunk written to parts/
+reference_seed: 0
+
+batch_rows: 500000       # hybrid rows predicted per call (memory: batch_rows x columns x 4 bytes)
+
+deletion:
+  random_orders: 50      # EXPERIMENT_PLAN §5.3 random-order baseline
+
+diagnostics:
+  path_dependent_n: 2000 # A-path and TreeSHAP interaction values on a subsample (DESIGN §9.4)
+
+bench:
+  rows: 200000           # hybrid rows per timing run
+  B_options: [100, 200]
+  budget_hours: 24       # compute budget the G4 report compares projections against (human sets at G4)
