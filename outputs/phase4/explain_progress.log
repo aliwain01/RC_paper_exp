@@ -1,0 +1,584 @@
+2026-10-23T07:47:35Z explain: families ['lr', 'ebm', 'ga2m', 'xgb', 'xgb_mono', 'lgbm', 'lgbm_mono'], baselines ['peer', 'global'], folds [0, 1, 2, 3, 4], years [2022, 2023], chunk_rows 1000, resume=True
+2026-10-23T07:52:56Z lr/peer 2022 fold 0: chunk 1/2 (1000 providers) 307.2s
+2026-10-23T07:58:02Z lr/peer 2022 fold 0: chunk 2/2 (942 providers) 305.6s
+2026-10-23T11:46:01Z explain: families ['lr', 'ebm', 'ga2m', 'xgb', 'xgb_mono', 'lgbm', 'lgbm_mono'], baselines ['peer', 'global'], folds [0, 1, 2, 3, 4], years [2022, 2023], chunk_rows 1000, resume=True
+2026-10-23T11:46:26Z lr/peer 2022 fold 0: settings or providers changed; recomputing
+2026-10-23T12:53:12Z explain: families ['lr', 'ebm', 'ga2m', 'xgb', 'xgb_mono', 'lgbm', 'lgbm_mono'], baselines ['peer', 'global'], folds [0, 1, 2, 3, 4], years [2022, 2023], chunk_rows 1000, resume=True
+2026-10-23T13:02:56Z lr/peer 2022 fold 0: chunk 1/6 (979 providers) 572.5s
+2026-10-23T13:11:54Z lr/peer 2022 fold 0: chunk 2/6 (977 providers) 538.6s
+2026-10-23T13:21:18Z lr/peer 2022 fold 0: chunk 3/6 (999 providers) 564.1s
+2026-10-23T13:30:02Z lr/peer 2022 fold 0: chunk 4/6 (1000 providers) 523.8s
+2026-10-23T13:39:43Z lr/peer 2022 fold 0: chunk 5/6 (998 providers) 580.6s
+2026-10-23T13:41:02Z lr/peer 2022 fold 0: chunk 6/6 (129 providers) 79.6s
+2026-10-23T13:41:04Z ebm/peer 2022 fold 0: settings or providers changed; recomputing
+2026-10-23T13:45:59Z ebm/peer 2022 fold 0: chunk 1/6 (979 providers) 294.0s
+2026-10-23T13:51:16Z ebm/peer 2022 fold 0: chunk 2/6 (977 providers) 317.6s
+2026-10-23T13:56:30Z ebm/peer 2022 fold 0: chunk 3/6 (999 providers) 313.6s
+2026-10-23T14:01:22Z ebm/peer 2022 fold 0: chunk 4/6 (1000 providers) 292.0s
+2026-10-23T14:05:44Z ebm/peer 2022 fold 0: chunk 5/6 (998 providers) 262.6s
+2026-10-23T14:06:15Z ebm/peer 2022 fold 0: chunk 6/6 (129 providers) 30.8s
+2026-10-23T14:11:59Z ga2m/peer 2022 fold 0: chunk 1/6 (979 providers) 341.4s
+2026-10-23T14:17:34Z ga2m/peer 2022 fold 0: chunk 2/6 (977 providers) 334.6s
+2026-10-23T14:22:59Z ga2m/peer 2022 fold 0: chunk 3/6 (999 providers) 325.1s
+2026-10-23T14:27:57Z ga2m/peer 2022 fold 0: chunk 4/6 (1000 providers) 297.4s
+2026-10-23T14:32:08Z ga2m/peer 2022 fold 0: chunk 5/6 (998 providers) 251.2s
+2026-10-23T14:32:36Z ga2m/peer 2022 fold 0: chunk 6/6 (129 providers) 28.6s
+2026-10-23T14:35:13Z xgb/peer 2022 fold 0: chunk 1/6 (979 providers) 153.9s
+2026-10-23T14:38:04Z xgb/peer 2022 fold 0: chunk 2/6 (977 providers) 170.6s
+2026-10-23T14:40:47Z xgb/peer 2022 fold 0: chunk 3/6 (999 providers) 163.5s
+2026-10-23T14:43:39Z xgb/peer 2022 fold 0: chunk 4/6 (1000 providers) 172.0s
+2026-10-23T14:46:28Z xgb/peer 2022 fold 0: chunk 5/6 (998 providers) 169.2s
+2026-10-23T14:46:54Z xgb/peer 2022 fold 0: chunk 6/6 (129 providers) 25.5s
+2026-10-23T14:50:10Z xgb/global 2022 fold 0: chunk 1/6 (1000 providers) 195.1s
+2026-10-23T14:53:19Z xgb/global 2022 fold 0: chunk 2/6 (1000 providers) 189.1s
+2026-10-23T14:56:32Z xgb/global 2022 fold 0: chunk 3/6 (1000 providers) 193.7s
+2026-10-23T14:59:48Z xgb/global 2022 fold 0: chunk 4/6 (1000 providers) 195.2s
+2026-10-23T15:02:56Z xgb/global 2022 fold 0: chunk 5/6 (1000 providers) 188.4s
+2026-10-23T15:03:13Z xgb/global 2022 fold 0: chunk 6/6 (82 providers) 16.7s
+2026-10-23T15:05:14Z xgb_mono/peer 2022 fold 0: chunk 1/6 (979 providers) 116.8s
+2026-10-23T15:06:56Z xgb_mono/peer 2022 fold 0: chunk 2/6 (977 providers) 102.4s
+2026-10-23T15:08:37Z xgb_mono/peer 2022 fold 0: chunk 3/6 (999 providers) 100.8s
+2026-10-23T15:10:26Z xgb_mono/peer 2022 fold 0: chunk 4/6 (1000 providers) 109.3s
+2026-10-23T15:12:15Z xgb_mono/peer 2022 fold 0: chunk 5/6 (998 providers) 108.8s
+2026-10-23T15:12:30Z xgb_mono/peer 2022 fold 0: chunk 6/6 (129 providers) 15.3s
+2026-10-23T15:15:45Z lgbm/peer 2022 fold 0: chunk 1/6 (979 providers) 191.8s
+2026-10-23T15:18:48Z lgbm/peer 2022 fold 0: chunk 2/6 (977 providers) 182.2s
+2026-10-23T15:22:07Z lgbm/peer 2022 fold 0: chunk 3/6 (999 providers) 199.4s
+2026-10-23T15:25:16Z lgbm/peer 2022 fold 0: chunk 4/6 (1000 providers) 189.0s
+2026-10-23T15:28:14Z lgbm/peer 2022 fold 0: chunk 5/6 (998 providers) 177.7s
+2026-10-23T15:28:38Z lgbm/peer 2022 fold 0: chunk 6/6 (129 providers) 23.8s
+2026-10-23T15:31:22Z lgbm_mono/peer 2022 fold 0: chunk 1/6 (979 providers) 161.3s
+2026-10-23T15:34:00Z lgbm_mono/peer 2022 fold 0: chunk 2/6 (977 providers) 158.1s
+2026-10-23T15:36:33Z lgbm_mono/peer 2022 fold 0: chunk 3/6 (999 providers) 152.5s
+2026-10-23T15:39:00Z lgbm_mono/peer 2022 fold 0: chunk 4/6 (1000 providers) 147.0s
+2026-10-23T15:41:19Z lgbm_mono/peer 2022 fold 0: chunk 5/6 (998 providers) 139.6s
+2026-10-23T15:41:38Z lgbm_mono/peer 2022 fold 0: chunk 6/6 (129 providers) 19.0s
+2026-10-23T15:48:24Z lr/peer 2022 fold 1: chunk 1/6 (891 providers) 402.6s
+2026-10-23T15:55:34Z lr/peer 2022 fold 1: chunk 2/6 (935 providers) 429.5s
+2026-10-23T16:02:18Z lr/peer 2022 fold 1: chunk 3/6 (997 providers) 404.4s
+2026-10-23T16:08:56Z lr/peer 2022 fold 1: chunk 4/6 (993 providers) 397.7s
+2026-10-23T16:15:49Z lr/peer 2022 fold 1: chunk 5/6 (998 providers) 412.6s
+2026-10-23T16:17:52Z lr/peer 2022 fold 1: chunk 6/6 (300 providers) 122.8s
+2026-10-23T16:22:17Z ebm/peer 2022 fold 1: chunk 1/6 (891 providers) 261.6s
+2026-10-23T16:26:56Z ebm/peer 2022 fold 1: chunk 2/6 (935 providers) 279.4s
+2026-10-23T16:31:53Z ebm/peer 2022 fold 1: chunk 3/6 (997 providers) 296.4s
+2026-10-23T16:36:37Z ebm/peer 2022 fold 1: chunk 4/6 (993 providers) 284.2s
+2026-10-23T16:41:04Z ebm/peer 2022 fold 1: chunk 5/6 (998 providers) 267.5s
+2026-10-23T16:42:16Z ebm/peer 2022 fold 1: chunk 6/6 (300 providers) 72.2s
+2026-10-23T16:46:59Z ga2m/peer 2022 fold 1: chunk 1/6 (891 providers) 279.9s
+2026-10-23T16:51:58Z ga2m/peer 2022 fold 1: chunk 2/6 (935 providers) 299.2s
+2026-10-23T16:57:06Z ga2m/peer 2022 fold 1: chunk 3/6 (997 providers) 308.5s
+2026-10-23T17:02:13Z ga2m/peer 2022 fold 1: chunk 4/6 (993 providers) 306.1s
+2026-10-23T17:06:58Z ga2m/peer 2022 fold 1: chunk 5/6 (998 providers) 285.3s
+2026-10-23T17:08:07Z ga2m/peer 2022 fold 1: chunk 6/6 (300 providers) 68.8s
+2026-10-23T17:12:30Z xgb/peer 2022 fold 1: chunk 1/6 (891 providers) 261.7s
+2026-10-23T17:17:05Z xgb/peer 2022 fold 1: chunk 2/6 (935 providers) 274.7s
+2026-10-23T17:21:35Z xgb/peer 2022 fold 1: chunk 3/6 (997 providers) 270.3s
+2026-10-23T17:25:55Z xgb/peer 2022 fold 1: chunk 4/6 (993 providers) 259.9s
+2026-10-23T17:30:22Z xgb/peer 2022 fold 1: chunk 5/6 (998 providers) 266.7s
+2026-10-23T17:31:49Z xgb/peer 2022 fold 1: chunk 6/6 (300 providers) 86.9s
+2026-10-23T17:36:20Z xgb/global 2022 fold 1: chunk 1/6 (1000 providers) 271.0s
+2026-10-23T17:40:57Z xgb/global 2022 fold 1: chunk 2/6 (1000 providers) 276.8s
+2026-10-23T17:45:58Z xgb/global 2022 fold 1: chunk 3/6 (1000 providers) 301.3s
+2026-10-23T17:50:54Z xgb/global 2022 fold 1: chunk 4/6 (1000 providers) 296.1s
+2026-10-23T17:55:31Z xgb/global 2022 fold 1: chunk 5/6 (1000 providers) 277.2s
+2026-10-23T17:56:04Z xgb/global 2022 fold 1: chunk 6/6 (114 providers) 32.4s
+2026-10-23T17:57:55Z xgb_mono/peer 2022 fold 1: chunk 1/6 (891 providers) 109.3s
+2026-10-23T17:59:43Z xgb_mono/peer 2022 fold 1: chunk 2/6 (935 providers) 108.2s
+2026-10-23T18:01:45Z xgb_mono/peer 2022 fold 1: chunk 3/6 (997 providers) 121.6s
+2026-10-23T18:03:49Z xgb_mono/peer 2022 fold 1: chunk 4/6 (993 providers) 124.2s
+2026-10-23T18:05:47Z xgb_mono/peer 2022 fold 1: chunk 5/6 (998 providers) 118.3s
+2026-10-23T18:06:25Z xgb_mono/peer 2022 fold 1: chunk 6/6 (300 providers) 38.1s
+2026-10-23T18:08:24Z lgbm/peer 2022 fold 1: chunk 1/6 (891 providers) 115.9s
+2026-10-23T18:10:32Z lgbm/peer 2022 fold 1: chunk 2/6 (935 providers) 127.9s
+2026-10-23T18:12:37Z lgbm/peer 2022 fold 1: chunk 3/6 (997 providers) 125.1s
+2026-10-23T18:14:52Z lgbm/peer 2022 fold 1: chunk 4/6 (993 providers) 135.3s
+2026-10-23T18:16:52Z lgbm/peer 2022 fold 1: chunk 5/6 (998 providers) 119.9s
+2026-10-23T18:17:24Z lgbm/peer 2022 fold 1: chunk 6/6 (300 providers) 31.9s
+2026-10-23T18:35:24Z lgbm_mono/peer 2022 fold 1: chunk 1/6 (891 providers) 1078.4s
+2026-10-23T18:54:22Z lgbm_mono/peer 2022 fold 1: chunk 2/6 (935 providers) 1137.6s
+2026-10-23T19:14:39Z lgbm_mono/peer 2022 fold 1: chunk 3/6 (997 providers) 1216.6s
+2026-10-23T19:34:41Z lgbm_mono/peer 2022 fold 1: chunk 4/6 (993 providers) 1202.4s
+2026-10-23T19:54:50Z lgbm_mono/peer 2022 fold 1: chunk 5/6 (998 providers) 1208.7s
+2026-10-23T20:01:22Z lgbm_mono/peer 2022 fold 1: chunk 6/6 (300 providers) 392.5s
+2026-10-23T20:07:10Z lr/peer 2022 fold 2: chunk 1/6 (962 providers) 344.5s
+2026-10-23T20:13:22Z lr/peer 2022 fold 2: chunk 2/6 (999 providers) 371.9s
+2026-10-23T20:19:52Z lr/peer 2022 fold 2: chunk 3/6 (972 providers) 389.9s
+2026-10-23T20:26:28Z lr/peer 2022 fold 2: chunk 4/6 (982 providers) 396.7s
+2026-10-23T20:33:03Z lr/peer 2022 fold 2: chunk 5/6 (1000 providers) 395.1s
+2026-10-23T20:34:10Z lr/peer 2022 fold 2: chunk 6/6 (164 providers) 66.2s
+2026-10-23T20:38:57Z ebm/peer 2022 fold 2: chunk 1/6 (962 providers) 284.1s
+2026-10-23T20:43:41Z ebm/peer 2022 fold 2: chunk 2/6 (999 providers) 283.8s
+2026-10-23T20:48:25Z ebm/peer 2022 fold 2: chunk 3/6 (972 providers) 283.6s
+2026-10-23T20:53:00Z ebm/peer 2022 fold 2: chunk 4/6 (982 providers) 275.0s
+2026-10-23T20:57:25Z ebm/peer 2022 fold 2: chunk 5/6 (1000 providers) 265.3s
+2026-10-23T20:57:59Z ebm/peer 2022 fold 2: chunk 6/6 (164 providers) 33.9s
+2026-10-23T21:02:48Z ga2m/peer 2022 fold 2: chunk 1/6 (962 providers) 287.3s
+2026-10-23T21:07:42Z ga2m/peer 2022 fold 2: chunk 2/6 (999 providers) 294.1s
+2026-10-23T21:12:28Z ga2m/peer 2022 fold 2: chunk 3/6 (972 providers) 286.5s
+2026-10-23T21:16:57Z ga2m/peer 2022 fold 2: chunk 4/6 (982 providers) 268.2s
+2026-10-23T21:21:15Z ga2m/peer 2022 fold 2: chunk 5/6 (1000 providers) 258.8s
+2026-10-23T21:21:49Z ga2m/peer 2022 fold 2: chunk 6/6 (164 providers) 33.8s
+2026-10-23T21:24:04Z xgb/peer 2022 fold 2: chunk 1/6 (962 providers) 133.3s
+2026-10-23T21:26:31Z xgb/peer 2022 fold 2: chunk 2/6 (999 providers) 146.4s
+2026-10-23T21:28:53Z xgb/peer 2022 fold 2: chunk 3/6 (972 providers) 142.6s
+2026-10-23T21:31:39Z xgb/peer 2022 fold 2: chunk 4/6 (982 providers) 165.1s
+2026-10-23T21:34:20Z xgb/peer 2022 fold 2: chunk 5/6 (1000 providers) 161.6s
+2026-10-23T21:34:46Z xgb/peer 2022 fold 2: chunk 6/6 (164 providers) 25.5s
+2026-10-23T21:36:58Z xgb/global 2022 fold 2: chunk 1/6 (1000 providers) 132.0s
+2026-10-23T21:39:10Z xgb/global 2022 fold 2: chunk 2/6 (1000 providers) 131.9s
+2026-10-23T21:41:21Z xgb/global 2022 fold 2: chunk 3/6 (1000 providers) 130.6s
+2026-10-23T21:43:39Z xgb/global 2022 fold 2: chunk 4/6 (1000 providers) 138.3s
+2026-10-23T21:45:56Z xgb/global 2022 fold 2: chunk 5/6 (1000 providers) 136.7s
+2026-10-23T21:46:08Z xgb/global 2022 fold 2: chunk 6/6 (79 providers) 12.2s
+2026-10-23T21:49:25Z xgb_mono/peer 2022 fold 2: chunk 1/6 (962 providers) 193.9s
+2026-10-23T21:52:48Z xgb_mono/peer 2022 fold 2: chunk 2/6 (999 providers) 202.8s
+2026-10-23T21:56:11Z xgb_mono/peer 2022 fold 2: chunk 3/6 (972 providers) 203.2s
+2026-10-23T21:59:32Z xgb_mono/peer 2022 fold 2: chunk 4/6 (982 providers) 200.9s
+2026-10-23T22:03:11Z xgb_mono/peer 2022 fold 2: chunk 5/6 (1000 providers) 219.5s
+2026-10-23T22:03:48Z xgb_mono/peer 2022 fold 2: chunk 6/6 (164 providers) 36.8s
+2026-10-23T22:08:16Z lgbm/peer 2022 fold 2: chunk 1/6 (962 providers) 266.4s
+2026-10-23T22:12:49Z lgbm/peer 2022 fold 2: chunk 2/6 (999 providers) 272.8s
+2026-10-23T22:17:23Z lgbm/peer 2022 fold 2: chunk 3/6 (972 providers) 273.7s
+2026-10-23T22:21:51Z lgbm/peer 2022 fold 2: chunk 4/6 (982 providers) 267.7s
+2026-10-23T22:26:35Z lgbm/peer 2022 fold 2: chunk 5/6 (1000 providers) 284.1s
+2026-10-23T22:27:31Z lgbm/peer 2022 fold 2: chunk 6/6 (164 providers) 56.2s
+2026-10-23T22:28:47Z lgbm_mono/peer 2022 fold 2: chunk 1/6 (962 providers) 73.9s
+2026-10-23T22:30:08Z lgbm_mono/peer 2022 fold 2: chunk 2/6 (999 providers) 80.9s
+2026-10-23T22:31:23Z lgbm_mono/peer 2022 fold 2: chunk 3/6 (972 providers) 75.9s
+2026-10-23T22:32:44Z lgbm_mono/peer 2022 fold 2: chunk 4/6 (982 providers) 80.8s
+2026-10-23T22:34:09Z lgbm_mono/peer 2022 fold 2: chunk 5/6 (1000 providers) 84.3s
+2026-10-23T22:34:21Z lgbm_mono/peer 2022 fold 2: chunk 6/6 (164 providers) 12.4s
+2026-10-23T22:39:42Z lr/peer 2022 fold 3: chunk 1/6 (898 providers) 317.9s
+2026-10-23T22:45:15Z lr/peer 2022 fold 3: chunk 2/6 (924 providers) 333.0s
+2026-10-23T22:51:01Z lr/peer 2022 fold 3: chunk 3/6 (996 providers) 345.3s
+2026-10-23T22:56:48Z lr/peer 2022 fold 3: chunk 4/6 (981 providers) 347.0s
+2026-10-23T23:02:44Z lr/peer 2022 fold 3: chunk 5/6 (992 providers) 356.6s
+2026-10-23T23:04:29Z lr/peer 2022 fold 3: chunk 6/6 (291 providers) 104.9s
+2026-10-23T23:08:45Z ebm/peer 2022 fold 3: chunk 1/6 (898 providers) 253.4s
+2026-10-23T23:13:07Z ebm/peer 2022 fold 3: chunk 2/6 (924 providers) 262.9s
+2026-10-23T23:17:37Z ebm/peer 2022 fold 3: chunk 3/6 (996 providers) 269.1s
+2026-10-23T23:22:01Z ebm/peer 2022 fold 3: chunk 4/6 (981 providers) 264.3s
+2026-10-23T23:26:10Z ebm/peer 2022 fold 3: chunk 5/6 (992 providers) 248.8s
+2026-10-23T23:27:16Z ebm/peer 2022 fold 3: chunk 6/6 (291 providers) 66.4s
+2026-10-23T23:31:33Z ga2m/peer 2022 fold 3: chunk 1/6 (898 providers) 254.6s
+2026-10-23T23:35:59Z ga2m/peer 2022 fold 3: chunk 2/6 (924 providers) 266.4s
+2026-10-23T23:40:36Z ga2m/peer 2022 fold 3: chunk 3/6 (996 providers) 277.5s
+2026-10-23T23:44:48Z ga2m/peer 2022 fold 3: chunk 4/6 (981 providers) 251.4s
+2026-10-23T23:48:37Z ga2m/peer 2022 fold 3: chunk 5/6 (992 providers) 229.0s
+2026-10-23T23:49:36Z ga2m/peer 2022 fold 3: chunk 6/6 (291 providers) 59.5s
+2026-10-23T23:51:17Z xgb/peer 2022 fold 3: chunk 1/6 (898 providers) 97.7s
+2026-10-23T23:52:56Z xgb/peer 2022 fold 3: chunk 2/6 (924 providers) 98.9s
+2026-10-23T23:54:52Z xgb/peer 2022 fold 3: chunk 3/6 (996 providers) 115.9s
+2026-10-23T23:56:46Z xgb/peer 2022 fold 3: chunk 4/6 (981 providers) 114.6s
+2026-10-23T23:58:51Z xgb/peer 2022 fold 3: chunk 5/6 (992 providers) 124.3s
+2026-10-23T23:59:28Z xgb/peer 2022 fold 3: chunk 6/6 (291 providers) 37.2s
+2026-10-24T00:01:14Z xgb/global 2022 fold 3: chunk 1/6 (1000 providers) 105.3s
+2026-10-24T00:02:57Z xgb/global 2022 fold 3: chunk 2/6 (1000 providers) 103.2s
+2026-10-24T00:04:55Z xgb/global 2022 fold 3: chunk 3/6 (1000 providers) 117.8s
+2026-10-24T00:06:45Z xgb/global 2022 fold 3: chunk 4/6 (1000 providers) 110.3s
+2026-10-24T00:08:39Z xgb/global 2022 fold 3: chunk 5/6 (1000 providers) 113.8s
+2026-10-24T00:08:51Z xgb/global 2022 fold 3: chunk 6/6 (82 providers) 12.2s
+2026-10-24T00:11:36Z xgb_mono/peer 2022 fold 3: chunk 1/6 (898 providers) 162.0s
+2026-10-24T00:14:19Z xgb_mono/peer 2022 fold 3: chunk 2/6 (924 providers) 162.7s
+2026-10-24T00:17:09Z xgb_mono/peer 2022 fold 3: chunk 3/6 (996 providers) 169.7s
+2026-10-24T00:20:15Z xgb_mono/peer 2022 fold 3: chunk 4/6 (981 providers) 186.4s
+2026-10-24T00:23:47Z xgb_mono/peer 2022 fold 3: chunk 5/6 (992 providers) 212.4s
+2026-10-24T00:24:50Z xgb_mono/peer 2022 fold 3: chunk 6/6 (291 providers) 62.4s
+2026-10-24T00:53:16Z lgbm/peer 2022 fold 3: chunk 1/6 (898 providers) 1704.3s
+2026-10-24T01:22:22Z lgbm/peer 2022 fold 3: chunk 2/6 (924 providers) 1746.0s
+2026-10-24T01:54:07Z lgbm/peer 2022 fold 3: chunk 3/6 (996 providers) 1904.7s
+2026-10-24T02:25:09Z lgbm/peer 2022 fold 3: chunk 4/6 (981 providers) 1862.0s
+2026-10-24T02:57:39Z lgbm/peer 2022 fold 3: chunk 5/6 (992 providers) 1950.4s
+2026-10-24T03:07:41Z lgbm/peer 2022 fold 3: chunk 6/6 (291 providers) 602.1s
+2026-10-24T03:12:03Z lgbm_mono/peer 2022 fold 3: chunk 1/6 (898 providers) 259.3s
+2026-10-24T03:16:39Z lgbm_mono/peer 2022 fold 3: chunk 2/6 (924 providers) 276.4s
+2026-10-24T03:21:26Z lgbm_mono/peer 2022 fold 3: chunk 3/6 (996 providers) 287.1s
+2026-10-24T03:26:18Z lgbm_mono/peer 2022 fold 3: chunk 4/6 (981 providers) 292.0s
+2026-10-24T03:31:11Z lgbm_mono/peer 2022 fold 3: chunk 5/6 (992 providers) 293.1s
+2026-10-24T03:32:46Z lgbm_mono/peer 2022 fold 3: chunk 6/6 (291 providers) 94.6s
+2026-10-24T03:38:51Z lr/peer 2022 fold 4: chunk 1/6 (995 providers) 361.6s
+2026-10-24T03:44:29Z lr/peer 2022 fold 4: chunk 2/6 (975 providers) 337.7s
+2026-10-24T03:50:28Z lr/peer 2022 fold 4: chunk 3/6 (991 providers) 358.8s
+2026-10-24T03:56:25Z lr/peer 2022 fold 4: chunk 4/6 (990 providers) 356.6s
+2026-10-24T04:02:40Z lr/peer 2022 fold 4: chunk 5/6 (999 providers) 375.0s
+2026-10-24T04:03:30Z lr/peer 2022 fold 4: chunk 6/6 (135 providers) 50.8s
+2026-10-24T04:08:10Z ebm/peer 2022 fold 4: chunk 1/6 (995 providers) 276.6s
+2026-10-24T04:12:41Z ebm/peer 2022 fold 4: chunk 2/6 (975 providers) 271.0s
+2026-10-24T04:17:09Z ebm/peer 2022 fold 4: chunk 3/6 (991 providers) 267.8s
+2026-10-24T04:21:19Z ebm/peer 2022 fold 4: chunk 4/6 (990 providers) 250.6s
+2026-10-24T04:25:09Z ebm/peer 2022 fold 4: chunk 5/6 (999 providers) 229.4s
+2026-10-24T04:25:34Z ebm/peer 2022 fold 4: chunk 6/6 (135 providers) 24.9s
+2026-10-24T04:30:25Z ga2m/peer 2022 fold 4: chunk 1/6 (995 providers) 289.7s
+2026-10-24T04:35:04Z ga2m/peer 2022 fold 4: chunk 2/6 (975 providers) 279.1s
+2026-10-24T04:39:32Z ga2m/peer 2022 fold 4: chunk 3/6 (991 providers) 268.4s
+2026-10-24T04:43:52Z ga2m/peer 2022 fold 4: chunk 4/6 (990 providers) 259.8s
+2026-10-24T04:47:48Z ga2m/peer 2022 fold 4: chunk 5/6 (999 providers) 236.0s
+2026-10-24T04:48:14Z ga2m/peer 2022 fold 4: chunk 6/6 (135 providers) 26.0s
+2026-10-24T04:52:38Z xgb/peer 2022 fold 4: chunk 1/6 (995 providers) 262.2s
+2026-10-24T04:56:55Z xgb/peer 2022 fold 4: chunk 2/6 (975 providers) 257.3s
+2026-10-24T05:01:11Z xgb/peer 2022 fold 4: chunk 3/6 (991 providers) 256.2s
+2026-10-24T05:05:26Z xgb/peer 2022 fold 4: chunk 4/6 (990 providers) 254.8s
+2026-10-24T05:09:46Z xgb/peer 2022 fold 4: chunk 5/6 (999 providers) 259.9s
+2026-10-24T05:10:23Z xgb/peer 2022 fold 4: chunk 6/6 (135 providers) 37.2s
+2026-10-24T05:14:45Z xgb/global 2022 fold 4: chunk 1/6 (1000 providers) 261.3s
+2026-10-24T05:19:04Z xgb/global 2022 fold 4: chunk 2/6 (1000 providers) 258.9s
+2026-10-24T05:23:35Z xgb/global 2022 fold 4: chunk 3/6 (1000 providers) 271.2s
+2026-10-24T05:28:03Z xgb/global 2022 fold 4: chunk 4/6 (1000 providers) 267.8s
+2026-10-24T05:32:22Z xgb/global 2022 fold 4: chunk 5/6 (1000 providers) 258.9s
+2026-10-24T05:32:46Z xgb/global 2022 fold 4: chunk 6/6 (85 providers) 24.5s
+2026-10-24T05:39:15Z xgb_mono/peer 2022 fold 4: chunk 1/6 (995 providers) 387.4s
+2026-10-24T05:46:19Z xgb_mono/peer 2022 fold 4: chunk 2/6 (975 providers) 423.3s
+2026-10-24T05:53:37Z xgb_mono/peer 2022 fold 4: chunk 3/6 (991 providers) 438.7s
+2026-10-24T06:00:29Z xgb_mono/peer 2022 fold 4: chunk 4/6 (990 providers) 411.6s
+2026-10-24T06:07:28Z xgb_mono/peer 2022 fold 4: chunk 5/6 (999 providers) 419.2s
+2026-10-24T06:08:35Z xgb_mono/peer 2022 fold 4: chunk 6/6 (135 providers) 66.3s
+2026-10-24T06:13:10Z lgbm/peer 2022 fold 4: chunk 1/6 (995 providers) 272.8s
+2026-10-24T06:17:33Z lgbm/peer 2022 fold 4: chunk 2/6 (975 providers) 262.2s
+2026-10-24T06:21:47Z lgbm/peer 2022 fold 4: chunk 3/6 (991 providers) 254.5s
+2026-10-24T06:25:46Z lgbm/peer 2022 fold 4: chunk 4/6 (990 providers) 238.9s
+2026-10-24T06:29:52Z lgbm/peer 2022 fold 4: chunk 5/6 (999 providers) 245.6s
+2026-10-24T06:30:27Z lgbm/peer 2022 fold 4: chunk 6/6 (135 providers) 35.0s
+2026-10-24T06:33:30Z lgbm_mono/peer 2022 fold 4: chunk 1/6 (995 providers) 182.4s
+2026-10-24T06:36:33Z lgbm_mono/peer 2022 fold 4: chunk 2/6 (975 providers) 182.2s
+2026-10-24T06:39:35Z lgbm_mono/peer 2022 fold 4: chunk 3/6 (991 providers) 182.4s
+2026-10-24T06:42:28Z lgbm_mono/peer 2022 fold 4: chunk 4/6 (990 providers) 172.5s
+2026-10-24T06:45:23Z lgbm_mono/peer 2022 fold 4: chunk 5/6 (999 providers) 175.9s
+2026-10-24T06:45:49Z lgbm_mono/peer 2022 fold 4: chunk 6/6 (135 providers) 25.2s
+2026-10-24T06:52:50Z lr/peer 2023 fold 0: chunk 1/6 (991 providers) 394.5s
+2026-10-24T06:59:12Z lr/peer 2023 fold 0: chunk 2/6 (997 providers) 382.3s
+2026-10-24T07:05:19Z lr/peer 2023 fold 0: chunk 3/6 (998 providers) 366.4s
+2026-10-24T07:11:31Z lr/peer 2023 fold 0: chunk 4/6 (998 providers) 372.9s
+2026-10-24T07:18:32Z lr/peer 2023 fold 0: chunk 5/6 (1000 providers) 420.1s
+2026-10-24T07:19:59Z lr/peer 2023 fold 0: chunk 6/6 (210 providers) 87.7s
+2026-10-24T07:24:42Z ebm/peer 2023 fold 0: chunk 1/6 (991 providers) 279.6s
+2026-10-24T07:29:30Z ebm/peer 2023 fold 0: chunk 2/6 (997 providers) 288.5s
+2026-10-24T07:34:14Z ebm/peer 2023 fold 0: chunk 3/6 (998 providers) 283.5s
+2026-10-24T07:38:49Z ebm/peer 2023 fold 0: chunk 4/6 (998 providers) 275.6s
+2026-10-24T07:43:04Z ebm/peer 2023 fold 0: chunk 5/6 (1000 providers) 254.3s
+2026-10-24T07:43:46Z ebm/peer 2023 fold 0: chunk 6/6 (210 providers) 42.3s
+2026-10-24T07:48:50Z ga2m/peer 2023 fold 0: chunk 1/6 (991 providers) 302.4s
+2026-10-24T07:53:46Z ga2m/peer 2023 fold 0: chunk 2/6 (997 providers) 295.9s
+2026-10-24T07:58:32Z ga2m/peer 2023 fold 0: chunk 3/6 (998 providers) 285.6s
+2026-10-24T08:03:06Z ga2m/peer 2023 fold 0: chunk 4/6 (998 providers) 274.3s
+2026-10-24T08:07:23Z ga2m/peer 2023 fold 0: chunk 5/6 (1000 providers) 257.2s
+2026-10-24T08:08:14Z ga2m/peer 2023 fold 0: chunk 6/6 (210 providers) 51.1s
+2026-10-24T08:11:05Z xgb/peer 2023 fold 0: chunk 1/6 (991 providers) 168.1s
+2026-10-24T08:13:44Z xgb/peer 2023 fold 0: chunk 2/6 (997 providers) 159.2s
+2026-10-24T08:16:20Z xgb/peer 2023 fold 0: chunk 3/6 (998 providers) 155.2s
+2026-10-24T08:18:57Z xgb/peer 2023 fold 0: chunk 4/6 (998 providers) 157.5s
+2026-10-24T08:21:37Z xgb/peer 2023 fold 0: chunk 5/6 (1000 providers) 159.4s
+2026-10-24T08:22:17Z xgb/peer 2023 fold 0: chunk 6/6 (210 providers) 40.2s
+2026-10-24T08:24:37Z xgb/global 2023 fold 0: chunk 1/6 (1000 providers) 140.3s
+2026-10-24T08:26:47Z xgb/global 2023 fold 0: chunk 2/6 (1000 providers) 130.0s
+2026-10-24T08:28:52Z xgb/global 2023 fold 0: chunk 3/6 (1000 providers) 124.5s
+2026-10-24T08:31:09Z xgb/global 2023 fold 0: chunk 4/6 (1000 providers) 137.3s
+2026-10-24T08:33:20Z xgb/global 2023 fold 0: chunk 5/6 (1000 providers) 130.3s
+2026-10-24T08:33:46Z xgb/global 2023 fold 0: chunk 6/6 (194 providers) 26.7s
+2026-10-24T08:35:12Z xgb_mono/peer 2023 fold 0: chunk 1/6 (991 providers) 84.4s
+2026-10-24T08:36:29Z xgb_mono/peer 2023 fold 0: chunk 2/6 (997 providers) 77.2s
+2026-10-24T08:38:03Z xgb_mono/peer 2023 fold 0: chunk 3/6 (998 providers) 93.6s
+2026-10-24T08:39:41Z xgb_mono/peer 2023 fold 0: chunk 4/6 (998 providers) 97.6s
+2026-10-24T08:41:25Z xgb_mono/peer 2023 fold 0: chunk 5/6 (1000 providers) 104.3s
+2026-10-24T08:41:48Z xgb_mono/peer 2023 fold 0: chunk 6/6 (210 providers) 23.3s
+2026-10-24T08:44:47Z lgbm/peer 2023 fold 0: chunk 1/6 (991 providers) 176.0s
+2026-10-24T08:47:59Z lgbm/peer 2023 fold 0: chunk 2/6 (997 providers) 192.1s
+2026-10-24T08:50:54Z lgbm/peer 2023 fold 0: chunk 3/6 (998 providers) 174.9s
+2026-10-24T08:54:04Z lgbm/peer 2023 fold 0: chunk 4/6 (998 providers) 189.9s
+2026-10-24T08:57:05Z lgbm/peer 2023 fold 0: chunk 5/6 (1000 providers) 180.7s
+2026-10-24T08:57:42Z lgbm/peer 2023 fold 0: chunk 6/6 (210 providers) 37.4s
+2026-10-24T09:00:17Z lgbm_mono/peer 2023 fold 0: chunk 1/6 (991 providers) 152.4s
+2026-10-24T09:02:44Z lgbm_mono/peer 2023 fold 0: chunk 2/6 (997 providers) 147.4s
+2026-10-24T09:05:08Z lgbm_mono/peer 2023 fold 0: chunk 3/6 (998 providers) 144.2s
+2026-10-24T09:07:29Z lgbm_mono/peer 2023 fold 0: chunk 4/6 (998 providers) 140.5s
+2026-10-24T09:10:06Z lgbm_mono/peer 2023 fold 0: chunk 5/6 (1000 providers) 157.5s
+2026-10-24T09:10:39Z lgbm_mono/peer 2023 fold 0: chunk 6/6 (210 providers) 33.3s
+2026-10-24T09:17:14Z lr/peer 2023 fold 1: chunk 1/6 (855 providers) 390.0s
+2026-10-24T09:24:31Z lr/peer 2023 fold 1: chunk 2/6 (984 providers) 437.3s
+2026-10-24T09:31:58Z lr/peer 2023 fold 1: chunk 3/6 (984 providers) 446.4s
+2026-10-24T09:39:18Z lr/peer 2023 fold 1: chunk 4/6 (995 providers) 440.2s
+2026-10-24T09:46:09Z lr/peer 2023 fold 1: chunk 5/6 (998 providers) 411.0s
+2026-10-24T09:48:23Z lr/peer 2023 fold 1: chunk 6/6 (330 providers) 134.0s
+2026-10-24T09:52:39Z ebm/peer 2023 fold 1: chunk 1/6 (855 providers) 254.9s
+2026-10-24T09:57:23Z ebm/peer 2023 fold 1: chunk 2/6 (984 providers) 283.7s
+2026-10-24T10:02:29Z ebm/peer 2023 fold 1: chunk 3/6 (984 providers) 305.9s
+2026-10-24T10:07:20Z ebm/peer 2023 fold 1: chunk 4/6 (995 providers) 290.9s
+2026-10-24T10:11:36Z ebm/peer 2023 fold 1: chunk 5/6 (998 providers) 256.6s
+2026-10-24T10:12:49Z ebm/peer 2023 fold 1: chunk 6/6 (330 providers) 72.6s
+2026-10-24T10:17:19Z ga2m/peer 2023 fold 1: chunk 1/6 (855 providers) 268.8s
+2026-10-24T10:22:11Z ga2m/peer 2023 fold 1: chunk 2/6 (984 providers) 291.6s
+2026-10-24T10:27:11Z ga2m/peer 2023 fold 1: chunk 3/6 (984 providers) 300.5s
+2026-10-24T10:32:10Z ga2m/peer 2023 fold 1: chunk 4/6 (995 providers) 298.3s
+2026-10-24T10:36:47Z ga2m/peer 2023 fold 1: chunk 5/6 (998 providers) 277.5s
+2026-10-24T10:38:07Z ga2m/peer 2023 fold 1: chunk 6/6 (330 providers) 79.6s
+2026-10-24T10:42:27Z xgb/peer 2023 fold 1: chunk 1/6 (855 providers) 258.4s
+2026-10-24T10:47:24Z xgb/peer 2023 fold 1: chunk 2/6 (984 providers) 297.4s
+2026-10-24T10:52:05Z xgb/peer 2023 fold 1: chunk 3/6 (984 providers) 280.7s
+2026-10-24T10:56:45Z xgb/peer 2023 fold 1: chunk 4/6 (995 providers) 280.4s
+2026-10-24T11:01:26Z xgb/peer 2023 fold 1: chunk 5/6 (998 providers) 281.3s
+2026-10-24T11:03:07Z xgb/peer 2023 fold 1: chunk 6/6 (330 providers) 100.7s
+2026-10-24T11:07:28Z xgb/global 2023 fold 1: chunk 1/6 (1000 providers) 260.3s
+2026-10-24T11:11:50Z xgb/global 2023 fold 1: chunk 2/6 (1000 providers) 262.2s
+2026-10-24T11:16:19Z xgb/global 2023 fold 1: chunk 3/6 (1000 providers) 268.7s
+2026-10-24T11:20:50Z xgb/global 2023 fold 1: chunk 4/6 (1000 providers) 270.8s
+2026-10-24T11:25:20Z xgb/global 2023 fold 1: chunk 5/6 (1000 providers) 270.0s
+2026-10-24T11:26:01Z xgb/global 2023 fold 1: chunk 6/6 (146 providers) 41.0s
+2026-10-24T11:27:29Z xgb_mono/peer 2023 fold 1: chunk 1/6 (855 providers) 86.0s
+2026-10-24T11:29:19Z xgb_mono/peer 2023 fold 1: chunk 2/6 (984 providers) 110.3s
+2026-10-24T11:31:14Z xgb_mono/peer 2023 fold 1: chunk 3/6 (984 providers) 114.9s
+2026-10-24T11:33:13Z xgb_mono/peer 2023 fold 1: chunk 4/6 (995 providers) 118.8s
+2026-10-24T11:35:17Z xgb_mono/peer 2023 fold 1: chunk 5/6 (998 providers) 124.5s
+2026-10-24T11:35:58Z xgb_mono/peer 2023 fold 1: chunk 6/6 (330 providers) 40.4s
+2026-10-24T11:37:47Z lgbm/peer 2023 fold 1: chunk 1/6 (855 providers) 108.2s
+2026-10-24T11:39:48Z lgbm/peer 2023 fold 1: chunk 2/6 (984 providers) 120.5s
+2026-10-24T11:41:59Z lgbm/peer 2023 fold 1: chunk 3/6 (984 providers) 131.2s
+2026-10-24T11:43:59Z lgbm/peer 2023 fold 1: chunk 4/6 (995 providers) 120.2s
+2026-10-24T11:45:58Z lgbm/peer 2023 fold 1: chunk 5/6 (998 providers) 119.4s
+2026-10-24T11:46:36Z lgbm/peer 2023 fold 1: chunk 6/6 (330 providers) 37.9s
+2026-10-24T12:04:47Z lgbm_mono/peer 2023 fold 1: chunk 1/6 (855 providers) 1089.4s
+2026-10-24T12:25:43Z lgbm_mono/peer 2023 fold 1: chunk 2/6 (984 providers) 1256.1s
+2026-10-24T12:46:20Z lgbm_mono/peer 2023 fold 1: chunk 3/6 (984 providers) 1237.2s
+2026-10-24T13:06:27Z lgbm_mono/peer 2023 fold 1: chunk 4/6 (995 providers) 1206.9s
+2026-10-24T13:27:35Z lgbm_mono/peer 2023 fold 1: chunk 5/6 (998 providers) 1268.1s
+2026-10-24T13:56:26Z explain: families ['lr', 'ebm', 'ga2m', 'xgb', 'xgb_mono', 'lgbm', 'lgbm_mono'], baselines ['peer', 'global'], folds [0, 1, 2, 3, 4], years [2022, 2023], chunk_rows 1000, resume=True
+2026-10-24T13:56:32Z lr/peer 2022 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:32Z ebm/peer 2022 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:33Z ga2m/peer 2022 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:33Z xgb/peer 2022 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:34Z xgb/global 2022 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:34Z xgb_mono/peer 2022 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:35Z lgbm/peer 2022 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:35Z lgbm_mono/peer 2022 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:38Z lr/peer 2022 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:38Z ebm/peer 2022 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:39Z ga2m/peer 2022 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:39Z xgb/peer 2022 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:40Z xgb/global 2022 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:40Z xgb_mono/peer 2022 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:40Z lgbm/peer 2022 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:41Z lgbm_mono/peer 2022 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:43Z lr/peer 2022 fold 2: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:44Z ebm/peer 2022 fold 2: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:44Z ga2m/peer 2022 fold 2: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:44Z xgb/peer 2022 fold 2: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:45Z xgb/global 2022 fold 2: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:45Z xgb_mono/peer 2022 fold 2: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:46Z lgbm/peer 2022 fold 2: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:46Z lgbm_mono/peer 2022 fold 2: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:49Z lr/peer 2022 fold 3: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:50Z ebm/peer 2022 fold 3: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:50Z ga2m/peer 2022 fold 3: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:51Z xgb/peer 2022 fold 3: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:51Z xgb/global 2022 fold 3: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:52Z xgb_mono/peer 2022 fold 3: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:52Z lgbm/peer 2022 fold 3: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:53Z lgbm_mono/peer 2022 fold 3: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:56Z lr/peer 2022 fold 4: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:56Z ebm/peer 2022 fold 4: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:57Z ga2m/peer 2022 fold 4: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:58Z xgb/peer 2022 fold 4: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:58Z xgb/global 2022 fold 4: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:58Z xgb_mono/peer 2022 fold 4: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:59Z lgbm/peer 2022 fold 4: 6 of 6 chunks already done, skipped
+2026-10-24T13:56:59Z lgbm_mono/peer 2022 fold 4: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:06Z lr/peer 2023 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:06Z ebm/peer 2023 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:07Z ga2m/peer 2023 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:07Z xgb/peer 2023 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:08Z xgb/global 2023 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:08Z xgb_mono/peer 2023 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:09Z lgbm/peer 2023 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:09Z lgbm_mono/peer 2023 fold 0: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:12Z lr/peer 2023 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:12Z ebm/peer 2023 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:13Z ga2m/peer 2023 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:13Z xgb/peer 2023 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:14Z xgb/global 2023 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:14Z xgb_mono/peer 2023 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T13:57:15Z lgbm/peer 2023 fold 1: 6 of 6 chunks already done, skipped
+2026-10-24T14:07:20Z lgbm_mono/peer 2023 fold 1: chunk 6/6 (330 providers) 601.2s
+2026-10-24T14:07:20Z lgbm_mono/peer 2023 fold 1: 5 of 6 chunks already done, skipped
+2026-10-24T14:14:22Z lr/peer 2023 fold 2: chunk 1/6 (957 providers) 416.4s
+2026-10-24T14:20:36Z lr/peer 2023 fold 2: chunk 2/6 (994 providers) 373.8s
+2026-10-24T14:28:35Z lr/peer 2023 fold 2: chunk 3/6 (987 providers) 479.0s
+2026-10-24T14:35:07Z lr/peer 2023 fold 2: chunk 4/6 (991 providers) 392.3s
+2026-10-24T14:41:46Z lr/peer 2023 fold 2: chunk 5/6 (1000 providers) 399.5s
+2026-10-24T14:43:12Z lr/peer 2023 fold 2: chunk 6/6 (214 providers) 85.6s
+2026-10-24T14:47:51Z ebm/peer 2023 fold 2: chunk 1/6 (957 providers) 276.7s
+2026-10-24T14:52:23Z ebm/peer 2023 fold 2: chunk 2/6 (994 providers) 271.5s
+2026-10-24T14:56:45Z ebm/peer 2023 fold 2: chunk 3/6 (987 providers) 262.8s
+2026-10-24T15:01:01Z ebm/peer 2023 fold 2: chunk 4/6 (991 providers) 255.7s
+2026-10-24T15:04:54Z ebm/peer 2023 fold 2: chunk 5/6 (1000 providers) 232.4s
+2026-10-24T15:05:38Z ebm/peer 2023 fold 2: chunk 6/6 (214 providers) 44.4s
+2026-10-24T15:10:19Z ga2m/peer 2023 fold 2: chunk 1/6 (957 providers) 280.2s
+2026-10-24T15:15:04Z ga2m/peer 2023 fold 2: chunk 2/6 (994 providers) 285.1s
+2026-10-24T15:19:37Z ga2m/peer 2023 fold 2: chunk 3/6 (987 providers) 272.3s
+2026-10-24T15:23:59Z ga2m/peer 2023 fold 2: chunk 4/6 (991 providers) 262.1s
+2026-10-24T15:28:08Z ga2m/peer 2023 fold 2: chunk 5/6 (1000 providers) 249.1s
+2026-10-24T15:28:54Z ga2m/peer 2023 fold 2: chunk 6/6 (214 providers) 46.1s
+2026-10-24T15:31:21Z xgb/peer 2023 fold 2: chunk 1/6 (957 providers) 143.9s
+2026-10-24T15:33:39Z xgb/peer 2023 fold 2: chunk 2/6 (994 providers) 138.4s
+2026-10-24T15:36:00Z xgb/peer 2023 fold 2: chunk 3/6 (987 providers) 141.3s
+2026-10-24T15:38:27Z xgb/peer 2023 fold 2: chunk 4/6 (991 providers) 146.3s
+2026-10-24T15:41:06Z xgb/peer 2023 fold 2: chunk 5/6 (1000 providers) 159.3s
+2026-10-24T15:41:43Z xgb/peer 2023 fold 2: chunk 6/6 (214 providers) 37.3s
+2026-10-24T15:44:08Z xgb/global 2023 fold 2: chunk 1/6 (1000 providers) 144.2s
+2026-10-24T15:46:33Z xgb/global 2023 fold 2: chunk 2/6 (1000 providers) 145.1s
+2026-10-24T15:49:10Z xgb/global 2023 fold 2: chunk 3/6 (1000 providers) 157.2s
+2026-10-24T15:51:32Z xgb/global 2023 fold 2: chunk 4/6 (1000 providers) 142.1s
+2026-10-24T15:53:40Z xgb/global 2023 fold 2: chunk 5/6 (1000 providers) 127.8s
+2026-10-24T15:54:01Z xgb/global 2023 fold 2: chunk 6/6 (143 providers) 21.1s
+2026-10-24T15:57:19Z xgb_mono/peer 2023 fold 2: chunk 1/6 (957 providers) 195.0s
+2026-10-24T16:00:34Z xgb_mono/peer 2023 fold 2: chunk 2/6 (994 providers) 195.7s
+2026-10-24T16:03:32Z xgb_mono/peer 2023 fold 2: chunk 3/6 (987 providers) 177.9s
+2026-10-24T16:06:52Z xgb_mono/peer 2023 fold 2: chunk 4/6 (991 providers) 199.4s
+2026-10-24T16:10:15Z xgb_mono/peer 2023 fold 2: chunk 5/6 (1000 providers) 202.9s
+2026-10-24T16:11:03Z xgb_mono/peer 2023 fold 2: chunk 6/6 (214 providers) 48.7s
+2026-10-24T16:15:05Z lgbm/peer 2023 fold 2: chunk 1/6 (957 providers) 238.3s
+2026-10-24T16:19:27Z lgbm/peer 2023 fold 2: chunk 2/6 (994 providers) 261.7s
+2026-10-24T16:23:43Z lgbm/peer 2023 fold 2: chunk 3/6 (987 providers) 256.9s
+2026-10-24T16:27:55Z lgbm/peer 2023 fold 2: chunk 4/6 (991 providers) 252.0s
+2026-10-24T16:32:37Z lgbm/peer 2023 fold 2: chunk 5/6 (1000 providers) 281.6s
+2026-10-24T16:33:54Z lgbm/peer 2023 fold 2: chunk 6/6 (214 providers) 77.1s
+2026-10-24T16:35:17Z lgbm_mono/peer 2023 fold 2: chunk 1/6 (957 providers) 81.3s
+2026-10-24T16:36:46Z lgbm_mono/peer 2023 fold 2: chunk 2/6 (994 providers) 89.8s
+2026-10-24T16:38:11Z lgbm_mono/peer 2023 fold 2: chunk 3/6 (987 providers) 84.2s
+2026-10-24T16:39:37Z lgbm_mono/peer 2023 fold 2: chunk 4/6 (991 providers) 86.5s
+2026-10-24T16:41:08Z lgbm_mono/peer 2023 fold 2: chunk 5/6 (1000 providers) 90.5s
+2026-10-24T16:41:28Z lgbm_mono/peer 2023 fold 2: chunk 6/6 (214 providers) 20.9s
+2026-10-24T16:48:44Z lr/peer 2023 fold 3: chunk 1/6 (992 providers) 431.2s
+2026-10-24T16:54:49Z lr/peer 2023 fold 3: chunk 2/6 (905 providers) 364.5s
+2026-10-24T17:01:31Z lr/peer 2023 fold 3: chunk 3/6 (985 providers) 402.3s
+2026-10-24T17:08:29Z lr/peer 2023 fold 3: chunk 4/6 (998 providers) 417.6s
+2026-10-24T17:15:24Z lr/peer 2023 fold 3: chunk 5/6 (1000 providers) 415.6s
+2026-10-24T17:17:10Z lr/peer 2023 fold 3: chunk 6/6 (292 providers) 105.5s
+2026-10-24T17:22:03Z ebm/peer 2023 fold 3: chunk 1/6 (992 providers) 289.7s
+2026-10-24T17:26:25Z ebm/peer 2023 fold 3: chunk 2/6 (905 providers) 262.4s
+2026-10-24T17:30:58Z ebm/peer 2023 fold 3: chunk 3/6 (985 providers) 272.7s
+2026-10-24T17:35:20Z ebm/peer 2023 fold 3: chunk 4/6 (998 providers) 262.4s
+2026-10-24T17:39:35Z ebm/peer 2023 fold 3: chunk 5/6 (1000 providers) 254.7s
+2026-10-24T17:40:41Z ebm/peer 2023 fold 3: chunk 6/6 (292 providers) 66.5s
+2026-10-24T17:45:22Z ga2m/peer 2023 fold 3: chunk 1/6 (992 providers) 279.6s
+2026-10-24T17:49:26Z ga2m/peer 2023 fold 3: chunk 2/6 (905 providers) 244.1s
+2026-10-24T17:53:57Z ga2m/peer 2023 fold 3: chunk 3/6 (985 providers) 270.6s
+2026-10-24T17:58:33Z ga2m/peer 2023 fold 3: chunk 4/6 (998 providers) 276.5s
+2026-10-24T18:02:54Z ga2m/peer 2023 fold 3: chunk 5/6 (1000 providers) 260.5s
+2026-10-24T18:03:56Z ga2m/peer 2023 fold 3: chunk 6/6 (292 providers) 62.5s
+2026-10-24T18:05:51Z xgb/peer 2023 fold 3: chunk 1/6 (992 providers) 113.3s
+2026-10-24T18:07:36Z xgb/peer 2023 fold 3: chunk 2/6 (905 providers) 105.1s
+2026-10-24T18:09:32Z xgb/peer 2023 fold 3: chunk 3/6 (985 providers) 116.2s
+2026-10-24T18:11:27Z xgb/peer 2023 fold 3: chunk 4/6 (998 providers) 114.2s
+2026-10-24T18:13:24Z xgb/peer 2023 fold 3: chunk 5/6 (1000 providers) 117.5s
+2026-10-24T18:14:01Z xgb/peer 2023 fold 3: chunk 6/6 (292 providers) 36.9s
+2026-10-24T18:15:45Z xgb/global 2023 fold 3: chunk 1/6 (1000 providers) 103.4s
+2026-10-24T18:17:19Z xgb/global 2023 fold 3: chunk 2/6 (1000 providers) 94.5s
+2026-10-24T18:18:53Z xgb/global 2023 fold 3: chunk 3/6 (1000 providers) 94.1s
+2026-10-24T18:20:30Z xgb/global 2023 fold 3: chunk 4/6 (1000 providers) 96.2s
+2026-10-24T18:22:05Z xgb/global 2023 fold 3: chunk 5/6 (1000 providers) 95.1s
+2026-10-24T18:22:24Z xgb/global 2023 fold 3: chunk 6/6 (172 providers) 19.9s
+2026-10-24T18:25:15Z xgb_mono/peer 2023 fold 3: chunk 1/6 (992 providers) 169.3s
+2026-10-24T18:27:44Z xgb_mono/peer 2023 fold 3: chunk 2/6 (905 providers) 148.9s
+2026-10-24T18:30:36Z xgb_mono/peer 2023 fold 3: chunk 3/6 (985 providers) 171.6s
+2026-10-24T18:33:16Z xgb_mono/peer 2023 fold 3: chunk 4/6 (998 providers) 160.1s
+2026-10-24T18:36:14Z xgb_mono/peer 2023 fold 3: chunk 5/6 (1000 providers) 178.1s
+2026-10-24T18:37:19Z xgb_mono/peer 2023 fold 3: chunk 6/6 (292 providers) 65.6s
+2026-10-24T19:10:12Z lgbm/peer 2023 fold 3: chunk 1/6 (992 providers) 1970.8s
+2026-10-24T19:39:48Z lgbm/peer 2023 fold 3: chunk 2/6 (905 providers) 1776.1s
+2026-10-24T20:12:48Z lgbm/peer 2023 fold 3: chunk 3/6 (985 providers) 1980.4s
+2026-10-24T20:45:56Z lgbm/peer 2023 fold 3: chunk 4/6 (998 providers) 1987.8s
+2026-10-24T21:20:04Z lgbm/peer 2023 fold 3: chunk 5/6 (1000 providers) 2048.6s
+2026-10-24T21:31:20Z lgbm/peer 2023 fold 3: chunk 6/6 (292 providers) 675.2s
+2026-10-24T21:36:22Z lgbm_mono/peer 2023 fold 3: chunk 1/6 (992 providers) 301.3s
+2026-10-24T21:40:59Z lgbm_mono/peer 2023 fold 3: chunk 2/6 (905 providers) 276.8s
+2026-10-24T21:45:40Z lgbm_mono/peer 2023 fold 3: chunk 3/6 (985 providers) 281.2s
+2026-10-24T21:50:11Z lgbm_mono/peer 2023 fold 3: chunk 4/6 (998 providers) 270.8s
+2026-10-24T21:54:53Z lgbm_mono/peer 2023 fold 3: chunk 5/6 (1000 providers) 281.7s
+2026-10-24T21:56:23Z lgbm_mono/peer 2023 fold 3: chunk 6/6 (292 providers) 90.7s
+2026-10-24T22:02:17Z lr/peer 2023 fold 4: chunk 1/6 (941 providers) 350.5s
+2026-10-24T22:07:52Z lr/peer 2023 fold 4: chunk 2/6 (902 providers) 335.7s
+2026-10-24T22:14:09Z lr/peer 2023 fold 4: chunk 3/6 (986 providers) 376.3s
+2026-10-24T22:20:12Z lr/peer 2023 fold 4: chunk 4/6 (978 providers) 362.9s
+2026-10-24T22:26:18Z lr/peer 2023 fold 4: chunk 5/6 (1000 providers) 366.6s
+2026-10-24T22:28:28Z lr/peer 2023 fold 4: chunk 6/6 (372 providers) 129.9s
+2026-10-24T22:32:44Z ebm/peer 2023 fold 4: chunk 1/6 (941 providers) 253.9s
+2026-10-24T22:36:42Z ebm/peer 2023 fold 4: chunk 2/6 (902 providers) 237.4s
+2026-10-24T22:40:55Z ebm/peer 2023 fold 4: chunk 3/6 (986 providers) 253.3s
+2026-10-24T22:44:52Z ebm/peer 2023 fold 4: chunk 4/6 (978 providers) 236.8s
+2026-10-24T22:48:44Z ebm/peer 2023 fold 4: chunk 5/6 (1000 providers) 232.0s
+2026-10-24T22:49:50Z ebm/peer 2023 fold 4: chunk 6/6 (372 providers) 66.8s
+2026-10-24T22:54:03Z ga2m/peer 2023 fold 4: chunk 1/6 (941 providers) 250.6s
+2026-10-24T22:58:01Z ga2m/peer 2023 fold 4: chunk 2/6 (902 providers) 238.3s
+2026-10-24T23:02:19Z ga2m/peer 2023 fold 4: chunk 3/6 (986 providers) 258.1s
+2026-10-24T23:06:26Z ga2m/peer 2023 fold 4: chunk 4/6 (978 providers) 246.6s
+2026-10-24T23:10:26Z ga2m/peer 2023 fold 4: chunk 5/6 (1000 providers) 240.4s
+2026-10-24T23:11:44Z ga2m/peer 2023 fold 4: chunk 6/6 (372 providers) 77.6s
+2026-10-24T23:15:49Z xgb/peer 2023 fold 4: chunk 1/6 (941 providers) 244.1s
+2026-10-24T23:19:44Z xgb/peer 2023 fold 4: chunk 2/6 (902 providers) 234.2s
+2026-10-24T23:23:51Z xgb/peer 2023 fold 4: chunk 3/6 (986 providers) 247.0s
+2026-10-24T23:27:45Z xgb/peer 2023 fold 4: chunk 4/6 (978 providers) 234.8s
+2026-10-24T23:31:53Z xgb/peer 2023 fold 4: chunk 5/6 (1000 providers) 248.0s
+2026-10-24T23:33:33Z xgb/peer 2023 fold 4: chunk 6/6 (372 providers) 99.3s
+2026-10-24T23:38:05Z xgb/global 2023 fold 4: chunk 1/6 (1000 providers) 271.6s
+2026-10-24T23:42:18Z xgb/global 2023 fold 4: chunk 2/6 (1000 providers) 253.4s
+2026-10-24T23:46:45Z xgb/global 2023 fold 4: chunk 3/6 (1000 providers) 266.5s
+2026-10-24T23:51:01Z xgb/global 2023 fold 4: chunk 4/6 (1000 providers) 256.5s
+2026-10-24T23:55:24Z xgb/global 2023 fold 4: chunk 5/6 (1000 providers) 263.0s
+2026-10-24T23:56:12Z xgb/global 2023 fold 4: chunk 6/6 (179 providers) 47.5s
+2026-10-25T00:02:07Z xgb_mono/peer 2023 fold 4: chunk 1/6 (941 providers) 353.5s
+2026-10-25T00:07:48Z xgb_mono/peer 2023 fold 4: chunk 2/6 (902 providers) 341.2s
+2026-10-25T00:14:06Z xgb_mono/peer 2023 fold 4: chunk 3/6 (986 providers) 378.4s
+2026-10-25T00:20:09Z xgb_mono/peer 2023 fold 4: chunk 4/6 (978 providers) 362.2s
+2026-10-25T00:26:14Z xgb_mono/peer 2023 fold 4: chunk 5/6 (1000 providers) 365.2s
+2026-10-25T00:28:43Z xgb_mono/peer 2023 fold 4: chunk 6/6 (372 providers) 149.6s
+2026-10-25T00:32:44Z lgbm/peer 2023 fold 4: chunk 1/6 (941 providers) 239.4s
+2026-10-25T00:36:29Z lgbm/peer 2023 fold 4: chunk 2/6 (902 providers) 224.5s
+2026-10-25T00:40:21Z lgbm/peer 2023 fold 4: chunk 3/6 (986 providers) 232.2s
+2026-10-25T00:43:54Z lgbm/peer 2023 fold 4: chunk 4/6 (978 providers) 213.6s
+2026-10-25T00:47:26Z lgbm/peer 2023 fold 4: chunk 5/6 (1000 providers) 212.0s
+2026-10-25T00:48:50Z lgbm/peer 2023 fold 4: chunk 6/6 (372 providers) 83.8s
+2026-10-25T00:51:33Z lgbm_mono/peer 2023 fold 4: chunk 1/6 (941 providers) 161.2s
+2026-10-25T00:54:06Z lgbm_mono/peer 2023 fold 4: chunk 2/6 (902 providers) 153.2s
+2026-10-25T00:56:50Z lgbm_mono/peer 2023 fold 4: chunk 3/6 (986 providers) 164.1s
+2026-10-25T00:59:24Z lgbm_mono/peer 2023 fold 4: chunk 4/6 (978 providers) 153.6s
+2026-10-25T01:02:09Z lgbm_mono/peer 2023 fold 4: chunk 5/6 (1000 providers) 165.0s
+2026-10-25T01:03:11Z lgbm_mono/peer 2023 fold 4: chunk 6/6 (372 providers) 61.9s
+2026-10-25T01:03:11Z lr/peer fold 0: store written (12 chunks)
+2026-10-25T01:03:12Z lr/peer fold 1: store written (12 chunks)
+2026-10-25T01:03:12Z lr/peer fold 2: store written (12 chunks)
+2026-10-25T01:03:12Z lr/peer fold 3: store written (12 chunks)
+2026-10-25T01:03:13Z lr/peer fold 4: store written (12 chunks)
+2026-10-25T01:03:13Z ebm/peer fold 0: store written (12 chunks)
+2026-10-25T01:03:13Z ebm/peer fold 1: store written (12 chunks)
+2026-10-25T01:03:14Z ebm/peer fold 2: store written (12 chunks)
+2026-10-25T01:03:14Z ebm/peer fold 3: store written (12 chunks)
+2026-10-25T01:03:14Z ebm/peer fold 4: store written (12 chunks)
+2026-10-25T01:03:15Z ga2m/peer fold 0: store written (12 chunks)
+2026-10-25T01:03:15Z ga2m/peer fold 1: store written (12 chunks)
+2026-10-25T01:03:15Z ga2m/peer fold 2: store written (12 chunks)
+2026-10-25T01:03:16Z ga2m/peer fold 3: store written (12 chunks)
+2026-10-25T01:03:16Z ga2m/peer fold 4: store written (12 chunks)
+2026-10-25T01:03:16Z xgb/peer fold 0: store written (12 chunks)
+2026-10-25T01:03:17Z xgb/peer fold 1: store written (12 chunks)
+2026-10-25T01:03:18Z xgb/peer fold 2: store written (12 chunks)
+2026-10-25T01:03:18Z xgb/peer fold 3: store written (12 chunks)
+2026-10-25T01:03:19Z xgb/peer fold 4: store written (12 chunks)
+2026-10-25T01:03:19Z xgb/global fold 0: store written (12 chunks)
+2026-10-25T01:03:20Z xgb/global fold 1: store written (12 chunks)
+2026-10-25T01:03:20Z xgb/global fold 2: store written (12 chunks)
+2026-10-25T01:03:21Z xgb/global fold 3: store written (12 chunks)
+2026-10-25T01:03:21Z xgb/global fold 4: store written (12 chunks)
+2026-10-25T01:03:21Z xgb_mono/peer fold 0: store written (12 chunks)
+2026-10-25T01:03:22Z xgb_mono/peer fold 1: store written (12 chunks)
+2026-10-25T01:03:22Z xgb_mono/peer fold 2: store written (12 chunks)
+2026-10-25T01:03:23Z xgb_mono/peer fold 3: store written (12 chunks)
+2026-10-25T01:03:23Z xgb_mono/peer fold 4: store written (12 chunks)
+2026-10-25T01:03:23Z lgbm/peer fold 0: store written (12 chunks)
+2026-10-25T01:03:24Z lgbm/peer fold 1: store written (12 chunks)
+2026-10-25T01:03:24Z lgbm/peer fold 2: store written (12 chunks)
+2026-10-25T01:03:24Z lgbm/peer fold 3: store written (12 chunks)
+2026-10-25T01:03:25Z lgbm/peer fold 4: store written (12 chunks)
+2026-10-25T01:03:25Z lgbm_mono/peer fold 0: store written (12 chunks)
+2026-10-25T01:03:26Z lgbm_mono/peer fold 1: store written (12 chunks)
+2026-10-25T01:03:26Z lgbm_mono/peer fold 2: store written (12 chunks)
+2026-10-25T01:03:26Z lgbm_mono/peer fold 3: store written (12 chunks)
+2026-10-25T01:03:27Z lgbm_mono/peer fold 4: store written (12 chunks)

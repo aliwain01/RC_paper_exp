@@ -6,7 +6,7 @@ This research project was designed in `design/` and has now been **built and run
 - how to resume or reproduce a run;
 - what is left (writing and publication, both the human's).
 
-It does **not** restate the design or the results. The design documents are the source of truth, and the results stay local (§8 rule 6).
+It does **not** restate the design or the results. The design documents are the source of truth. The results are in `outputs/` (published with the human's approval, D140).
 
 Updated 2026-11-01.
 
@@ -27,8 +27,8 @@ Updated 2026-11-01.
 
 **What is left (human work):**
 1. **Writing the paper.** `outputs/phase7/draft.md` has the outline with the tables inserted. The abstract, narrative and interpretation are left to the authors, following the branch chosen in D137.
-2. **Publication approval.** Results, tables, figures, views and the draft stay local until the human approves publishing them (§8 rule 6; D122, D137, D139).
-3. **Keeping the local outputs.** Before the working environment is discarded, archive `outputs/` and, if wanted, `data/processed/`. Neither is in git. Rebuilding from raw data takes days of compute (§9).
+2. **Publication of the paper itself.** The Phase 3–7 results are in the repository (D140). The paper and any further release are the human's call (§8 rule 6).
+3. **Keeping the local data.** `data/` (raw, interim, processed: ≈ 25 GB) and the per-provider sample views are not in git. Archive them before the working environment is discarded if they are wanted. Rebuilding from raw data takes days of compute (§9).
 
 Optional: draw 4's injected feature tables were deleted to free disk space. Its models, scores and explanations are intact. `scenario-fraud phase5 build` recreates them if a complete Phase 5 data set is needed.
 
@@ -51,10 +51,11 @@ Optional: draw 4's injected feature tables were deleted to free disk space. Its 
 ├── tests/                              unit + end-to-end tests on synthetic data (tests/synth.py)
 ├── pyproject.toml · requirements.lock  environment (Python 3.13, pinned)
 ├── data/        (git-ignored)          raw/ (+ committed manifest.json), interim/, processed/
-├── outputs/     (git-ignored except the Phase 1–2 records below)
+├── outputs/
 │   ├── phase1/  STATUS.md, G1_report, headers/   ← committed
 │   ├── phase2/  G2_freeze.json, G2_report, QA_report  ← committed
-│   └── phase3–7/  gate reports, evaluation report, tables, figures, views, draft, package  ← LOCAL ONLY
+│   └── phase3–7/  gate reports, evaluation report, tables, figures, queue, draft, package  ← committed (D140)
+│                  phase7/records/ and phase7/views/<record>/ (real NPIs, mock decision)  ← LOCAL ONLY
 └── features_health_final.py, rc_final.py, rc_reasoning.py,
     reason_codes_health_final (2).ipynb, synthetic_health_claims (1).csv
                                         LEGACY PROTOTYPE: record behind DESIGN §3.3; never imported or edited
@@ -77,7 +78,7 @@ For a new session picking up the finished pipeline:
 | 2 | DESIGN §1 Summary, §2 Terminology | Vocabulary. The term "reason codes" must **not** be used anywhere. |
 | 3 | **DESIGN §17 Decision log, D113–D139** | Everything decided or changed during execution, including the gate decisions. Don't reopen a decision without asking. |
 | 4 | README.md | Code layout and CLI entry points. |
-| 5 | `outputs/phase6/evaluation_report.md`, `outputs/phase7/` (local) | The results, if the environment still holds them. |
+| 5 | `outputs/phase6/evaluation_report.md`, `outputs/phase7/` | The results (committed, D140). |
 | 6 | Per phase, the map in §3 below | The spec behind each component, before changing it. |
 
 Two rules about the figures:
@@ -126,7 +127,7 @@ The layout proposed in the original handoff was created as planned, with one cha
 
 ## 6. Human decision gates (all passed)
 
-Stop and report to the human at each gate. Don't proceed on your own judgement. Each gate report is in `outputs/phase{N}/G{N}_report.md`. Reports from G3 on stay local.
+Stop and report to the human at each gate. Don't proceed on your own judgement. Each gate report is in `outputs/phase{N}/G{N}_report.md`.
 
 | Gate | When | What was reported | Decision (DESIGN §17) |
 |---|---|---|---|
@@ -136,7 +137,7 @@ Stop and report to the human at each gate. Don't proceed on your own judgement. 
 | G4 | Phase 4 benchmark | Throughput, projected wall-clock | D124: \|B\| = 200; explained set as planned for all 7 families; global baseline for the best GBM |
 | G5 | Phase 5 calibration | Intensities needed | D129: calibrated grid under a fixed rule; D90–D100 confirmed |
 | End of Phase 6 | Evaluation report | §10.8 row the numbers are consistent with (D108 rule) | D137: §10.8 branch chosen; S1_W1 kept not estimable |
-| End of Phase 7 | Tables, figures, views | Formats and view content | D139: D112 formats confirmed; views unchanged; outputs local |
+| End of Phase 7 | Tables, figures, views | Formats and view content | D139: D112 formats confirmed; views unchanged. D140: results published, per-provider views kept out |
 
 ---
 
@@ -165,7 +166,7 @@ Stop and report to the human at each gate. Don't proceed on your own judgement. 
 3. **Never look at test-year results before gate G2 freezes the protocol.** (Frozen at D119. Training refuses to run if the frozen hashes change, D73.)
 4. **Label-dependent fitting** happens on training folds and years only. Peer statistics stay label-free (FEATURE_CATALOG conventions).
 5. **Don't touch or reuse the legacy prototype files**; they model a different dataset.
-6. **No outward publication** of data, results or drafts without the human's explicit approval. The repository is **public**: raw and processed data (including the LEIE file with names and addresses) and every Phase 3+ result stay out of git. That covers gate reports from G3 on, the evaluation report, tables, figures, views and the draft. Commit code, configs, design docs and provenance only.
+6. **No outward publication** of data, results or drafts without the human's explicit approval. The repository is **public**. Raw and processed data (including the LEIE file with names and addresses) stay out of git. Nothing that names an individual provider is committed: no NPIs, and no sample decision records or views. The Phase 3–7 results were published with approval (D140); new results need the same approval before they are committed.
 7. Report outcomes faithfully at each gate, including failed or underpowered results; the design has planned branches for them (DESIGN §10.8, §16).
 8. Run the tests before every push: `.venv/bin/python -m pytest -W error -p no:cacheprovider`.
 

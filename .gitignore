@@ -18,6 +18,18 @@ outputs/phase2/*
 !outputs/phase2/G2_freeze.json
 !outputs/phase2/QA_report.md
 !outputs/phase2/G2_report.md
+# Phase 3-7 results: published with the human's approval (2026-11-01, DESIGN §17 D140)
+!outputs/phase3/
+!outputs/phase4/
+!outputs/phase5/
+!outputs/phase6/
+!outputs/phase7/
+# ... except anything naming individual providers: the sample decision records and their views (real NPIs,
+# with a mock decision), and the logs of the render runs that list them
+outputs/phase7/records/
+outputs/phase7/views/*/
+outputs/phase7/runs/*render-sample*
+outputs/phase7/run_phase7.log
 
 # Python
 .venv/

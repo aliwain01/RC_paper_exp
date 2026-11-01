@@ -1,0 +1,2 @@
+/tmp/claude-0/-home-user-RC-paper-exp/cf15a2be-0c85-5c5a-a27f-79f6025656ad/scratchpad/peakmem.sh: line 10:  3596 Killed                  "$@" > "$log" 2>&1
+exit=137 elapsed=303s peakRSS=13.3GB

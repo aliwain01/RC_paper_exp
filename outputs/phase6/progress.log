@@ -1,0 +1,274 @@
+2026-10-27T07:28:02Z stability lr seed0: 2000 providers, 862s
+2026-10-27T07:43:40Z stability lr seed1: 2000 providers, 938s
+2026-10-27T07:59:09Z stability lr seed2: 2000 providers, 929s
+2026-10-27T08:14:27Z stability lr seed3: 2000 providers, 917s
+2026-10-27T08:29:08Z stability lr seed4: 2000 providers, 882s
+2026-10-27T08:45:18Z stability lr seed5: 2000 providers, 969s
+2026-10-27T09:01:08Z stability lr seed6: 2000 providers, 951s
+2026-10-27T09:17:22Z stability lr seed7: 2000 providers, 973s
+2026-10-27T09:32:24Z stability lr seed8: 2000 providers, 902s
+2026-10-27T09:48:09Z stability lr seed9: 2000 providers, 945s
+2026-10-27T11:04:54Z stability lr boot0: 2000 providers, 4510s
+2026-10-27T11:39:08Z stability lr boot1: 2000 providers, 2054s
+2026-10-27T12:13:25Z stability lr boot2: 2000 providers, 2057s
+2026-10-27T12:58:42Z stability lr boot3: 2000 providers, 2717s
+2026-10-27T14:19:05Z stability lr boot4: 2000 providers, 4822s
+2026-10-27T15:35:50Z stability lr boot5: 2000 providers, 4606s
+2026-10-27T16:11:03Z stability lr boot6: 2000 providers, 2112s
+2026-10-27T17:22:45Z stability lr boot7: 2000 providers, 4302s
+2026-10-27T18:31:57Z stability lr boot8: 2000 providers, 4152s
+2026-10-27T19:19:55Z stability lr boot9: 2000 providers, 2878s
+2026-10-27T19:35:23Z stability lr perturb0: 2000 providers, 927s
+2026-10-27T19:51:02Z stability lr perturb1: 2000 providers, 940s
+2026-10-27T20:05:52Z stability lr perturb2: 2000 providers, 889s
+2026-10-27T20:21:12Z stability lr perturb3: 2000 providers, 921s
+2026-10-27T20:37:06Z stability lr perturb4: 2000 providers, 954s
+2026-10-27T20:52:38Z stability lr perturb5: 2000 providers, 932s
+2026-10-27T21:08:36Z stability lr perturb6: 2000 providers, 958s
+2026-10-27T21:24:47Z stability lr perturb7: 2000 providers, 971s
+2026-10-27T21:40:25Z stability lr perturb8: 2000 providers, 938s
+2026-10-27T21:54:39Z stability lr perturb9: 2000 providers, 854s
+2026-10-27T21:54:39Z stability lr: done (30 runs)
+2026-10-27T22:02:19Z stability ebm seed0: 2000 providers, 459s
+2026-10-27T22:09:59Z stability ebm seed1: 2000 providers, 460s
+2026-10-27T22:17:33Z stability ebm seed2: 2000 providers, 454s
+2026-10-27T22:25:11Z stability ebm seed3: 2000 providers, 458s
+2026-10-27T22:32:46Z stability ebm seed4: 2000 providers, 455s
+2026-10-27T22:40:14Z stability ebm seed5: 2000 providers, 448s
+2026-10-27T22:48:11Z stability ebm seed6: 2000 providers, 477s
+2026-10-27T22:56:24Z stability ebm seed7: 2000 providers, 493s
+2026-10-27T23:04:37Z stability ebm seed8: 2000 providers, 493s
+2026-10-27T23:12:23Z stability ebm seed9: 2000 providers, 467s
+2026-10-27T23:28:46Z stability ebm boot0: 2000 providers, 982s
+2026-10-27T23:37:56Z stability lr: done (30 runs)
+2026-10-27T23:37:57Z stability ebm: settings or models changed; recomputing
+2026-10-27T23:37:57Z stability ebm: settings or models changed; recomputing
+2026-10-27T23:48:51Z stability ebm seed0: 2000 providers, 654s
+2026-10-27T23:59:35Z stability ebm seed1: 2000 providers, 644s
+2026-10-28T00:11:05Z stability ebm seed2: 2000 providers, 690s
+2026-10-28T00:22:46Z stability ebm seed3: 2000 providers, 701s
+2026-10-28T00:34:11Z stability ebm seed4: 2000 providers, 684s
+2026-10-28T00:45:23Z stability ebm seed5: 2000 providers, 672s
+2026-10-28T00:56:53Z stability ebm seed6: 2000 providers, 690s
+2026-10-28T01:08:28Z stability ebm seed7: 2000 providers, 695s
+2026-10-28T01:19:44Z stability ebm seed8: 2000 providers, 676s
+2026-10-28T01:30:33Z stability ebm seed9: 2000 providers, 649s
+2026-10-28T01:55:43Z stability ebm boot0: 2000 providers, 1409s
+2026-10-28T02:18:12Z stability ebm boot1: 2000 providers, 1349s
+2026-10-28T02:40:47Z stability ebm boot2: 2000 providers, 1356s
+2026-10-28T03:03:04Z stability ebm boot3: 2000 providers, 1337s
+2026-10-28T03:25:38Z stability ebm boot4: 2000 providers, 1353s
+2026-10-28T03:49:48Z stability ebm boot5: 2000 providers, 1450s
+2026-10-28T04:13:30Z stability ebm boot6: 2000 providers, 1422s
+2026-10-28T04:38:56Z stability ebm boot7: 2000 providers, 1527s
+2026-10-28T05:03:54Z stability ebm boot8: 2000 providers, 1498s
+2026-10-28T05:30:17Z stability ebm boot9: 2000 providers, 1583s
+2026-10-28T05:42:30Z stability ebm perturb0: 2000 providers, 733s
+2026-10-28T05:55:17Z stability ebm perturb1: 2000 providers, 767s
+2026-10-28T06:08:52Z stability ebm perturb2: 2000 providers, 816s
+2026-10-28T06:22:22Z stability ebm perturb3: 2000 providers, 810s
+2026-10-28T06:35:17Z stability ebm perturb4: 2000 providers, 774s
+2026-10-28T06:48:09Z stability ebm perturb5: 2000 providers, 772s
+2026-10-28T07:00:45Z stability ebm perturb6: 2000 providers, 756s
+2026-10-28T07:13:28Z stability ebm perturb7: 2000 providers, 763s
+2026-10-28T07:26:31Z stability ebm perturb8: 2000 providers, 783s
+2026-10-28T07:39:34Z stability ebm perturb9: 2000 providers, 783s
+2026-10-28T07:39:35Z stability ebm: done (30 runs)
+2026-10-28T07:53:30Z stability ga2m seed0: 2000 providers, 833s
+2026-10-28T08:06:17Z stability ga2m seed1: 2000 providers, 767s
+2026-10-28T08:19:13Z stability ga2m seed2: 2000 providers, 776s
+2026-10-28T08:32:37Z stability ga2m seed3: 2000 providers, 803s
+2026-10-28T08:45:54Z stability ga2m seed4: 2000 providers, 798s
+2026-10-28T08:58:40Z stability ga2m seed5: 2000 providers, 766s
+2026-10-28T09:11:53Z stability ga2m seed6: 2000 providers, 792s
+2026-10-28T09:24:17Z stability ga2m seed7: 2000 providers, 745s
+2026-10-28T09:37:22Z stability ga2m seed8: 2000 providers, 785s
+2026-10-28T09:51:36Z stability ga2m seed9: 2000 providers, 854s
+2026-10-28T10:25:32Z stability ga2m boot0: 2000 providers, 2036s
+2026-10-28T10:58:47Z stability ga2m boot1: 2000 providers, 1995s
+2026-10-28T11:32:19Z stability ga2m boot2: 2000 providers, 2012s
+2026-10-28T12:06:14Z stability ga2m boot3: 2000 providers, 2035s
+2026-10-28T12:39:14Z stability ga2m boot4: 2000 providers, 1979s
+2026-10-28T13:13:13Z stability ga2m boot5: 2000 providers, 2039s
+2026-10-28T13:47:58Z stability ga2m boot6: 2000 providers, 2086s
+2026-10-28T14:22:38Z stability ga2m boot7: 2000 providers, 2079s
+2026-10-28T14:56:56Z stability ga2m boot8: 2000 providers, 2058s
+2026-10-28T15:31:01Z stability ga2m boot9: 2000 providers, 2046s
+2026-10-28T15:44:25Z stability ga2m perturb0: 2000 providers, 804s
+2026-10-28T15:56:58Z stability ga2m perturb1: 2000 providers, 753s
+2026-10-28T16:10:09Z stability ga2m perturb2: 2000 providers, 791s
+2026-10-28T16:23:23Z stability ga2m perturb3: 2000 providers, 794s
+2026-10-28T16:36:14Z stability ga2m perturb4: 2000 providers, 771s
+2026-10-28T16:49:22Z stability ga2m perturb5: 2000 providers, 788s
+2026-10-28T17:02:27Z stability ga2m perturb6: 2000 providers, 784s
+2026-10-28T17:15:51Z stability ga2m perturb7: 2000 providers, 805s
+2026-10-28T17:28:46Z stability ga2m perturb8: 2000 providers, 774s
+2026-10-28T17:41:45Z stability ga2m perturb9: 2000 providers, 780s
+2026-10-28T17:41:47Z stability ga2m: done (30 runs)
+2026-10-28T17:53:11Z stability xgb seed0: 2000 providers, 682s
+2026-10-28T18:03:46Z stability xgb seed1: 2000 providers, 635s
+2026-10-28T18:14:21Z stability xgb seed2: 2000 providers, 636s
+2026-10-28T18:24:53Z stability xgb seed3: 2000 providers, 632s
+2026-10-28T18:35:25Z stability xgb seed4: 2000 providers, 633s
+2026-10-28T18:45:47Z stability xgb seed5: 2000 providers, 621s
+2026-10-28T18:56:52Z stability xgb seed6: 2000 providers, 665s
+2026-10-28T19:07:21Z stability xgb seed7: 2000 providers, 629s
+2026-10-28T19:17:56Z stability xgb seed8: 2000 providers, 635s
+2026-10-28T19:28:20Z stability xgb seed9: 2000 providers, 624s
+2026-10-28T19:40:18Z stability xgb boot0: 2000 providers, 719s
+2026-10-28T19:52:07Z stability xgb boot1: 2000 providers, 709s
+2026-10-28T20:03:29Z stability xgb boot2: 2000 providers, 682s
+2026-10-28T20:14:53Z stability xgb boot3: 2000 providers, 684s
+2026-10-28T20:26:45Z stability xgb boot4: 2000 providers, 712s
+2026-10-28T20:38:55Z stability xgb boot5: 2000 providers, 730s
+2026-10-28T20:52:00Z stability xgb boot6: 2000 providers, 785s
+2026-10-28T21:05:06Z stability xgb boot7: 2000 providers, 786s
+2026-10-28T21:17:30Z stability xgb boot8: 2000 providers, 744s
+2026-10-28T21:30:01Z stability xgb boot9: 2000 providers, 751s
+2026-10-28T21:40:09Z stability xgb perturb0: 2000 providers, 608s
+2026-10-28T21:50:39Z stability xgb perturb1: 2000 providers, 630s
+2026-10-28T22:00:56Z stability xgb perturb2: 2000 providers, 618s
+2026-10-28T22:11:14Z stability xgb perturb3: 2000 providers, 618s
+2026-10-28T22:21:37Z stability xgb perturb4: 2000 providers, 623s
+2026-10-28T22:31:36Z stability xgb perturb5: 2000 providers, 598s
+2026-10-28T22:41:38Z stability xgb perturb6: 2000 providers, 603s
+2026-10-28T22:52:11Z stability xgb perturb7: 2000 providers, 633s
+2026-10-28T23:02:32Z stability xgb perturb8: 2000 providers, 620s
+2026-10-28T23:12:40Z stability xgb perturb9: 2000 providers, 608s
+2026-10-28T23:12:41Z stability xgb: done (30 runs)
+2026-10-28T23:23:50Z stability xgb_mono seed0: 2000 providers, 666s
+2026-10-28T23:34:52Z stability xgb_mono seed1: 2000 providers, 662s
+2026-10-28T23:45:29Z stability xgb_mono seed2: 2000 providers, 636s
+2026-10-28T23:55:51Z stability xgb_mono seed3: 2000 providers, 622s
+2026-10-29T00:05:03Z stability xgb_mono seed4: 2000 providers, 552s
+2026-10-29T00:14:27Z stability lr: done (30 runs)
+2026-10-29T00:14:33Z stability ebm: done (30 runs)
+2026-10-29T00:14:40Z stability ga2m: done (30 runs)
+2026-10-29T00:14:45Z stability xgb: done (30 runs)
+2026-10-29T00:25:22Z stability xgb_mono seed5: 2000 providers, 636s
+2026-10-29T00:35:33Z stability xgb_mono seed6: 2000 providers, 611s
+2026-10-29T00:45:36Z stability xgb_mono seed7: 2000 providers, 603s
+2026-10-29T00:55:50Z stability xgb_mono seed8: 2000 providers, 615s
+2026-10-29T01:06:15Z stability xgb_mono seed9: 2000 providers, 625s
+2026-10-29T01:12:20Z stability lr: done (30 runs)
+2026-10-29T01:12:21Z stability ebm: done (30 runs)
+2026-10-29T01:12:22Z stability ga2m: done (30 runs)
+2026-10-29T01:12:24Z stability xgb: done (30 runs)
+2026-10-29T01:25:55Z stability xgb_mono boot0: 2000 providers, 794s
+2026-10-29T01:38:37Z stability xgb_mono boot1: 2000 providers, 762s
+2026-10-29T01:50:42Z stability xgb_mono boot2: 2000 providers, 726s
+2026-10-29T02:02:31Z stability xgb_mono boot3: 2000 providers, 709s
+2026-10-29T02:14:53Z stability xgb_mono boot4: 2000 providers, 742s
+2026-10-29T02:26:53Z stability xgb_mono boot5: 2000 providers, 719s
+2026-10-29T02:39:29Z stability xgb_mono boot6: 2000 providers, 756s
+2026-10-29T02:51:57Z stability xgb_mono boot7: 2000 providers, 748s
+2026-10-29T03:04:12Z stability xgb_mono boot8: 2000 providers, 735s
+2026-10-29T03:16:45Z stability xgb_mono boot9: 2000 providers, 753s
+2026-10-29T03:26:57Z stability xgb_mono perturb0: 2000 providers, 612s
+2026-10-29T03:37:30Z stability xgb_mono perturb1: 2000 providers, 632s
+2026-10-29T03:48:02Z stability xgb_mono perturb2: 2000 providers, 632s
+2026-10-29T03:58:43Z stability xgb_mono perturb3: 2000 providers, 642s
+2026-10-29T04:09:24Z stability xgb_mono perturb4: 2000 providers, 641s
+2026-10-29T04:20:12Z stability xgb_mono perturb5: 2000 providers, 648s
+2026-10-29T04:30:53Z stability xgb_mono perturb6: 2000 providers, 641s
+2026-10-29T04:41:52Z stability xgb_mono perturb7: 2000 providers, 659s
+2026-10-29T04:52:36Z stability xgb_mono perturb8: 2000 providers, 644s
+2026-10-29T05:03:30Z stability xgb_mono perturb9: 2000 providers, 654s
+2026-10-29T05:03:31Z stability xgb_mono: done (30 runs)
+2026-10-29T05:35:51Z stability lgbm seed0: 2000 providers, 1940s
+2026-10-29T06:08:32Z stability lgbm seed1: 2000 providers, 1961s
+2026-10-29T06:41:47Z stability lgbm seed2: 2000 providers, 1995s
+2026-10-29T07:16:50Z stability lgbm seed3: 2000 providers, 2103s
+2026-10-29T07:52:23Z stability lgbm seed4: 2000 providers, 2132s
+2026-10-29T08:27:21Z stability lgbm seed5: 2000 providers, 2098s
+2026-10-29T09:04:01Z stability lgbm seed6: 2000 providers, 2200s
+2026-10-29T09:39:19Z stability lgbm seed7: 2000 providers, 2118s
+2026-10-29T10:15:53Z stability lgbm seed8: 2000 providers, 2194s
+2026-10-29T10:51:11Z stability lgbm seed9: 2000 providers, 2118s
+2026-10-29T11:28:14Z stability lgbm boot0: 2000 providers, 2223s
+2026-10-29T12:05:02Z stability lgbm boot1: 2000 providers, 2208s
+2026-10-29T12:42:11Z stability lgbm boot2: 2000 providers, 2228s
+2026-10-29T13:18:02Z stability lgbm boot3: 2000 providers, 2151s
+2026-10-29T13:55:33Z stability lgbm boot4: 2000 providers, 2251s
+2026-10-29T14:31:55Z stability lgbm boot5: 2000 providers, 2182s
+2026-10-29T15:07:50Z stability lgbm boot6: 2000 providers, 2155s
+2026-10-29T15:43:28Z stability lgbm boot7: 2000 providers, 2138s
+2026-10-29T16:19:33Z stability lgbm boot8: 2000 providers, 2165s
+2026-10-29T16:55:46Z stability lgbm boot9: 2000 providers, 2173s
+2026-10-29T17:29:11Z stability lgbm perturb0: 2000 providers, 2005s
+2026-10-29T18:02:42Z stability lgbm perturb1: 2000 providers, 2012s
+2026-10-29T18:36:46Z stability lgbm perturb2: 2000 providers, 2044s
+2026-10-29T19:09:53Z stability lgbm perturb3: 2000 providers, 1987s
+2026-10-29T19:43:58Z stability lgbm perturb4: 2000 providers, 2044s
+2026-10-29T20:17:03Z stability lgbm perturb5: 2000 providers, 1985s
+2026-10-29T20:49:30Z stability lgbm perturb6: 2000 providers, 1947s
+2026-10-29T21:23:01Z stability lgbm perturb7: 2000 providers, 2011s
+2026-10-29T21:55:47Z stability lgbm perturb8: 2000 providers, 1966s
+2026-10-29T22:28:05Z stability lgbm perturb9: 2000 providers, 1938s
+2026-10-29T22:28:06Z stability lgbm: done (30 runs)
+2026-10-29T22:47:30Z stability lgbm_mono seed0: 2000 providers, 1163s
+2026-10-29T23:06:48Z stability lgbm_mono seed1: 2000 providers, 1158s
+2026-10-29T23:26:36Z stability lgbm_mono seed2: 2000 providers, 1188s
+2026-10-29T23:46:07Z stability lgbm_mono seed3: 2000 providers, 1172s
+2026-10-30T00:05:42Z stability lgbm_mono seed4: 2000 providers, 1175s
+2026-10-30T00:25:43Z stability lgbm_mono seed5: 2000 providers, 1201s
+2026-10-30T00:45:27Z stability lgbm_mono seed6: 2000 providers, 1184s
+2026-10-30T01:05:22Z stability lgbm_mono seed7: 2000 providers, 1195s
+2026-10-30T01:25:03Z stability lgbm_mono seed8: 2000 providers, 1181s
+2026-10-30T01:45:26Z stability lgbm_mono seed9: 2000 providers, 1223s
+2026-10-30T02:07:11Z stability lgbm_mono boot0: 2000 providers, 1305s
+2026-10-30T02:28:44Z stability lgbm_mono boot1: 2000 providers, 1292s
+2026-10-30T02:50:26Z stability lgbm_mono boot2: 2000 providers, 1302s
+2026-10-30T03:12:49Z stability lgbm_mono boot3: 2000 providers, 1343s
+2026-10-30T03:34:26Z stability lgbm_mono boot4: 2000 providers, 1297s
+2026-10-30T03:56:08Z stability lgbm_mono boot5: 2000 providers, 1301s
+2026-10-30T04:17:14Z stability lgbm_mono boot6: 2000 providers, 1266s
+2026-10-30T04:38:12Z stability lgbm_mono boot7: 2000 providers, 1258s
+2026-10-30T04:59:42Z stability lgbm_mono boot8: 2000 providers, 1290s
+2026-10-30T05:21:45Z stability lgbm_mono boot9: 2000 providers, 1323s
+2026-10-30T05:41:46Z stability lgbm_mono perturb0: 2000 providers, 1201s
+2026-10-30T06:02:37Z stability lgbm_mono perturb1: 2000 providers, 1250s
+2026-10-30T06:22:45Z stability lgbm_mono perturb2: 2000 providers, 1208s
+2026-10-30T06:43:29Z stability lgbm_mono perturb3: 2000 providers, 1244s
+2026-10-30T07:04:57Z stability lgbm_mono perturb4: 2000 providers, 1288s
+2026-10-30T07:27:02Z stability lgbm_mono perturb5: 2000 providers, 1326s
+2026-10-30T07:50:10Z stability lgbm_mono perturb6: 2000 providers, 1388s
+2026-10-30T08:12:50Z stability lgbm_mono perturb7: 2000 providers, 1361s
+2026-10-30T08:36:26Z stability lgbm_mono perturb8: 2000 providers, 1415s
+2026-10-30T08:59:24Z stability lgbm_mono perturb9: 2000 providers, 1378s
+2026-10-30T08:59:25Z stability lgbm_mono: done (30 runs)
+2026-10-30T09:05:42Z stability lr: done (30 runs)
+2026-10-30T09:05:43Z stability ebm: done (30 runs)
+2026-10-30T09:05:45Z stability ga2m: done (30 runs)
+2026-10-30T09:05:46Z stability xgb: done (30 runs)
+2026-10-30T09:05:47Z stability xgb_mono: done (30 runs)
+2026-10-30T09:05:49Z stability lgbm: done (30 runs)
+2026-10-30T09:05:50Z stability lgbm_mono: done (30 runs)
+2026-10-30T09:07:49Z stability lr: done (30 runs)
+2026-10-30T09:07:51Z stability ebm: done (30 runs)
+2026-10-30T09:07:52Z stability ga2m: done (30 runs)
+2026-10-30T09:07:53Z stability xgb: done (30 runs)
+2026-10-30T09:07:54Z stability xgb_mono: done (30 runs)
+2026-10-30T09:07:56Z stability lgbm: done (30 runs)
+2026-10-30T09:07:57Z stability lgbm_mono: done (30 runs)
+2026-10-30T12:29:04Z stability lr: done (30 runs)
+2026-10-30T12:29:10Z stability ebm: done (30 runs)
+2026-10-30T12:29:17Z stability ga2m: done (30 runs)
+2026-10-30T12:29:24Z stability xgb: done (30 runs)
+2026-10-30T12:29:32Z stability xgb_mono: done (30 runs)
+2026-10-30T12:29:41Z stability lgbm: done (30 runs)
+2026-10-30T12:29:45Z stability lgbm_mono: done (30 runs)
+2026-10-30T12:39:46Z stability lr: done (30 runs)
+2026-10-30T12:39:47Z stability ebm: done (30 runs)
+2026-10-30T12:39:48Z stability ga2m: done (30 runs)
+2026-10-30T12:39:48Z stability xgb: done (30 runs)
+2026-10-30T12:39:49Z stability xgb_mono: done (30 runs)
+2026-10-30T12:39:50Z stability lgbm: done (30 runs)
+2026-10-30T12:39:51Z stability lgbm_mono: done (30 runs)
+2026-10-30T17:54:07Z stability lr: done (30 runs)
+2026-10-30T17:54:08Z stability ebm: done (30 runs)
+2026-10-30T17:54:09Z stability ga2m: done (30 runs)
+2026-10-30T17:54:10Z stability xgb: done (30 runs)
+2026-10-30T17:54:11Z stability xgb_mono: done (30 runs)
+2026-10-30T17:54:12Z stability lgbm: done (30 runs)
+2026-10-30T17:54:13Z stability lgbm_mono: done (30 runs)

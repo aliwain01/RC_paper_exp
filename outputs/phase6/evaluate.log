@@ -1,0 +1,9 @@
+{
+  "correctness": true,
+  "consistency": true,
+  "faithfulness": true,
+  "baselines": true,
+  "stress": true,
+  "fairness": true,
+  "synthetic_inputs": false
+}

@@ -1,0 +1,3029 @@
+{
+ "generated_utc": "2026-10-27T04:08:06.143863+00:00",
+ "provenance": {
+  "synthetic": false,
+  "harmonised_files": 28,
+  "synthetic_harmonised_files": [],
+  "unknown_provenance_files": [],
+  "registered_files": 80,
+  "synthetic_registered_files": []
+ },
+ "calibration": {
+  "year": 2021,
+  "target_percentile": 0.95,
+  "schemes": {
+   "upcoding": {
+    "primary_feature": "UP2",
+    "grid": [
+     {
+      "intensity": 0.05,
+      "median_percentile": 0.6719515660629751,
+      "share_at_or_above_target": 0.11,
+      "median_z": 0.16028158742503634,
+      "n": 200
+     },
+     {
+      "intensity": 0.1,
+      "median_percentile": 0.6845623420532421,
+      "share_at_or_above_target": 0.11,
+      "median_z": 0.21135500519928885,
+      "n": 200
+     },
+     {
+      "intensity": 0.15,
+      "median_percentile": 0.6956294605440133,
+      "share_at_or_above_target": 0.11,
+      "median_z": 0.2771918169184373,
+      "n": 200
+     },
+     {
+      "intensity": 0.2,
+      "median_percentile": 0.7220191579163419,
+      "share_at_or_above_target": 0.11,
+      "median_z": 0.3575700275117535,
+      "n": 200
+     },
+     {
+      "intensity": 0.3,
+      "median_percentile": 0.7541222823013746,
+      "share_at_or_above_target": 0.12,
+      "median_z": 0.5113758010691498,
+      "n": 200
+     },
+     {
+      "intensity": 0.4,
+      "median_percentile": 0.8099482943958516,
+      "share_at_or_above_target": 0.17,
+      "median_z": 0.6698729158357553,
+      "n": 200
+     },
+     {
+      "intensity": 0.5,
+      "median_percentile": 0.8348804028938446,
+      "share_at_or_above_target": 0.21,
+      "median_z": 0.6762656569247616,
+      "n": 200
+     },
+     {
+      "intensity": 0.7,
+      "median_percentile": 0.9009794956017677,
+      "share_at_or_above_target": 0.295,
+      "median_z": 0.9303831591583244,
+      "n": 200
+     },
+     {
+      "intensity": 0.85,
+      "median_percentile": 0.9518449872045762,
+      "share_at_or_above_target": 0.52,
+      "median_z": 1.0523067163341098,
+      "n": 200
+     },
+     {
+      "intensity": 1.0,
+      "median_percentile": 0.9821950238852384,
+      "share_at_or_above_target": 0.81,
+      "median_z": 1.05990414801901,
+      "n": 200
+     }
+    ],
+    "current": {
+     "low": 0.15,
+     "medium": 0.3,
+     "high": 0.5
+    },
+    "proposed_medium": 0.85
+   },
+   "overutilization": {
+    "primary_feature": "OU1",
+    "grid": [
+     {
+      "intensity": 1.1,
+      "median_percentile": 0.5768874883447949,
+      "share_at_or_above_target": 0.11,
+      "median_z": 0.21953670357550253,
+      "n": 200
+     },
+     {
+      "intensity": 1.2,
+      "median_percentile": 0.6622005342211389,
+      "share_at_or_above_target": 0.12,
+      "median_z": 0.49183260910677556,
+      "n": 200
+     },
+     {
+      "intensity": 1.3,
+      "median_percentile": 0.7095601888694361,
+      "share_at_or_above_target": 0.155,
+      "median_z": 0.7159925677919906,
+      "n": 200
+     },
+     {
+      "intensity": 1.45,
+      "median_percentile": 0.7785470274326463,
+      "share_at_or_above_target": 0.21,
+      "median_z": 1.1365366801573655,
+      "n": 200
+     },
+     {
+      "intensity": 1.6,
+      "median_percentile": 0.819013274969751,
+      "share_at_or_above_target": 0.26,
+      "median_z": 1.4992713394097563,
+      "n": 200
+     },
+     {
+      "intensity": 1.8,
+      "median_percentile": 0.8613485325015678,
+      "share_at_or_above_target": 0.3,
+      "median_z": 1.9644497116104713,
+      "n": 200
+     },
+     {
+      "intensity": 2.0,
+      "median_percentile": 0.8903569173920144,
+      "share_at_or_above_target": 0.36,
+      "median_z": 2.431740504917884,
+      "n": 200
+     },
+     {
+      "intensity": 2.5,
+      "median_percentile": 0.9331713417272707,
+      "share_at_or_above_target": 0.45,
+      "median_z": 3.586594718050933,
+      "n": 200
+     },
+     {
+      "intensity": 3.0,
+      "median_percentile": 0.9579343135098317,
+      "share_at_or_above_target": 0.54,
+      "median_z": 4.761842607743496,
+      "n": 200
+     },
+     {
+      "intensity": 3.5,
+      "median_percentile": 0.9721029890140855,
+      "share_at_or_above_target": 0.625,
+      "median_z": 5.905968975119188,
+      "n": 200
+     },
+     {
+      "intensity": 4.0,
+      "median_percentile": 0.9820901285506534,
+      "share_at_or_above_target": 0.715,
+      "median_z": 7.0053582824985465,
+      "n": 200
+     }
+    ],
+    "current": {
+     "low": 1.3,
+     "medium": 1.6,
+     "high": 2.0
+    },
+    "proposed_medium": 3.0
+   },
+   "atypical_mix": {
+    "primary_feature": "SM2",
+    "grid": [
+     {
+      "intensity": 0.01,
+      "median_percentile": 0.8892263056092843,
+      "share_at_or_above_target": 0.3,
+      "median_z": 0.8597843665511682,
+      "n": 200
+     },
+     {
+      "intensity": 0.02,
+      "median_percentile": 0.9245869896592922,
+      "share_at_or_above_target": 0.435,
+      "median_z": 1.58810835898048,
+      "n": 200
+     },
+     {
+      "intensity": 0.03,
+      "median_percentile": 0.9466314622656034,
+      "share_at_or_above_target": 0.49,
+      "median_z": 2.1734027632611,
+      "n": 200
+     },
+     {
+      "intensity": 0.05,
+      "median_percentile": 0.9732806579953239,
+      "share_at_or_above_target": 0.57,
+      "median_z": 3.2761972726409603,
+      "n": 200
+     },
+     {
+      "intensity": 0.1,
+      "median_percentile": 0.9874574894010183,
+      "share_at_or_above_target": 0.71,
+      "median_z": 5.317411674951883,
+      "n": 200
+     },
+     {
+      "intensity": 0.15,
+      "median_percentile": 0.9938790420713504,
+      "share_at_or_above_target": 0.81,
+      "median_z": 7.09250885202057,
+      "n": 200
+     },
+     {
+      "intensity": 0.2,
+      "median_percentile": 0.9958412677339905,
+      "share_at_or_above_target": 0.825,
+      "median_z": 8.16424208193936,
+      "n": 200
+     },
+     {
+      "intensity": 0.25,
+      "median_percentile": 0.9970476320147459,
+      "share_at_or_above_target": 0.855,
+      "median_z": 8.909697711202966,
+      "n": 200
+     },
+     {
+      "intensity": 0.35,
+      "median_percentile": 1.0,
+      "share_at_or_above_target": 0.865,
+      "median_z": 10.0,
+      "n": 200
+     },
+     {
+      "intensity": 0.5,
+      "median_percentile": 1.0,
+      "share_at_or_above_target": 0.905,
+      "median_z": 10.0,
+      "n": 200
+     }
+    ],
+    "current": {
+     "low": 0.1,
+     "medium": 0.2,
+     "high": 0.35
+    },
+    "proposed_medium": 0.05
+   },
+   "charge_inflation": {
+    "primary_feature": "CH1",
+    "grid": [
+     {
+      "intensity": 1.1,
+      "median_percentile": 0.6367242728534133,
+      "share_at_or_above_target": 0.085,
+      "median_z": 0.3494415009858746,
+      "n": 200
+     },
+     {
+      "intensity": 1.2,
+      "median_percentile": 0.7158058953118613,
+      "share_at_or_above_target": 0.13,
+      "median_z": 0.7299195751383591,
+      "n": 200
+     },
+     {
+      "intensity": 1.3,
+      "median_percentile": 0.7792002620898022,
+      "share_at_or_above_target": 0.17,
+      "median_z": 1.0222044821893632,
+      "n": 200
+     },
+     {
+      "intensity": 1.5,
+      "median_percentile": 0.8645927229628221,
+      "share_at_or_above_target": 0.27,
+      "median_z": 1.6964532413005933,
+      "n": 200
+     },
+     {
+      "intensity": 1.7,
+      "median_percentile": 0.917801990454487,
+      "share_at_or_above_target": 0.37,
+      "median_z": 2.2938790903137587,
+      "n": 200
+     },
+     {
+      "intensity": 2.0,
+      "median_percentile": 0.954240604168953,
+      "share_at_or_above_target": 0.54,
+      "median_z": 3.1871185807989653,
+      "n": 200
+     },
+     {
+      "intensity": 2.2,
+      "median_percentile": 0.9657341025455762,
+      "share_at_or_above_target": 0.575,
+      "median_z": 3.7545870020823706,
+      "n": 200
+     },
+     {
+      "intensity": 2.6,
+      "median_percentile": 0.9794322214877229,
+      "share_at_or_above_target": 0.695,
+      "median_z": 5.006444265855053,
+      "n": 200
+     }
+    ],
+    "current": {
+     "low": 1.3,
+     "medium": 1.7,
+     "high": 2.2
+    },
+    "proposed_medium": 2.0
+   },
+   "dme_mill": {
+    "primary_feature": "DI1",
+    "grid": [
+     {
+      "intensity": 0.5,
+      "median_percentile": 0.08751674949377858,
+      "share_at_or_above_target": 0.035,
+      "median_z": -0.43698510579629,
+      "n": 200
+     },
+     {
+      "intensity": 1.0,
+      "median_percentile": 0.1819564264609536,
+      "share_at_or_above_target": 0.04,
+      "median_z": -0.22396952740191917,
+      "n": 200
+     },
+     {
+      "intensity": 2.0,
+      "median_percentile": 0.7331084959339305,
+      "share_at_or_above_target": 0.085,
+      "median_z": 0.07629325534046436,
+      "n": 200
+     },
+     {
+      "intensity": 3.0,
+      "median_percentile": 0.8180793434165251,
+      "share_at_or_above_target": 0.145,
+      "median_z": 0.3854372769571324,
+      "n": 200
+     },
+     {
+      "intensity": 4.0,
+      "median_percentile": 0.8659331296433979,
+      "share_at_or_above_target": 0.2,
+      "median_z": 0.5168559696637007,
+      "n": 200
+     },
+     {
+      "intensity": 6.0,
+      "median_percentile": 0.9106896172296215,
+      "share_at_or_above_target": 0.26,
+      "median_z": 0.7118008855866094,
+      "n": 200
+     },
+     {
+      "intensity": 8.0,
+      "median_percentile": 0.9202636806935163,
+      "share_at_or_above_target": 0.335,
+      "median_z": 0.8360015110138352,
+      "n": 200
+     },
+     {
+      "intensity": 12.0,
+      "median_percentile": 0.9383729735097693,
+      "share_at_or_above_target": 0.41,
+      "median_z": 1.1254912516067197,
+      "n": 200
+     },
+     {
+      "intensity": 16.0,
+      "median_percentile": 0.9497003824408635,
+      "share_at_or_above_target": 0.5,
+      "median_z": 1.4855259223908739,
+      "n": 200
+     },
+     {
+      "intensity": 24.0,
+      "median_percentile": 0.966660499463911,
+      "share_at_or_above_target": 0.615,
+      "median_z": 2.258015875150666,
+      "n": 200
+     },
+     {
+      "intensity": 32.0,
+      "median_percentile": 0.9763876820360115,
+      "share_at_or_above_target": 0.705,
+      "median_z": 3.0439203711583245,
+      "n": 200
+     }
+    ],
+    "current": {
+     "low": 2.0,
+     "medium": 4.0,
+     "high": 8.0
+    },
+    "proposed_medium": 24.0
+   }
+  }
+ },
+ "draws": {
+  "0": {
+   "plan": [
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.59
+    },
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5433333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5833333333333334
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5966666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.59
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.6333333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.17333333333333334
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.26666666666666666
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.27666666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.6066666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.61
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.62
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization+atypical_mix",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.58
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization+dme_mill",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.21
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.43666666666666665
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.37666666666666665
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.41
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding+charge_inflation",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.42
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding+overutilization",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.38666666666666666
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5876089060987415
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5711519845111326
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5711519845111326
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6379477250726041
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5924491771539206
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5982575024201355
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3010648596321394
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.2797676669893514
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.2468538238141336
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5750242013552759
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6040658276863504
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6021297192642788
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization+atypical_mix",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.558567279767667
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization+dme_mill",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.20813165537270087
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.4230396902226525
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.4220716360116166
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3969022265246854
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding+charge_inflation",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3862536302032914
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding+overutilization",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.37560503388189737
+    }
+   ],
+   "shortfalls": [],
+   "leakage": [
+    {
+     "id": "L5",
+     "check": "edited cms_ps rows re-suppressed (tot_benes > 10)",
+     "status": "pass",
+     "detail": "0 rows at or below the threshold"
+    },
+    {
+     "id": "L5",
+     "check": "edited dme_s rows re-suppressed (tot_suplr_clms > 10)",
+     "status": "pass",
+     "detail": "0 rows at or below the threshold"
+    },
+    {
+     "id": "L5",
+     "check": "only planned providers' rows edited",
+     "status": "pass",
+     "detail": "0 edited rows of unplanned NPIs"
+    },
+    {
+     "id": "L2",
+     "check": "peer statistics and cell sizes count only non-injected providers",
+     "status": "pass",
+     "detail": "0 violations over 99876 statistic cells"
+    }
+   ],
+   "build": {
+    "draw": 0,
+    "years": {
+     "2018": {
+      "injected": 4795,
+      "rows_suppressed_ps": 714,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 959794
+     },
+     "2019": {
+      "injected": 4948,
+      "rows_suppressed_ps": 722,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 0,
+      "featurised": 988049
+     },
+     "2020": {
+      "injected": 4837,
+      "rows_suppressed_ps": 740,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 966438
+     },
+     "2021": {
+      "injected": 5047,
+      "rows_suppressed_ps": 785,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 0,
+      "featurised": 1010238
+     },
+     "2022": {
+      "injected": 2815,
+      "rows_suppressed_ps": 408,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 1027753
+     },
+     "2023": {
+      "injected": 2885,
+      "rows_suppressed_ps": 421,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 1046783
+     }
+    },
+    "missing_years": []
+   },
+   "shift": [
+    {
+     "schemes": "atypical_mix",
+     "n": 900,
+     "upcoding": 0.001,
+     "overutilization": 0.457,
+     "atypical_mix": 0.847,
+     "charge_inflation": 0.079,
+     "patient_mix": 0.38,
+     "dme_intensity": -0.001,
+     "dme_concentration": -0.001
+    },
+    {
+     "schemes": "charge_inflation",
+     "n": 900,
+     "upcoding": 0.001,
+     "overutilization": 0.0,
+     "atypical_mix": 0.008,
+     "charge_inflation": 0.794,
+     "patient_mix": 0.006,
+     "dme_intensity": -0.002,
+     "dme_concentration": 0.001
+    },
+    {
+     "schemes": "dme_mill",
+     "n": 900,
+     "upcoding": 0.001,
+     "overutilization": 0.0,
+     "atypical_mix": 0.005,
+     "charge_inflation": 0.0,
+     "patient_mix": -0.001,
+     "dme_intensity": 4.114,
+     "dme_concentration": 7.025
+    },
+    {
+     "schemes": "overutilization",
+     "n": 900,
+     "upcoding": 0.0,
+     "overutilization": 1.92,
+     "atypical_mix": -0.06,
+     "charge_inflation": 0.966,
+     "patient_mix": 2.469,
+     "dme_intensity": 0.001,
+     "dme_concentration": 0.001
+    },
+    {
+     "schemes": "overutilization+atypical_mix",
+     "n": 300,
+     "upcoding": 0.001,
+     "overutilization": 2.41,
+     "atypical_mix": 0.504,
+     "charge_inflation": 1.07,
+     "patient_mix": 2.898,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "overutilization+dme_mill",
+     "n": 300,
+     "upcoding": 0.001,
+     "overutilization": 1.952,
+     "atypical_mix": -0.04,
+     "charge_inflation": 0.997,
+     "patient_mix": 2.341,
+     "dme_intensity": 4.592,
+     "dme_concentration": 8.031
+    },
+    {
+     "schemes": "upcoding",
+     "n": 898,
+     "upcoding": 1.128,
+     "overutilization": 0.217,
+     "atypical_mix": 0.08,
+     "charge_inflation": 0.176,
+     "patient_mix": 0.091,
+     "dme_intensity": 0.001,
+     "dme_concentration": -0.0
+    },
+    {
+     "schemes": "upcoding+charge_inflation",
+     "n": 300,
+     "upcoding": 1.042,
+     "overutilization": -0.017,
+     "atypical_mix": 0.097,
+     "charge_inflation": 0.888,
+     "patient_mix": 0.071,
+     "dme_intensity": 0.001,
+     "dme_concentration": 0.002
+    },
+    {
+     "schemes": "upcoding+overutilization",
+     "n": 300,
+     "upcoding": 1.287,
+     "overutilization": 2.017,
+     "atypical_mix": -0.053,
+     "charge_inflation": 1.287,
+     "patient_mix": 2.514,
+     "dme_intensity": -0.005,
+     "dme_concentration": -0.001
+    }
+   ],
+   "models": [
+    {
+     "family": "ebm",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "ga2m",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "lgbm",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "lgbm_mono",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "lr",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "xgb",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "xgb_mono",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    }
+   ]
+  },
+  "1": {
+   "plan": [
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.62
+    },
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.6
+    },
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5333333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.6166666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.62
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.62
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.24333333333333335
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.23333333333333334
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.25333333333333335
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.59
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.57
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.57
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization+atypical_mix",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5666666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization+dme_mill",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.25
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.4266666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.41
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.43333333333333335
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding+charge_inflation",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.36666666666666664
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding+overutilization",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.34
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5663117134559535
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5914811229428848
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.542110358180058
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5750242013552759
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.601161665053243
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6050338818973863
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.27202323330106487
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.2691190706679574
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.23910939012584706
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6069699903194579
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6069699903194579
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5847047434656341
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization+atypical_mix",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5711519845111326
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization+dme_mill",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.24394966118102615
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.398838334946757
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3765730880929332
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.4259438528557599
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding+charge_inflation",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.4027105517909003
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding+overutilization",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3823814133591481
+    }
+   ],
+   "shortfalls": [],
+   "leakage": [
+    {
+     "id": "L5",
+     "check": "edited cms_ps rows re-suppressed (tot_benes > 10)",
+     "status": "pass",
+     "detail": "0 rows at or below the threshold"
+    },
+    {
+     "id": "L5",
+     "check": "edited dme_s rows re-suppressed (tot_suplr_clms > 10)",
+     "status": "pass",
+     "detail": "0 rows at or below the threshold"
+    },
+    {
+     "id": "L5",
+     "check": "only planned providers' rows edited",
+     "status": "pass",
+     "detail": "0 edited rows of unplanned NPIs"
+    },
+    {
+     "id": "L2",
+     "check": "peer statistics and cell sizes count only non-injected providers",
+     "status": "pass",
+     "detail": "0 violations over 99818 statistic cells"
+    }
+   ],
+   "build": {
+    "draw": 1,
+    "years": {
+     "2018": {
+      "injected": 4764,
+      "rows_suppressed_ps": 674,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 0,
+      "featurised": 959795
+     },
+     "2019": {
+      "injected": 4948,
+      "rows_suppressed_ps": 735,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 988048
+     },
+     "2020": {
+      "injected": 4843,
+      "rows_suppressed_ps": 723,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 0,
+      "featurised": 966439
+     },
+     "2021": {
+      "injected": 5072,
+      "rows_suppressed_ps": 741,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 4,
+      "featurised": 1010234
+     },
+     "2022": {
+      "injected": 2829,
+      "rows_suppressed_ps": 403,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 2,
+      "featurised": 1027752
+     },
+     "2023": {
+      "injected": 2871,
+      "rows_suppressed_ps": 406,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 0,
+      "featurised": 1046784
+     }
+    },
+    "missing_years": []
+   },
+   "shift": [
+    {
+     "schemes": "atypical_mix",
+     "n": 900,
+     "upcoding": -0.002,
+     "overutilization": 0.401,
+     "atypical_mix": 0.78,
+     "charge_inflation": 0.062,
+     "patient_mix": 0.342,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "charge_inflation",
+     "n": 900,
+     "upcoding": 0.001,
+     "overutilization": 0.001,
+     "atypical_mix": 0.008,
+     "charge_inflation": 0.816,
+     "patient_mix": 0.005,
+     "dme_intensity": 0.001,
+     "dme_concentration": -0.0
+    },
+    {
+     "schemes": "dme_mill",
+     "n": 900,
+     "upcoding": -0.001,
+     "overutilization": 0.001,
+     "atypical_mix": 0.003,
+     "charge_inflation": -0.0,
+     "patient_mix": -0.0,
+     "dme_intensity": 4.116,
+     "dme_concentration": 6.989
+    },
+    {
+     "schemes": "overutilization",
+     "n": 900,
+     "upcoding": 0.001,
+     "overutilization": 1.932,
+     "atypical_mix": -0.048,
+     "charge_inflation": 0.973,
+     "patient_mix": 2.478,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "overutilization+atypical_mix",
+     "n": 300,
+     "upcoding": -0.004,
+     "overutilization": 2.334,
+     "atypical_mix": 0.447,
+     "charge_inflation": 1.141,
+     "patient_mix": 2.819,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "overutilization+dme_mill",
+     "n": 300,
+     "upcoding": -0.003,
+     "overutilization": 1.865,
+     "atypical_mix": -0.058,
+     "charge_inflation": 0.951,
+     "patient_mix": 2.366,
+     "dme_intensity": 4.407,
+     "dme_concentration": 7.73
+    },
+    {
+     "schemes": "upcoding",
+     "n": 899,
+     "upcoding": 1.084,
+     "overutilization": 0.159,
+     "atypical_mix": 0.089,
+     "charge_inflation": 0.149,
+     "patient_mix": 0.085,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.001
+    },
+    {
+     "schemes": "upcoding+charge_inflation",
+     "n": 299,
+     "upcoding": 1.162,
+     "overutilization": -0.006,
+     "atypical_mix": 0.066,
+     "charge_inflation": 0.934,
+     "patient_mix": 0.109,
+     "dme_intensity": 0.0,
+     "dme_concentration": -0.0
+    },
+    {
+     "schemes": "upcoding+overutilization",
+     "n": 300,
+     "upcoding": 1.148,
+     "overutilization": 1.987,
+     "atypical_mix": -0.047,
+     "charge_inflation": 1.272,
+     "patient_mix": 2.452,
+     "dme_intensity": -0.007,
+     "dme_concentration": 0.0
+    }
+   ],
+   "models": [
+    {
+     "family": "ebm",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "ga2m",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "lgbm",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "lgbm_mono",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "lr",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "xgb",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    },
+    {
+     "family": "xgb_mono",
+     "test_rows": 2073910,
+     "test_injected": 5698
+    }
+   ]
+  },
+  "2": {
+   "plan": [
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5433333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5666666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.57
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.6366666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.62
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.6533333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.36666666666666664
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.24
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.2633333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.62
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.61
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5966666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization+atypical_mix",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5433333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization+dme_mill",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.22333333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.44333333333333336
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.38333333333333336
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.38333333333333336
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding+charge_inflation",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.4166666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding+overutilization",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.37666666666666665
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5856727976766699
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5827686350435625
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5827686350435625
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6030977734753146
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6224588576960309
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5914811229428848
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.25653436592449175
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.27783155856727976
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.2623426911907067
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5992255566311714
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5788964181994192
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6050338818973863
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization+atypical_mix",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6089060987415296
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization+dme_mill",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.2681510164569216
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.42400774443368827
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.398838334946757
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.37947725072604066
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding+charge_inflation",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.43272023233301066
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding+overutilization",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3998063891577928
+    }
+   ],
+   "shortfalls": [],
+   "leakage": [
+    {
+     "id": "L5",
+     "check": "edited cms_ps rows re-suppressed (tot_benes > 10)",
+     "status": "pass",
+     "detail": "0 rows at or below the threshold"
+    },
+    {
+     "id": "L5",
+     "check": "edited dme_s rows re-suppressed (tot_suplr_clms > 10)",
+     "status": "pass",
+     "detail": "0 rows at or below the threshold"
+    },
+    {
+     "id": "L5",
+     "check": "only planned providers' rows edited",
+     "status": "pass",
+     "detail": "0 edited rows of unplanned NPIs"
+    },
+    {
+     "id": "L2",
+     "check": "peer statistics and cell sizes count only non-injected providers",
+     "status": "pass",
+     "detail": "0 violations over 99847 statistic cells"
+    }
+   ],
+   "build": {
+    "draw": 2,
+    "years": {
+     "2018": {
+      "injected": 4781,
+      "rows_suppressed_ps": 701,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 0,
+      "featurised": 959795
+     },
+     "2019": {
+      "injected": 4937,
+      "rows_suppressed_ps": 660,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 988048
+     },
+     "2020": {
+      "injected": 4829,
+      "rows_suppressed_ps": 706,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 2,
+      "featurised": 966437
+     },
+     "2021": {
+      "injected": 5080,
+      "rows_suppressed_ps": 764,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 3,
+      "featurised": 1010235
+     },
+     "2022": {
+      "injected": 2810,
+      "rows_suppressed_ps": 470,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 1027753
+     },
+     "2023": {
+      "injected": 2890,
+      "rows_suppressed_ps": 439,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 0,
+      "featurised": 1046784
+     }
+    },
+    "missing_years": []
+   },
+   "shift": [
+    {
+     "schemes": "atypical_mix",
+     "n": 900,
+     "upcoding": -0.0,
+     "overutilization": 0.415,
+     "atypical_mix": 0.805,
+     "charge_inflation": 0.063,
+     "patient_mix": 0.365,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.001
+    },
+    {
+     "schemes": "charge_inflation",
+     "n": 900,
+     "upcoding": 0.001,
+     "overutilization": 0.001,
+     "atypical_mix": 0.014,
+     "charge_inflation": 0.796,
+     "patient_mix": 0.002,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "dme_mill",
+     "n": 900,
+     "upcoding": -0.001,
+     "overutilization": 0.001,
+     "atypical_mix": 0.009,
+     "charge_inflation": -0.0,
+     "patient_mix": 0.001,
+     "dme_intensity": 4.137,
+     "dme_concentration": 6.871
+    },
+    {
+     "schemes": "overutilization",
+     "n": 900,
+     "upcoding": 0.001,
+     "overutilization": 1.897,
+     "atypical_mix": -0.034,
+     "charge_inflation": 0.976,
+     "patient_mix": 2.5,
+     "dme_intensity": 0.001,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "overutilization+atypical_mix",
+     "n": 300,
+     "upcoding": 0.002,
+     "overutilization": 2.279,
+     "atypical_mix": 0.424,
+     "charge_inflation": 1.028,
+     "patient_mix": 2.779,
+     "dme_intensity": -0.006,
+     "dme_concentration": -0.0
+    },
+    {
+     "schemes": "overutilization+dme_mill",
+     "n": 300,
+     "upcoding": 0.0,
+     "overutilization": 1.797,
+     "atypical_mix": -0.046,
+     "charge_inflation": 0.929,
+     "patient_mix": 2.363,
+     "dme_intensity": 4.344,
+     "dme_concentration": 7.734
+    },
+    {
+     "schemes": "upcoding",
+     "n": 900,
+     "upcoding": 1.033,
+     "overutilization": 0.185,
+     "atypical_mix": 0.121,
+     "charge_inflation": 0.145,
+     "patient_mix": 0.062,
+     "dme_intensity": -0.0,
+     "dme_concentration": -0.0
+    },
+    {
+     "schemes": "upcoding+charge_inflation",
+     "n": 299,
+     "upcoding": 1.05,
+     "overutilization": -0.005,
+     "atypical_mix": 0.097,
+     "charge_inflation": 0.863,
+     "patient_mix": 0.087,
+     "dme_intensity": 0.001,
+     "dme_concentration": -0.001
+    },
+    {
+     "schemes": "upcoding+overutilization",
+     "n": 300,
+     "upcoding": 1.069,
+     "overutilization": 2.074,
+     "atypical_mix": -0.028,
+     "charge_inflation": 1.22,
+     "patient_mix": 2.436,
+     "dme_intensity": -0.0,
+     "dme_concentration": 0.002
+    }
+   ],
+   "models": [
+    {
+     "family": "ebm",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "ga2m",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "lgbm",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "lgbm_mono",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "lr",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "xgb",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "xgb_mono",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    }
+   ]
+  },
+  "3": {
+   "plan": [
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.54
+    },
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.55
+    },
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.59
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5866666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.6333333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.61
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.27
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.24666666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.26666666666666666
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.61
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.57
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.6066666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization+atypical_mix",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5733333333333334
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization+dme_mill",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.21333333333333335
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.4533333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.39
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.44
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding+charge_inflation",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.38333333333333336
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding+overutilization",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.3933333333333333
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5634075508228461
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5605033881897387
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5943852855759922
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6089060987415296
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6021297192642788
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5992255566311714
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.271055179090029
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.2197483059051307
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.2575024201355276
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5982575024201355
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5953533397870281
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5914811229428848
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization+atypical_mix",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5837366892545982
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization+dme_mill",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.21878025169409487
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3910939012584705
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3717328170377541
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.38431752178121975
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding+charge_inflation",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.4133591481122943
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding+overutilization",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3959341723136496
+    }
+   ],
+   "shortfalls": [],
+   "leakage": [
+    {
+     "id": "L5",
+     "check": "edited cms_ps rows re-suppressed (tot_benes > 10)",
+     "status": "pass",
+     "detail": "0 rows at or below the threshold"
+    },
+    {
+     "id": "L5",
+     "check": "edited dme_s rows re-suppressed (tot_suplr_clms > 10)",
+     "status": "pass",
+     "detail": "0 rows at or below the threshold"
+    },
+    {
+     "id": "L5",
+     "check": "only planned providers' rows edited",
+     "status": "pass",
+     "detail": "0 edited rows of unplanned NPIs"
+    },
+    {
+     "id": "L2",
+     "check": "peer statistics and cell sizes count only non-injected providers",
+     "status": "pass",
+     "detail": "0 violations over 99876 statistic cells"
+    }
+   ],
+   "build": {
+    "draw": 3,
+    "years": {
+     "2018": {
+      "injected": 4849,
+      "rows_suppressed_ps": 692,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 2,
+      "featurised": 959793
+     },
+     "2019": {
+      "injected": 4922,
+      "rows_suppressed_ps": 743,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 988048
+     },
+     "2020": {
+      "injected": 4818,
+      "rows_suppressed_ps": 733,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 4,
+      "featurised": 966435
+     },
+     "2021": {
+      "injected": 5038,
+      "rows_suppressed_ps": 744,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 1010237
+     },
+     "2022": {
+      "injected": 2810,
+      "rows_suppressed_ps": 414,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 0,
+      "featurised": 1027754
+     },
+     "2023": {
+      "injected": 2890,
+      "rows_suppressed_ps": 422,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 1046783
+     }
+    },
+    "missing_years": []
+   },
+   "shift": [
+    {
+     "schemes": "atypical_mix",
+     "n": 900,
+     "upcoding": 0.001,
+     "overutilization": 0.479,
+     "atypical_mix": 0.862,
+     "charge_inflation": 0.068,
+     "patient_mix": 0.382,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.001
+    },
+    {
+     "schemes": "charge_inflation",
+     "n": 900,
+     "upcoding": -0.0,
+     "overutilization": 0.001,
+     "atypical_mix": 0.006,
+     "charge_inflation": 0.769,
+     "patient_mix": 0.001,
+     "dme_intensity": 0.001,
+     "dme_concentration": -0.002
+    },
+    {
+     "schemes": "dme_mill",
+     "n": 900,
+     "upcoding": 0.0,
+     "overutilization": 0.001,
+     "atypical_mix": 0.007,
+     "charge_inflation": 0.003,
+     "patient_mix": -0.002,
+     "dme_intensity": 4.196,
+     "dme_concentration": 7.021
+    },
+    {
+     "schemes": "overutilization",
+     "n": 900,
+     "upcoding": 0.002,
+     "overutilization": 1.923,
+     "atypical_mix": -0.064,
+     "charge_inflation": 0.98,
+     "patient_mix": 2.462,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "overutilization+atypical_mix",
+     "n": 300,
+     "upcoding": 0.0,
+     "overutilization": 2.288,
+     "atypical_mix": 0.465,
+     "charge_inflation": 1.068,
+     "patient_mix": 2.828,
+     "dme_intensity": -0.0,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "overutilization+dme_mill",
+     "n": 300,
+     "upcoding": 0.001,
+     "overutilization": 1.857,
+     "atypical_mix": -0.051,
+     "charge_inflation": 0.984,
+     "patient_mix": 2.382,
+     "dme_intensity": 4.357,
+     "dme_concentration": 7.547
+    },
+    {
+     "schemes": "upcoding",
+     "n": 900,
+     "upcoding": 1.14,
+     "overutilization": 0.193,
+     "atypical_mix": 0.063,
+     "charge_inflation": 0.172,
+     "patient_mix": 0.099,
+     "dme_intensity": -0.004,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "upcoding+charge_inflation",
+     "n": 299,
+     "upcoding": 1.227,
+     "overutilization": -0.006,
+     "atypical_mix": 0.094,
+     "charge_inflation": 0.9,
+     "patient_mix": 0.11,
+     "dme_intensity": 0.001,
+     "dme_concentration": 0.001
+    },
+    {
+     "schemes": "upcoding+overutilization",
+     "n": 300,
+     "upcoding": 1.12,
+     "overutilization": 1.99,
+     "atypical_mix": -0.023,
+     "charge_inflation": 1.277,
+     "patient_mix": 2.496,
+     "dme_intensity": -0.006,
+     "dme_concentration": -0.0
+    }
+   ],
+   "models": [
+    {
+     "family": "ebm",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "ga2m",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "lgbm",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "lgbm_mono",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "lr",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "xgb",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    },
+    {
+     "family": "xgb_mono",
+     "test_rows": 2073911,
+     "test_injected": 5699
+    }
+   ]
+  },
+  "4": {
+   "plan": [
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5966666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.58
+    },
+    {
+     "part": "test",
+     "scheme": "atypical_mix",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5433333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.58
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5966666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "charge_inflation",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.6533333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.22666666666666666
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.23666666666666666
+    },
+    {
+     "part": "test",
+     "scheme": "dme_mill",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.24333333333333335
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.6733333333333333
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5966666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5666666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization+atypical_mix",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.5633333333333334
+    },
+    {
+     "part": "test",
+     "scheme": "overutilization+dme_mill",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.20666666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "high",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.43
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "low",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.43
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.38
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding+charge_inflation",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.4066666666666667
+    },
+    {
+     "part": "test",
+     "scheme": "upcoding+overutilization",
+     "intensity": "medium",
+     "planned": 300,
+     "cell_target": 300,
+     "distractor_share": 0.35333333333333333
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5788964181994192
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5759922555663117
+    },
+    {
+     "part": "train",
+     "scheme": "atypical_mix",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5769603097773476
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5924491771539206
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6185866408518877
+    },
+    {
+     "part": "train",
+     "scheme": "charge_inflation",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5808325266214908
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.24491771539206195
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3165537270087125
+    },
+    {
+     "part": "train",
+     "scheme": "dme_mill",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.2420135527589545
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6050338818973863
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6127783155856728
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.6282671829622459
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization+atypical_mix",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.5827686350435625
+    },
+    {
+     "part": "train",
+     "scheme": "overutilization+dme_mill",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.25653436592449175
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "high",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.39303000968054214
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "low",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.38334946757018395
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3978702807357212
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding+charge_inflation",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.377541142303969
+    },
+    {
+     "part": "train",
+     "scheme": "upcoding+overutilization",
+     "intensity": "medium",
+     "planned": 1033,
+     "cell_target": 1033,
+     "distractor_share": 0.3707647628267183
+    }
+   ],
+   "shortfalls": [],
+   "leakage": [
+    {
+     "id": "L5",
+     "check": "edited cms_ps rows re-suppressed (tot_benes > 10)",
+     "status": "pass",
+     "detail": "0 rows at or below the threshold"
+    },
+    {
+     "id": "L5",
+     "check": "edited dme_s rows re-suppressed (tot_suplr_clms > 10)",
+     "status": "pass",
+     "detail": "0 rows at or below the threshold"
+    },
+    {
+     "id": "L5",
+     "check": "only planned providers' rows edited",
+     "status": "pass",
+     "detail": "0 edited rows of unplanned NPIs"
+    },
+    {
+     "id": "L2",
+     "check": "peer statistics and cell sizes count only non-injected providers",
+     "status": "pass",
+     "detail": "0 violations over 99905 statistic cells"
+    }
+   ],
+   "build": {
+    "draw": 4,
+    "years": {
+     "2018": {
+      "injected": 4827,
+      "rows_suppressed_ps": 634,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 1,
+      "featurised": 959794
+     },
+     "2019": {
+      "injected": 4959,
+      "rows_suppressed_ps": 679,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 3,
+      "featurised": 988046
+     },
+     "2020": {
+      "injected": 4807,
+      "rows_suppressed_ps": 695,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 2,
+      "featurised": 966437
+     },
+     "2021": {
+      "injected": 5034,
+      "rows_suppressed_ps": 721,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 2,
+      "featurised": 1010236
+     },
+     "2022": {
+      "injected": 2808,
+      "rows_suppressed_ps": 421,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 0,
+      "featurised": 1027754
+     },
+     "2023": {
+      "injected": 2892,
+      "rows_suppressed_ps": 423,
+      "rows_suppressed_dme": 0,
+      "dropped_no_visible_rows": 0,
+      "featurised": 1046784
+     }
+    },
+    "missing_years": []
+   },
+   "shift": [
+    {
+     "schemes": "atypical_mix",
+     "n": 900,
+     "upcoding": -0.001,
+     "overutilization": 0.473,
+     "atypical_mix": 0.858,
+     "charge_inflation": 0.062,
+     "patient_mix": 0.377,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.001
+    },
+    {
+     "schemes": "charge_inflation",
+     "n": 900,
+     "upcoding": 0.0,
+     "overutilization": 0.001,
+     "atypical_mix": 0.002,
+     "charge_inflation": 0.799,
+     "patient_mix": -0.002,
+     "dme_intensity": 0.001,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "dme_mill",
+     "n": 900,
+     "upcoding": 0.0,
+     "overutilization": -0.001,
+     "atypical_mix": 0.009,
+     "charge_inflation": -0.001,
+     "patient_mix": -0.003,
+     "dme_intensity": 4.145,
+     "dme_concentration": 6.809
+    },
+    {
+     "schemes": "overutilization",
+     "n": 900,
+     "upcoding": -0.002,
+     "overutilization": 1.941,
+     "atypical_mix": -0.064,
+     "charge_inflation": 0.974,
+     "patient_mix": 2.489,
+     "dme_intensity": 0.0,
+     "dme_concentration": 0.0
+    },
+    {
+     "schemes": "overutilization+atypical_mix",
+     "n": 300,
+     "upcoding": -0.004,
+     "overutilization": 2.329,
+     "atypical_mix": 0.472,
+     "charge_inflation": 1.08,
+     "patient_mix": 2.775,
+     "dme_intensity": 0.001,
+     "dme_concentration": -0.003
+    },
+    {
+     "schemes": "overutilization+dme_mill",
+     "n": 300,
+     "upcoding": 0.0,
+     "overutilization": 1.737,
+     "atypical_mix": -0.037,
+     "charge_inflation": 0.893,
+     "patient_mix": 2.339,
+     "dme_intensity": 4.466,
+     "dme_concentration": 8.011
+    },
+    {
+     "schemes": "upcoding",
+     "n": 900,
+     "upcoding": 1.166,
+     "overutilization": 0.195,
+     "atypical_mix": 0.079,
+     "charge_inflation": 0.172,
+     "patient_mix": 0.106,
+     "dme_intensity": -0.001,
+     "dme_concentration": -0.0
+    },
+    {
+     "schemes": "upcoding+charge_inflation",
+     "n": 300,
+     "upcoding": 1.072,
+     "overutilization": -0.008,
+     "atypical_mix": 0.12,
+     "charge_inflation": 0.889,
+     "patient_mix": 0.072,
+     "dme_intensity": 0.001,
+     "dme_concentration": 0.002
+    },
+    {
+     "schemes": "upcoding+overutilization",
+     "n": 300,
+     "upcoding": 1.138,
+     "overutilization": 2.083,
+     "atypical_mix": 0.004,
+     "charge_inflation": 1.353,
+     "patient_mix": 2.481,
+     "dme_intensity": 0.001,
+     "dme_concentration": -0.0
+    }
+   ],
+   "models": [
+    {
+     "family": "ebm",
+     "test_rows": 2073912,
+     "test_injected": 5700
+    },
+    {
+     "family": "ga2m",
+     "test_rows": 2073912,
+     "test_injected": 5700
+    },
+    {
+     "family": "lgbm",
+     "test_rows": 2073912,
+     "test_injected": 5700
+    },
+    {
+     "family": "lgbm_mono",
+     "test_rows": 2073912,
+     "test_injected": 5700
+    },
+    {
+     "family": "lr",
+     "test_rows": 2073912,
+     "test_injected": 5700
+    },
+    {
+     "family": "xgb",
+     "test_rows": 2073912,
+     "test_injected": 5700
+    },
+    {
+     "family": "xgb_mono",
+     "test_rows": 2073912,
+     "test_injected": 5700
+    }
+   ]
+  }
+ }
+}
