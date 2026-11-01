@@ -1,0 +1,8 @@
+{
+  "upcoding": 0.85,
+  "overutilization": 3.0,
+  "atypical_mix": 0.05,
+  "charge_inflation": 2.0,
+  "dme_mill": 24.0,
+  "synthetic_inputs": false
+}

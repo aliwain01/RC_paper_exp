@@ -1,0 +1,969 @@
+2026-10-25T13:33:42Z train draw 0 lr fold 0: 150s, 482932 training rows
+2026-10-25T13:43:34Z train draw 0 ebm fold 0: 592s, 482932 training rows
+2026-10-25T13:54:27Z train draw 0 ga2m fold 0: 653s, 482932 training rows
+2026-10-25T13:54:40Z train draw 0 xgb fold 0: 13s, 482932 training rows
+2026-10-25T13:54:48Z train draw 0 xgb_mono fold 0: 8s, 482932 training rows
+2026-10-25T13:54:56Z train draw 0 lgbm fold 0: 8s, 482932 training rows
+2026-10-25T13:55:01Z train draw 0 lgbm_mono fold 0: 5s, 482932 training rows
+2026-10-25T13:58:33Z explain draw 0 lr/peer 2022 fold 0: chunk 1/1 (550 providers) 183.8s
+2026-10-25T14:01:46Z explain draw 0 lr/peer 2023 fold 0: chunk 1/1 (584 providers) 191.5s
+2026-10-25T14:03:34Z explain draw 0 ebm/peer 2022 fold 0: chunk 1/1 (550 providers) 106.6s
+2026-10-25T14:05:30Z explain draw 0 ebm/peer 2023 fold 0: chunk 1/1 (584 providers) 114.8s
+2026-10-25T14:07:25Z explain draw 0 ga2m/peer 2022 fold 0: chunk 1/1 (550 providers) 114.5s
+2026-10-25T14:09:27Z explain draw 0 ga2m/peer 2023 fold 0: chunk 1/1 (584 providers) 120.6s
+2026-10-25T14:10:58Z explain draw 0 xgb/peer 2022 fold 0: chunk 1/1 (550 providers) 89.7s
+2026-10-25T14:12:41Z explain draw 0 xgb/peer 2023 fold 0: chunk 1/1 (584 providers) 101.6s
+2026-10-25T14:13:43Z explain draw 0 xgb_mono/peer 2022 fold 0: chunk 1/1 (550 providers) 60.5s
+2026-10-25T14:14:45Z explain draw 0 xgb_mono/peer 2023 fold 0: chunk 1/1 (584 providers) 60.6s
+2026-10-25T14:16:18Z explain draw 0 lgbm/peer 2022 fold 0: chunk 1/1 (550 providers) 91.9s
+2026-10-25T14:17:59Z explain draw 0 lgbm/peer 2023 fold 0: chunk 1/1 (584 providers) 99.5s
+2026-10-25T14:19:19Z explain draw 0 lgbm_mono/peer 2022 fold 0: chunk 1/1 (550 providers) 78.8s
+2026-10-25T14:20:51Z explain draw 0 lgbm_mono/peer 2023 fold 0: chunk 1/1 (584 providers) 90.7s
+2026-10-25T14:26:13Z train draw 0 lr fold 0: done earlier, skipped
+2026-10-25T14:26:13Z train draw 0 ebm fold 0: done earlier, skipped
+2026-10-25T14:26:13Z train draw 0 ga2m fold 0: done earlier, skipped
+2026-10-25T14:26:13Z train draw 0 xgb fold 0: done earlier, skipped
+2026-10-25T14:26:13Z train draw 0 xgb_mono fold 0: done earlier, skipped
+2026-10-25T14:26:13Z train draw 0 lgbm fold 0: done earlier, skipped
+2026-10-25T14:26:13Z train draw 0 lgbm_mono fold 0: done earlier, skipped
+2026-10-25T15:31:49Z train draw 0 lr fold 1: 3929s, 483692 training rows
+2026-10-25T15:47:05Z train draw 0 ebm fold 1: 916s, 483692 training rows
+2026-10-25T16:04:59Z train draw 0 ga2m fold 1: 1074s, 483692 training rows
+2026-10-25T16:05:30Z train draw 0 xgb fold 1: 30s, 483692 training rows
+2026-10-25T16:05:39Z train draw 0 xgb_mono fold 1: 9s, 483692 training rows
+2026-10-25T16:05:42Z train draw 0 lgbm fold 1: 4s, 483692 training rows
+2026-10-25T16:06:03Z train draw 0 lgbm_mono fold 1: 20s, 483692 training rows
+2026-10-25T16:07:36Z train draw 0 lr fold 2: 86s, 483677 training rows
+2026-10-25T16:09:29Z train draw 0 ebm fold 2: 113s, 483677 training rows
+2026-10-25T16:18:52Z train draw 0 ga2m fold 2: 563s, 483677 training rows
+2026-10-25T16:19:07Z train draw 0 xgb fold 2: 16s, 483677 training rows
+2026-10-25T16:19:30Z train draw 0 xgb_mono fold 2: 23s, 483677 training rows
+2026-10-25T16:19:37Z train draw 0 lgbm fold 2: 7s, 483677 training rows
+2026-10-25T16:19:40Z train draw 0 lgbm_mono fold 2: 3s, 483677 training rows
+2026-10-25T16:21:49Z train draw 0 lr fold 3: 121s, 483978 training rows
+2026-10-25T16:25:31Z train draw 0 ebm fold 3: 222s, 483978 training rows
+2026-10-25T16:38:45Z train draw 0 ga2m fold 3: 794s, 483978 training rows
+2026-10-25T16:38:55Z train draw 0 xgb fold 3: 10s, 483978 training rows
+2026-10-25T16:39:21Z train draw 0 xgb_mono fold 3: 26s, 483978 training rows
+2026-10-25T16:39:55Z train draw 0 lgbm fold 3: 34s, 483978 training rows
+2026-10-25T16:40:10Z train draw 0 lgbm_mono fold 3: 15s, 483978 training rows
+2026-10-25T16:42:42Z train draw 0 lr fold 4: 142s, 483041 training rows
+2026-10-25T16:59:05Z train draw 0 ebm fold 4: 983s, 483041 training rows
+2026-10-25T17:17:21Z train draw 0 ga2m fold 4: 1095s, 483041 training rows
+2026-10-25T17:17:47Z train draw 0 xgb fold 4: 26s, 483041 training rows
+2026-10-25T17:18:28Z train draw 0 xgb_mono fold 4: 41s, 483041 training rows
+2026-10-25T17:18:35Z train draw 0 lgbm fold 4: 7s, 483041 training rows
+2026-10-25T17:18:42Z train draw 0 lgbm_mono fold 4: 7s, 483041 training rows
+2026-10-25T17:21:09Z explain draw 0 lr/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T17:21:10Z explain draw 0 lr/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T17:24:13Z explain draw 0 lr/peer 2022 fold 1: chunk 1/1 (557 providers) 181.5s
+2026-10-25T17:27:20Z explain draw 0 lr/peer 2023 fold 1: chunk 1/1 (574 providers) 185.7s
+2026-10-25T17:30:34Z explain draw 0 lr/peer 2022 fold 2: chunk 1/1 (568 providers) 192.3s
+2026-10-25T17:33:55Z explain draw 0 lr/peer 2023 fold 2: chunk 1/1 (570 providers) 200.5s
+2026-10-25T17:37:08Z explain draw 0 lr/peer 2022 fold 3: chunk 1/1 (534 providers) 191.8s
+2026-10-25T17:40:24Z explain draw 0 lr/peer 2023 fold 3: chunk 1/1 (547 providers) 194.0s
+2026-10-25T17:43:51Z explain draw 0 lr/peer 2022 fold 4: chunk 1/1 (605 providers) 205.4s
+2026-10-25T17:47:17Z explain draw 0 lr/peer 2023 fold 4: chunk 1/1 (609 providers) 205.4s
+2026-10-25T17:47:19Z explain draw 0 ebm/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T17:47:20Z explain draw 0 ebm/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T17:49:12Z explain draw 0 ebm/peer 2022 fold 1: chunk 1/1 (557 providers) 110.9s
+2026-10-25T17:51:08Z explain draw 0 ebm/peer 2023 fold 1: chunk 1/1 (574 providers) 114.7s
+2026-10-25T17:53:08Z explain draw 0 ebm/peer 2022 fold 2: chunk 1/1 (568 providers) 118.8s
+2026-10-25T17:55:03Z explain draw 0 ebm/peer 2023 fold 2: chunk 1/1 (570 providers) 113.7s
+2026-10-25T17:56:53Z explain draw 0 ebm/peer 2022 fold 3: chunk 1/1 (534 providers) 109.4s
+2026-10-25T17:58:41Z explain draw 0 ebm/peer 2023 fold 3: chunk 1/1 (547 providers) 106.7s
+2026-10-25T18:00:34Z explain draw 0 ebm/peer 2022 fold 4: chunk 1/1 (605 providers) 111.9s
+2026-10-25T18:02:32Z explain draw 0 ebm/peer 2023 fold 4: chunk 1/1 (609 providers) 116.9s
+2026-10-25T18:02:33Z explain draw 0 ga2m/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T18:02:34Z explain draw 0 ga2m/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T18:04:28Z explain draw 0 ga2m/peer 2022 fold 1: chunk 1/1 (557 providers) 112.3s
+2026-10-25T18:06:22Z explain draw 0 ga2m/peer 2023 fold 1: chunk 1/1 (574 providers) 112.7s
+2026-10-25T18:08:18Z explain draw 0 ga2m/peer 2022 fold 2: chunk 1/1 (568 providers) 114.9s
+2026-10-25T18:10:15Z explain draw 0 ga2m/peer 2023 fold 2: chunk 1/1 (570 providers) 116.6s
+2026-10-25T18:12:08Z explain draw 0 ga2m/peer 2022 fold 3: chunk 1/1 (534 providers) 111.1s
+2026-10-25T18:14:02Z explain draw 0 ga2m/peer 2023 fold 3: chunk 1/1 (547 providers) 113.0s
+2026-10-25T18:16:16Z explain draw 0 ga2m/peer 2022 fold 4: chunk 1/1 (605 providers) 132.0s
+2026-10-25T18:18:30Z explain draw 0 ga2m/peer 2023 fold 4: chunk 1/1 (609 providers) 133.0s
+2026-10-25T18:18:31Z explain draw 0 xgb/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T18:18:32Z explain draw 0 xgb/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T18:21:09Z explain draw 0 xgb/peer 2022 fold 1: chunk 1/1 (557 providers) 155.5s
+2026-10-25T18:23:45Z explain draw 0 xgb/peer 2023 fold 1: chunk 1/1 (574 providers) 154.8s
+2026-10-25T18:25:14Z explain draw 0 xgb/peer 2022 fold 2: chunk 1/1 (568 providers) 87.7s
+2026-10-25T18:26:47Z explain draw 0 xgb/peer 2023 fold 2: chunk 1/1 (570 providers) 92.0s
+2026-10-25T18:28:04Z explain draw 0 xgb/peer 2022 fold 3: chunk 1/1 (534 providers) 75.1s
+2026-10-25T18:29:21Z explain draw 0 xgb/peer 2023 fold 3: chunk 1/1 (547 providers) 76.2s
+2026-10-25T18:32:49Z explain draw 0 xgb/peer 2022 fold 4: chunk 1/1 (605 providers) 206.7s
+2026-10-25T18:36:10Z explain draw 0 xgb/peer 2023 fold 4: chunk 1/1 (609 providers) 199.6s
+2026-10-25T18:36:11Z explain draw 0 xgb_mono/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T18:36:12Z explain draw 0 xgb_mono/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T18:37:17Z explain draw 0 xgb_mono/peer 2022 fold 1: chunk 1/1 (557 providers) 63.9s
+2026-10-25T18:38:26Z explain draw 0 xgb_mono/peer 2023 fold 1: chunk 1/1 (574 providers) 67.8s
+2026-10-25T18:40:13Z explain draw 0 xgb_mono/peer 2022 fold 2: chunk 1/1 (568 providers) 105.7s
+2026-10-25T18:42:00Z explain draw 0 xgb_mono/peer 2023 fold 2: chunk 1/1 (570 providers) 105.7s
+2026-10-25T18:43:32Z explain draw 0 xgb_mono/peer 2022 fold 3: chunk 1/1 (534 providers) 91.2s
+2026-10-25T18:45:01Z explain draw 0 xgb_mono/peer 2023 fold 3: chunk 1/1 (547 providers) 87.7s
+2026-10-25T18:50:38Z explain draw 0 xgb_mono/peer 2022 fold 4: chunk 1/1 (605 providers) 335.9s
+2026-10-25T18:56:19Z explain draw 0 xgb_mono/peer 2023 fold 4: chunk 1/1 (609 providers) 338.9s
+2026-10-25T18:56:20Z explain draw 0 lgbm/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T18:56:21Z explain draw 0 lgbm/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T18:57:16Z explain draw 0 lgbm/peer 2022 fold 1: chunk 1/1 (557 providers) 53.5s
+2026-10-25T18:58:10Z explain draw 0 lgbm/peer 2023 fold 1: chunk 1/1 (574 providers) 53.9s
+2026-10-25T19:00:44Z explain draw 0 lgbm/peer 2022 fold 2: chunk 1/1 (568 providers) 152.5s
+2026-10-25T19:03:15Z explain draw 0 lgbm/peer 2023 fold 2: chunk 1/1 (570 providers) 150.0s
+2026-10-25T19:19:49Z explain draw 0 lgbm/peer 2022 fold 3: chunk 1/1 (534 providers) 992.6s
+2026-10-25T19:36:33Z explain draw 0 lgbm/peer 2023 fold 3: chunk 1/1 (547 providers) 1002.9s
+2026-10-25T19:38:37Z explain draw 0 lgbm/peer 2022 fold 4: chunk 1/1 (605 providers) 122.9s
+2026-10-25T19:40:43Z explain draw 0 lgbm/peer 2023 fold 4: chunk 1/1 (609 providers) 124.3s
+2026-10-25T19:40:44Z explain draw 0 lgbm_mono/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T19:40:45Z explain draw 0 lgbm_mono/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T19:49:28Z explain draw 0 lgbm_mono/peer 2022 fold 1: chunk 1/1 (557 providers) 522.3s
+2026-10-25T19:58:11Z explain draw 0 lgbm_mono/peer 2023 fold 1: chunk 1/1 (574 providers) 521.8s
+2026-10-25T19:59:01Z explain draw 0 lgbm_mono/peer 2022 fold 2: chunk 1/1 (568 providers) 48.2s
+2026-10-25T19:59:47Z explain draw 0 lgbm_mono/peer 2023 fold 2: chunk 1/1 (570 providers) 45.4s
+2026-10-25T20:02:56Z explain draw 0 lgbm_mono/peer 2022 fold 3: chunk 1/1 (534 providers) 188.2s
+2026-10-25T20:06:12Z explain draw 0 lgbm_mono/peer 2023 fold 3: chunk 1/1 (547 providers) 194.4s
+2026-10-25T20:08:06Z explain draw 0 lgbm_mono/peer 2022 fold 4: chunk 1/1 (605 providers) 113.4s
+2026-10-25T20:10:00Z explain draw 0 lgbm_mono/peer 2023 fold 4: chunk 1/1 (609 providers) 112.1s
+2026-10-25T20:26:22Z train draw 1 lr fold 0: 118s, 483088 training rows
+2026-10-25T20:35:23Z train draw 1 ebm fold 0: 541s, 483088 training rows
+2026-10-25T20:46:29Z train draw 1 ga2m fold 0: 667s, 483088 training rows
+2026-10-25T20:46:41Z train draw 1 xgb fold 0: 12s, 483088 training rows
+2026-10-25T20:46:49Z train draw 1 xgb_mono fold 0: 7s, 483088 training rows
+2026-10-25T20:46:55Z train draw 1 lgbm fold 0: 6s, 483088 training rows
+2026-10-25T20:47:00Z train draw 1 lgbm_mono fold 0: 5s, 483088 training rows
+2026-10-25T21:51:22Z train draw 1 lr fold 1: 3856s, 483486 training rows
+2026-10-25T22:03:11Z train draw 1 ebm fold 1: 709s, 483486 training rows
+2026-10-25T23:43:09Z train draw 0 lr fold 0: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 ebm fold 0: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 ga2m fold 0: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 xgb fold 0: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 xgb_mono fold 0: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 lgbm fold 0: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 lgbm_mono fold 0: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 lr fold 1: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 ebm fold 1: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 ga2m fold 1: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 xgb fold 1: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 xgb_mono fold 1: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 lgbm fold 1: done earlier, skipped
+2026-10-25T23:43:09Z train draw 0 lgbm_mono fold 1: done earlier, skipped
+2026-10-25T23:43:10Z train draw 0 lr fold 2: done earlier, skipped
+2026-10-25T23:43:10Z train draw 0 ebm fold 2: done earlier, skipped
+2026-10-25T23:43:10Z train draw 0 ga2m fold 2: done earlier, skipped
+2026-10-25T23:43:10Z train draw 0 xgb fold 2: done earlier, skipped
+2026-10-25T23:43:10Z train draw 0 xgb_mono fold 2: done earlier, skipped
+2026-10-25T23:43:10Z train draw 0 lgbm fold 2: done earlier, skipped
+2026-10-25T23:43:10Z train draw 0 lgbm_mono fold 2: done earlier, skipped
+2026-10-25T23:43:10Z train draw 0 lr fold 3: done earlier, skipped
+2026-10-25T23:43:10Z train draw 0 ebm fold 3: done earlier, skipped
+2026-10-25T23:43:10Z train draw 0 ga2m fold 3: done earlier, skipped
+2026-10-25T23:43:11Z train draw 0 xgb fold 3: done earlier, skipped
+2026-10-25T23:43:11Z train draw 0 xgb_mono fold 3: done earlier, skipped
+2026-10-25T23:43:11Z train draw 0 lgbm fold 3: done earlier, skipped
+2026-10-25T23:43:11Z train draw 0 lgbm_mono fold 3: done earlier, skipped
+2026-10-25T23:43:11Z train draw 0 lr fold 4: done earlier, skipped
+2026-10-25T23:43:11Z train draw 0 ebm fold 4: done earlier, skipped
+2026-10-25T23:43:11Z train draw 0 ga2m fold 4: done earlier, skipped
+2026-10-25T23:43:12Z train draw 0 xgb fold 4: done earlier, skipped
+2026-10-25T23:43:12Z train draw 0 xgb_mono fold 4: done earlier, skipped
+2026-10-25T23:43:12Z train draw 0 lgbm fold 4: done earlier, skipped
+2026-10-25T23:43:12Z train draw 0 lgbm_mono fold 4: done earlier, skipped
+2026-10-25T23:46:03Z explain draw 0 lr/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:04Z explain draw 0 lr/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:06Z explain draw 0 lr/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:07Z explain draw 0 lr/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:09Z explain draw 0 lr/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:10Z explain draw 0 lr/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:12Z explain draw 0 lr/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:13Z explain draw 0 lr/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:15Z explain draw 0 lr/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:16Z explain draw 0 lr/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:18Z explain draw 0 ebm/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:19Z explain draw 0 ebm/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:20Z explain draw 0 ebm/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:21Z explain draw 0 ebm/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:23Z explain draw 0 ebm/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:24Z explain draw 0 ebm/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:26Z explain draw 0 ebm/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:27Z explain draw 0 ebm/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:29Z explain draw 0 ebm/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:30Z explain draw 0 ebm/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:32Z explain draw 0 ga2m/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:33Z explain draw 0 ga2m/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:35Z explain draw 0 ga2m/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:36Z explain draw 0 ga2m/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:38Z explain draw 0 ga2m/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:39Z explain draw 0 ga2m/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:41Z explain draw 0 ga2m/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:42Z explain draw 0 ga2m/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:45Z explain draw 0 ga2m/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:46Z explain draw 0 ga2m/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:48Z explain draw 0 xgb/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:49Z explain draw 0 xgb/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:50Z explain draw 0 xgb/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:52Z explain draw 0 xgb/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:54Z explain draw 0 xgb/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:55Z explain draw 0 xgb/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:56Z explain draw 0 xgb/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:57Z explain draw 0 xgb/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:46:59Z explain draw 0 xgb/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:00Z explain draw 0 xgb/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:03Z explain draw 0 xgb_mono/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:04Z explain draw 0 xgb_mono/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:06Z explain draw 0 xgb_mono/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:07Z explain draw 0 xgb_mono/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:09Z explain draw 0 xgb_mono/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:10Z explain draw 0 xgb_mono/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:11Z explain draw 0 xgb_mono/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:12Z explain draw 0 xgb_mono/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:14Z explain draw 0 xgb_mono/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:15Z explain draw 0 xgb_mono/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:17Z explain draw 0 lgbm/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:18Z explain draw 0 lgbm/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:20Z explain draw 0 lgbm/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:20Z explain draw 0 lgbm/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:22Z explain draw 0 lgbm/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:23Z explain draw 0 lgbm/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:25Z explain draw 0 lgbm/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:26Z explain draw 0 lgbm/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:27Z explain draw 0 lgbm/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:28Z explain draw 0 lgbm/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:30Z explain draw 0 lgbm_mono/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:31Z explain draw 0 lgbm_mono/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:33Z explain draw 0 lgbm_mono/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:34Z explain draw 0 lgbm_mono/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:36Z explain draw 0 lgbm_mono/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:36Z explain draw 0 lgbm_mono/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:38Z explain draw 0 lgbm_mono/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:39Z explain draw 0 lgbm_mono/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:40Z explain draw 0 lgbm_mono/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:47:41Z explain draw 0 lgbm_mono/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-25T23:55:08Z train draw 1 lr fold 0: done earlier, skipped
+2026-10-25T23:55:08Z train draw 1 ebm fold 0: done earlier, skipped
+2026-10-25T23:55:08Z train draw 1 ga2m fold 0: done earlier, skipped
+2026-10-25T23:55:08Z train draw 1 xgb fold 0: done earlier, skipped
+2026-10-25T23:55:08Z train draw 1 xgb_mono fold 0: done earlier, skipped
+2026-10-25T23:55:08Z train draw 1 lgbm fold 0: done earlier, skipped
+2026-10-25T23:55:08Z train draw 1 lgbm_mono fold 0: done earlier, skipped
+2026-10-25T23:55:08Z train draw 1 lr fold 1: done earlier, skipped
+2026-10-25T23:55:08Z train draw 1 ebm fold 1: done earlier, skipped
+2026-10-26T00:12:11Z train draw 1 ga2m fold 1: 1017s, 483486 training rows
+2026-10-26T00:12:40Z train draw 1 xgb fold 1: 29s, 483486 training rows
+2026-10-26T00:12:49Z train draw 1 xgb_mono fold 1: 9s, 483486 training rows
+2026-10-26T00:12:53Z train draw 1 lgbm fold 1: 4s, 483486 training rows
+2026-10-26T00:13:14Z train draw 1 lgbm_mono fold 1: 20s, 483486 training rows
+2026-10-26T00:14:34Z train draw 1 lr fold 2: 75s, 483628 training rows
+2026-10-26T00:16:25Z train draw 1 ebm fold 2: 111s, 483628 training rows
+2026-10-26T00:26:07Z train draw 1 ga2m fold 2: 582s, 483628 training rows
+2026-10-26T00:26:19Z train draw 1 xgb fold 2: 12s, 483628 training rows
+2026-10-26T00:26:36Z train draw 1 xgb_mono fold 2: 18s, 483628 training rows
+2026-10-26T00:26:42Z train draw 1 lgbm fold 2: 6s, 483628 training rows
+2026-10-26T00:26:45Z train draw 1 lgbm_mono fold 2: 3s, 483628 training rows
+2026-10-26T00:28:41Z train draw 1 lr fold 3: 111s, 483755 training rows
+2026-10-26T00:33:04Z train draw 1 ebm fold 3: 263s, 483755 training rows
+2026-10-26T00:47:30Z train draw 1 ga2m fold 3: 866s, 483755 training rows
+2026-10-26T00:47:38Z train draw 1 xgb fold 3: 8s, 483755 training rows
+2026-10-26T00:48:00Z train draw 1 xgb_mono fold 3: 22s, 483755 training rows
+2026-10-26T00:48:28Z train draw 1 lgbm fold 3: 28s, 483755 training rows
+2026-10-26T00:48:41Z train draw 1 lgbm_mono fold 3: 13s, 483755 training rows
+2026-10-26T00:50:21Z train draw 1 lr fold 4: 94s, 483059 training rows
+2026-10-26T01:03:06Z train draw 1 ebm fold 4: 766s, 483059 training rows
+2026-10-26T01:16:48Z train draw 1 ga2m fold 4: 821s, 483059 training rows
+2026-10-26T01:17:13Z train draw 1 xgb fold 4: 25s, 483059 training rows
+2026-10-26T01:17:53Z train draw 1 xgb_mono fold 4: 40s, 483059 training rows
+2026-10-26T01:18:00Z train draw 1 lgbm fold 4: 7s, 483059 training rows
+2026-10-26T01:18:07Z train draw 1 lgbm_mono fold 4: 7s, 483059 training rows
+2026-10-26T01:21:31Z explain draw 1 lr/peer 2022 fold 0: chunk 1/1 (560 providers) 185.4s
+2026-10-26T01:24:42Z explain draw 1 lr/peer 2023 fold 0: chunk 1/1 (548 providers) 190.3s
+2026-10-26T01:27:51Z explain draw 1 lr/peer 2022 fold 1: chunk 1/1 (562 providers) 187.6s
+2026-10-26T01:31:10Z explain draw 1 lr/peer 2023 fold 1: chunk 1/1 (576 providers) 197.4s
+2026-10-26T01:34:21Z explain draw 1 lr/peer 2022 fold 2: chunk 1/1 (583 providers) 190.8s
+2026-10-26T01:37:50Z explain draw 1 lr/peer 2023 fold 2: chunk 1/1 (595 providers) 207.8s
+2026-10-26T01:40:58Z explain draw 1 lr/peer 2022 fold 3: chunk 1/1 (556 providers) 186.5s
+2026-10-26T01:44:11Z explain draw 1 lr/peer 2023 fold 3: chunk 1/1 (566 providers) 191.8s
+2026-10-26T01:47:29Z explain draw 1 lr/peer 2022 fold 4: chunk 1/1 (566 providers) 196.5s
+2026-10-26T01:50:52Z explain draw 1 lr/peer 2023 fold 4: chunk 1/1 (586 providers) 201.8s
+2026-10-26T01:52:28Z explain draw 1 ebm/peer 2022 fold 0: chunk 1/1 (560 providers) 94.1s
+2026-10-26T03:51:58Z train draw 0 lr fold 0: done earlier, skipped
+2026-10-26T03:51:58Z train draw 0 ebm fold 0: done earlier, skipped
+2026-10-26T03:51:58Z train draw 0 ga2m fold 0: done earlier, skipped
+2026-10-26T03:51:58Z train draw 0 xgb fold 0: done earlier, skipped
+2026-10-26T03:51:58Z train draw 0 xgb_mono fold 0: done earlier, skipped
+2026-10-26T03:51:58Z train draw 0 lgbm fold 0: done earlier, skipped
+2026-10-26T03:51:58Z train draw 0 lgbm_mono fold 0: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 lr fold 1: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 ebm fold 1: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 ga2m fold 1: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 xgb fold 1: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 xgb_mono fold 1: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 lgbm fold 1: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 lgbm_mono fold 1: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 lr fold 2: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 ebm fold 2: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 ga2m fold 2: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 xgb fold 2: done earlier, skipped
+2026-10-26T03:51:59Z train draw 0 xgb_mono fold 2: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 lgbm fold 2: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 lgbm_mono fold 2: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 lr fold 3: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 ebm fold 3: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 ga2m fold 3: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 xgb fold 3: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 xgb_mono fold 3: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 lgbm fold 3: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 lgbm_mono fold 3: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 lr fold 4: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 ebm fold 4: done earlier, skipped
+2026-10-26T03:52:00Z train draw 0 ga2m fold 4: done earlier, skipped
+2026-10-26T03:52:01Z train draw 0 xgb fold 4: done earlier, skipped
+2026-10-26T03:52:01Z train draw 0 xgb_mono fold 4: done earlier, skipped
+2026-10-26T03:52:01Z train draw 0 lgbm fold 4: done earlier, skipped
+2026-10-26T03:52:01Z train draw 0 lgbm_mono fold 4: done earlier, skipped
+2026-10-26T03:54:32Z explain draw 0 lr/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:33Z explain draw 0 lr/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:35Z explain draw 0 lr/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:36Z explain draw 0 lr/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:38Z explain draw 0 lr/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:39Z explain draw 0 lr/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:42Z explain draw 0 lr/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:43Z explain draw 0 lr/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:44Z explain draw 0 lr/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:45Z explain draw 0 lr/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:47Z explain draw 0 ebm/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:48Z explain draw 0 ebm/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:50Z explain draw 0 ebm/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:52Z explain draw 0 ebm/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:53Z explain draw 0 ebm/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:54Z explain draw 0 ebm/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:56Z explain draw 0 ebm/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:57Z explain draw 0 ebm/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:54:59Z explain draw 0 ebm/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:00Z explain draw 0 ebm/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:02Z explain draw 0 ga2m/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:03Z explain draw 0 ga2m/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:05Z explain draw 0 ga2m/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:06Z explain draw 0 ga2m/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:08Z explain draw 0 ga2m/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:08Z explain draw 0 ga2m/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:10Z explain draw 0 ga2m/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:11Z explain draw 0 ga2m/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:13Z explain draw 0 ga2m/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:14Z explain draw 0 ga2m/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:17Z explain draw 0 xgb/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:18Z explain draw 0 xgb/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:19Z explain draw 0 xgb/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:20Z explain draw 0 xgb/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:23Z explain draw 0 xgb/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:24Z explain draw 0 xgb/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:26Z explain draw 0 xgb/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:27Z explain draw 0 xgb/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:29Z explain draw 0 xgb/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:31Z explain draw 0 xgb/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:33Z explain draw 0 xgb_mono/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:34Z explain draw 0 xgb_mono/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:36Z explain draw 0 xgb_mono/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:37Z explain draw 0 xgb_mono/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:40Z explain draw 0 xgb_mono/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:41Z explain draw 0 xgb_mono/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:43Z explain draw 0 xgb_mono/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:44Z explain draw 0 xgb_mono/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:47Z explain draw 0 xgb_mono/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:48Z explain draw 0 xgb_mono/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:50Z explain draw 0 lgbm/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:51Z explain draw 0 lgbm/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:53Z explain draw 0 lgbm/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:54Z explain draw 0 lgbm/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:56Z explain draw 0 lgbm/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:57Z explain draw 0 lgbm/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:55:59Z explain draw 0 lgbm/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:00Z explain draw 0 lgbm/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:02Z explain draw 0 lgbm/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:03Z explain draw 0 lgbm/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:05Z explain draw 0 lgbm_mono/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:06Z explain draw 0 lgbm_mono/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:08Z explain draw 0 lgbm_mono/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:08Z explain draw 0 lgbm_mono/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:10Z explain draw 0 lgbm_mono/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:11Z explain draw 0 lgbm_mono/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:12Z explain draw 0 lgbm_mono/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:13Z explain draw 0 lgbm_mono/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:15Z explain draw 0 lgbm_mono/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T03:56:16Z explain draw 0 lgbm_mono/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T04:03:48Z train draw 1 lr fold 0: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 ebm fold 0: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 ga2m fold 0: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 xgb fold 0: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 xgb_mono fold 0: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 lgbm fold 0: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 lgbm_mono fold 0: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 lr fold 1: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 ebm fold 1: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 ga2m fold 1: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 xgb fold 1: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 xgb_mono fold 1: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 lgbm fold 1: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 lgbm_mono fold 1: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 lr fold 2: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 ebm fold 2: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 ga2m fold 2: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 xgb fold 2: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 xgb_mono fold 2: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 lgbm fold 2: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 lgbm_mono fold 2: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 lr fold 3: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 ebm fold 3: done earlier, skipped
+2026-10-26T04:03:48Z train draw 1 ga2m fold 3: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 xgb fold 3: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 xgb_mono fold 3: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 lgbm fold 3: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 lgbm_mono fold 3: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 lr fold 4: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 ebm fold 4: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 ga2m fold 4: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 xgb fold 4: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 xgb_mono fold 4: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 lgbm fold 4: done earlier, skipped
+2026-10-26T04:03:49Z train draw 1 lgbm_mono fold 4: done earlier, skipped
+2026-10-26T04:04:07Z explain draw 1 lr/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T04:04:08Z explain draw 1 lr/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T04:04:10Z explain draw 1 lr/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T04:04:11Z explain draw 1 lr/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-26T04:04:13Z explain draw 1 lr/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T04:04:14Z explain draw 1 lr/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-26T04:04:15Z explain draw 1 lr/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T04:04:16Z explain draw 1 lr/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-26T04:04:18Z explain draw 1 lr/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T04:04:19Z explain draw 1 lr/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-26T04:04:21Z explain draw 1 ebm/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-26T04:06:03Z explain draw 1 ebm/peer 2023 fold 0: chunk 1/1 (548 providers) 100.7s
+2026-10-26T04:07:53Z explain draw 1 ebm/peer 2022 fold 1: chunk 1/1 (562 providers) 108.9s
+2026-10-26T04:09:41Z explain draw 1 ebm/peer 2023 fold 1: chunk 1/1 (576 providers) 107.4s
+2026-10-26T04:11:27Z explain draw 1 ebm/peer 2022 fold 2: chunk 1/1 (583 providers) 104.3s
+2026-10-26T04:13:21Z explain draw 1 ebm/peer 2023 fold 2: chunk 1/1 (595 providers) 113.1s
+2026-10-26T04:15:08Z explain draw 1 ebm/peer 2022 fold 3: chunk 1/1 (556 providers) 105.2s
+2026-10-26T04:16:52Z explain draw 1 ebm/peer 2023 fold 3: chunk 1/1 (566 providers) 103.5s
+2026-10-26T04:18:38Z explain draw 1 ebm/peer 2022 fold 4: chunk 1/1 (566 providers) 104.6s
+2026-10-26T04:20:28Z explain draw 1 ebm/peer 2023 fold 4: chunk 1/1 (586 providers) 108.4s
+2026-10-26T04:22:22Z explain draw 1 ga2m/peer 2022 fold 0: chunk 1/1 (560 providers) 113.0s
+2026-10-26T04:24:11Z explain draw 1 ga2m/peer 2023 fold 0: chunk 1/1 (548 providers) 107.5s
+2026-10-26T04:26:03Z explain draw 1 ga2m/peer 2022 fold 1: chunk 1/1 (562 providers) 109.8s
+2026-10-26T04:27:55Z explain draw 1 ga2m/peer 2023 fold 1: chunk 1/1 (576 providers) 110.8s
+2026-10-26T04:29:44Z explain draw 1 ga2m/peer 2022 fold 2: chunk 1/1 (583 providers) 107.9s
+2026-10-26T04:31:34Z explain draw 1 ga2m/peer 2023 fold 2: chunk 1/1 (595 providers) 108.4s
+2026-10-26T04:33:18Z explain draw 1 ga2m/peer 2022 fold 3: chunk 1/1 (556 providers) 103.3s
+2026-10-26T04:35:06Z explain draw 1 ga2m/peer 2023 fold 3: chunk 1/1 (566 providers) 107.2s
+2026-10-26T04:36:59Z explain draw 1 ga2m/peer 2022 fold 4: chunk 1/1 (566 providers) 111.1s
+2026-10-26T04:39:00Z explain draw 1 ga2m/peer 2023 fold 4: chunk 1/1 (586 providers) 119.8s
+2026-10-26T04:40:32Z explain draw 1 xgb/peer 2022 fold 0: chunk 1/1 (560 providers) 90.7s
+2026-10-26T04:42:05Z explain draw 1 xgb/peer 2023 fold 0: chunk 1/1 (548 providers) 92.0s
+2026-10-26T04:44:39Z explain draw 1 xgb/peer 2022 fold 1: chunk 1/1 (562 providers) 152.6s
+2026-10-26T04:47:13Z explain draw 1 xgb/peer 2023 fold 1: chunk 1/1 (576 providers) 152.8s
+2026-10-26T04:48:35Z explain draw 1 xgb/peer 2022 fold 2: chunk 1/1 (583 providers) 80.3s
+2026-10-26T04:49:55Z explain draw 1 xgb/peer 2023 fold 2: chunk 1/1 (595 providers) 79.3s
+2026-10-26T04:51:12Z explain draw 1 xgb/peer 2022 fold 3: chunk 1/1 (556 providers) 75.5s
+2026-10-26T04:52:24Z explain draw 1 xgb/peer 2023 fold 3: chunk 1/1 (566 providers) 70.6s
+2026-10-26T04:55:34Z explain draw 1 xgb/peer 2022 fold 4: chunk 1/1 (566 providers) 188.1s
+2026-10-26T04:58:41Z explain draw 1 xgb/peer 2023 fold 4: chunk 1/1 (586 providers) 185.4s
+2026-10-26T04:59:39Z explain draw 1 xgb_mono/peer 2022 fold 0: chunk 1/1 (560 providers) 57.0s
+2026-10-26T05:00:46Z explain draw 1 xgb_mono/peer 2023 fold 0: chunk 1/1 (548 providers) 66.1s
+2026-10-26T05:01:59Z explain draw 1 xgb_mono/peer 2022 fold 1: chunk 1/1 (562 providers) 71.7s
+2026-10-26T05:03:09Z explain draw 1 xgb_mono/peer 2023 fold 1: chunk 1/1 (576 providers) 69.4s
+2026-10-26T05:05:06Z explain draw 1 xgb_mono/peer 2022 fold 2: chunk 1/1 (583 providers) 114.8s
+2026-10-26T05:07:06Z explain draw 1 xgb_mono/peer 2023 fold 2: chunk 1/1 (595 providers) 119.3s
+2026-10-26T05:08:47Z explain draw 1 xgb_mono/peer 2022 fold 3: chunk 1/1 (556 providers) 99.9s
+2026-10-26T05:10:29Z explain draw 1 xgb_mono/peer 2023 fold 3: chunk 1/1 (566 providers) 100.6s
+2026-10-26T05:16:04Z explain draw 1 xgb_mono/peer 2022 fold 4: chunk 1/1 (566 providers) 332.9s
+2026-10-26T05:22:05Z explain draw 1 xgb_mono/peer 2023 fold 4: chunk 1/1 (586 providers) 360.6s
+2026-10-26T05:23:42Z explain draw 1 lgbm/peer 2022 fold 0: chunk 1/1 (560 providers) 94.8s
+2026-10-26T05:25:19Z explain draw 1 lgbm/peer 2023 fold 0: chunk 1/1 (548 providers) 96.5s
+2026-10-26T05:26:18Z explain draw 1 lgbm/peer 2022 fold 1: chunk 1/1 (562 providers) 57.6s
+2026-10-26T05:27:20Z explain draw 1 lgbm/peer 2023 fold 1: chunk 1/1 (576 providers) 60.4s
+2026-10-26T05:30:01Z explain draw 1 lgbm/peer 2022 fold 2: chunk 1/1 (583 providers) 160.1s
+2026-10-26T05:32:45Z explain draw 1 lgbm/peer 2023 fold 2: chunk 1/1 (595 providers) 163.1s
+2026-10-26T05:50:38Z explain draw 1 lgbm/peer 2022 fold 3: chunk 1/1 (556 providers) 1070.8s
+2026-10-26T06:08:42Z explain draw 1 lgbm/peer 2023 fold 3: chunk 1/1 (566 providers) 1083.3s
+2026-10-26T06:10:50Z explain draw 1 lgbm/peer 2022 fold 4: chunk 1/1 (566 providers) 126.8s
+2026-10-26T06:13:05Z explain draw 1 lgbm/peer 2023 fold 4: chunk 1/1 (586 providers) 133.2s
+2026-10-26T06:14:38Z explain draw 1 lgbm_mono/peer 2022 fold 0: chunk 1/1 (560 providers) 91.4s
+2026-10-26T06:16:06Z explain draw 1 lgbm_mono/peer 2023 fold 0: chunk 1/1 (548 providers) 87.4s
+2026-10-26T06:25:20Z explain draw 1 lgbm_mono/peer 2022 fold 1: chunk 1/1 (562 providers) 552.9s
+2026-10-26T06:34:39Z explain draw 1 lgbm_mono/peer 2023 fold 1: chunk 1/1 (576 providers) 557.5s
+2026-10-26T06:35:39Z explain draw 1 lgbm_mono/peer 2022 fold 2: chunk 1/1 (583 providers) 58.7s
+2026-10-26T06:36:41Z explain draw 1 lgbm_mono/peer 2023 fold 2: chunk 1/1 (595 providers) 60.2s
+2026-10-26T06:40:09Z explain draw 1 lgbm_mono/peer 2022 fold 3: chunk 1/1 (556 providers) 207.6s
+2026-10-26T06:43:40Z explain draw 1 lgbm_mono/peer 2023 fold 3: chunk 1/1 (566 providers) 210.0s
+2026-10-26T06:45:37Z explain draw 1 lgbm_mono/peer 2022 fold 4: chunk 1/1 (566 providers) 115.2s
+2026-10-26T06:47:41Z explain draw 1 lgbm_mono/peer 2023 fold 4: chunk 1/1 (586 providers) 123.2s
+2026-10-26T07:07:52Z train draw 2 lr fold 0: 129s, 482894 training rows
+2026-10-26T07:18:34Z train draw 2 ebm fold 0: 643s, 482894 training rows
+2026-10-26T07:30:27Z train draw 2 ga2m fold 0: 713s, 482894 training rows
+2026-10-26T07:30:42Z train draw 2 xgb fold 0: 15s, 482894 training rows
+2026-10-26T07:30:50Z train draw 2 xgb_mono fold 0: 9s, 482894 training rows
+2026-10-26T07:30:57Z train draw 2 lgbm fold 0: 7s, 482894 training rows
+2026-10-26T07:31:03Z train draw 2 lgbm_mono fold 0: 6s, 482894 training rows
+2026-10-26T08:41:27Z train draw 2 lr fold 1: 4218s, 483759 training rows
+2026-10-26T09:00:22Z train draw 2 ebm fold 1: 1135s, 483759 training rows
+2026-10-26T09:20:36Z train draw 2 ga2m fold 1: 1214s, 483759 training rows
+2026-10-26T09:21:05Z train draw 2 xgb fold 1: 29s, 483759 training rows
+2026-10-26T09:21:15Z train draw 2 xgb_mono fold 1: 10s, 483759 training rows
+2026-10-26T09:21:19Z train draw 2 lgbm fold 1: 4s, 483759 training rows
+2026-10-26T09:21:41Z train draw 2 lgbm_mono fold 1: 23s, 483759 training rows
+2026-10-26T09:23:15Z train draw 2 lr fold 2: 87s, 483613 training rows
+2026-10-26T09:25:15Z train draw 2 ebm fold 2: 121s, 483613 training rows
+2026-10-26T09:36:19Z train draw 2 ga2m fold 2: 664s, 483613 training rows
+2026-10-26T09:36:33Z train draw 2 xgb fold 2: 13s, 483613 training rows
+2026-10-26T09:36:55Z train draw 2 xgb_mono fold 2: 23s, 483613 training rows
+2026-10-26T09:37:02Z train draw 2 lgbm fold 2: 6s, 483613 training rows
+2026-10-26T09:37:05Z train draw 2 lgbm_mono fold 2: 3s, 483613 training rows
+2026-10-26T09:38:43Z train draw 2 lr fold 3: 91s, 484117 training rows
+2026-10-26T09:42:57Z train draw 2 ebm fold 3: 254s, 484117 training rows
+2026-10-26T09:58:20Z train draw 2 ga2m fold 3: 923s, 484117 training rows
+2026-10-26T09:58:30Z train draw 2 xgb fold 3: 10s, 484117 training rows
+2026-10-26T09:58:55Z train draw 2 xgb_mono fold 3: 25s, 484117 training rows
+2026-10-26T09:59:27Z train draw 2 lgbm fold 3: 31s, 484117 training rows
+2026-10-26T09:59:42Z train draw 2 lgbm_mono fold 3: 15s, 484117 training rows
+2026-10-26T10:02:28Z train draw 2 lr fold 4: 161s, 482669 training rows
+2026-10-26T10:19:22Z train draw 2 ebm fold 4: 1014s, 482669 training rows
+2026-10-26T10:34:57Z train draw 2 ga2m fold 4: 934s, 482669 training rows
+2026-10-26T10:35:28Z train draw 2 xgb fold 4: 32s, 482669 training rows
+2026-10-26T10:36:17Z train draw 2 xgb_mono fold 4: 48s, 482669 training rows
+2026-10-26T10:36:24Z train draw 2 lgbm fold 4: 8s, 482669 training rows
+2026-10-26T10:36:32Z train draw 2 lgbm_mono fold 4: 7s, 482669 training rows
+2026-10-26T10:40:02Z explain draw 2 lr/peer 2022 fold 0: chunk 1/1 (573 providers) 193.7s
+2026-10-26T10:43:27Z explain draw 2 lr/peer 2023 fold 0: chunk 1/1 (588 providers) 204.7s
+2026-10-26T10:46:40Z explain draw 2 lr/peer 2022 fold 1: chunk 1/1 (555 providers) 191.3s
+2026-10-26T10:50:07Z explain draw 2 lr/peer 2023 fold 1: chunk 1/1 (574 providers) 206.3s
+2026-10-26T10:53:36Z explain draw 2 lr/peer 2022 fold 2: chunk 1/1 (568 providers) 208.4s
+2026-10-26T10:57:24Z explain draw 2 lr/peer 2023 fold 2: chunk 1/1 (588 providers) 226.4s
+2026-10-26T11:00:44Z explain draw 2 lr/peer 2022 fold 3: chunk 1/1 (543 providers) 198.6s
+2026-10-26T11:04:13Z explain draw 2 lr/peer 2023 fold 3: chunk 1/1 (562 providers) 208.3s
+2026-10-26T11:08:12Z explain draw 2 lr/peer 2022 fold 4: chunk 1/1 (570 providers) 237.6s
+2026-10-26T11:12:01Z explain draw 2 lr/peer 2023 fold 4: chunk 1/1 (578 providers) 228.0s
+2026-10-26T11:13:50Z explain draw 2 ebm/peer 2022 fold 0: chunk 1/1 (573 providers) 108.2s
+2026-10-26T11:15:44Z explain draw 2 ebm/peer 2023 fold 0: chunk 1/1 (588 providers) 112.7s
+2026-10-26T11:17:31Z explain draw 2 ebm/peer 2022 fold 1: chunk 1/1 (555 providers) 106.3s
+2026-10-26T11:19:21Z explain draw 2 ebm/peer 2023 fold 1: chunk 1/1 (574 providers) 109.2s
+2026-10-26T11:21:11Z explain draw 2 ebm/peer 2022 fold 2: chunk 1/1 (568 providers) 108.4s
+2026-10-26T11:23:07Z explain draw 2 ebm/peer 2023 fold 2: chunk 1/1 (588 providers) 115.2s
+2026-10-26T11:24:59Z explain draw 2 ebm/peer 2022 fold 3: chunk 1/1 (543 providers) 110.5s
+2026-10-26T11:26:53Z explain draw 2 ebm/peer 2023 fold 3: chunk 1/1 (562 providers) 113.1s
+2026-10-26T11:28:46Z explain draw 2 ebm/peer 2022 fold 4: chunk 1/1 (570 providers) 111.8s
+2026-10-26T11:30:50Z explain draw 2 ebm/peer 2023 fold 4: chunk 1/1 (578 providers) 123.0s
+2026-10-26T11:32:51Z explain draw 2 ga2m/peer 2022 fold 0: chunk 1/1 (573 providers) 120.1s
+2026-10-26T11:34:59Z explain draw 2 ga2m/peer 2023 fold 0: chunk 1/1 (588 providers) 127.2s
+2026-10-26T11:36:55Z explain draw 2 ga2m/peer 2022 fold 1: chunk 1/1 (555 providers) 114.6s
+2026-10-26T11:39:06Z explain draw 2 ga2m/peer 2023 fold 1: chunk 1/1 (574 providers) 129.6s
+2026-10-26T11:41:09Z explain draw 2 ga2m/peer 2022 fold 2: chunk 1/1 (568 providers) 122.0s
+2026-10-26T11:43:18Z explain draw 2 ga2m/peer 2023 fold 2: chunk 1/1 (588 providers) 127.9s
+2026-10-26T11:45:14Z explain draw 2 ga2m/peer 2022 fold 3: chunk 1/1 (543 providers) 115.4s
+2026-10-26T11:47:12Z explain draw 2 ga2m/peer 2023 fold 3: chunk 1/1 (562 providers) 116.3s
+2026-10-26T11:49:13Z explain draw 2 ga2m/peer 2022 fold 4: chunk 1/1 (570 providers) 120.7s
+2026-10-26T11:51:24Z explain draw 2 ga2m/peer 2023 fold 4: chunk 1/1 (578 providers) 130.0s
+2026-10-26T11:53:16Z explain draw 2 xgb/peer 2022 fold 0: chunk 1/1 (573 providers) 110.3s
+2026-10-26T11:55:09Z explain draw 2 xgb/peer 2023 fold 0: chunk 1/1 (588 providers) 111.9s
+2026-10-26T11:57:47Z explain draw 2 xgb/peer 2022 fold 1: chunk 1/1 (555 providers) 157.3s
+2026-10-26T12:00:27Z explain draw 2 xgb/peer 2023 fold 1: chunk 1/1 (574 providers) 158.6s
+2026-10-26T12:01:51Z explain draw 2 xgb/peer 2022 fold 2: chunk 1/1 (568 providers) 82.8s
+2026-10-26T12:03:21Z explain draw 2 xgb/peer 2023 fold 2: chunk 1/1 (588 providers) 88.6s
+2026-10-26T12:04:38Z explain draw 2 xgb/peer 2022 fold 3: chunk 1/1 (543 providers) 75.9s
+2026-10-26T12:05:58Z explain draw 2 xgb/peer 2023 fold 3: chunk 1/1 (562 providers) 78.6s
+2026-10-26T12:09:11Z explain draw 2 xgb/peer 2022 fold 4: chunk 1/1 (570 providers) 192.4s
+2026-10-26T12:12:36Z explain draw 2 xgb/peer 2023 fold 4: chunk 1/1 (578 providers) 203.4s
+2026-10-26T12:13:45Z explain draw 2 xgb_mono/peer 2022 fold 0: chunk 1/1 (573 providers) 67.9s
+2026-10-26T12:14:51Z explain draw 2 xgb_mono/peer 2023 fold 0: chunk 1/1 (588 providers) 65.1s
+2026-10-26T12:15:57Z explain draw 2 xgb_mono/peer 2022 fold 1: chunk 1/1 (555 providers) 64.7s
+2026-10-26T12:17:06Z explain draw 2 xgb_mono/peer 2023 fold 1: chunk 1/1 (574 providers) 68.6s
+2026-10-26T12:18:56Z explain draw 2 xgb_mono/peer 2022 fold 2: chunk 1/1 (568 providers) 108.8s
+2026-10-26T12:20:53Z explain draw 2 xgb_mono/peer 2023 fold 2: chunk 1/1 (588 providers) 115.4s
+2026-10-26T12:22:35Z explain draw 2 xgb_mono/peer 2022 fold 3: chunk 1/1 (543 providers) 101.0s
+2026-10-26T12:24:19Z explain draw 2 xgb_mono/peer 2023 fold 3: chunk 1/1 (562 providers) 102.9s
+2026-10-26T12:29:57Z explain draw 2 xgb_mono/peer 2022 fold 4: chunk 1/1 (570 providers) 337.1s
+2026-10-26T12:35:50Z explain draw 2 xgb_mono/peer 2023 fold 4: chunk 1/1 (578 providers) 352.1s
+2026-10-26T12:37:27Z explain draw 2 lgbm/peer 2022 fold 0: chunk 1/1 (573 providers) 95.4s
+2026-10-26T12:39:09Z explain draw 2 lgbm/peer 2023 fold 0: chunk 1/1 (588 providers) 101.7s
+2026-10-26T12:40:08Z explain draw 2 lgbm/peer 2022 fold 1: chunk 1/1 (555 providers) 58.4s
+2026-10-26T12:41:06Z explain draw 2 lgbm/peer 2023 fold 1: chunk 1/1 (574 providers) 56.1s
+2026-10-26T12:43:43Z explain draw 2 lgbm/peer 2022 fold 2: chunk 1/1 (568 providers) 156.6s
+2026-10-26T12:46:24Z explain draw 2 lgbm/peer 2023 fold 2: chunk 1/1 (588 providers) 159.9s
+2026-10-26T13:04:18Z explain draw 2 lgbm/peer 2022 fold 3: chunk 1/1 (543 providers) 1072.1s
+2026-10-26T13:22:22Z explain draw 2 lgbm/peer 2023 fold 3: chunk 1/1 (562 providers) 1082.8s
+2026-10-26T13:24:28Z explain draw 2 lgbm/peer 2022 fold 4: chunk 1/1 (570 providers) 125.1s
+2026-10-26T13:26:38Z explain draw 2 lgbm/peer 2023 fold 4: chunk 1/1 (578 providers) 128.7s
+2026-10-26T13:28:14Z explain draw 2 lgbm_mono/peer 2022 fold 0: chunk 1/1 (573 providers) 95.3s
+2026-10-26T13:29:55Z explain draw 2 lgbm_mono/peer 2023 fold 0: chunk 1/1 (588 providers) 99.5s
+2026-10-26T13:39:15Z explain draw 2 lgbm_mono/peer 2022 fold 1: chunk 1/1 (555 providers) 559.6s
+2026-10-26T13:48:52Z explain draw 2 lgbm_mono/peer 2023 fold 1: chunk 1/1 (574 providers) 575.9s
+2026-10-26T13:49:47Z explain draw 2 lgbm_mono/peer 2022 fold 2: chunk 1/1 (568 providers) 53.9s
+2026-10-26T13:50:39Z explain draw 2 lgbm_mono/peer 2023 fold 2: chunk 1/1 (588 providers) 50.3s
+2026-10-26T13:53:54Z explain draw 2 lgbm_mono/peer 2022 fold 3: chunk 1/1 (543 providers) 194.2s
+2026-10-26T13:57:40Z explain draw 2 lgbm_mono/peer 2023 fold 3: chunk 1/1 (562 providers) 225.0s
+2026-10-26T13:59:39Z explain draw 2 lgbm_mono/peer 2022 fold 4: chunk 1/1 (570 providers) 117.7s
+2026-10-26T14:01:34Z explain draw 2 lgbm_mono/peer 2023 fold 4: chunk 1/1 (578 providers) 114.5s
+2026-10-26T14:18:11Z train draw 3 lr fold 0: 109s, 482832 training rows
+2026-10-26T14:27:31Z train draw 3 ebm fold 0: 560s, 482832 training rows
+2026-10-26T14:40:56Z train draw 3 ga2m fold 0: 805s, 482832 training rows
+2026-10-26T14:41:10Z train draw 3 xgb fold 0: 14s, 482832 training rows
+2026-10-26T14:41:20Z train draw 3 xgb_mono fold 0: 10s, 482832 training rows
+2026-10-26T14:41:27Z train draw 3 lgbm fold 0: 7s, 482832 training rows
+2026-10-26T14:41:32Z train draw 3 lgbm_mono fold 0: 5s, 482832 training rows
+2026-10-26T15:52:50Z train draw 3 lr fold 1: 4272s, 483706 training rows
+2026-10-26T16:11:17Z train draw 3 ebm fold 1: 1107s, 483706 training rows
+2026-10-26T16:33:26Z train draw 3 ga2m fold 1: 1329s, 483706 training rows
+2026-10-26T16:33:57Z train draw 3 xgb fold 1: 31s, 483706 training rows
+2026-10-26T16:34:08Z train draw 3 xgb_mono fold 1: 12s, 483706 training rows
+2026-10-26T16:34:11Z train draw 3 lgbm fold 1: 3s, 483706 training rows
+2026-10-26T16:34:33Z train draw 3 lgbm_mono fold 1: 22s, 483706 training rows
+2026-10-26T16:37:06Z train draw 3 lr fold 2: 147s, 483663 training rows
+2026-10-26T16:39:05Z train draw 3 ebm fold 2: 119s, 483663 training rows
+2026-10-26T16:48:50Z train draw 3 ga2m fold 2: 585s, 483663 training rows
+2026-10-26T16:49:05Z train draw 3 xgb fold 2: 15s, 483663 training rows
+2026-10-26T16:49:27Z train draw 3 xgb_mono fold 2: 23s, 483663 training rows
+2026-10-26T16:49:35Z train draw 3 lgbm fold 2: 7s, 483663 training rows
+2026-10-26T16:49:38Z train draw 3 lgbm_mono fold 2: 4s, 483663 training rows
+2026-10-26T16:51:22Z train draw 3 lr fold 3: 96s, 483917 training rows
+2026-10-26T16:55:48Z train draw 3 ebm fold 3: 266s, 483917 training rows
+2026-10-26T17:11:42Z train draw 3 ga2m fold 3: 954s, 483917 training rows
+2026-10-26T17:11:53Z train draw 3 xgb fold 3: 11s, 483917 training rows
+2026-10-26T17:12:14Z train draw 3 xgb_mono fold 3: 21s, 483917 training rows
+2026-10-26T17:12:46Z train draw 3 lgbm fold 3: 32s, 483917 training rows
+2026-10-26T17:13:01Z train draw 3 lgbm_mono fold 3: 15s, 483917 training rows
+2026-10-26T17:15:15Z train draw 3 lr fold 4: 127s, 482918 training rows
+2026-10-26T17:30:47Z train draw 3 ebm fold 4: 932s, 482918 training rows
+2026-10-26T17:48:53Z train draw 3 ga2m fold 4: 1087s, 482918 training rows
+2026-10-26T17:49:21Z train draw 3 xgb fold 4: 28s, 482918 training rows
+2026-10-26T17:50:21Z train draw 3 xgb_mono fold 4: 60s, 482918 training rows
+2026-10-26T17:50:28Z train draw 3 lgbm fold 4: 7s, 482918 training rows
+2026-10-26T17:50:35Z train draw 3 lgbm_mono fold 4: 7s, 482918 training rows
+2026-10-26T17:53:50Z explain draw 3 lr/peer 2022 fold 0: chunk 1/1 (537 providers) 179.3s
+2026-10-26T17:56:55Z explain draw 3 lr/peer 2023 fold 0: chunk 1/1 (555 providers) 183.9s
+2026-10-26T18:00:18Z explain draw 3 lr/peer 2022 fold 1: chunk 1/1 (593 providers) 202.4s
+2026-10-26T18:03:32Z explain draw 3 lr/peer 2023 fold 1: chunk 1/1 (604 providers) 192.9s
+2026-10-26T18:06:33Z explain draw 3 lr/peer 2022 fold 2: chunk 1/1 (542 providers) 179.5s
+2026-10-26T18:09:27Z explain draw 3 lr/peer 2023 fold 2: chunk 1/1 (544 providers) 173.7s
+2026-10-26T18:12:39Z explain draw 3 lr/peer 2022 fold 3: chunk 1/1 (573 providers) 191.0s
+2026-10-26T18:15:58Z explain draw 3 lr/peer 2023 fold 3: chunk 1/1 (600 providers) 198.1s
+2026-10-26T18:18:56Z explain draw 3 lr/peer 2022 fold 4: chunk 1/1 (565 providers) 177.0s
+2026-10-26T18:22:08Z explain draw 3 lr/peer 2023 fold 4: chunk 1/1 (586 providers) 190.1s
+2026-10-26T18:23:43Z explain draw 3 ebm/peer 2022 fold 0: chunk 1/1 (537 providers) 94.5s
+2026-10-26T18:25:22Z explain draw 3 ebm/peer 2023 fold 0: chunk 1/1 (555 providers) 97.9s
+2026-10-26T18:27:16Z explain draw 3 ebm/peer 2022 fold 1: chunk 1/1 (593 providers) 113.0s
+2026-10-26T18:29:12Z explain draw 3 ebm/peer 2023 fold 1: chunk 1/1 (604 providers) 115.3s
+2026-10-26T18:31:01Z explain draw 3 ebm/peer 2022 fold 2: chunk 1/1 (542 providers) 108.2s
+2026-10-26T18:32:45Z explain draw 3 ebm/peer 2023 fold 2: chunk 1/1 (544 providers) 102.3s
+2026-10-26T18:34:33Z explain draw 3 ebm/peer 2022 fold 3: chunk 1/1 (573 providers) 107.1s
+2026-10-26T18:36:31Z explain draw 3 ebm/peer 2023 fold 3: chunk 1/1 (600 providers) 117.1s
+2026-10-26T18:38:19Z explain draw 3 ebm/peer 2022 fold 4: chunk 1/1 (565 providers) 107.1s
+2026-10-26T18:40:08Z explain draw 3 ebm/peer 2023 fold 4: chunk 1/1 (586 providers) 108.2s
+2026-10-26T18:41:55Z explain draw 3 ga2m/peer 2022 fold 0: chunk 1/1 (537 providers) 105.3s
+2026-10-26T18:43:56Z explain draw 3 ga2m/peer 2023 fold 0: chunk 1/1 (555 providers) 120.3s
+2026-10-26T18:46:02Z explain draw 3 ga2m/peer 2022 fold 1: chunk 1/1 (593 providers) 125.2s
+2026-10-26T18:48:08Z explain draw 3 ga2m/peer 2023 fold 1: chunk 1/1 (604 providers) 124.5s
+2026-10-26T18:49:53Z explain draw 3 ga2m/peer 2022 fold 2: chunk 1/1 (542 providers) 104.1s
+2026-10-26T18:51:41Z explain draw 3 ga2m/peer 2023 fold 2: chunk 1/1 (544 providers) 106.9s
+2026-10-26T18:53:34Z explain draw 3 ga2m/peer 2022 fold 3: chunk 1/1 (573 providers) 111.7s
+2026-10-26T18:55:29Z explain draw 3 ga2m/peer 2023 fold 3: chunk 1/1 (600 providers) 113.9s
+2026-10-26T18:57:17Z explain draw 3 ga2m/peer 2022 fold 4: chunk 1/1 (565 providers) 107.5s
+2026-10-26T18:59:13Z explain draw 3 ga2m/peer 2023 fold 4: chunk 1/1 (586 providers) 114.0s
+2026-10-26T19:00:33Z explain draw 3 xgb/peer 2022 fold 0: chunk 1/1 (537 providers) 79.8s
+2026-10-26T19:01:56Z explain draw 3 xgb/peer 2023 fold 0: chunk 1/1 (555 providers) 81.4s
+2026-10-26T19:04:20Z explain draw 3 xgb/peer 2022 fold 1: chunk 1/1 (593 providers) 143.2s
+2026-10-26T19:06:51Z explain draw 3 xgb/peer 2023 fold 1: chunk 1/1 (604 providers) 149.8s
+2026-10-26T19:08:05Z explain draw 3 xgb/peer 2022 fold 2: chunk 1/1 (542 providers) 73.0s
+2026-10-26T19:09:22Z explain draw 3 xgb/peer 2023 fold 2: chunk 1/1 (544 providers) 75.8s
+2026-10-26T19:10:35Z explain draw 3 xgb/peer 2022 fold 3: chunk 1/1 (573 providers) 72.2s
+2026-10-26T19:11:54Z explain draw 3 xgb/peer 2023 fold 3: chunk 1/1 (600 providers) 77.8s
+2026-10-26T19:15:01Z explain draw 3 xgb/peer 2022 fold 4: chunk 1/1 (565 providers) 185.5s
+2026-10-26T19:18:11Z explain draw 3 xgb/peer 2023 fold 4: chunk 1/1 (586 providers) 189.0s
+2026-10-26T19:19:09Z explain draw 3 xgb_mono/peer 2022 fold 0: chunk 1/1 (537 providers) 57.1s
+2026-10-26T19:20:09Z explain draw 3 xgb_mono/peer 2023 fold 0: chunk 1/1 (555 providers) 59.4s
+2026-10-26T19:21:16Z explain draw 3 xgb_mono/peer 2022 fold 1: chunk 1/1 (593 providers) 66.1s
+2026-10-26T19:22:26Z explain draw 3 xgb_mono/peer 2023 fold 1: chunk 1/1 (604 providers) 69.0s
+2026-10-26T19:24:14Z explain draw 3 xgb_mono/peer 2022 fold 2: chunk 1/1 (542 providers) 106.6s
+2026-10-26T19:26:02Z explain draw 3 xgb_mono/peer 2023 fold 2: chunk 1/1 (544 providers) 106.9s
+2026-10-26T19:27:42Z explain draw 3 xgb_mono/peer 2022 fold 3: chunk 1/1 (573 providers) 98.7s
+2026-10-26T19:29:25Z explain draw 3 xgb_mono/peer 2023 fold 3: chunk 1/1 (600 providers) 102.5s
+2026-10-26T19:34:52Z explain draw 3 xgb_mono/peer 2022 fold 4: chunk 1/1 (565 providers) 325.5s
+2026-10-26T19:40:20Z explain draw 3 xgb_mono/peer 2023 fold 4: chunk 1/1 (586 providers) 327.3s
+2026-10-26T19:41:46Z explain draw 3 lgbm/peer 2022 fold 0: chunk 1/1 (537 providers) 84.3s
+2026-10-26T19:43:11Z explain draw 3 lgbm/peer 2023 fold 0: chunk 1/1 (555 providers) 84.6s
+2026-10-26T19:44:06Z explain draw 3 lgbm/peer 2022 fold 1: chunk 1/1 (593 providers) 54.1s
+2026-10-26T19:45:00Z explain draw 3 lgbm/peer 2023 fold 1: chunk 1/1 (604 providers) 52.8s
+2026-10-26T19:47:15Z explain draw 3 lgbm/peer 2022 fold 2: chunk 1/1 (542 providers) 133.7s
+2026-10-26T19:49:36Z explain draw 3 lgbm/peer 2023 fold 2: chunk 1/1 (544 providers) 140.6s
+2026-10-26T20:07:02Z explain draw 3 lgbm/peer 2022 fold 3: chunk 1/1 (573 providers) 1044.3s
+2026-10-26T20:25:15Z explain draw 3 lgbm/peer 2023 fold 3: chunk 1/1 (600 providers) 1092.1s
+2026-10-26T20:27:07Z explain draw 3 lgbm/peer 2022 fold 4: chunk 1/1 (565 providers) 111.3s
+2026-10-26T20:29:05Z explain draw 3 lgbm/peer 2023 fold 4: chunk 1/1 (586 providers) 116.7s
+2026-10-26T20:30:21Z explain draw 3 lgbm_mono/peer 2022 fold 0: chunk 1/1 (537 providers) 74.5s
+2026-10-26T20:31:39Z explain draw 3 lgbm_mono/peer 2023 fold 0: chunk 1/1 (555 providers) 77.8s
+2026-10-26T20:40:42Z explain draw 3 lgbm_mono/peer 2022 fold 1: chunk 1/1 (593 providers) 541.6s
+2026-10-26T20:50:03Z explain draw 3 lgbm_mono/peer 2023 fold 1: chunk 1/1 (604 providers) 559.9s
+2026-10-26T20:50:47Z explain draw 3 lgbm_mono/peer 2022 fold 2: chunk 1/1 (542 providers) 43.5s
+2026-10-26T20:51:35Z explain draw 3 lgbm_mono/peer 2023 fold 2: chunk 1/1 (544 providers) 46.8s
+2026-10-26T20:55:02Z explain draw 3 lgbm_mono/peer 2022 fold 3: chunk 1/1 (573 providers) 206.3s
+2026-10-26T20:58:33Z explain draw 3 lgbm_mono/peer 2023 fold 3: chunk 1/1 (600 providers) 209.8s
+2026-10-26T21:00:18Z explain draw 3 lgbm_mono/peer 2022 fold 4: chunk 1/1 (565 providers) 103.6s
+2026-10-26T21:02:08Z explain draw 3 lgbm_mono/peer 2023 fold 4: chunk 1/1 (586 providers) 109.6s
+2026-10-26T21:17:31Z train draw 4 lr fold 0: 89s, 482980 training rows
+2026-10-26T21:25:49Z train draw 4 ebm fold 0: 498s, 482980 training rows
+2026-10-26T21:37:44Z train draw 4 ga2m fold 0: 715s, 482980 training rows
+2026-10-26T21:37:55Z train draw 4 xgb fold 0: 11s, 482980 training rows
+2026-10-26T21:38:02Z train draw 4 xgb_mono fold 0: 7s, 482980 training rows
+2026-10-26T21:38:09Z train draw 4 lgbm fold 0: 6s, 482980 training rows
+2026-10-26T21:38:14Z train draw 4 lgbm_mono fold 0: 5s, 482980 training rows
+2026-10-26T22:39:47Z train draw 4 lr fold 1: 3688s, 483801 training rows
+2026-10-26T22:52:26Z train draw 4 ebm fold 1: 759s, 483801 training rows
+2026-10-26T23:06:39Z train draw 4 ga2m fold 1: 854s, 483801 training rows
+2026-10-26T23:07:09Z train draw 4 xgb fold 1: 30s, 483801 training rows
+2026-10-26T23:07:17Z train draw 4 xgb_mono fold 1: 8s, 483801 training rows
+2026-10-26T23:07:20Z train draw 4 lgbm fold 1: 3s, 483801 training rows
+2026-10-26T23:07:40Z train draw 4 lgbm_mono fold 1: 20s, 483801 training rows
+2026-10-26T23:09:00Z train draw 4 lr fold 2: 75s, 483488 training rows
+2026-10-26T23:10:51Z train draw 4 ebm fold 2: 111s, 483488 training rows
+2026-10-26T23:20:14Z train draw 4 ga2m fold 2: 563s, 483488 training rows
+2026-10-26T23:20:24Z train draw 4 xgb fold 2: 10s, 483488 training rows
+2026-10-26T23:20:42Z train draw 4 xgb_mono fold 2: 18s, 483488 training rows
+2026-10-26T23:20:48Z train draw 4 lgbm fold 2: 6s, 483488 training rows
+2026-10-26T23:20:51Z train draw 4 lgbm_mono fold 2: 3s, 483488 training rows
+2026-10-26T23:22:33Z train draw 4 lr fold 3: 96s, 483907 training rows
+2026-10-26T23:26:36Z train draw 4 ebm fold 3: 243s, 483907 training rows
+2026-10-26T23:39:29Z train draw 4 ga2m fold 3: 773s, 483907 training rows
+2026-10-26T23:39:40Z train draw 4 xgb fold 3: 11s, 483907 training rows
+2026-10-26T23:40:05Z train draw 4 xgb_mono fold 3: 25s, 483907 training rows
+2026-10-26T23:40:44Z train draw 4 lgbm fold 3: 39s, 483907 training rows
+2026-10-26T23:40:58Z train draw 4 lgbm_mono fold 3: 14s, 483907 training rows
+2026-10-26T23:43:07Z train draw 4 lr fold 4: 124s, 482996 training rows
+2026-10-26T23:59:18Z train draw 4 ebm fold 4: 971s, 482996 training rows
+2026-10-27T00:14:55Z train draw 4 ga2m fold 4: 938s, 482996 training rows
+2026-10-27T00:15:20Z train draw 4 xgb fold 4: 24s, 482996 training rows
+2026-10-27T00:16:16Z train draw 4 xgb_mono fold 4: 56s, 482996 training rows
+2026-10-27T00:16:23Z train draw 4 lgbm fold 4: 7s, 482996 training rows
+2026-10-27T00:16:30Z train draw 4 lgbm_mono fold 4: 7s, 482996 training rows
+2026-10-27T00:19:51Z explain draw 4 lr/peer 2022 fold 0: chunk 1/1 (536 providers) 185.5s
+2026-10-27T00:22:59Z explain draw 4 lr/peer 2023 fold 0: chunk 1/1 (553 providers) 186.1s
+2026-10-27T00:26:19Z explain draw 4 lr/peer 2022 fold 1: chunk 1/1 (574 providers) 199.1s
+2026-10-27T00:29:53Z explain draw 4 lr/peer 2023 fold 1: chunk 1/1 (602 providers) 213.1s
+2026-10-27T00:33:03Z explain draw 4 lr/peer 2022 fold 2: chunk 1/1 (542 providers) 188.0s
+2026-10-27T00:36:23Z explain draw 4 lr/peer 2023 fold 2: chunk 1/1 (549 providers) 199.5s
+2026-10-27T00:39:58Z explain draw 4 lr/peer 2022 fold 3: chunk 1/1 (587 providers) 213.7s
+2026-10-27T00:43:30Z explain draw 4 lr/peer 2023 fold 3: chunk 1/1 (595 providers) 210.6s
+2026-10-27T00:46:48Z explain draw 4 lr/peer 2022 fold 4: chunk 1/1 (569 providers) 196.9s
+2026-10-27T00:50:11Z explain draw 4 lr/peer 2023 fold 4: chunk 1/1 (593 providers) 202.3s
+2026-10-27T00:52:02Z explain draw 4 ebm/peer 2022 fold 0: chunk 1/1 (536 providers) 109.7s
+2026-10-27T00:54:02Z explain draw 4 ebm/peer 2023 fold 0: chunk 1/1 (553 providers) 118.3s
+2026-10-27T00:56:03Z explain draw 4 ebm/peer 2022 fold 1: chunk 1/1 (574 providers) 120.4s
+2026-10-27T00:58:09Z explain draw 4 ebm/peer 2023 fold 1: chunk 1/1 (602 providers) 125.1s
+2026-10-27T00:59:58Z explain draw 4 ebm/peer 2022 fold 2: chunk 1/1 (542 providers) 107.9s
+2026-10-27T01:01:52Z explain draw 4 ebm/peer 2023 fold 2: chunk 1/1 (549 providers) 112.6s
+2026-10-27T01:03:57Z explain draw 4 ebm/peer 2022 fold 3: chunk 1/1 (587 providers) 123.9s
+2026-10-27T01:06:02Z explain draw 4 ebm/peer 2023 fold 3: chunk 1/1 (595 providers) 124.0s
+2026-10-27T01:21:32Z train draw 0 lr fold 0: done earlier, skipped
+2026-10-27T01:21:32Z train draw 0 ebm fold 0: done earlier, skipped
+2026-10-27T01:21:33Z train draw 0 ga2m fold 0: done earlier, skipped
+2026-10-27T01:21:33Z train draw 0 xgb fold 0: done earlier, skipped
+2026-10-27T01:21:33Z train draw 0 xgb_mono fold 0: done earlier, skipped
+2026-10-27T01:21:33Z train draw 0 lgbm fold 0: done earlier, skipped
+2026-10-27T01:21:33Z train draw 0 lgbm_mono fold 0: done earlier, skipped
+2026-10-27T01:21:33Z train draw 0 lr fold 1: done earlier, skipped
+2026-10-27T01:21:33Z train draw 0 ebm fold 1: done earlier, skipped
+2026-10-27T01:21:33Z train draw 0 ga2m fold 1: done earlier, skipped
+2026-10-27T01:21:33Z train draw 0 xgb fold 1: done earlier, skipped
+2026-10-27T01:21:33Z train draw 0 xgb_mono fold 1: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 lgbm fold 1: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 lgbm_mono fold 1: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 lr fold 2: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 ebm fold 2: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 ga2m fold 2: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 xgb fold 2: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 xgb_mono fold 2: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 lgbm fold 2: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 lgbm_mono fold 2: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 lr fold 3: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 ebm fold 3: done earlier, skipped
+2026-10-27T01:21:34Z train draw 0 ga2m fold 3: done earlier, skipped
+2026-10-27T01:21:35Z train draw 0 xgb fold 3: done earlier, skipped
+2026-10-27T01:21:35Z train draw 0 xgb_mono fold 3: done earlier, skipped
+2026-10-27T01:21:35Z train draw 0 lgbm fold 3: done earlier, skipped
+2026-10-27T01:21:35Z train draw 0 lgbm_mono fold 3: done earlier, skipped
+2026-10-27T01:21:35Z train draw 0 lr fold 4: done earlier, skipped
+2026-10-27T01:21:35Z train draw 0 ebm fold 4: done earlier, skipped
+2026-10-27T01:21:35Z train draw 0 ga2m fold 4: done earlier, skipped
+2026-10-27T01:21:36Z train draw 0 xgb fold 4: done earlier, skipped
+2026-10-27T01:21:36Z train draw 0 xgb_mono fold 4: done earlier, skipped
+2026-10-27T01:21:36Z train draw 0 lgbm fold 4: done earlier, skipped
+2026-10-27T01:21:36Z train draw 0 lgbm_mono fold 4: done earlier, skipped
+2026-10-27T01:24:34Z explain draw 0 lr/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:35Z explain draw 0 lr/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:37Z explain draw 0 lr/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:38Z explain draw 0 lr/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:40Z explain draw 0 lr/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:41Z explain draw 0 lr/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:43Z explain draw 0 lr/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:44Z explain draw 0 lr/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:46Z explain draw 0 lr/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:47Z explain draw 0 lr/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:50Z explain draw 0 ebm/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:51Z explain draw 0 ebm/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:53Z explain draw 0 ebm/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:54Z explain draw 0 ebm/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:56Z explain draw 0 ebm/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:57Z explain draw 0 ebm/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:24:59Z explain draw 0 ebm/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:00Z explain draw 0 ebm/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:02Z explain draw 0 ebm/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:03Z explain draw 0 ebm/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:06Z explain draw 0 ga2m/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:07Z explain draw 0 ga2m/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:09Z explain draw 0 ga2m/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:10Z explain draw 0 ga2m/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:12Z explain draw 0 ga2m/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:13Z explain draw 0 ga2m/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:15Z explain draw 0 ga2m/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:16Z explain draw 0 ga2m/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:18Z explain draw 0 ga2m/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:19Z explain draw 0 ga2m/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:22Z explain draw 0 xgb/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:23Z explain draw 0 xgb/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:24Z explain draw 0 xgb/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:25Z explain draw 0 xgb/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:27Z explain draw 0 xgb/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:28Z explain draw 0 xgb/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:30Z explain draw 0 xgb/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:31Z explain draw 0 xgb/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:33Z explain draw 0 xgb/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:34Z explain draw 0 xgb/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:37Z explain draw 0 xgb_mono/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:38Z explain draw 0 xgb_mono/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:40Z explain draw 0 xgb_mono/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:41Z explain draw 0 xgb_mono/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:42Z explain draw 0 xgb_mono/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:43Z explain draw 0 xgb_mono/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:46Z explain draw 0 xgb_mono/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:47Z explain draw 0 xgb_mono/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:49Z explain draw 0 xgb_mono/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:50Z explain draw 0 xgb_mono/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:52Z explain draw 0 lgbm/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:53Z explain draw 0 lgbm/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:55Z explain draw 0 lgbm/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:56Z explain draw 0 lgbm/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:58Z explain draw 0 lgbm/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:25:59Z explain draw 0 lgbm/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:02Z explain draw 0 lgbm/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:03Z explain draw 0 lgbm/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:05Z explain draw 0 lgbm/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:06Z explain draw 0 lgbm/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:08Z explain draw 0 lgbm_mono/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:09Z explain draw 0 lgbm_mono/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:11Z explain draw 0 lgbm_mono/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:12Z explain draw 0 lgbm_mono/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:14Z explain draw 0 lgbm_mono/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:15Z explain draw 0 lgbm_mono/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:17Z explain draw 0 lgbm_mono/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:18Z explain draw 0 lgbm_mono/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:19Z explain draw 0 lgbm_mono/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:26:20Z explain draw 0 lgbm_mono/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:15Z train draw 4 lr fold 0: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 ebm fold 0: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 ga2m fold 0: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 xgb fold 0: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 xgb_mono fold 0: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lgbm fold 0: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lgbm_mono fold 0: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lr fold 1: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 ebm fold 1: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 ga2m fold 1: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 xgb fold 1: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 xgb_mono fold 1: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lgbm fold 1: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lgbm_mono fold 1: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lr fold 2: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 ebm fold 2: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 ga2m fold 2: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 xgb fold 2: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 xgb_mono fold 2: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lgbm fold 2: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lgbm_mono fold 2: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lr fold 3: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 ebm fold 3: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 ga2m fold 3: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 xgb fold 3: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 xgb_mono fold 3: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lgbm fold 3: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lgbm_mono fold 3: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lr fold 4: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 ebm fold 4: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 ga2m fold 4: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 xgb fold 4: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 xgb_mono fold 4: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lgbm fold 4: done earlier, skipped
+2026-10-27T01:35:15Z train draw 4 lgbm_mono fold 4: done earlier, skipped
+2026-10-27T01:35:35Z explain draw 4 lr/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:36Z explain draw 4 lr/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:38Z explain draw 4 lr/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:38Z explain draw 4 lr/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:40Z explain draw 4 lr/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:41Z explain draw 4 lr/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:43Z explain draw 4 lr/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:44Z explain draw 4 lr/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:45Z explain draw 4 lr/peer 2022 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:46Z explain draw 4 lr/peer 2023 fold 4: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:48Z explain draw 4 ebm/peer 2022 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:49Z explain draw 4 ebm/peer 2023 fold 0: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:51Z explain draw 4 ebm/peer 2022 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:52Z explain draw 4 ebm/peer 2023 fold 1: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:53Z explain draw 4 ebm/peer 2022 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:54Z explain draw 4 ebm/peer 2023 fold 2: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:56Z explain draw 4 ebm/peer 2022 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:35:57Z explain draw 4 ebm/peer 2023 fold 3: 1 of 1 chunks already done, skipped
+2026-10-27T01:37:52Z explain draw 4 ebm/peer 2022 fold 4: chunk 1/1 (569 providers) 113.8s
+2026-10-27T01:39:48Z explain draw 4 ebm/peer 2023 fold 4: chunk 1/1 (593 providers) 114.8s
+2026-10-27T01:41:40Z explain draw 4 ga2m/peer 2022 fold 0: chunk 1/1 (536 providers) 110.0s
+2026-10-27T01:43:44Z explain draw 4 ga2m/peer 2023 fold 0: chunk 1/1 (553 providers) 122.0s
+2026-10-27T01:45:43Z explain draw 4 ga2m/peer 2022 fold 1: chunk 1/1 (574 providers) 117.9s
+2026-10-27T01:47:44Z explain draw 4 ga2m/peer 2023 fold 1: chunk 1/1 (602 providers) 119.8s
+2026-10-27T01:49:27Z explain draw 4 ga2m/peer 2022 fold 2: chunk 1/1 (542 providers) 100.9s
+2026-10-27T01:51:09Z explain draw 4 ga2m/peer 2023 fold 2: chunk 1/1 (549 providers) 101.5s
+2026-10-27T01:53:05Z explain draw 4 ga2m/peer 2022 fold 3: chunk 1/1 (587 providers) 114.4s
+2026-10-27T01:55:02Z explain draw 4 ga2m/peer 2023 fold 3: chunk 1/1 (595 providers) 115.6s
+2026-10-27T01:57:00Z explain draw 4 ga2m/peer 2022 fold 4: chunk 1/1 (569 providers) 117.2s
+2026-10-27T01:59:01Z explain draw 4 ga2m/peer 2023 fold 4: chunk 1/1 (593 providers) 120.0s
+2026-10-27T02:00:29Z explain draw 4 xgb/peer 2022 fold 0: chunk 1/1 (536 providers) 86.3s
+2026-10-27T02:02:03Z explain draw 4 xgb/peer 2023 fold 0: chunk 1/1 (553 providers) 92.9s
+2026-10-27T02:04:42Z explain draw 4 xgb/peer 2022 fold 1: chunk 1/1 (574 providers) 157.6s
+2026-10-27T02:07:15Z explain draw 4 xgb/peer 2023 fold 1: chunk 1/1 (602 providers) 152.3s
+2026-10-27T02:08:40Z explain draw 4 xgb/peer 2022 fold 2: chunk 1/1 (542 providers) 83.5s
+2026-10-27T02:09:58Z explain draw 4 xgb/peer 2023 fold 2: chunk 1/1 (549 providers) 76.8s
+2026-10-27T02:11:12Z explain draw 4 xgb/peer 2022 fold 3: chunk 1/1 (587 providers) 72.7s
+2026-10-27T02:12:31Z explain draw 4 xgb/peer 2023 fold 3: chunk 1/1 (595 providers) 78.2s
+2026-10-27T02:15:50Z explain draw 4 xgb/peer 2022 fold 4: chunk 1/1 (569 providers) 197.5s
+2026-10-27T02:19:09Z explain draw 4 xgb/peer 2023 fold 4: chunk 1/1 (593 providers) 197.6s
+2026-10-27T02:20:09Z explain draw 4 xgb_mono/peer 2022 fold 0: chunk 1/1 (536 providers) 59.2s
+2026-10-27T02:21:17Z explain draw 4 xgb_mono/peer 2023 fold 0: chunk 1/1 (553 providers) 67.1s
+2026-10-27T02:22:29Z explain draw 4 xgb_mono/peer 2022 fold 1: chunk 1/1 (574 providers) 71.0s
+2026-10-27T02:23:46Z explain draw 4 xgb_mono/peer 2023 fold 1: chunk 1/1 (602 providers) 75.7s
+2026-10-27T02:25:29Z explain draw 4 xgb_mono/peer 2022 fold 2: chunk 1/1 (542 providers) 101.9s
+2026-10-27T02:27:20Z explain draw 4 xgb_mono/peer 2023 fold 2: chunk 1/1 (549 providers) 110.0s
+2026-10-27T02:29:05Z explain draw 4 xgb_mono/peer 2022 fold 3: chunk 1/1 (587 providers) 103.2s
+2026-10-27T02:30:54Z explain draw 4 xgb_mono/peer 2023 fold 3: chunk 1/1 (595 providers) 107.6s
+2026-10-27T02:36:31Z explain draw 4 xgb_mono/peer 2022 fold 4: chunk 1/1 (569 providers) 335.4s
+2026-10-27T02:42:29Z explain draw 4 xgb_mono/peer 2023 fold 4: chunk 1/1 (593 providers) 357.2s
+2026-10-27T02:44:08Z explain draw 4 lgbm/peer 2022 fold 0: chunk 1/1 (536 providers) 98.2s
+2026-10-27T02:45:43Z explain draw 4 lgbm/peer 2023 fold 0: chunk 1/1 (553 providers) 94.2s
+2026-10-27T02:46:43Z explain draw 4 lgbm/peer 2022 fold 1: chunk 1/1 (574 providers) 58.0s
+2026-10-27T02:47:45Z explain draw 4 lgbm/peer 2023 fold 1: chunk 1/1 (602 providers) 61.7s
+2026-10-27T02:50:21Z explain draw 4 lgbm/peer 2022 fold 2: chunk 1/1 (542 providers) 154.5s
+2026-10-27T02:53:04Z explain draw 4 lgbm/peer 2023 fold 2: chunk 1/1 (549 providers) 161.5s
+2026-10-27T03:10:53Z explain draw 4 lgbm/peer 2022 fold 3: chunk 1/1 (587 providers) 1067.5s
+2026-10-27T03:28:41Z explain draw 4 lgbm/peer 2023 fold 3: chunk 1/1 (595 providers) 1066.8s
+2026-10-27T03:30:52Z explain draw 4 lgbm/peer 2022 fold 4: chunk 1/1 (569 providers) 129.5s
+2026-10-27T03:33:00Z explain draw 4 lgbm/peer 2023 fold 4: chunk 1/1 (593 providers) 127.4s
+2026-10-27T03:34:22Z explain draw 4 lgbm_mono/peer 2022 fold 0: chunk 1/1 (536 providers) 80.5s
+2026-10-27T03:35:44Z explain draw 4 lgbm_mono/peer 2023 fold 0: chunk 1/1 (553 providers) 81.1s
+2026-10-27T03:45:02Z explain draw 4 lgbm_mono/peer 2022 fold 1: chunk 1/1 (574 providers) 556.6s
+2026-10-27T03:54:27Z explain draw 4 lgbm_mono/peer 2023 fold 1: chunk 1/1 (602 providers) 564.1s
+2026-10-27T03:55:18Z explain draw 4 lgbm_mono/peer 2022 fold 2: chunk 1/1 (542 providers) 49.7s
+2026-10-27T03:56:08Z explain draw 4 lgbm_mono/peer 2023 fold 2: chunk 1/1 (549 providers) 48.7s
+2026-10-27T03:59:35Z explain draw 4 lgbm_mono/peer 2022 fold 3: chunk 1/1 (587 providers) 206.3s
+2026-10-27T04:03:07Z explain draw 4 lgbm_mono/peer 2023 fold 3: chunk 1/1 (595 providers) 210.6s
+2026-10-27T04:05:05Z explain draw 4 lgbm_mono/peer 2022 fold 4: chunk 1/1 (569 providers) 116.7s
+2026-10-27T04:07:07Z explain draw 4 lgbm_mono/peer 2023 fold 4: chunk 1/1 (593 providers) 120.7s

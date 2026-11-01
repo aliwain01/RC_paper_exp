@@ -1,0 +1,98 @@
+# C8 model trainer (DESIGN §7.8; EXPERIMENT_PLAN §2-3; CONTRACTS §3). Frozen with the protocol at gate G2.
+
+# Families compared in T1. "Best GBM" / "best glass box" are chosen on validation average precision
+# (mean over folds), never on test data (DESIGN §17 D74).
+families: [lr, ebm, ga2m, xgb, xgb_mono, lgbm, lgbm_mono]
+glass_box: [lr, ebm, ga2m]
+gbm: [xgb, lgbm]
+gbm_mono: [xgb_mono, lgbm_mono]
+
+n_trials: 30                 # EXPERIMENT_PLAN §3: matched tuning budget per family (Optuna TPE); 60 -> 30, D120
+tuning_seed: 20261015        # sampler seed; sub-seeded per (design, family, fold)
+seeds: 10                    # DESIGN §7.8: seeds per configuration; seed 0 = reference model for attribution
+threads: 4
+# Tuning fails loudly if the validation slice has fewer positives than this (average precision is undefined
+# or meaningless below it).
+min_valid_positives: 5
+
+# DESIGN §17 D59 (open; decide at G2). Default: final model on all TRAIN_ROLES rows; isotonic calibrator fitted
+# on the tuning model's tune_valid margins and applied to the final model's margins (no label leakage; the two
+# models differ by the year-b rows). `final_model` calibration needs `exclude_holdout_npis` (no H_k row in the
+# final fit), otherwise the calibrator would see its own training providers.
+final_fit: all_train                 # all_train | exclude_holdout_npis
+calibration_source: tuning_model     # tuning_model | final_model
+
+# Per design: whether to tune (else reuse the primary design's best parameters for the same family and fold)
+# and how many seeds (DESIGN §17 D75: rolling origins are robustness checks).
+designs:
+  primary: {tune: true, seeds: 10}
+  O1: {tune: false, seeds: 1}
+  O2: {tune: false, seeds: 1}
+  O3: {tune: false, seeds: 1}
+
+# Imbalance (DESIGN §7.8): inverse-sampling weights (splits.negative_subsample) times a tuned positive-class
+# weight, the same mechanism for every family; no SMOTE.
+pos_weight: {type: float, low: 1.0, high: 50.0, log: true}
+
+# Search spaces: {type: float|int|cat, low, high, log, choices}. `fixed` parameters are not tuned.
+lr:
+  # DESIGN §7.8 "natural-spline terms for key features": cubic B-spline basis with linear extrapolation beyond
+  # the boundary knots (natural-spline behaviour at the tails), knots at quantiles of the training rows; one key
+  # feature per scheme group (DESIGN §17 D76). The linear (scaled) term is kept next to the basis.
+  spline_features: [UP2, OU1, SM1, CH3, PM2, DI1, DC1]
+  n_knots: 5
+  degree: 3
+  fixed: {solver: saga, max_iter: 3000, tol: 0.0001}
+  space:
+    C: {type: float, low: 0.0001, high: 10.0, log: true}
+    l1_ratio: {type: float, low: 0.0, high: 1.0}       # 0 = ridge, 1 = lasso (elastic net between)
+ebm:
+  fixed: {interactions: 0, outer_bags: 8}
+  space:
+    learning_rate: {type: float, low: 0.005, high: 0.1, log: true}
+    max_bins: {type: int, low: 64, high: 512, log: true}
+    max_leaves: {type: int, low: 2, high: 4}
+    min_samples_leaf: {type: int, low: 2, high: 100, log: true}
+ga2m:
+  max_interactions: 15       # HANDOFF §7: cap pair terms (EBM time)
+  fixed: {outer_bags: 8}
+  space:
+    interactions: {type: int, low: 1, high: 15}
+    learning_rate: {type: float, low: 0.005, high: 0.1, log: true}
+    max_bins: {type: int, low: 64, high: 512, log: true}
+    min_samples_leaf: {type: int, low: 2, high: 100, log: true}
+xgb:
+  fixed: {tree_method: hist, objective: "binary:logistic"}
+  space: &xgb_space
+    n_estimators: {type: int, low: 100, high: 1500, log: true}
+    max_depth: {type: int, low: 2, high: 8}
+    learning_rate: {type: float, low: 0.01, high: 0.3, log: true}
+    subsample: {type: float, low: 0.5, high: 1.0}
+    colsample_bytree: {type: float, low: 0.4, high: 1.0}
+    min_child_weight: {type: float, low: 1.0, high: 100.0, log: true}
+    reg_lambda: {type: float, low: 0.001, high: 10.0, log: true}
+xgb_mono:
+  fixed: {tree_method: hist, objective: "binary:logistic"}
+  space: *xgb_space
+lgbm:
+  fixed: {objective: binary}
+  space: &lgbm_space
+    n_estimators: {type: int, low: 100, high: 1500, log: true}
+    num_leaves: {type: int, low: 7, high: 127, log: true}
+    learning_rate: {type: float, low: 0.01, high: 0.3, log: true}
+    feature_fraction: {type: float, low: 0.4, high: 1.0}
+    bagging_fraction: {type: float, low: 0.5, high: 1.0}
+    min_child_samples: {type: int, low: 5, high: 300, log: true}
+    lambda_l2: {type: float, low: 0.001, high: 10.0, log: true}
+lgbm_mono:
+  fixed: {objective: binary}
+  space: *lgbm_space
+
+# Sensitivity-suite knobs (EXPERIMENT_PLAN §7; configs/evaluation.yaml sensitivity). Inactive in the main analysis;
+# a sensitivity variant sets them in its own scratch project. entity_codes: keep only rows whose cohort ent_cd is
+# listed (S3); exclude_years: training rows of these years get role `none` (S4, splits D60); exclude_groups: model
+# columns of these groups are dropped (S8, context ablation).
+sensitivity:
+  entity_codes: null
+  exclude_years: []
+  exclude_groups: []

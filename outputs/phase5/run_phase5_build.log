@@ -1,0 +1,4142 @@
+2026-10-25T13:16:23Z STEP build draw 0 year 2018
+draw 0 2018: 4795 injected, 959794 featurised
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      }
+    },
+    "missing_years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T13:18:47Z STEP build draw 0 year 2019
+draw 0 2019: 4948 injected, 988049 featurised
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      }
+    },
+    "missing_years": [
+      2020,
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T13:21:07Z STEP build draw 0 year 2020
+draw 0 2020: 4837 injected, 966438 featurised
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      }
+    },
+    "missing_years": [
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T13:23:21Z STEP build draw 0 year 2021
+draw 0 2021: 5047 injected, 1010238 featurised
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      }
+    },
+    "missing_years": [
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T13:25:38Z STEP build draw 0 year 2022
+draw 0 2022: 2815 injected, 1027753 featurised
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      }
+    },
+    "missing_years": [
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T13:27:54Z STEP build draw 0 year 2023
+draw 0 2023: 2885 injected, 1046783 featurised
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 0 2018: done earlier, skipped
+draw 0 2019: done earlier, skipped
+draw 0 2020: done earlier, skipped
+draw 0 2021: done earlier, skipped
+draw 0 2022: done earlier, skipped
+draw 0 2023: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T13:30:55Z ALL DONE
+2026-10-25T14:21:11Z STEP build draw 0 year 2018
+draw 0 2018: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T14:21:56Z STEP build draw 0 year 2019
+draw 0 2019: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T14:22:41Z STEP build draw 0 year 2020
+draw 0 2020: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T14:23:23Z STEP build draw 0 year 2021
+draw 0 2021: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T14:24:06Z STEP build draw 0 year 2022
+draw 0 2022: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T14:24:48Z STEP build draw 0 year 2023
+draw 0 2023: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 0 2018: done earlier, skipped
+draw 0 2019: done earlier, skipped
+draw 0 2020: done earlier, skipped
+draw 0 2021: done earlier, skipped
+draw 0 2022: done earlier, skipped
+draw 0 2023: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T14:26:10Z ALL DONE
+2026-10-25T20:10:00Z STEP build draw 1 year 2018
+draw 1 2018: 4764 injected, 959795 featurised
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      }
+    },
+    "missing_years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T20:12:13Z STEP build draw 1 year 2019
+draw 1 2019: 4948 injected, 988048 featurised
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      }
+    },
+    "missing_years": [
+      2020,
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T20:14:29Z STEP build draw 1 year 2020
+draw 1 2020: 4843 injected, 966439 featurised
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      }
+    },
+    "missing_years": [
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T20:16:40Z STEP build draw 1 year 2021
+draw 1 2021: 5072 injected, 1010234 featurised
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      }
+    },
+    "missing_years": [
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T20:19:04Z STEP build draw 1 year 2022
+draw 1 2022: 2829 injected, 1027752 featurised
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      }
+    },
+    "missing_years": [
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T20:21:16Z STEP build draw 1 year 2023
+draw 1 2023: 2871 injected, 1046784 featurised
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 1 2018: done earlier, skipped
+draw 1 2019: done earlier, skipped
+draw 1 2020: done earlier, skipped
+draw 1 2021: done earlier, skipped
+draw 1 2022: done earlier, skipped
+draw 1 2023: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T20:24:14Z ALL DONE
+2026-10-25T23:27:41Z STEP build draw 0 year 2018
+draw 0 2018: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:33:08Z STEP build draw 0 year 2019
+2026-10-25T23:36:06Z STEP build draw 0 year 2018
+draw 0 2018: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:37:19Z STEP build draw 0 year 2019
+draw 0 2019: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:38:11Z STEP build draw 0 year 2020
+draw 0 2020: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:38:58Z STEP build draw 0 year 2021
+draw 0 2021: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:39:40Z STEP build draw 0 year 2022
+draw 0 2022: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:40:23Z STEP build draw 0 year 2023
+draw 0 2023: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 0 2018: done earlier, skipped
+draw 0 2019: done earlier, skipped
+draw 0 2020: done earlier, skipped
+draw 0 2021: done earlier, skipped
+draw 0 2022: done earlier, skipped
+draw 0 2023: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:41:46Z ALL DONE
+2026-10-25T23:47:42Z STEP build draw 1 year 2018
+draw 1 2018: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:48:39Z STEP build draw 1 year 2019
+draw 1 2019: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:49:30Z STEP build draw 1 year 2020
+draw 1 2020: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:50:21Z STEP build draw 1 year 2021
+draw 1 2021: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:51:14Z STEP build draw 1 year 2022
+draw 1 2022: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:52:02Z STEP build draw 1 year 2023
+draw 1 2023: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 1 2018: done earlier, skipped
+draw 1 2019: done earlier, skipped
+draw 1 2020: done earlier, skipped
+draw 1 2021: done earlier, skipped
+draw 1 2022: done earlier, skipped
+draw 1 2023: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-25T23:53:47Z ALL DONE
+2026-10-26T03:40:36Z STEP build draw 0 year 2018
+draw 0 2018: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T03:45:42Z STEP build draw 0 year 2019
+draw 0 2019: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T03:46:39Z STEP build draw 0 year 2020
+draw 0 2020: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T03:47:29Z STEP build draw 0 year 2021
+draw 0 2021: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T03:48:17Z STEP build draw 0 year 2022
+draw 0 2022: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T03:49:05Z STEP build draw 0 year 2023
+draw 0 2023: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 0 2018: done earlier, skipped
+draw 0 2019: done earlier, skipped
+draw 0 2020: done earlier, skipped
+draw 0 2021: done earlier, skipped
+draw 0 2022: done earlier, skipped
+draw 0 2023: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T03:50:38Z ALL DONE
+2026-10-26T03:56:17Z STEP build draw 1 year 2018
+draw 1 2018: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T03:57:15Z STEP build draw 1 year 2019
+draw 1 2019: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T03:58:10Z STEP build draw 1 year 2020
+draw 1 2020: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T03:59:04Z STEP build draw 1 year 2021
+draw 1 2021: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T03:59:55Z STEP build draw 1 year 2022
+draw 1 2022: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T04:00:48Z STEP build draw 1 year 2023
+draw 1 2023: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 1 2018: done earlier, skipped
+draw 1 2019: done earlier, skipped
+draw 1 2020: done earlier, skipped
+draw 1 2021: done earlier, skipped
+draw 1 2022: done earlier, skipped
+draw 1 2023: done earlier, skipped
+{
+  "1": {
+    "draw": 1,
+    "years": {
+      "2018": {
+        "injected": 4764,
+        "rows_suppressed_ps": 674,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 735,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4843,
+        "rows_suppressed_ps": 723,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 966439
+      },
+      "2021": {
+        "injected": 5072,
+        "rows_suppressed_ps": 741,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 1010234
+      },
+      "2022": {
+        "injected": 2829,
+        "rows_suppressed_ps": 403,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1027752
+      },
+      "2023": {
+        "injected": 2871,
+        "rows_suppressed_ps": 406,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T04:02:28Z ALL DONE
+2026-10-26T06:47:42Z STEP build draw 2 year 2018
+draw 2 2018: 4781 injected, 959795 featurised
+{
+  "2": {
+    "draw": 2,
+    "years": {
+      "2018": {
+        "injected": 4781,
+        "rows_suppressed_ps": 701,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      }
+    },
+    "missing_years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T06:50:38Z STEP build draw 2 year 2019
+draw 2 2019: 4937 injected, 988048 featurised
+{
+  "2": {
+    "draw": 2,
+    "years": {
+      "2018": {
+        "injected": 4781,
+        "rows_suppressed_ps": 701,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4937,
+        "rows_suppressed_ps": 660,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      }
+    },
+    "missing_years": [
+      2020,
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T06:53:27Z STEP build draw 2 year 2020
+draw 2 2020: 4829 injected, 966437 featurised
+{
+  "2": {
+    "draw": 2,
+    "years": {
+      "2018": {
+        "injected": 4781,
+        "rows_suppressed_ps": 701,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4937,
+        "rows_suppressed_ps": 660,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4829,
+        "rows_suppressed_ps": 706,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      }
+    },
+    "missing_years": [
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T06:56:09Z STEP build draw 2 year 2021
+draw 2 2021: 5080 injected, 1010235 featurised
+{
+  "2": {
+    "draw": 2,
+    "years": {
+      "2018": {
+        "injected": 4781,
+        "rows_suppressed_ps": 701,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4937,
+        "rows_suppressed_ps": 660,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4829,
+        "rows_suppressed_ps": 706,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5080,
+        "rows_suppressed_ps": 764,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 1010235
+      }
+    },
+    "missing_years": [
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T06:58:59Z STEP build draw 2 year 2022
+draw 2 2022: 2810 injected, 1027753 featurised
+{
+  "2": {
+    "draw": 2,
+    "years": {
+      "2018": {
+        "injected": 4781,
+        "rows_suppressed_ps": 701,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4937,
+        "rows_suppressed_ps": 660,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4829,
+        "rows_suppressed_ps": 706,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5080,
+        "rows_suppressed_ps": 764,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 1010235
+      },
+      "2022": {
+        "injected": 2810,
+        "rows_suppressed_ps": 470,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      }
+    },
+    "missing_years": [
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T07:01:48Z STEP build draw 2 year 2023
+draw 2 2023: 2890 injected, 1046784 featurised
+{
+  "2": {
+    "draw": 2,
+    "years": {
+      "2018": {
+        "injected": 4781,
+        "rows_suppressed_ps": 701,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4937,
+        "rows_suppressed_ps": 660,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4829,
+        "rows_suppressed_ps": 706,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5080,
+        "rows_suppressed_ps": 764,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 1010235
+      },
+      "2022": {
+        "injected": 2810,
+        "rows_suppressed_ps": 470,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2890,
+        "rows_suppressed_ps": 439,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 2 2018: done earlier, skipped
+draw 2 2019: done earlier, skipped
+draw 2 2020: done earlier, skipped
+draw 2 2021: done earlier, skipped
+draw 2 2022: done earlier, skipped
+draw 2 2023: done earlier, skipped
+{
+  "2": {
+    "draw": 2,
+    "years": {
+      "2018": {
+        "injected": 4781,
+        "rows_suppressed_ps": 701,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 959795
+      },
+      "2019": {
+        "injected": 4937,
+        "rows_suppressed_ps": 660,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4829,
+        "rows_suppressed_ps": 706,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5080,
+        "rows_suppressed_ps": 764,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 1010235
+      },
+      "2022": {
+        "injected": 2810,
+        "rows_suppressed_ps": 470,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2890,
+        "rows_suppressed_ps": 439,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T07:05:31Z ALL DONE
+2026-10-26T14:01:35Z STEP build draw 3 year 2018
+draw 3 2018: 4849 injected, 959793 featurised
+{
+  "3": {
+    "draw": 3,
+    "years": {
+      "2018": {
+        "injected": 4849,
+        "rows_suppressed_ps": 692,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 959793
+      }
+    },
+    "missing_years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T14:03:58Z STEP build draw 3 year 2019
+draw 3 2019: 4922 injected, 988048 featurised
+{
+  "3": {
+    "draw": 3,
+    "years": {
+      "2018": {
+        "injected": 4849,
+        "rows_suppressed_ps": 692,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 959793
+      },
+      "2019": {
+        "injected": 4922,
+        "rows_suppressed_ps": 743,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      }
+    },
+    "missing_years": [
+      2020,
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T14:06:23Z STEP build draw 3 year 2020
+draw 3 2020: 4818 injected, 966435 featurised
+{
+  "3": {
+    "draw": 3,
+    "years": {
+      "2018": {
+        "injected": 4849,
+        "rows_suppressed_ps": 692,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 959793
+      },
+      "2019": {
+        "injected": 4922,
+        "rows_suppressed_ps": 743,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4818,
+        "rows_suppressed_ps": 733,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 966435
+      }
+    },
+    "missing_years": [
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T14:08:41Z STEP build draw 3 year 2021
+draw 3 2021: 5038 injected, 1010237 featurised
+{
+  "3": {
+    "draw": 3,
+    "years": {
+      "2018": {
+        "injected": 4849,
+        "rows_suppressed_ps": 692,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 959793
+      },
+      "2019": {
+        "injected": 4922,
+        "rows_suppressed_ps": 743,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4818,
+        "rows_suppressed_ps": 733,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 966435
+      },
+      "2021": {
+        "injected": 5038,
+        "rows_suppressed_ps": 744,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1010237
+      }
+    },
+    "missing_years": [
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T14:10:58Z STEP build draw 3 year 2022
+draw 3 2022: 2810 injected, 1027754 featurised
+{
+  "3": {
+    "draw": 3,
+    "years": {
+      "2018": {
+        "injected": 4849,
+        "rows_suppressed_ps": 692,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 959793
+      },
+      "2019": {
+        "injected": 4922,
+        "rows_suppressed_ps": 743,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4818,
+        "rows_suppressed_ps": 733,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 966435
+      },
+      "2021": {
+        "injected": 5038,
+        "rows_suppressed_ps": 744,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1010237
+      },
+      "2022": {
+        "injected": 2810,
+        "rows_suppressed_ps": 414,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      }
+    },
+    "missing_years": [
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T14:13:09Z STEP build draw 3 year 2023
+draw 3 2023: 2890 injected, 1046783 featurised
+{
+  "3": {
+    "draw": 3,
+    "years": {
+      "2018": {
+        "injected": 4849,
+        "rows_suppressed_ps": 692,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 959793
+      },
+      "2019": {
+        "injected": 4922,
+        "rows_suppressed_ps": 743,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4818,
+        "rows_suppressed_ps": 733,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 966435
+      },
+      "2021": {
+        "injected": 5038,
+        "rows_suppressed_ps": 744,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1010237
+      },
+      "2022": {
+        "injected": 2810,
+        "rows_suppressed_ps": 414,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2890,
+        "rows_suppressed_ps": 422,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 3 2018: done earlier, skipped
+draw 3 2019: done earlier, skipped
+draw 3 2020: done earlier, skipped
+draw 3 2021: done earlier, skipped
+draw 3 2022: done earlier, skipped
+draw 3 2023: done earlier, skipped
+{
+  "3": {
+    "draw": 3,
+    "years": {
+      "2018": {
+        "injected": 4849,
+        "rows_suppressed_ps": 692,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 959793
+      },
+      "2019": {
+        "injected": 4922,
+        "rows_suppressed_ps": 743,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 988048
+      },
+      "2020": {
+        "injected": 4818,
+        "rows_suppressed_ps": 733,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 4,
+        "featurised": 966435
+      },
+      "2021": {
+        "injected": 5038,
+        "rows_suppressed_ps": 744,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1010237
+      },
+      "2022": {
+        "injected": 2810,
+        "rows_suppressed_ps": 414,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2890,
+        "rows_suppressed_ps": 422,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T14:16:11Z ALL DONE
+2026-10-26T21:02:09Z STEP build draw 4 year 2018
+draw 4 2018: 4827 injected, 959794 featurised
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      }
+    },
+    "missing_years": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T21:04:26Z STEP build draw 4 year 2019
+draw 4 2019: 4959 injected, 988046 featurised
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      }
+    },
+    "missing_years": [
+      2020,
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T21:06:38Z STEP build draw 4 year 2020
+draw 4 2020: 4807 injected, 966437 featurised
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      }
+    },
+    "missing_years": [
+      2021,
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T21:08:43Z STEP build draw 4 year 2021
+draw 4 2021: 5034 injected, 1010236 featurised
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      }
+    },
+    "missing_years": [
+      2022,
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T21:10:49Z STEP build draw 4 year 2022
+draw 4 2022: 2808 injected, 1027754 featurised
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      },
+      "2022": {
+        "injected": 2808,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      }
+    },
+    "missing_years": [
+      2023
+    ]
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T21:12:57Z STEP build draw 4 year 2023
+draw 4 2023: 2892 injected, 1046784 featurised
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      },
+      "2022": {
+        "injected": 2808,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2892,
+        "rows_suppressed_ps": 423,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 4 2018: done earlier, skipped
+draw 4 2019: done earlier, skipped
+draw 4 2020: done earlier, skipped
+draw 4 2021: done earlier, skipped
+draw 4 2022: done earlier, skipped
+draw 4 2023: done earlier, skipped
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      },
+      "2022": {
+        "injected": 2808,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2892,
+        "rows_suppressed_ps": 423,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-26T21:15:52Z ALL DONE
+2026-10-27T01:08:21Z STEP build draw 0 year 2018
+draw 0 2018: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:14:34Z STEP build draw 0 year 2019
+draw 0 2019: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:15:37Z STEP build draw 0 year 2020
+draw 0 2020: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:16:30Z STEP build draw 0 year 2021
+draw 0 2021: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:17:19Z STEP build draw 0 year 2022
+draw 0 2022: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:18:11Z STEP build draw 0 year 2023
+draw 0 2023: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 0 2018: done earlier, skipped
+draw 0 2019: done earlier, skipped
+draw 0 2020: done earlier, skipped
+draw 0 2021: done earlier, skipped
+draw 0 2022: done earlier, skipped
+draw 0 2023: done earlier, skipped
+{
+  "0": {
+    "draw": 0,
+    "years": {
+      "2018": {
+        "injected": 4795,
+        "rows_suppressed_ps": 714,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4948,
+        "rows_suppressed_ps": 722,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 988049
+      },
+      "2020": {
+        "injected": 4837,
+        "rows_suppressed_ps": 740,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 966438
+      },
+      "2021": {
+        "injected": 5047,
+        "rows_suppressed_ps": 785,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1010238
+      },
+      "2022": {
+        "injected": 2815,
+        "rows_suppressed_ps": 408,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1027753
+      },
+      "2023": {
+        "injected": 2885,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 1046783
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:19:47Z ALL DONE
+2026-10-27T01:26:21Z STEP build draw 1 year 2018
+2026-10-27T01:26:50Z STEP build draw 4 year 2018
+draw 4 2018: done earlier, skipped
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      },
+      "2022": {
+        "injected": 2808,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2892,
+        "rows_suppressed_ps": 423,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:27:54Z STEP build draw 4 year 2019
+draw 4 2019: done earlier, skipped
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      },
+      "2022": {
+        "injected": 2808,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2892,
+        "rows_suppressed_ps": 423,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:28:55Z STEP build draw 4 year 2020
+draw 4 2020: done earlier, skipped
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      },
+      "2022": {
+        "injected": 2808,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2892,
+        "rows_suppressed_ps": 423,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:29:54Z STEP build draw 4 year 2021
+draw 4 2021: done earlier, skipped
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      },
+      "2022": {
+        "injected": 2808,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2892,
+        "rows_suppressed_ps": 423,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:30:52Z STEP build draw 4 year 2022
+draw 4 2022: done earlier, skipped
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      },
+      "2022": {
+        "injected": 2808,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2892,
+        "rows_suppressed_ps": 423,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:31:49Z STEP build draw 4 year 2023
+draw 4 2023: done earlier, skipped
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      },
+      "2022": {
+        "injected": 2808,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2892,
+        "rows_suppressed_ps": 423,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+draw 4 2018: done earlier, skipped
+draw 4 2019: done earlier, skipped
+draw 4 2020: done earlier, skipped
+draw 4 2021: done earlier, skipped
+draw 4 2022: done earlier, skipped
+draw 4 2023: done earlier, skipped
+{
+  "4": {
+    "draw": 4,
+    "years": {
+      "2018": {
+        "injected": 4827,
+        "rows_suppressed_ps": 634,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 1,
+        "featurised": 959794
+      },
+      "2019": {
+        "injected": 4959,
+        "rows_suppressed_ps": 679,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 3,
+        "featurised": 988046
+      },
+      "2020": {
+        "injected": 4807,
+        "rows_suppressed_ps": 695,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 966437
+      },
+      "2021": {
+        "injected": 5034,
+        "rows_suppressed_ps": 721,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 2,
+        "featurised": 1010236
+      },
+      "2022": {
+        "injected": 2808,
+        "rows_suppressed_ps": 421,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1027754
+      },
+      "2023": {
+        "injected": 2892,
+        "rows_suppressed_ps": 423,
+        "rows_suppressed_dme": 0,
+        "dropped_no_visible_rows": 0,
+        "featurised": 1046784
+      }
+    },
+    "missing_years": []
+  },
+  "synthetic_inputs": false
+}
+2026-10-27T01:33:46Z ALL DONE

@@ -1,0 +1,19 @@
+# US Census Bureau regions and divisions: 50 states + DC -> 9 divisions (DESIGN §7.2 peer refinement;
+# FEATURE_CATALOG CX3; CONTRACTS §2.1). Keys are the division names used in peer-cell ids and in the
+# CX3 one-hot (lower-cased, non-alphanumerics -> "_").
+# Every other value of Rndrng_Prvdr_State_Abrvtn -- territories (PR, VI, GU, AS, MP), military
+# (AA, AE, AP), foreign/unknown codes (e.g. ZZ, XX) and nulls -- maps to `other`.
+# cohort.py checks: 9 divisions, 51 distinct two-letter codes, each listed once.
+
+other: other
+
+divisions:
+  New England: [CT, ME, MA, NH, RI, VT]
+  Middle Atlantic: [NJ, NY, PA]
+  East North Central: [IL, IN, MI, OH, WI]
+  West North Central: [IA, KS, MN, MO, NE, ND, SD]
+  South Atlantic: [DE, DC, FL, GA, MD, NC, SC, VA, WV]
+  East South Central: [AL, KY, MS, TN]
+  West South Central: [AR, LA, OK, TX]
+  Mountain: [AZ, CO, ID, MT, NV, NM, UT, WY]
+  Pacific: [AK, CA, HI, OR, WA]

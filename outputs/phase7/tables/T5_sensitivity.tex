@@ -1,0 +1,23 @@
+% Sensitivity suite (E9)
+% Inputs: 28 harmonised CMS files under `data/interim` and 80 registered raw files (`data/raw/manifest.json`). 
+\begin{tabular}{lllllll}
+\hline
+Variant & Description & PR-AUC (variant) & PR-AUC (main) & Top-1 agree with main (B) & Share cos vs glass box (B) & Top-1 injected (B) \\
+\hline
+S10 & peer cells without region & 0.001 & 0.002 & 0.635 & 0.896 & -- \\
+S11 & prior-work-compatible label tier & 0.002 & 0.002 & 0.628 & 0.890 & -- \\
+S12 & negative subsampling 30 \% & 0.001 & 0.002 & 0.778 & 0.815 & -- \\
+S13 & primary tier + unsplit 1128(b)(1) (G1 decision, D117) & 0.002 & 0.002 & 0.773 & 0.906 & -- \\
+S1\_W1 & label window W = 1 (not estimable: primary fold 0: tune\_valid has 0 positives (< models.yaml min\_valid\_positives = 5)) & -- & -- & -- & -- & -- \\
+S1\_W2 & label window W = 2 & 0.000 & 0.002 & 0.632 & 0.889 & -- \\
+S1\_W5 & label window W = 5 & 0.002 & 0.002 & 0.632 & 0.908 & -- \\
+S2 & broad label tier & 0.001 & 0.002 & 0.663 & 0.905 & -- \\
+S3 & individuals only & 0.001 & 0.002 & 0.749 & 0.894 & -- \\
+S4 & exclude 2020 & 0.001 & 0.002 & 0.711 & 0.899 & -- \\
+S5 & global vs peer baseline & -- & -- & -- & -- & -- \\
+S6 & grouping: correlation clusters (hierarchical on |rho|, cut at 7) & 0.002 & 0.002 & 0.203 & 0.984 & 0.576 \\
+S7 & grouping: CH2 -> overutilization, PM1 -> context & 0.002 & 0.002 & 0.773 & 0.910 & 0.693 \\
+S8 & context ablation & 0.002 & 0.002 & 0.697 & 0.908 & 0.698 \\
+S9 & monotone constraints on vs off & 0.002 & -- & -- & 0.912 & 0.705 \\
+\hline
+\end{tabular}

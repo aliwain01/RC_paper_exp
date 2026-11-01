@@ -1,0 +1,33 @@
+{
+  "path": "data/raw/leie/2026/2606excl.csv",
+  "source": "leie",
+  "year": 2026,
+  "kind": "supplement_excl",
+  "as_of": "2026-06",
+  "sha256": "a8e14a0e0aa42ec4a42e6ebddb8000c834dd2c8064dc9cc44992adbf9c4df238",
+  "size_bytes": 46255,
+  "encoding": "utf-8-sig",
+  "n_columns": 18,
+  "columns": [
+    "LASTNAME",
+    "FIRSTNAME",
+    "MIDNAME",
+    "BUSNAME",
+    "GENERAL",
+    "SPECIALTY",
+    "UPIN",
+    "NPI",
+    "DOB",
+    "ADDRESS",
+    "CITY",
+    "STATE",
+    "ZIP",
+    "EXCLTYPE",
+    "EXCLDATE",
+    "REINDATE",
+    "WAIVERDATE",
+    "WVRSTATE"
+  ],
+  "n_rows": 245,
+  "row_counter": "duckdb"
+}

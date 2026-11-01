@@ -1,0 +1,43 @@
+{
+ "variant": "S5",
+ "what": "global vs peer baseline",
+ "from_main": "baselines",
+ "baselines": [
+  {
+   "family": "xgb",
+   "method": "A",
+   "n": 51276,
+   "context_share_peer": 0.10955011608530742,
+   "context_share_global": 0.16290156020823712,
+   "context_top_peer": 0.091582806771199,
+   "context_top_global": 0.19367735392776347,
+   "top1_agreement": 0.8375458304079881,
+   "spearman_median": 0.9285714285714286,
+   "cosine_median": 0.9817966871594133
+  },
+  {
+   "family": "xgb",
+   "method": "B",
+   "n": 51276,
+   "context_share_peer": 0.11047144350994838,
+   "context_share_global": 0.163882821825302,
+   "context_top_peer": 0.0921678758093455,
+   "context_top_global": 0.1960956392854357,
+   "top1_agreement": 0.8369607613698417,
+   "spearman_median": 0.9285714285714286,
+   "cosine_median": 0.9817000249925112
+  },
+  {
+   "family": "xgb",
+   "method": "E",
+   "n": 51276,
+   "context_share_peer": 0.11215076898322024,
+   "context_share_global": 0.16250387062205252,
+   "context_top_peer": 0.09226538731570326,
+   "context_top_global": 0.18589593572041502,
+   "top1_agreement": 0.8620212185037834,
+   "spearman_median": 0.9642857142857143,
+   "cosine_median": 0.9869571869982728
+  }
+ ]
+}

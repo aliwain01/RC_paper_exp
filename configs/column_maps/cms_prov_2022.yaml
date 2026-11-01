@@ -1,0 +1,95 @@
+# Column map for cms_prov 2022. Draft generated from the real header dump; review every line
+# against the file header and that year's CMS data dictionary, then set reviewed: true.
+# Reviewed 2026-10-19 (Phase 1): every mapped column checked against the header dump and the CMS data dictionary
+# (RY25/RY24 PDFs in data/raw/*/2024); columns, names and meanings are identical in all years 2018-2024.
+dataset: cms_prov
+year: 2022
+reviewed: true
+written_from:
+  path: "data/raw/cms_prov/2022/MUP_PHY_R25_P07_V20_D22_Prov.csv.gz"
+  sha256: "5c34a49258ea9c09933592667c802c24669e22b077b761a20b65dfa47bc62914"
+  header_dump: "outputs/phase1/headers/cms_prov_2022_MUP_PHY_R25_P07_V20_D22_Prov.json"
+  n_columns: 81
+null_values: [""]
+columns:
+  "Rndrng_NPI": npi    # template
+  "Rndrng_Prvdr_Last_Org_Name": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_First_Name": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_MI": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_Crdntls": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_Ent_Cd": ent_cd    # template
+  "Rndrng_Prvdr_St1": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_St2": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_City": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_State_Abrvtn": state    # template
+  "Rndrng_Prvdr_State_FIPS": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_Zip5": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_RUCA": ruca    # template
+  "Rndrng_Prvdr_RUCA_Desc": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_Cntry": null    # template drop (identifying / unused)
+  "Rndrng_Prvdr_Type": prvdr_type    # template
+  "Rndrng_Prvdr_Mdcr_Prtcptg_Ind": mdcr_prtcptg_ind    # template
+  "Tot_HCPCS_Cds": tot_hcpcs_cds    # template
+  "Tot_Benes": tot_benes    # template
+  "Tot_Srvcs": tot_srvcs    # template
+  "Tot_Sbmtd_Chrg": tot_sbmtd_chrg    # template
+  "Tot_Mdcr_Alowd_Amt": tot_mdcr_alowd_amt    # template
+  "Tot_Mdcr_Pymt_Amt": tot_mdcr_pymt_amt    # template
+  "Tot_Mdcr_Stdzd_Amt": tot_mdcr_stdzd_amt    # template
+  "Drug_Sprsn_Ind": null    # template drop prefix (column family unused)
+  "Drug_Tot_HCPCS_Cds": null    # template drop prefix (column family unused)
+  "Drug_Tot_Benes": null    # template drop prefix (column family unused)
+  "Drug_Tot_Srvcs": null    # template drop prefix (column family unused)
+  "Drug_Sbmtd_Chrg": null    # template drop prefix (column family unused)
+  "Drug_Mdcr_Alowd_Amt": null    # template drop prefix (column family unused)
+  "Drug_Mdcr_Pymt_Amt": null    # template drop prefix (column family unused)
+  "Drug_Mdcr_Stdzd_Amt": null    # template drop prefix (column family unused)
+  "Med_Sprsn_Ind": null    # template drop prefix (column family unused)
+  "Med_Tot_HCPCS_Cds": null    # template drop prefix (column family unused)
+  "Med_Tot_Benes": null    # template drop prefix (column family unused)
+  "Med_Tot_Srvcs": null    # template drop prefix (column family unused)
+  "Med_Sbmtd_Chrg": null    # template drop prefix (column family unused)
+  "Med_Mdcr_Alowd_Amt": null    # template drop prefix (column family unused)
+  "Med_Mdcr_Pymt_Amt": null    # template drop prefix (column family unused)
+  "Med_Mdcr_Stdzd_Amt": null    # template drop prefix (column family unused)
+  "Bene_Avg_Age": null    # template drop (identifying / unused)
+  "Bene_Age_LT_65_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Age_65_74_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Age_75_84_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Age_GT_84_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Feml_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Male_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Race_Wht_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Race_Black_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Race_API_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Race_Hspnc_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Race_NatInd_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Race_Othr_Cnt": null    # template drop prefix (column family unused)
+  "Bene_Dual_Cnt": bene_dual_cnt    # template
+  "Bene_Ndual_Cnt": bene_ndual_cnt    # template
+  "Bene_CC_BH_ADHD_OthCD_V1_Pct": bene_cc_bh_adhd_othcd_v1_pct    # template prefix (check name and meaning)
+  "Bene_CC_BH_Alcohol_Drug_V1_Pct": bene_cc_bh_alcohol_drug_v1_pct    # template prefix (check name and meaning)
+  "Bene_CC_BH_Tobacco_V1_Pct": bene_cc_bh_tobacco_v1_pct    # template prefix (check name and meaning)
+  "Bene_CC_BH_Alz_NonAlzdem_V2_Pct": bene_cc_bh_alz_nonalzdem_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_BH_Anxiety_V1_Pct": bene_cc_bh_anxiety_v1_pct    # template prefix (check name and meaning)
+  "Bene_CC_BH_Bipolar_V1_Pct": bene_cc_bh_bipolar_v1_pct    # template prefix (check name and meaning)
+  "Bene_CC_BH_Mood_V2_Pct": bene_cc_bh_mood_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_BH_Depress_V1_Pct": bene_cc_bh_depress_v1_pct    # template prefix (check name and meaning)
+  "Bene_CC_BH_PD_V1_Pct": bene_cc_bh_pd_v1_pct    # template prefix (check name and meaning)
+  "Bene_CC_BH_PTSD_V1_Pct": bene_cc_bh_ptsd_v1_pct    # template prefix (check name and meaning)
+  "Bene_CC_BH_Schizo_OthPsy_V1_Pct": bene_cc_bh_schizo_othpsy_v1_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_Asthma_V2_Pct": bene_cc_ph_asthma_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_Afib_V2_Pct": bene_cc_ph_afib_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_Cancer6_V2_Pct": bene_cc_ph_cancer6_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_CKD_V2_Pct": bene_cc_ph_ckd_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_COPD_V2_Pct": bene_cc_ph_copd_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_Diabetes_V2_Pct": bene_cc_ph_diabetes_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_HF_NonIHD_V2_Pct": bene_cc_ph_hf_nonihd_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_Hyperlipidemia_V2_Pct": bene_cc_ph_hyperlipidemia_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_Hypertension_V2_Pct": bene_cc_ph_hypertension_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_IschemicHeart_V2_Pct": bene_cc_ph_ischemicheart_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_Osteoporosis_V2_Pct": bene_cc_ph_osteoporosis_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_Parkinson_V2_Pct": bene_cc_ph_parkinson_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_Arthritis_V2_Pct": bene_cc_ph_arthritis_v2_pct    # template prefix (check name and meaning)
+  "Bene_CC_PH_Stroke_TIA_V2_Pct": bene_cc_ph_stroke_tia_v2_pct    # template prefix (check name and meaning)
+  "Bene_Avg_Risk_Scre": bene_avg_risk_scre    # template

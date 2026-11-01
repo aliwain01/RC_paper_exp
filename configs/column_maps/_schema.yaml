@@ -1,0 +1,78 @@
+# C2 harmonised schema (DESIGN §5.2, §7.1; FEATURE_CATALOG field list).
+# Each dataset-year column map ({dataset}_{year}.yaml) maps every raw column to one of these names or to
+# null (deliberately dropped). The harmoniser fails on: a raw column missing from the map, a map entry
+# for a column that is not in the file, a required column not produced, or a value that does not cast.
+# dtype: str | int | float. `prefix` entries accept any harmonised name starting with that prefix.
+
+cms_ps:
+  grain: [npi, hcpcs_cd, place_of_srvc]
+  columns:
+    npi:                {dtype: str,   required: true}   # Rndrng_NPI
+    ent_cd:             {dtype: str,   required: true}   # Rndrng_Prvdr_Ent_Cd
+    state:              {dtype: str,   required: true}   # Rndrng_Prvdr_State_Abrvtn
+    ruca:               {dtype: str,   required: true}   # Rndrng_Prvdr_RUCA (codes such as 1, 10.1: kept as text)
+    prvdr_type:         {dtype: str,   required: true}   # Rndrng_Prvdr_Type
+    mdcr_prtcptg_ind:   {dtype: str,   required: true}   # Rndrng_Prvdr_Mdcr_Prtcptg_Ind
+    hcpcs_cd:           {dtype: str,   required: true}   # HCPCS_Cd
+    hcpcs_drug_ind:     {dtype: str,   required: true}   # HCPCS_Drug_Ind
+    place_of_srvc:      {dtype: str,   required: true}   # Place_Of_Srvc (F / O)
+    tot_benes:          {dtype: int,   required: true}   # Tot_Benes
+    tot_srvcs:          {dtype: float, required: true}   # Tot_Srvcs (drug units can be fractional)
+    tot_bene_day_srvcs: {dtype: float, required: true}   # Tot_Bene_Day_Srvcs
+    avg_sbmtd_chrg:     {dtype: float, required: true}   # Avg_Sbmtd_Chrg
+    avg_mdcr_alowd_amt: {dtype: float, required: true}   # Avg_Mdcr_Alowd_Amt
+    avg_mdcr_pymt_amt:  {dtype: float, required: true}   # Avg_Mdcr_Pymt_Amt
+    avg_mdcr_stdzd_amt: {dtype: float, required: true}   # Avg_Mdcr_Stdzd_Amt
+    hcpcs_desc:         {dtype: str,   required: false}  # HCPCS_Desc (renderer text only)
+    zip5:               {dtype: str,   required: false}  # Rndrng_Prvdr_Zip5
+
+cms_prov:
+  grain: [npi]
+  columns:
+    npi:                {dtype: str,   required: true}   # Rndrng_NPI
+    ent_cd:             {dtype: str,   required: false}
+    state:              {dtype: str,   required: false}
+    ruca:               {dtype: str,   required: false}
+    prvdr_type:         {dtype: str,   required: false}
+    mdcr_prtcptg_ind:   {dtype: str,   required: false}
+    tot_hcpcs_cds:      {dtype: int,   required: true}   # Tot_HCPCS_Cds
+    tot_benes:          {dtype: int,   required: true}   # Tot_Benes
+    tot_srvcs:          {dtype: float, required: true}   # Tot_Srvcs
+    tot_sbmtd_chrg:     {dtype: float, required: true}   # Tot_Sbmtd_Chrg
+    tot_mdcr_alowd_amt: {dtype: float, required: true}   # Tot_Mdcr_Alowd_Amt
+    tot_mdcr_pymt_amt:  {dtype: float, required: true}   # Tot_Mdcr_Pymt_Amt
+    tot_mdcr_stdzd_amt: {dtype: float, required: true}   # Tot_Mdcr_Stdzd_Amt
+    bene_avg_risk_scre: {dtype: float, required: true}   # Bene_Avg_Risk_Scre (average HCC score)
+    bene_dual_cnt:      {dtype: int,   required: true}   # Bene_Dual_Cnt (suppressed < 11 -> null)
+    bene_ndual_cnt:     {dtype: int,   required: false}  # Bene_Ndual_Cnt
+  prefix:
+    bene_cc_:           {dtype: float, required: false}  # Bene_CC_* chronic-condition %; names vary by year (DESIGN §18: to verify)
+
+dme_s:
+  grain: [npi, hcpcs_cd, suplr_rentl_ind]
+  columns:
+    npi:                      {dtype: str,   required: true}   # Rfrg_NPI
+    rbcs_lvl:                 {dtype: str,   required: true}   # RBCS_Lvl
+    rbcs_id:                  {dtype: str,   required: true}   # RBCS_Id
+    hcpcs_cd:                 {dtype: str,   required: true}   # HCPCS_Cd
+    suplr_rentl_ind:          {dtype: str,   required: true}   # Suplr_Rentl_Ind
+    tot_suplrs:               {dtype: int,   required: true}   # Tot_Suplrs
+    tot_suplr_benes:          {dtype: int,   required: true}   # Tot_Suplr_Benes
+    tot_suplr_clms:           {dtype: int,   required: true}   # Tot_Suplr_Clms
+    tot_suplr_srvcs:          {dtype: float, required: true}   # Tot_Suplr_Srvcs
+    avg_suplr_sbmtd_chrg:     {dtype: float, required: true}   # Avg_Suplr_Sbmtd_Chrg
+    avg_suplr_mdcr_alowd_amt: {dtype: float, required: true}   # Avg_Suplr_Mdcr_Alowd_Amt
+    avg_suplr_mdcr_pymt_amt:  {dtype: float, required: true}   # Avg_Suplr_Mdcr_Pymt_Amt
+    avg_suplr_mdcr_stdzd_amt: {dtype: float, required: true}   # Avg_Suplr_Mdcr_Stdzd_Amt
+    hcpcs_desc:               {dtype: str,   required: false}
+    prvdr_type:               {dtype: str,   required: false}  # Rfrg_Prvdr_Spclty_Desc or similar
+
+dme_p:
+  grain: [npi]
+  columns:
+    npi:                 {dtype: str, required: true}   # Rfrg_NPI
+    tot_suplr_benes:     {dtype: int, required: true}   # Tot_Suplr_Benes (distinct beneficiaries)
+    dme_tot_suplr_benes: {dtype: int, required: true}   # DME_Tot_Suplr_Benes
+    prvdr_type:          {dtype: str, required: false}
+  prefix:
+    cat_:                {dtype: float, required: false}  # category-level totals (DME_*, POS_*, Drug_*), named per map

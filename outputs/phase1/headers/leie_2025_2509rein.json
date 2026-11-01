@@ -1,0 +1,33 @@
+{
+  "path": "data/raw/leie/2025/2509rein.csv",
+  "source": "leie",
+  "year": 2025,
+  "kind": "supplement_rein",
+  "as_of": "2025-09",
+  "sha256": "18a82d5088a8bf852e73d6e7467eae112b4e1bd4e887f1eca99330aba4a1764a",
+  "size_bytes": 15985,
+  "encoding": "utf-8-sig",
+  "n_columns": 18,
+  "columns": [
+    "LASTNAME",
+    "FIRSTNAME",
+    "MIDNAME",
+    "BUSNAME",
+    "GENERAL",
+    "SPECIALTY",
+    "UPIN",
+    "NPI",
+    "DOB",
+    "ADDRESS",
+    "CITY",
+    "STATE",
+    "ZIP",
+    "EXCLTYPE",
+    "EXCLDATE",
+    "REINDATE",
+    "WAIVERDATE",
+    "WVRSTATE"
+  ],
+  "n_rows": 84,
+  "row_counter": "duckdb"
+}

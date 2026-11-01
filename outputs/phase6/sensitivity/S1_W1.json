@@ -1,0 +1,15 @@
+{
+ "variant": "S1_W1",
+ "what": "label window W = 1",
+ "families": [
+  "xgb",
+  "ebm"
+ ],
+ "stages": [
+  "train",
+  "explain"
+ ],
+ "root": "data/processed/sensitivity/S1_W1",
+ "fingerprint": "92dfe2b95b56030a",
+ "not_estimable": "primary fold 0: tune_valid has 0 positives (< models.yaml min_valid_positives = 5)"
+}

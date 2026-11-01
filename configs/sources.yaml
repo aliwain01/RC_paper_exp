@@ -1,0 +1,79 @@
+# C1 source registry (HANDOFF §10, DESIGN §5.2).
+# Rule: never guess a direct file URL or a dataset UUID. Take them from the landing page or catalogue
+# entry (`datagov-list`), then pass them to `fetch`, or download by hand and `register` the file.
+# status: checked = reached/confirmed during design (Oct 2026); unconfirmed = verify before use.
+
+years:
+  primary: [2018, 2024]        # DESIGN §17 D12 (HANDOFF Q6: confirm)
+  extended: [2015, 2017]       # G1 fallback: extend training years (DESIGN §14)
+
+sources:
+  cms_ps:
+    title: Medicare Physician & Other Practitioners - by Provider and Service
+    abbrev: P&S
+    landing_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider-and-service
+    datagov_slug: medicare-physician-other-practitioners-by-provider-and-service
+    datagov_slug_status: checked
+    kinds: [data, dictionary, methodology]
+    harmonised: true
+
+  cms_prov:
+    title: Medicare Physician & Other Practitioners - by Provider
+    abbrev: Prov
+    landing_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners/medicare-physician-other-practitioners-by-provider
+    datagov_slug: medicare-physician-other-practitioners-by-provider
+    datagov_slug_status: unconfirmed
+    kinds: [data, dictionary, methodology]
+    harmonised: true
+
+  dme_s:
+    title: Medicare DMEPOS - by Referring Provider and Service
+    abbrev: DME-S
+    landing_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-durable-medical-equipment-devices-supplies/medicare-durable-medical-equipment-devices-supplies-by-referring-provider-and-service
+    datagov_slug: medicare-durable-medical-equipment-devices-supplies-by-referring-provider-and-service
+    datagov_slug_status: unconfirmed
+    kinds: [data, dictionary, methodology]
+    harmonised: true
+
+  dme_p:
+    title: Medicare DMEPOS - by Referring Provider
+    abbrev: DME-P
+    landing_page: https://data.cms.gov/provider-summary-by-type-of-service/medicare-durable-medical-equipment-devices-supplies/medicare-durable-medical-equipment-devices-supplies-by-referring-provider
+    datagov_slug: medicare-durable-medical-equipment-devices-supplies-by-referring-provider
+    datagov_slug_status: checked
+    kinds: [data, dictionary, methodology]
+    harmonised: true
+
+  leie:
+    title: HHS-OIG List of Excluded Individuals and Entities
+    landing_page: https://oig.hhs.gov/exclusions/exclusions_list.asp
+    current_file_url: https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv   # live 2026-08 per third-party captures (Phase 0)
+    # Phase 0: the supplement page and file pattern below come from search results and third-party
+    # downloaders (2024-2026); the older .asp pages may redirect. Only ~12 months are kept online.
+    supplement_archive: https://www.oig.hhs.gov/exclusions/leie-database-supplement-downloads/
+    supplement_url_pattern: https://oig.hhs.gov/exclusions/downloadables/{yyyy}/{yymm}{kind}.csv   # kind = excl | rein
+    authorities_page: https://oig.hhs.gov/exclusions/background-information-exclusion-authorities/
+    record_layout_pdf: https://oig.hhs.gov/exclusions/files/leie_record_layout.pdf
+    # current          = full file of exclusions in effect (as_of = download date)
+    # supplement_excl  = monthly new-exclusions supplement (as_of = YYYY-MM)
+    # supplement_rein  = monthly reinstatements supplement (as_of = YYYY-MM)
+    # snapshot         = Internet Archive copy of the full file (as_of = snapshot date)
+    # record_layout    = OIG record-layout PDF (field names and lengths only; EXCLTYPE values are checked
+    #                    against the real file by C3, which stops on any unmapped value)
+    kinds: [current, supplement_excl, supplement_rein, snapshot, record_layout]
+    harmonised: false
+
+  nppes:
+    title: NPPES NPI registry full replacement file (optional; context feature CX7)
+    landing_page: https://download.cms.gov/nppes/NPI_Files.html   # unconfirmed
+    kinds: [data]
+    harmonised: false
+
+wayback:
+  target_url: oig.hhs.gov/exclusions/downloadables/UPDATED.csv
+  available_api: https://archive.org/wayback/available        # checked
+  cdx_api: https://web.archive.org/cdx/search/cdx              # unconfirmed
+  raw_prefix: https://web.archive.org/web/{timestamp}id_/{url} # id_ = original bytes, no toolbar
+
+datagov:
+  package_show: https://catalog.data.gov/api/3/action/package_show?id={slug}   # pattern unconfirmed
