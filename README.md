@@ -1,6 +1,6 @@
 # Scenario-level explanations for health-care fraud detection
 
-Research pipeline specified in [design/](design/README.md) (DESIGN_DOCUMENT v1.1). [HANDOFF.md](HANDOFF.md) is the execution protocol. Current progress is in [outputs/phase1/STATUS.md](outputs/phase1/STATUS.md).
+Research pipeline specified in [design/](design/README.md) (DESIGN_DOCUMENT v1.1). [HANDOFF.md](HANDOFF.md) is the execution protocol; its §0 has the current status (all phases run; writing and publication remain). [outputs/phase1/STATUS.md](outputs/phase1/STATUS.md) is the progress log up to gate G2.
 
 The legacy prototype files in the root (`features_health_final.py`, `rc_final.py`, `rc_reasoning.py`, the notebook and the synthetic CSV) are kept only as the record behind DESIGN §3.3. Nothing imports them.
 
