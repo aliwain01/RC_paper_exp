@@ -440,8 +440,8 @@ def run_consistency(paths: Paths, *, gbms=None, glass_boxes=None, store: Path | 
 
 def deletion_table(att: pl.DataFrame, methods=METHODS) -> tuple[pl.DataFrame, dict]:
     """Per provider above its baseline (v(N) > v(∅), D86): deletion scores of each method's order, its reverse and
-    the random-order mean; method C's order (diagonal of M) is computed here from v. Also the mean normalised
-    deletion curve per method (9 points)."""
+    the random-order mean; method C's order (diagonal of M) is computed here from v. Also the pointwise median
+    normalised deletion curve per method (9 points; the figure's, D138) and the mean one (`{method}_mean`)."""
     V = stack(att["v"], 2 ** M)
     keep = np.isfinite(V).all(axis=1) & (V[:, -1] - V[:, 0] > 1e-12)
     out = {"npi": att["npi"], "year": att["year"]}
@@ -456,7 +456,9 @@ def deletion_table(att: pl.DataFrame, methods=METHODS) -> tuple[pl.DataFrame, di
         out[f"{meth}_reverse"] = np.where(ok, C.deletion_score(V, o[:, ::-1]), np.nan)
         if ok.any():
             f = C.deletion_curve(V[ok], o[ok])
-            curves[meth] = ((f - f[:, -1:]) / (f[:, :1] - f[:, -1:])).mean(axis=0).tolist()
+            g = (f - f[:, -1:]) / (f[:, :1] - f[:, -1:])
+            curves[meth] = np.median(g, axis=0).tolist()
+            curves[f"{meth}_mean"] = g.mean(axis=0).tolist()
     out["random"] = np.where(keep, att["del_random"].to_numpy(), np.nan)
     return pl.DataFrame(out).with_columns(pl.Series("valid", keep)).fill_nan(None), curves
 

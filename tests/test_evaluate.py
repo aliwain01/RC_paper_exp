@@ -124,6 +124,11 @@ def test_deletion_table_prefers_the_true_order():
     t, curves = ev.deletion_table(att, ("B",))
     assert t["valid"].all() and (t["B"] < t["B_reverse"]).all()
     assert curves["B"][0] == pytest.approx(1.0) and curves["B"][-1] == pytest.approx(0.0)
+    # the figure's curve is the pointwise median (D138); the mean is kept beside it
+    f = C.deletion_curve(V, C.order_by(x * w))
+    g = (f - f[:, -1:]) / (f[:, :1] - f[:, -1:])
+    assert curves["B"] == pytest.approx(np.median(g, axis=0).tolist())
+    assert curves["B_mean"] == pytest.approx(g.mean(axis=0).tolist())
 
 
 def test_fairness_table():

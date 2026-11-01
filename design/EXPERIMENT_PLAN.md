@@ -300,7 +300,7 @@ At k ∈ {0.5, 1} %, by specialty, entity type, Census division and RUCA class: 
 | Model · method | Deletion ↓ | Random order | Top-1 agree (seeds) | Kendall τ (bootstrap) |
 |---|---|---|---|---|
 
-**Implementation notes (Phase 6–7).** `phase6 report` fills these shells (`outputs/phase6/evaluation_report.md`). `phase7 tables` writes T1–T4, the sensitivity table and the fairness table as Markdown, CSV and LaTeX; `phase7 figures` draws the DESIGN §12 figures (DESIGN §17 D112). T4 reports median deletion scores (D104).
+**Implementation notes (Phase 6–7).** `phase6 report` fills these shells (`outputs/phase6/evaluation_report.md`). `phase7 tables` writes T1–T4, the sensitivity table and the fairness table as Markdown, CSV and LaTeX; `phase7 figures` draws the DESIGN §12 figures (DESIGN §17 D112). T4 reports median deletion scores (D104); F5 plots the median deletion curve and F4 the both-flag stratum, matching T4 and T3 (D138).
 
 ---
 

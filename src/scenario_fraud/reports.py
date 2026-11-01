@@ -260,6 +260,8 @@ def fig_consistency(paths: Paths, plt, best: dict, synthetic: bool):
     if gb is None:
         return None
     c = c.filter(pl.col("glass_box") == gb)
+    if "both" in c["stratum"].unique().to_list():       # the stratum T3 and the D108 rule use (D138)
+        c = c.filter(pl.col("stratum") == "both")
     methods = [m for m in ("A", "B", "C", "E") if m in c["method"].unique().to_list()]
     data = [c.filter(pl.col("method") == m)["cosine"].drop_nulls().to_numpy() for m in methods]
     perm = [np.median(c.filter(pl.col("method") == m)["perm_cosine"].drop_nulls().to_numpy()) for m in methods]
@@ -277,9 +279,10 @@ def fig_consistency(paths: Paths, plt, best: dict, synthetic: bool):
                edgecolors=SURFACE, linewidths=1.5, label="permutation baseline (median)")
     ax.set_xticks(np.arange(1, len(methods) + 1), [f"{best.get('gbm')} · {m}" for m in methods])
     ax.axhline(0, color=AXIS, linewidth=0.8)
-    ax.set_ylim(-1.05, 1.05)
+    lo = min([0.0, *perm, *(float(w.get_ydata().min()) for w in bp["whiskers"])])
+    ax.set_ylim(lo - 0.05, 1.05)
     ax.set_ylabel(f"share cosine with {gb} · D")
-    ax.set_title("Consistency with the glass box")
+    ax.set_title("Consistency with the glass box (both flag)")
     ax.grid(axis="x", visible=False)
     ax.legend(loc="lower left")
     return fig
@@ -297,7 +300,7 @@ def fig_deletion(paths: Paths, plt, best: dict, synthetic: bool):
                 zorder=3)
     ax.plot(x, 1 - x / x[-1], color=MUTED, linewidth=1.2, label="linear reference", zorder=2)
     ax.set_xlabel("groups removed (replaced by peer values)")
-    ax.set_ylabel("normalised score (f_j − f_8)/(f_0 − f_8)")
+    ax.set_ylabel("median normalised score (f_j − f_8)/(f_0 − f_8)")
     ax.set_title(f"Group-deletion curves ({best.get('gbm')})")
     ax.set_xticks(x)
     ax.legend(loc="upper right")
