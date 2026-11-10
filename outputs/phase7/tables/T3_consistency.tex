@@ -1,0 +1,16 @@
+% T3 Consistency (best GBM vs EBM / GA²M, both flag at k = 1 %)
+% Inputs: 28 harmonised CMS files under `data/interim` and 80 registered raw files (`data/raw/manifest.json`). 
+\begin{tabular}{lllllllll}
+\hline
+GBM method & vs & n & Sign agree & Spearman $\rho$ & Top-3 Jaccard & Share cos & Permutation baseline (cos) & Magnitude ratio \\
+\hline
+xgb $\cdot$ A & ebm & 9018 & 1.000 & 0.857 & 0.500 & 0.951 & 0.657 & 1.167 \\
+xgb $\cdot$ B & ebm & 9018 & 1.000 & 0.857 & 0.500 & 0.950 & 0.656 & 1.165 \\
+xgb $\cdot$ C & ebm & 9018 & 1.000 & 0.857 & 1.000 & 0.956 & 0.668 & 1.221 \\
+xgb $\cdot$ E & ebm & 9018 & 0.857 & 0.786 & 0.500 & 0.902 & 0.599 & 1.169 \\
+xgb $\cdot$ A & ga2m & 8867 & 1.000 & 0.857 & 0.500 & 0.943 & 0.667 & 1.121 \\
+xgb $\cdot$ B & ga2m & 8867 & 1.000 & 0.857 & 0.500 & 0.942 & 0.666 & 1.120 \\
+xgb $\cdot$ C & ga2m & 8867 & 1.000 & 0.857 & 0.500 & 0.948 & 0.679 & 1.163 \\
+xgb $\cdot$ E & ga2m & 8867 & 0.857 & 0.750 & 0.500 & 0.895 & 0.609 & 1.136 \\
+\hline
+\end{tabular}

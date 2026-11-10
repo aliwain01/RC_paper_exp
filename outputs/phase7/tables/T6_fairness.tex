@@ -1,0 +1,42 @@
+% Fairness profile (E10), best GBM
+% Inputs: 28 harmonised CMS files under `data/interim` and 80 registered raw files (`data/raw/manifest.json`). 
+\begin{tabular}{lllllllll}
+\hline
+Attribute & Value & k & N & Positives & Flagged & Flag rate & Precision & Flag $\div$ positive rate \\
+\hline
+ent\_cd & I & 0.5\% & 1955047 & 185 & 9877 & 0.0051 & 0.002 & 53.39 \\
+ent\_cd & O & 0.5\% & 119055 & 9 & 495 & 0.0042 & 0.000 & 55.00 \\
+census\_division & South Atlantic & 0.5\% & 422468 & 25 & 1777 & 0.0042 & 0.001 & 71.08 \\
+census\_division & East North Central & 0.5\% & 324719 & 30 & 2096 & 0.0065 & 0.001 & 69.87 \\
+census\_division & Middle Atlantic & 0.5\% & 312139 & 27 & 1598 & 0.0051 & 0.001 & 59.19 \\
+census\_division & Pacific & 0.5\% & 245587 & 26 & 1608 & 0.0065 & 0.004 & 61.85 \\
+census\_division & West South Central & 0.5\% & 206029 & 31 & 1468 & 0.0071 & 0.003 & 47.35 \\
+census\_division & West North Central & 0.5\% & 157197 & 20 & 454 & 0.0029 & 0.000 & 22.70 \\
+census\_division & Mountain & 0.5\% & 143411 & 11 & 377 & 0.0026 & 0.005 & 34.27 \\
+census\_division & New England & 0.5\% & 130066 & 6 & 208 & 0.0016 & 0.000 & 34.67 \\
+census\_division & East South Central & 0.5\% & 125786 & 13 & 665 & 0.0053 & 0.003 & 51.15 \\
+census\_division & other & 0.5\% & 6700 & 5 & 121 & 0.0181 & 0.000 & 24.20 \\
+ruca\_class & urban & 0.5\% & 1837120 & 173 & 9233 & 0.0050 & 0.002 & 53.37 \\
+ruca\_class & large\_rural & 0.5\% & 154151 & 14 & 753 & 0.0049 & 0.003 & 53.79 \\
+ruca\_class & small\_rural & 0.5\% & 56398 & 4 & 282 & 0.0050 & 0.000 & 70.50 \\
+ruca\_class & isolated & 0.5\% & 22144 & 3 & 92 & 0.0042 & 0.022 & 30.67 \\
+ruca\_class & unknown & 0.5\% & 4289 & 0 & 12 & 0.0028 & 0.000 & -- \\
+ent\_cd & I & 1.0\% & 1955047 & 185 & 19762 & 0.0101 & 0.001 & 106.82 \\
+ent\_cd & O & 1.0\% & 119055 & 9 & 980 & 0.0082 & 0.000 & 108.89 \\
+census\_division & South Atlantic & 1.0\% & 422468 & 25 & 3728 & 0.0088 & 0.001 & 149.12 \\
+census\_division & East North Central & 1.0\% & 324719 & 30 & 3957 & 0.0122 & 0.001 & 131.90 \\
+census\_division & Middle Atlantic & 1.0\% & 312139 & 27 & 3234 & 0.0104 & 0.001 & 119.78 \\
+census\_division & Pacific & 1.0\% & 245587 & 26 & 3031 & 0.0123 & 0.002 & 116.58 \\
+census\_division & West South Central & 1.0\% & 206029 & 31 & 2901 & 0.0141 & 0.001 & 93.58 \\
+census\_division & West North Central & 1.0\% & 157197 & 20 & 969 & 0.0062 & 0.000 & 48.45 \\
+census\_division & Mountain & 1.0\% & 143411 & 11 & 835 & 0.0058 & 0.004 & 75.91 \\
+census\_division & New England & 1.0\% & 130066 & 6 & 507 & 0.0039 & 0.000 & 84.50 \\
+census\_division & East South Central & 1.0\% & 125786 & 13 & 1370 & 0.0109 & 0.001 & 105.38 \\
+census\_division & other & 1.0\% & 6700 & 5 & 210 & 0.0313 & 0.000 & 42.00 \\
+ruca\_class & urban & 1.0\% & 1837120 & 173 & 18398 & 0.0100 & 0.001 & 106.35 \\
+ruca\_class & large\_rural & 1.0\% & 154151 & 14 & 1530 & 0.0099 & 0.001 & 109.29 \\
+ruca\_class & small\_rural & 1.0\% & 56398 & 4 & 577 & 0.0102 & 0.000 & 144.25 \\
+ruca\_class & isolated & 1.0\% & 22144 & 3 & 220 & 0.0099 & 0.009 & 73.33 \\
+ruca\_class & unknown & 1.0\% & 4289 & 0 & 17 & 0.0040 & 0.000 & -- \\
+\hline
+\end{tabular}

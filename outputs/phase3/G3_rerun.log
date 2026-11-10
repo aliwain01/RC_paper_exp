@@ -1,0 +1,10 @@
+{
+  "report": "outputs/phase3/G3_report.md",
+  "best": {
+    "glass_box": "ebm",
+    "gbm": "xgb",
+    "gbm_mono": "lgbm_mono"
+  },
+  "h1_supported": false,
+  "synthetic_inputs": false
+}

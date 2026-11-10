@@ -1,0 +1,41 @@
+# Data never goes into git (HANDOFF §4, §8 rule 6); the manifest (sources, URLs, sha256) does (DESIGN §17 D116)
+data/*
+!data/raw/
+data/raw/*
+!data/raw/manifest.json
+
+# Run outputs are regenerated from data; keep only the Phase 1 status report
+outputs/*
+!outputs/phase1/
+outputs/phase1/*
+!outputs/phase1/STATUS.md
+!outputs/phase1/G1_report.md
+!outputs/phase1/G1_report.json
+!outputs/phase1/headers/
+# The G2 protocol freeze record (hashes only, no data) must survive for leakage checklist item 6
+!outputs/phase2/
+outputs/phase2/*
+!outputs/phase2/G2_freeze.json
+!outputs/phase2/QA_report.md
+!outputs/phase2/G2_report.md
+# Phase 3-7 results: published with the human's approval (2026-11-01, DESIGN §17 D140)
+!outputs/phase3/
+!outputs/phase4/
+!outputs/phase5/
+!outputs/phase6/
+!outputs/phase7/
+# ... except anything naming individual providers: the sample decision records and their views (real NPIs,
+# with a mock decision), and the logs of the render runs that list them
+outputs/phase7/records/
+outputs/phase7/views/*/
+outputs/phase7/runs/*render-sample*
+outputs/phase7/run_phase7.log
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/

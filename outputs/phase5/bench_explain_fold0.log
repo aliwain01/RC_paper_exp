@@ -1,0 +1,21 @@
+2026-10-25T13:58:33Z explain draw 0 lr/peer 2022 fold 0: chunk 1/1 (550 providers) 183.8s
+2026-10-25T14:01:46Z explain draw 0 lr/peer 2023 fold 0: chunk 1/1 (584 providers) 191.5s
+2026-10-25T14:03:34Z explain draw 0 ebm/peer 2022 fold 0: chunk 1/1 (550 providers) 106.6s
+2026-10-25T14:05:30Z explain draw 0 ebm/peer 2023 fold 0: chunk 1/1 (584 providers) 114.8s
+2026-10-25T14:07:25Z explain draw 0 ga2m/peer 2022 fold 0: chunk 1/1 (550 providers) 114.5s
+2026-10-25T14:09:27Z explain draw 0 ga2m/peer 2023 fold 0: chunk 1/1 (584 providers) 120.6s
+2026-10-25T14:10:58Z explain draw 0 xgb/peer 2022 fold 0: chunk 1/1 (550 providers) 89.7s
+2026-10-25T14:12:41Z explain draw 0 xgb/peer 2023 fold 0: chunk 1/1 (584 providers) 101.6s
+2026-10-25T14:13:43Z explain draw 0 xgb_mono/peer 2022 fold 0: chunk 1/1 (550 providers) 60.5s
+2026-10-25T14:14:45Z explain draw 0 xgb_mono/peer 2023 fold 0: chunk 1/1 (584 providers) 60.6s
+2026-10-25T14:16:18Z explain draw 0 lgbm/peer 2022 fold 0: chunk 1/1 (550 providers) 91.9s
+2026-10-25T14:17:59Z explain draw 0 lgbm/peer 2023 fold 0: chunk 1/1 (584 providers) 99.5s
+2026-10-25T14:19:19Z explain draw 0 lgbm_mono/peer 2022 fold 0: chunk 1/1 (550 providers) 78.8s
+2026-10-25T14:20:51Z explain draw 0 lgbm_mono/peer 2023 fold 0: chunk 1/1 (584 providers) 90.7s
+{
+  "0": {
+    "draw": 0,
+    "written": 7
+  },
+  "synthetic_inputs": false
+}

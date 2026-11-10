@@ -1,0 +1,8 @@
+2026-10-25T13:33:42Z train draw 0 lr fold 0: 150s, 482932 training rows
+2026-10-25T13:43:34Z train draw 0 ebm fold 0: 592s, 482932 training rows
+2026-10-25T13:54:27Z train draw 0 ga2m fold 0: 653s, 482932 training rows
+2026-10-25T13:54:40Z train draw 0 xgb fold 0: 13s, 482932 training rows
+2026-10-25T13:54:48Z train draw 0 xgb_mono fold 0: 8s, 482932 training rows
+2026-10-25T13:54:56Z train draw 0 lgbm fold 0: 8s, 482932 training rows
+2026-10-25T13:55:01Z train draw 0 lgbm_mono fold 0: 5s, 482932 training rows
+{"lr": {"0": {"train_rows": 482932, "train_injected": 15684, "test_rows": 414849, "test_injected": 1134}}, "ebm": {"0": {"train_rows": 482932, "train_injected": 15684, "test_rows": 414849, "test_injected": 1134}}, "ga2m": {"0": {"train_rows": 482932, "train_injected": 15684, "test_rows": 414849, "test_injected": 1134}}, "xgb": {"0": {"train_rows": 482932, "train_injected": 15684, "test_rows": 414849, "test_injected": 1134}}, "xgb_mono": {"0": {"train_rows": 482932, "train_injected": 15684, "test_rows": 414849, "test_injected": 1134}}, "lgbm": {"0": {"train_rows": 482932, "train_injected": 15684, "test_rows": 414849, "test_injected": 1134}}, "lgbm_mono": {"0": {"train_rows": 482932, "train_injected": 15684, "test_rows": 414849, "test_injected": 1134}}}

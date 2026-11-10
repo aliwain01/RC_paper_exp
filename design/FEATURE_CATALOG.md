@@ -100,6 +100,7 @@ Office and ED E&M guideline changes shift national distributions. Per-year peer 
 | DI3 | High-risk category share | DME payment in high-risk categories / total DME payment | DME-S | ↑ | V | Brace / power-mobility schemes |
 | DI4 | DME claims per DME patient | Σ `Tot_Suplr_Clms` (DME-S) / `Tot_Suplr_Benes` (DME-P) | DME-S, DME-P | ↑ | V/T | Repeated orders |
 | DI0 | No-DME indicator | 1 if no DME-P row for the NPI-year | DME-P | — | T | Structural zero; DI1–4 = 0 |
+| DI2_missing | DME patient count suppressed | 1 if the DME-P row exists but `Tot_Suplr_Benes` is blank (1–10 beneficiaries, CMS suppression); DI1, DI2, DI4 are then undefined (z = 0) | DME-P | — | T | Added in Phase 2 on the real files (DESIGN §17 D118), like PM4_missing |
 
 ## 7 · DME referral concentration
 
@@ -137,3 +138,29 @@ Under the peer baseline, CX1–CX3 (and year) equal the background, so their att
 - [ ] Provider folds verified disjoint across train/test for every fold.
 - [ ] Injected providers are edited on raw rows, re-suppressed, then featurised.
 - [ ] Cohort threshold, high-risk DME list and grouping are fixed before any test result is seen.
+
+---
+
+## Implementation notes (Phase 2, C5)
+
+How `src/scenario_fraud/features.py` and `configs/features.yaml` resolve what this catalog leaves open. Each choice is a DESIGN §17 row (proposed; confirm at G2). Everything was built and tested on synthetic data only.
+
+- **Peer cell and statistics** (D19, D20, D32). A peer cell is the provider's cell at its peer level (specialty × entity × division if that division cell has ≥ 200 in-cohort providers, else specialty × entity if ≥ 100, else entity × year); its members are all reference providers (in-cohort, not injected) with that cell id at that level, so an entity-type cell holds every provider of that entity type. Medians and scales come from the most specific level with ≥ 30 defined values (peer cell → specialty × entity → entity → national).
+- **Reference-dependent features** (D33). SM1, SM2, CH4, PM2 and PM3 are measured against the peer cell's own reference (pooled distribution, rare flags, allowed medians, PM regression). Their median, n and shrinkage prior come from the peer cell itself, over every member's value recomputed against that same reference, with no fallback to other levels. Pooling values measured against different references made every provider of a small specialty an atypical-mix outlier.
+- **Transform** (D28–D31, D34). Count rates are shrunk first, (k + α·m)/(n + α), with α by the method of moments (cap: the cell's median n, at most 10,000; floor 1); the cell's median and scale are those of shrunk rates. Scale = 1.4826 MAD, else IQR/1.349, else SD, else the parent level's scale, else 1. An undefined r gets z = 0 (the UP0 rule applied to every feature) and a null `raw__` value. Only robust z is implemented; percentiles are not (D51).
+- **Shrunk rates** (D30): UP1–UP4, SM2, PM4 and DC2.
+- **Upcoding** (D35). UP3 uses 99202–99205 in every year; 99201 counts toward UP0 and UP6 only.
+- **Atypical mix** (D38). SM1 is the Jensen–Shannon divergence (base 2) from the cell's service-weighted pooled non-drug distribution. SM2 calls a code rare when strictly fewer than 1 % of the cell's reference providers bill it (a code nobody bills is rare). SM3 includes drug lines.
+- **Charge inflation** (D36, D37). CH3's numerator excludes drug lines. CH4 matches non-drug lines on (HCPCS, place of service) against the cell median (≥ 10 billing providers), else the national median (≥ 3), else leaves the line out.
+- **Patient mix** (D39). Covariates are PM1 plus every `bene_cc_*` column of the year, with missing values imputed by the fit cell's median. A cell fits its own OLS if n ≥ max(50, 5 × (covariates + 1)), else the next level up.
+- **DME structural zero** (D40). With no DME-P row, DI0 = 1 and raw DI1–DI4 = 0 as written above, while DC1 and DC2 are undefined. The **model value (z) is 0** for DI1, DI3, DI4, DC1 and DC2, whose peer statistics come from DME referrers, so the information sits in DI0 alone (as with UP0). Scoring the raw 0 against referrers had pushed most non-referrers to the −10 clip and given typical referrers a large G7 contribution under the peer baseline. DI2 (a genuine 0 share) is z-scored over all providers.
+- **High-risk DME** (D41): HCPCS ranges only (orthotic braces L0450–L0651, L1810–L1860, L1900–L1990, L3650–L3678, L3702–L3766, L3806–L3935, L3956–L3978; power mobility K0800–K0899). **Status: proposed; it must be frozen, with its DOJ/OIG citations, at G2 (leakage item 6).**
+- **Context** (D42–D44). The one-hot vocabulary is per year, from reference providers. CX8 counts drug units in both numerator and denominator. **CX7** is computed only when an NPPES extract gives every featurised NPI exactly one enumeration date; otherwise C5 fails. A missing date would encode deactivation after *t* (leakage item 1). Without NPPES, CX7 is not computable and is dropped.
+- **Context attribution** (D52). Under the peer baseline, attribution is exactly zero only for the traits the provider's peer level matches. Specialty × entity × division cells match CX1–CX3. Specialty × entity cells match CX1 and CX2, while the Census division varies. Entity cells match CX2 only. The "exactly zero for CX1–CX3" sentence above holds for division-level peer cells. How C9 draws backgrounds is decided in Phase 4.
+- **Near-duplicates** (D48). Pairs with absolute Spearman ρ > 0.95 within a group are listed in the QA report (one-hot columns excluded). Pruning is decided at G2 in `features.yaml: pruned`.
+- **Leakage checklist in code** (D64–D67): `scenario-fraud phase2 qa` evaluates the checklist as follows.
+  - L1: a static scan plus a bit-identical, label-free rebuild of one year.
+  - L2: peer statistics, code reference, PM fits and cohort cell sizes all count exactly the non-injected providers.
+  - L3–L4: roles are checked for every design × fold.
+  - L5: pending.
+  - L6: hashes are compared with the freeze record that `phase2 report` writes before any Phase 3–7 output exists.

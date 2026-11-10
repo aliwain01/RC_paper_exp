@@ -1,0 +1,93 @@
+{
+  "phase": "phase7",
+  "command": "tables",
+  "args": {},
+  "started_utc": "2026-11-01T01:13:03.816017+00:00",
+  "git_commit": "4e1aea4eb9195753279b808a65f5b44ee36a51bf",
+  "git_dirty": true,
+  "python": "3.13.16",
+  "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+  "packages": {
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "pyarrow": "26.0.0",
+    "polars": "2.0.0",
+    "duckdb": "1.5.6",
+    "pyyaml": "6.0.3",
+    "requests": "2.34.2"
+  },
+  "config_sha256": {
+    "configs/attribution.yaml": "ec786b5af3cd670ebfe469b8a557f10c6e1d7ac5dbf6db8fc354c14a260dd174",
+    "configs/census_divisions.yaml": "10cdf5237b64b12bd7da6f4ec27334c27f7929ade3aa6cce4f59b4223ebbfca2",
+    "configs/column_maps/_schema.yaml": "ecb1ca8b9d8bbd5af1e80b85fa0e98913e2776e141c579a209e205bef8329038",
+    "configs/column_maps/_templates.yaml": "e3faf6193385be620c3b3de6ab5bf6b29f62ce9099fcaadad44959fcaa7c8b4b",
+    "configs/column_maps/cms_prov_2018.yaml": "de593fe7d7619b64b4489c9b24c09e96e46ce6f183cca906e402616e294242c3",
+    "configs/column_maps/cms_prov_2019.yaml": "ab46be1024f93688a0c7bca8517983f9f230b9c6eb30ba426e8534dc13992e55",
+    "configs/column_maps/cms_prov_2020.yaml": "2c1de02ffd1b25dc522205525d97937007ca9f055299bc44b27c0c2ddc0de8ab",
+    "configs/column_maps/cms_prov_2021.yaml": "ecfd6e966142fec239de9223e875035b8015913066a77eb639fdb046bd4dda0a",
+    "configs/column_maps/cms_prov_2022.yaml": "413c7103c51ad2ff06bf70f671fc4b6e6468c453f39771d63bb9dbac6abd3029",
+    "configs/column_maps/cms_prov_2023.yaml": "aa46e68290e14664eab4250c17fe1204beea38a2309f0df15faf8629b3d7a5d4",
+    "configs/column_maps/cms_prov_2024.yaml": "6e32a11be2dbc4f4fa27ebabb1962276cd88c5a1c2fb0b1bcbf6d80384101cd9",
+    "configs/column_maps/cms_ps_2018.yaml": "643fad36cfa404ed47e671f00dd25388c5942c6ba3411ac800d570aea88593c8",
+    "configs/column_maps/cms_ps_2019.yaml": "709a6dcf04e07e1f11e4fd9342e9e3375152e3634d9bf5cbd7b8e8ac51ee3bb4",
+    "configs/column_maps/cms_ps_2020.yaml": "396e9b366503f71a08046e41c64b926fe1277163949aa08ad20c1fca9a04f3e3",
+    "configs/column_maps/cms_ps_2021.yaml": "c56fced13fcebe21cf99fed984313bec09dec4a2acf7f3add3379d73b7356e6b",
+    "configs/column_maps/cms_ps_2022.yaml": "357ee1649238072b1de8a45b4603e9e80e57cde728569cd655f6833f5f62eef2",
+    "configs/column_maps/cms_ps_2023.yaml": "88b33e08929d9f6032f1af08eef541a29dc09940d16cbb466849f76ac3dc77f6",
+    "configs/column_maps/cms_ps_2024.yaml": "a3a95f2f57fab3da837a82127fb530757f245cad263fb9126052bd977f74ec32",
+    "configs/column_maps/dme_p_2018.yaml": "f9e017c19335e5a08ea0708e8c21eb98a60f1f5575fc6e95b1a69d44a0bfcff1",
+    "configs/column_maps/dme_p_2019.yaml": "926689b4b69d00a02a1f71e0b58065e0b96d517c5838eac07b9431f01dba61f2",
+    "configs/column_maps/dme_p_2020.yaml": "0e8c48d309d43632d4884c8cd9e8869c249c9021b273b7412b4096e659f59457",
+    "configs/column_maps/dme_p_2021.yaml": "a192260ce5fa5577d8d63511549e745f651b0bc06d578dc39cd34ce11209e449",
+    "configs/column_maps/dme_p_2022.yaml": "ba235228fe82e1f2ce3a29de0245e9e4c95e17c5af8974bb4a82cbb3fc12ba2f",
+    "configs/column_maps/dme_p_2023.yaml": "b63742da965022b85ec7b8b4facbb06fb00325ea17d8528e54564c64f593f39c",
+    "configs/column_maps/dme_p_2024.yaml": "3749b901427d96b472d2b63be731c0a2ed4f8dcf0fe830f4697325269065c658",
+    "configs/column_maps/dme_s_2018.yaml": "669cd958e8698a8b8ec872b63fa9ec0de63914386f0e2189c9821bb5ccca9e8d",
+    "configs/column_maps/dme_s_2019.yaml": "09bf68eab330df7e6a4f36523d1448a195434f7947dd9581a41f0f94c4129279",
+    "configs/column_maps/dme_s_2020.yaml": "4855b78917fe60416b3b44e4344e0846eabff17aa6e939e01a3751645869864a",
+    "configs/column_maps/dme_s_2021.yaml": "ed989f11e5059a321a07fc8600cfdb4deff19335c5a25ab2c2276de90e3b1217",
+    "configs/column_maps/dme_s_2022.yaml": "8773b22fc53911ddea0ce5977913ec3946b44632cd5705798dfe076d1a7f58c0",
+    "configs/column_maps/dme_s_2023.yaml": "16606ae702732b9eb7f16704986296a748f60e4c5b05721a91f734719a332e34",
+    "configs/column_maps/dme_s_2024.yaml": "13693b1829059a71961a46358af38d43665a16e3e2b9c91f8851e39492a4986c",
+    "configs/evaluation.yaml": "7e3c0b315f35b31d20c3f1f4dadddd62fdaad2f42a1ff1412bac7617625e9343",
+    "configs/experiment.yaml": "2aadc8fde9e68bd95d8fc457d99c2b2013265a0c0e273574e41ee698f70dcf77",
+    "configs/features.yaml": "24c152a7b6d386d798724b82d2bf378f417e73d64bb7783c0f86ac9325e1a4d5",
+    "configs/groups.yaml": "8b302a1d73b4387e6f123beff8435d5d075e626816156ee6e196096f97dbc0fa",
+    "configs/injection.yaml": "7649705683c730fdb7297a9dbe39b30f1486d35bb1b0a39fc3a3ecd42be39315",
+    "configs/labels.yaml": "46e30dca55ecd56e1d14944311c1d2611090d16dacdb2240bc5d16db515150c8",
+    "configs/models.yaml": "8800dcf1d6d7f1d55d1ad865bc0ca6a8e1cc59e07dc4cd0bc165c59ea96d9229",
+    "configs/sources.yaml": "345433552db5fd932b0b783e4cfe2b622b4c317be0ae1cf40d5f4ea5187e5e26",
+    "configs/views.yaml": "cb5cc7b30c2314979cd2d1f1db021e4224cbb8856e2f571e07d633e9f10489ff"
+  },
+  "result": {
+    "tables": [
+      {
+        "name": "T1_detection",
+        "rows": 8
+      },
+      {
+        "name": "T2_correctness",
+        "rows": 8
+      },
+      {
+        "name": "T3_consistency",
+        "rows": 8
+      },
+      {
+        "name": "T4_faithfulness_stability",
+        "rows": 28
+      },
+      {
+        "name": "T5_sensitivity",
+        "rows": 15
+      },
+      {
+        "name": "T6_fairness",
+        "rows": 34
+      }
+    ],
+    "synthetic_inputs": false
+  },
+  "status": "ok",
+  "finished_utc": "2026-11-01T01:13:04.010723+00:00"
+}

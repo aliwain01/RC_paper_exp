@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scenario_fraud"
+version = "0.1.0"
+description = "Scenario-level explanations for health-care fraud detection on public Medicare data (design v1.1)"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "pyarrow>=16",
+    "polars>=1.0",
+    "duckdb>=1.0",
+    "pyyaml>=6.0",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+# Phases 3-7 (models, attribution, figures). Installed now so the versions are pinned in the lockfile.
+models = [
+    "scipy>=1.13",
+    "scikit-learn>=1.5",
+    "xgboost>=2.1",
+    "lightgbm>=4.5",
+    "interpret-core[required,ebm]>=0.6",
+    "shap>=0.46",
+    "optuna>=4.0",
+    "matplotlib>=3.9",
+    "jsonschema>=4.21",            # C14 decision-record schema validation
+]
+dev = ["pytest>=8"]
+
+[project.scripts]
+scenario-fraud = "scenario_fraud.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

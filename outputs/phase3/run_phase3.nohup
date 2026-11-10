@@ -1,0 +1,20 @@
+2026-10-20T11:31:08Z STEP phase3 train --design primary --fold 0
+2026-10-20T19:18:16Z STEP phase3 train --design primary --fold 1
+2026-10-21T12:14:28Z STEP phase3 train --design primary --fold 2
+2026-10-21T19:58:11Z STEP phase3 train --design primary --fold 3
+2026-10-22T04:30:55Z STEP phase3 train --design primary --fold 0
+2026-10-22T04:33:07Z STEP phase3 train --design primary --fold 1
+2026-10-22T04:33:18Z STEP phase3 train --design primary --fold 2
+2026-10-22T04:33:27Z STEP phase3 train --design primary --fold 3
+2026-10-22T05:16:14Z STEP phase3 train --design primary --fold 4
+2026-10-22T06:07:57Z STEP phase3 train --design primary --fold 0
+2026-10-22T06:10:36Z STEP phase3 train --design primary --fold 1
+2026-10-22T06:10:51Z STEP phase3 train --design primary --fold 2
+2026-10-22T06:11:03Z STEP phase3 train --design primary --fold 3
+2026-10-22T06:11:15Z STEP phase3 train --design primary --fold 4
+2026-10-22T13:05:07Z STEP phase3 train --design O1
+2026-10-22T15:25:09Z STEP phase3 train --design O2
+2026-10-22T17:57:49Z STEP phase3 train --design O3
+2026-10-22T20:48:49Z STEP phase3 score-showcase
+2026-10-22T20:56:29Z STEP phase3 report
+2026-10-22T21:38:29Z ALL DONE
