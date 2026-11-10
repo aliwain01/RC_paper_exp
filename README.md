@@ -2,6 +2,8 @@
 
 Research pipeline specified in [design/](design/README.md) (DESIGN_DOCUMENT v1.1). [HANDOFF.md](HANDOFF.md) is the execution protocol; its §0 has the current status (all phases run; writing and publication remain). [outputs/phase1/STATUS.md](outputs/phase1/STATUS.md) is the progress log up to gate G2.
 
+**Results:** [notebooks/results.ipynb](notebooks/results.ipynb) walks through every result (detection, explanation correctness, consistency, faithfulness and stability, baselines, sensitivity, fairness). It reads only the committed `outputs/`, so it runs from a fresh clone without `data/`; install `jupyter` into the environment to run it. The paper outline is [outputs/phase7/draft.md](outputs/phase7/draft.md), with LaTeX tables in `outputs/phase7/tables/` and PDF figures in `outputs/phase7/figures/`.
+
 The legacy prototype files in the root (`features_health_final.py`, `rc_final.py`, `rc_reasoning.py`, the notebook and the synthetic CSV) are kept only as the record behind DESIGN §3.3. Nothing imports them.
 
 ## Setup

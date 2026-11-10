@@ -25,6 +25,8 @@ Updated 2026-11-01.
 | 6 Evaluation (C13) | Done: correctness, consistency, faithfulness, baselines, stress, fairness, stability (10/10/10), sensitivity S1–S13 (S1_W1 not estimable, D134) | §10.8 branch chosen 2026-11-01 (D137) |
 | 7 Outputs (C14, C15) | Done: tables T1–T6, figures F2–F8, sample views, queue, draft outline, reproducibility package | Formats confirmed 2026-11-01 (D139) |
 
+**Results walkthrough:** `notebooks/results.ipynb` (reads the committed `outputs/` only; executed, outputs embedded).
+
 **What is left (human work):**
 1. **Writing the paper.** `outputs/phase7/draft.md` has the outline with the tables inserted. The abstract, narrative and interpretation are left to the authors, following the branch chosen in D137.
 2. **Publication of the paper itself.** The Phase 3–7 results are in the repository (D140). The paper and any further release are the human's call (§8 rule 6).
